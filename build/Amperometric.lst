@@ -1,0 +1,2916 @@
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"Amperometric.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.AppAMPRegModify,"ax",%progbits
+  17              		.align	1
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv5-d16
+  24              	AppAMPRegModify:
+  25              	.LVL0:
+  26              	.LFB9:
+  27              		.file 1 "Core/Src/Amperometric.c"
+   1:Core/Src/Amperometric.c **** /*!
+   2:Core/Src/Amperometric.c ****  *****************************************************************************
+   3:Core/Src/Amperometric.c ****  @file:    Amperometric.c
+   4:Core/Src/Amperometric.c ****  @author:  $Author: mlambe $
+   5:Core/Src/Amperometric.c ****  @brief:   Amperometric measurement.
+   6:Core/Src/Amperometric.c ****  @version: $Revision: 766 $
+   7:Core/Src/Amperometric.c ****  @date:    $Date: 2018-03-21 14:09:35 +0100 (Wed, 21 Mar 2018) $
+   8:Core/Src/Amperometric.c ****  -----------------------------------------------------------------------------
+   9:Core/Src/Amperometric.c **** 
+  10:Core/Src/Amperometric.c **** Copyright (c) 2017-2019 Analog Devices, Inc. All Rights Reserved.
+  11:Core/Src/Amperometric.c **** 
+  12:Core/Src/Amperometric.c **** This software is proprietary to Analog Devices, Inc. and its licensors.
+  13:Core/Src/Amperometric.c **** By using this software you agree to the terms of the associated
+  14:Core/Src/Amperometric.c **** Analog Devices Software License Agreement.
+  15:Core/Src/Amperometric.c ****  
+  16:Core/Src/Amperometric.c **** *****************************************************************************/
+  17:Core/Src/Amperometric.c **** #include "Amperometric.h"
+  18:Core/Src/Amperometric.c **** 
+  19:Core/Src/Amperometric.c **** /* 
+  20:Core/Src/Amperometric.c ****   Application configuration structure. Specified by user from template.
+  21:Core/Src/Amperometric.c ****   The variables are usable in this whole application.
+  22:Core/Src/Amperometric.c ****   It includes basic configuration for sequencer generator and application related parameters
+  23:Core/Src/Amperometric.c **** */
+  24:Core/Src/Amperometric.c **** AppAMPCfg_Type AppAMPCfg = 
+  25:Core/Src/Amperometric.c **** {
+  26:Core/Src/Amperometric.c ****   .bParaChanged = bFALSE,
+  27:Core/Src/Amperometric.c ****   .SeqStartAddr = 0,
+  28:Core/Src/Amperometric.c ****   .MaxSeqLen = 0,
+  29:Core/Src/Amperometric.c ****   
+  30:Core/Src/Amperometric.c ****   .SeqStartAddrCal = 0,
+  31:Core/Src/Amperometric.c ****   .MaxSeqLenCal = 0,
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 2
+
+
+  32:Core/Src/Amperometric.c ****   .FifoThresh = 5,              /* Number of points for FIFO */
+  33:Core/Src/Amperometric.c ****   
+  34:Core/Src/Amperometric.c ****   .SysClkFreq = 16000000.0,
+  35:Core/Src/Amperometric.c ****   .WuptClkFreq = 32000.0,
+  36:Core/Src/Amperometric.c ****   .AdcClkFreq = 16000000.0,
+  37:Core/Src/Amperometric.c ****   .AmpODR = 1.0,                /* Sample time in seconds. I.e. every 5 seconds make a measurement 
+  38:Core/Src/Amperometric.c ****   .NumOfData = -1,
+  39:Core/Src/Amperometric.c ****   .RcalVal = 10000.0,           /* RCAL = 10kOhm */
+  40:Core/Src/Amperometric.c ****   .PwrMod = AFEPWR_LP,
+  41:Core/Src/Amperometric.c ****   .AMPInited = bFALSE,
+  42:Core/Src/Amperometric.c ****   .StopRequired = bFALSE,
+  43:Core/Src/Amperometric.c ****   
+  44:Core/Src/Amperometric.c ****   /* LPTIA Configure */
+  45:Core/Src/Amperometric.c ****   .ExtRtia = bFALSE,            /* Set to true if using external RTIA */
+  46:Core/Src/Amperometric.c ****   .LptiaRtiaSel = LPTIARTIA_512K, /* COnfigure RTIA */
+  47:Core/Src/Amperometric.c ****   .LpTiaRf = LPTIARF_1M,        /* Configure LPF resistor */
+  48:Core/Src/Amperometric.c ****   .LpTiaRl = LPTIARLOAD_100R,
+  49:Core/Src/Amperometric.c ****   .ReDoRtiaCal = bTRUE,
+  50:Core/Src/Amperometric.c ****   .RtiaCalValue = 0,
+  51:Core/Src/Amperometric.c **** 	.ExtRtiaVal = 0,
+  52:Core/Src/Amperometric.c ****   
+  53:Core/Src/Amperometric.c **** /*LPDAC Configure */
+  54:Core/Src/Amperometric.c ****   .Vzero = 1100,                /* Sets voltage on SE0 and LPTIA */
+  55:Core/Src/Amperometric.c ****   .SensorBias = 1000,            /* Sets voltage between RE0 and SE0 */
+  56:Core/Src/Amperometric.c ****   
+  57:Core/Src/Amperometric.c **** /* ADC Configure*/
+  58:Core/Src/Amperometric.c ****   .ADCPgaGain = ADCPGA_1P5,
+  59:Core/Src/Amperometric.c ****   .ADCSinc3Osr = ADCSINC3OSR_4,
+  60:Core/Src/Amperometric.c ****   .ADCSinc2Osr = ADCSINC2OSR_22,
+  61:Core/Src/Amperometric.c ****   .DataFifoSrc = FIFOSRC_SINC2NOTCH,
+  62:Core/Src/Amperometric.c ****   .ADCRefVolt = 1.8162,			/* Measure voltage on ADCRefVolt pin and enter here*/
+  63:Core/Src/Amperometric.c **** };
+  64:Core/Src/Amperometric.c **** 
+  65:Core/Src/Amperometric.c **** /**
+  66:Core/Src/Amperometric.c ****    This function is provided for upper controllers that want to change 
+  67:Core/Src/Amperometric.c ****    application parameters specially for user defined parameters.
+  68:Core/Src/Amperometric.c **** */
+  69:Core/Src/Amperometric.c **** AD5940Err AppAMPGetCfg(void *pCfg)
+  70:Core/Src/Amperometric.c **** {
+  71:Core/Src/Amperometric.c ****   if(pCfg){
+  72:Core/Src/Amperometric.c ****     *(AppAMPCfg_Type**)pCfg = &AppAMPCfg;
+  73:Core/Src/Amperometric.c ****     return AD5940ERR_OK;
+  74:Core/Src/Amperometric.c ****   }
+  75:Core/Src/Amperometric.c ****   return AD5940ERR_PARA;
+  76:Core/Src/Amperometric.c **** }
+  77:Core/Src/Amperometric.c **** 
+  78:Core/Src/Amperometric.c **** 
+  79:Core/Src/Amperometric.c **** AD5940Err AppAMPCtrl(int32_t AmpCtrl, void *pPara)
+  80:Core/Src/Amperometric.c **** {
+  81:Core/Src/Amperometric.c ****   switch (AmpCtrl)
+  82:Core/Src/Amperometric.c ****   {
+  83:Core/Src/Amperometric.c ****     case AMPCTRL_START:
+  84:Core/Src/Amperometric.c ****     {
+  85:Core/Src/Amperometric.c ****       WUPTCfg_Type wupt_cfg;
+  86:Core/Src/Amperometric.c ****       AD5940_ReadReg(REG_AFE_ADCDAT); /* Any SPI Operation can wakeup AFE */
+  87:Core/Src/Amperometric.c ****       if(AppAMPCfg.AMPInited == bFALSE)
+  88:Core/Src/Amperometric.c ****         return AD5940ERR_APPERROR;
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 3
+
+
+  89:Core/Src/Amperometric.c ****       /* Start it */
+  90:Core/Src/Amperometric.c ****       wupt_cfg.WuptEn = bTRUE;
+  91:Core/Src/Amperometric.c ****       wupt_cfg.WuptEndSeq = WUPTENDSEQ_A;
+  92:Core/Src/Amperometric.c ****       wupt_cfg.WuptOrder[0] = SEQID_0;
+  93:Core/Src/Amperometric.c ****       wupt_cfg.SeqxSleepTime[SEQID_0] = 4;
+  94:Core/Src/Amperometric.c ****       wupt_cfg.SeqxWakeupTime[SEQID_0] = (uint32_t)(AppAMPCfg.WuptClkFreq*AppAMPCfg.AmpODR)-4;
+  95:Core/Src/Amperometric.c ****       AD5940_WUPTCfg(&wupt_cfg);
+  96:Core/Src/Amperometric.c ****       
+  97:Core/Src/Amperometric.c ****       AppAMPCfg.FifoDataCount = 0;  /* restart */
+  98:Core/Src/Amperometric.c ****       break;
+  99:Core/Src/Amperometric.c ****     }
+ 100:Core/Src/Amperometric.c ****     case AMPCTRL_STOPNOW:
+ 101:Core/Src/Amperometric.c ****     {
+ 102:Core/Src/Amperometric.c ****       AD5940_ReadReg(REG_AFE_ADCDAT); /* Any SPI Operation can wakeup AFE */
+ 103:Core/Src/Amperometric.c ****       /* Start Wupt right now */
+ 104:Core/Src/Amperometric.c ****       AD5940_WUPTCtrl(bFALSE);
+ 105:Core/Src/Amperometric.c ****       /* There is chance this operation will fail because sequencer could put AFE back 
+ 106:Core/Src/Amperometric.c ****         to hibernate mode just after waking up. Use STOPSYNC is better. */
+ 107:Core/Src/Amperometric.c ****       AD5940_WUPTCtrl(bFALSE);
+ 108:Core/Src/Amperometric.c ****       break;
+ 109:Core/Src/Amperometric.c ****     }
+ 110:Core/Src/Amperometric.c ****     case AMPCTRL_STOPSYNC:
+ 111:Core/Src/Amperometric.c ****     {
+ 112:Core/Src/Amperometric.c ****       AppAMPCfg.StopRequired = bTRUE;
+ 113:Core/Src/Amperometric.c ****       break;
+ 114:Core/Src/Amperometric.c ****     }
+ 115:Core/Src/Amperometric.c ****     case AMPCTRL_SHUTDOWN:
+ 116:Core/Src/Amperometric.c ****     {
+ 117:Core/Src/Amperometric.c ****       AppAMPCtrl(AMPCTRL_STOPNOW, 0);  /* Stop the measurement if it's running. */
+ 118:Core/Src/Amperometric.c ****       /* Turn off LPloop related blocks which are not controlled automatically by sleep operation *
+ 119:Core/Src/Amperometric.c ****       AFERefCfg_Type aferef_cfg;
+ 120:Core/Src/Amperometric.c ****       LPLoopCfg_Type lp_loop;
+ 121:Core/Src/Amperometric.c ****       memset(&aferef_cfg, 0, sizeof(aferef_cfg));
+ 122:Core/Src/Amperometric.c ****       AD5940_REFCfgS(&aferef_cfg);
+ 123:Core/Src/Amperometric.c ****       memset(&lp_loop, 0, sizeof(lp_loop));
+ 124:Core/Src/Amperometric.c ****       AD5940_LPLoopCfgS(&lp_loop);
+ 125:Core/Src/Amperometric.c ****       AD5940_EnterSleepS();  /* Enter Hibernate */
+ 126:Core/Src/Amperometric.c ****     }
+ 127:Core/Src/Amperometric.c ****     break;
+ 128:Core/Src/Amperometric.c ****     default:
+ 129:Core/Src/Amperometric.c ****     break;
+ 130:Core/Src/Amperometric.c ****   }
+ 131:Core/Src/Amperometric.c ****   return AD5940ERR_OK;
+ 132:Core/Src/Amperometric.c **** }
+ 133:Core/Src/Amperometric.c **** 
+ 134:Core/Src/Amperometric.c **** 
+ 135:Core/Src/Amperometric.c **** /* Generate init sequence */
+ 136:Core/Src/Amperometric.c **** static AD5940Err AppAMPSeqCfgGen(void)
+ 137:Core/Src/Amperometric.c **** {
+ 138:Core/Src/Amperometric.c ****   AD5940Err error = AD5940ERR_OK;
+ 139:Core/Src/Amperometric.c ****   uint32_t const *pSeqCmd;
+ 140:Core/Src/Amperometric.c ****   uint32_t SeqLen;
+ 141:Core/Src/Amperometric.c **** 
+ 142:Core/Src/Amperometric.c ****   AFERefCfg_Type aferef_cfg;
+ 143:Core/Src/Amperometric.c ****   LPLoopCfg_Type lp_loop;
+ 144:Core/Src/Amperometric.c ****   DSPCfg_Type dsp_cfg;
+ 145:Core/Src/Amperometric.c ****   SWMatrixCfg_Type sw_cfg;
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 4
+
+
+ 146:Core/Src/Amperometric.c ****   /* Start sequence generator here */
+ 147:Core/Src/Amperometric.c ****   AD5940_SEQGenCtrl(bTRUE);
+ 148:Core/Src/Amperometric.c **** 
+ 149:Core/Src/Amperometric.c ****   //AD5940_AFECtrlS(AFECTRL_ALL, bFALSE);  /* Init all to disable state */
+ 150:Core/Src/Amperometric.c **** 
+ 151:Core/Src/Amperometric.c ****   aferef_cfg.HpBandgapEn = bTRUE;
+ 152:Core/Src/Amperometric.c ****   aferef_cfg.Hp1V1BuffEn = bTRUE;
+ 153:Core/Src/Amperometric.c ****   aferef_cfg.Hp1V8BuffEn = bTRUE;
+ 154:Core/Src/Amperometric.c ****   aferef_cfg.Disc1V1Cap = bFALSE;
+ 155:Core/Src/Amperometric.c ****   aferef_cfg.Disc1V8Cap = bFALSE;
+ 156:Core/Src/Amperometric.c ****   aferef_cfg.Hp1V8ThemBuff = bFALSE;
+ 157:Core/Src/Amperometric.c ****   aferef_cfg.Hp1V8Ilimit = bFALSE;
+ 158:Core/Src/Amperometric.c ****   aferef_cfg.Lp1V1BuffEn = bTRUE;
+ 159:Core/Src/Amperometric.c ****   aferef_cfg.Lp1V8BuffEn = bTRUE;
+ 160:Core/Src/Amperometric.c ****   /* LP reference control - turn off them to save power*/
+ 161:Core/Src/Amperometric.c ****   aferef_cfg.LpBandgapEn = bTRUE;
+ 162:Core/Src/Amperometric.c ****   aferef_cfg.LpRefBufEn = bTRUE;
+ 163:Core/Src/Amperometric.c ****   aferef_cfg.LpRefBoostEn = bFALSE;
+ 164:Core/Src/Amperometric.c ****   AD5940_REFCfgS(&aferef_cfg);	
+ 165:Core/Src/Amperometric.c **** 
+ 166:Core/Src/Amperometric.c **** 	lp_loop.LpDacCfg.LpdacSel = LPDAC0;
+ 167:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.LpDacSrc = LPDACSRC_MMR;
+ 168:Core/Src/Amperometric.c **** 	
+ 169:Core/Src/Amperometric.c **** 	
+ 170:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.LpDacSW = LPDACSW_VBIAS2LPPA|LPDACSW_VBIAS2PIN|LPDACSW_VZERO2LPTIA|LPDACSW_VZERO
+ 171:Core/Src/Amperometric.c **** 	
+ 172:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.LpDacVzeroMux = LPDACVZERO_6BIT;
+ 173:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.LpDacVbiasMux = LPDACVBIAS_12BIT;
+ 174:Core/Src/Amperometric.c **** 	
+ 175:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.LpDacRef = LPDACREF_2P5;
+ 176:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.DataRst = bFALSE;
+ 177:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.PowerEn = bTRUE;
+ 178:Core/Src/Amperometric.c **** 	
+ 179:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.DacData6Bit = (uint32_t)((AppAMPCfg.Vzero-200)/DAC6BITVOLT_1LSB);
+ 180:Core/Src/Amperometric.c **** 	lp_loop.LpDacCfg.DacData12Bit =(int32_t)((AppAMPCfg.SensorBias)/DAC12BITVOLT_1LSB) + lp_loop.LpDac
+ 181:Core/Src/Amperometric.c **** 	if(lp_loop.LpDacCfg.DacData12Bit>lp_loop.LpDacCfg.DacData6Bit*64)
+ 182:Core/Src/Amperometric.c **** 		lp_loop.LpDacCfg.DacData12Bit--;
+ 183:Core/Src/Amperometric.c **** 	lp_loop.LpAmpCfg.LpAmpSel = LPAMP0;
+ 184:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpAmpPwrMod = LPAMPPWR_NORM;
+ 185:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpPaPwrEn = bTRUE;
+ 186:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpTiaPwrEn = bTRUE;
+ 187:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpTiaRf = AppAMPCfg.LpTiaRf;
+ 188:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpTiaRload = AppAMPCfg.LpTiaRl;
+ 189:Core/Src/Amperometric.c ****   if(AppAMPCfg.ExtRtia == bTRUE)
+ 190:Core/Src/Amperometric.c ****   {
+ 191:Core/Src/Amperometric.c ****     lp_loop.LpAmpCfg.LpTiaRtia = LPTIARTIA_OPEN;
+ 192:Core/Src/Amperometric.c ****     lp_loop.LpAmpCfg.LpTiaSW = LPTIASW(9)|LPTIASW(2)|LPTIASW(4)|LPTIASW(5)|LPTIASW(12)|LPTIASW(13);
+ 193:Core/Src/Amperometric.c ****   }else
+ 194:Core/Src/Amperometric.c ****   {
+ 195:Core/Src/Amperometric.c ****     lp_loop.LpAmpCfg.LpTiaRtia = AppAMPCfg.LptiaRtiaSel;
+ 196:Core/Src/Amperometric.c **** 		
+ 197:Core/Src/Amperometric.c **** 		//here set the switch of low power TIA, the ce0 and re0 is connected the PA
+ 198:Core/Src/Amperometric.c ****     lp_loop.LpAmpCfg.LpTiaSW = LPTIASW(5)|LPTIASW(2)|LPTIASW(4)|LPTIASW(12)|LPTIASW(13); 
+ 199:Core/Src/Amperometric.c **** 		//do not use re0, swicth10
+ 200:Core/Src/Amperometric.c ****     //lp_loop.LpAmpCfg.LpTiaSW = LPTIASW(5)|LPTIASW(2)|LPTIASW(10)|LPTIASW(12)|LPTIASW(13);
+ 201:Core/Src/Amperometric.c **** 		
+ 202:Core/Src/Amperometric.c ****   }
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 5
+
+
+ 203:Core/Src/Amperometric.c ****   AD5940_LPLoopCfgS(&lp_loop);
+ 204:Core/Src/Amperometric.c **** 
+ 205:Core/Src/Amperometric.c ****   
+ 206:Core/Src/Amperometric.c ****   dsp_cfg.ADCBaseCfg.ADCMuxN = ADCMUXN_VZERO0;
+ 207:Core/Src/Amperometric.c ****   dsp_cfg.ADCBaseCfg.ADCMuxP = ADCMUXP_AIN4;
+ 208:Core/Src/Amperometric.c ****   dsp_cfg.ADCBaseCfg.ADCPga = AppAMPCfg.ADCPgaGain;
+ 209:Core/Src/Amperometric.c **** 	
+ 210:Core/Src/Amperometric.c ****   memset(&dsp_cfg.ADCDigCompCfg, 0, sizeof(dsp_cfg.ADCDigCompCfg));
+ 211:Core/Src/Amperometric.c ****   memset(&dsp_cfg.DftCfg, 0, sizeof(dsp_cfg.DftCfg));
+ 212:Core/Src/Amperometric.c **** 	
+ 213:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.ADCAvgNum = ADCAVGNUM_16;  /* Don't care because it's disabled */
+ 214:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.ADCRate = ADCRATE_800KHZ;	/* Tell filter block clock rate of ADC*/
+ 215:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.ADCSinc2Osr = AppAMPCfg.ADCSinc2Osr;
+ 216:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.ADCSinc3Osr = AppAMPCfg.ADCSinc3Osr;
+ 217:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.BpSinc3 = bFALSE;
+ 218:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.BpNotch = bFALSE;
+ 219:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.Sinc2NotchEnable = bTRUE;
+ 220:Core/Src/Amperometric.c ****   
+ 221:Core/Src/Amperometric.c ****   memset(&dsp_cfg.StatCfg, 0, sizeof(dsp_cfg.StatCfg)); /* Don't care about Statistic */
+ 222:Core/Src/Amperometric.c ****   AD5940_DSPCfgS(&dsp_cfg);
+ 223:Core/Src/Amperometric.c ****   
+ 224:Core/Src/Amperometric.c **** 	
+ 225:Core/Src/Amperometric.c **** 	sw_cfg.Dswitch = 0;
+ 226:Core/Src/Amperometric.c ****   sw_cfg.Pswitch = 0;
+ 227:Core/Src/Amperometric.c ****   sw_cfg.Nswitch = 0;
+ 228:Core/Src/Amperometric.c ****   sw_cfg.Tswitch = 0;  
+ 229:Core/Src/Amperometric.c **** 	
+ 230:Core/Src/Amperometric.c ****   AD5940_SWMatrixCfgS(&sw_cfg);
+ 231:Core/Src/Amperometric.c ****     
+ 232:Core/Src/Amperometric.c ****   /* Enable all of them. They are automatically turned off during hibernate mode to save power */
+ 233:Core/Src/Amperometric.c ****   AD5940_AFECtrlS(AFECTRL_HPREFPWR|AFECTRL_SINC2NOTCH, bTRUE);
+ 234:Core/Src/Amperometric.c ****   AD5940_AFECtrlS(AFECTRL_SINC2NOTCH, bFALSE);
+ 235:Core/Src/Amperometric.c ****   AD5940_SEQGpioCtrlS(0/*AGPIO_Pin6|AGPIO_Pin5|AGPIO_Pin1*/);        //GP6->endSeq, GP5 -> AD8233=O
+ 236:Core/Src/Amperometric.c ****   
+ 237:Core/Src/Amperometric.c ****   /* Sequence end. */
+ 238:Core/Src/Amperometric.c ****   AD5940_SEQGenInsert(SEQ_STOP()); /* Add one extra command to disable sequencer for initialization
+ 239:Core/Src/Amperometric.c **** 
+ 240:Core/Src/Amperometric.c ****   /* Stop here */
+ 241:Core/Src/Amperometric.c ****   error = AD5940_SEQGenFetchSeq(&pSeqCmd, &SeqLen);
+ 242:Core/Src/Amperometric.c ****   AD5940_SEQGenCtrl(bFALSE); /* Stop sequencer generator */
+ 243:Core/Src/Amperometric.c ****   if(error == AD5940ERR_OK)
+ 244:Core/Src/Amperometric.c ****   {
+ 245:Core/Src/Amperometric.c ****     AppAMPCfg.InitSeqInfo.SeqId = SEQID_1;
+ 246:Core/Src/Amperometric.c ****     AppAMPCfg.InitSeqInfo.SeqRamAddr = AppAMPCfg.SeqStartAddr;
+ 247:Core/Src/Amperometric.c ****     AppAMPCfg.InitSeqInfo.pSeqCmd = pSeqCmd;
+ 248:Core/Src/Amperometric.c ****     AppAMPCfg.InitSeqInfo.SeqLen = SeqLen;
+ 249:Core/Src/Amperometric.c ****     /* Write command to SRAM */
+ 250:Core/Src/Amperometric.c ****     AD5940_SEQCmdWrite(AppAMPCfg.InitSeqInfo.SeqRamAddr, pSeqCmd, SeqLen);
+ 251:Core/Src/Amperometric.c ****   }
+ 252:Core/Src/Amperometric.c ****   else
+ 253:Core/Src/Amperometric.c ****     return error; /* Error */
+ 254:Core/Src/Amperometric.c ****   return AD5940ERR_OK;
+ 255:Core/Src/Amperometric.c **** }
+ 256:Core/Src/Amperometric.c **** 
+ 257:Core/Src/Amperometric.c **** 
+ 258:Core/Src/Amperometric.c **** static AD5940Err AppAMPSeqMeasureGen(void)
+ 259:Core/Src/Amperometric.c **** {
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 6
+
+
+ 260:Core/Src/Amperometric.c ****   AD5940Err error = AD5940ERR_OK;
+ 261:Core/Src/Amperometric.c ****   uint32_t const *pSeqCmd;
+ 262:Core/Src/Amperometric.c ****   uint32_t SeqLen;
+ 263:Core/Src/Amperometric.c **** 
+ 264:Core/Src/Amperometric.c ****   uint32_t WaitClks;
+ 265:Core/Src/Amperometric.c ****   ClksCalInfo_Type clks_cal;
+ 266:Core/Src/Amperometric.c ****   
+ 267:Core/Src/Amperometric.c ****   clks_cal.DataType = DATATYPE_SINC2;
+ 268:Core/Src/Amperometric.c ****   clks_cal.DataCount = 1;
+ 269:Core/Src/Amperometric.c ****   clks_cal.ADCSinc2Osr = AppAMPCfg.ADCSinc2Osr;
+ 270:Core/Src/Amperometric.c ****   clks_cal.ADCSinc3Osr = AppAMPCfg.ADCSinc3Osr;
+ 271:Core/Src/Amperometric.c ****   clks_cal.ADCAvgNum = 0;
+ 272:Core/Src/Amperometric.c ****   clks_cal.RatioSys2AdcClk = AppAMPCfg.SysClkFreq/AppAMPCfg.AdcClkFreq;
+ 273:Core/Src/Amperometric.c ****   AD5940_ClksCalculate(&clks_cal, &WaitClks);
+ 274:Core/Src/Amperometric.c **** 	
+ 275:Core/Src/Amperometric.c **** 	
+ 276:Core/Src/Amperometric.c **** 	WaitClks += 15;
+ 277:Core/Src/Amperometric.c ****   AD5940_SEQGenCtrl(bTRUE);
+ 278:Core/Src/Amperometric.c ****   AD5940_SEQGpioCtrlS(AGPIO_Pin2);
+ 279:Core/Src/Amperometric.c ****   AD5940_AFECtrlS(AFECTRL_ADCPWR|AFECTRL_SINC2NOTCH, bTRUE);
+ 280:Core/Src/Amperometric.c **** 	
+ 281:Core/Src/Amperometric.c ****   AD5940_SEQGenInsert(SEQ_WAIT(16*250));    /* wait 250us */
+ 282:Core/Src/Amperometric.c **** 	
+ 283:Core/Src/Amperometric.c ****   AD5940_AFECtrlS(AFECTRL_ADCCNV, bTRUE);   /* Start ADC convert*/
+ 284:Core/Src/Amperometric.c ****   AD5940_SEQGenInsert(SEQ_WAIT(WaitClks));  /* wait for first data ready */
+ 285:Core/Src/Amperometric.c **** 	
+ 286:Core/Src/Amperometric.c ****   AD5940_AFECtrlS(AFECTRL_ADCPWR|AFECTRL_ADCCNV|AFECTRL_SINC2NOTCH, bFALSE);  /* Stop ADC */
+ 287:Core/Src/Amperometric.c ****   AD5940_SEQGpioCtrlS(0);
+ 288:Core/Src/Amperometric.c ****   AD5940_EnterSleepS();/* Goto hibernate */
+ 289:Core/Src/Amperometric.c ****   /* Sequence end. */
+ 290:Core/Src/Amperometric.c ****   error = AD5940_SEQGenFetchSeq(&pSeqCmd, &SeqLen);
+ 291:Core/Src/Amperometric.c ****   AD5940_SEQGenCtrl(bFALSE); /* Stop sequencer generator */
+ 292:Core/Src/Amperometric.c **** 
+ 293:Core/Src/Amperometric.c ****   if(error == AD5940ERR_OK)
+ 294:Core/Src/Amperometric.c ****   {
+ 295:Core/Src/Amperometric.c ****     AppAMPCfg.MeasureSeqInfo.SeqId = SEQID_0;
+ 296:Core/Src/Amperometric.c ****     AppAMPCfg.MeasureSeqInfo.SeqRamAddr = AppAMPCfg.InitSeqInfo.SeqRamAddr + AppAMPCfg.InitSeqInfo.
+ 297:Core/Src/Amperometric.c ****     AppAMPCfg.MeasureSeqInfo.pSeqCmd = pSeqCmd;
+ 298:Core/Src/Amperometric.c ****     AppAMPCfg.MeasureSeqInfo.SeqLen = SeqLen;
+ 299:Core/Src/Amperometric.c ****     /* Write command to SRAM */
+ 300:Core/Src/Amperometric.c ****     AD5940_SEQCmdWrite(AppAMPCfg.MeasureSeqInfo.SeqRamAddr, pSeqCmd, SeqLen);
+ 301:Core/Src/Amperometric.c ****   }
+ 302:Core/Src/Amperometric.c ****   else
+ 303:Core/Src/Amperometric.c ****     return error; /* Error */
+ 304:Core/Src/Amperometric.c ****   return AD5940ERR_OK;
+ 305:Core/Src/Amperometric.c **** }
+ 306:Core/Src/Amperometric.c **** 
+ 307:Core/Src/Amperometric.c **** static AD5940Err AppAMPRtiaCal(void)
+ 308:Core/Src/Amperometric.c **** {
+ 309:Core/Src/Amperometric.c **** fImpPol_Type RtiaCalValue;  /* Calibration result */
+ 310:Core/Src/Amperometric.c ****   LPRTIACal_Type lprtia_cal;
+ 311:Core/Src/Amperometric.c ****   AD5940_StructInit(&lprtia_cal, sizeof(lprtia_cal));
+ 312:Core/Src/Amperometric.c **** 
+ 313:Core/Src/Amperometric.c ****   lprtia_cal.bPolarResult = bTRUE;                /* Magnitude + Phase */
+ 314:Core/Src/Amperometric.c ****   lprtia_cal.AdcClkFreq = AppAMPCfg.AdcClkFreq;
+ 315:Core/Src/Amperometric.c ****   lprtia_cal.SysClkFreq = AppAMPCfg.SysClkFreq;
+ 316:Core/Src/Amperometric.c ****   lprtia_cal.ADCSinc3Osr = ADCSINC3OSR_4;
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 7
+
+
+ 317:Core/Src/Amperometric.c ****   lprtia_cal.ADCSinc2Osr = ADCSINC2OSR_22;        /* Use SINC2 data as DFT data source */
+ 318:Core/Src/Amperometric.c ****   lprtia_cal.DftCfg.DftNum = DFTNUM_2048;         /* Maximum DFT number */
+ 319:Core/Src/Amperometric.c ****   lprtia_cal.DftCfg.DftSrc = DFTSRC_SINC2NOTCH;   /* For frequency under 12Hz, need to optimize DFT
+ 320:Core/Src/Amperometric.c ****   lprtia_cal.DftCfg.HanWinEn = bTRUE;
+ 321:Core/Src/Amperometric.c ****   lprtia_cal.fFreq = AppAMPCfg.AdcClkFreq/4/22/2048*3;  /* Sample 3 period of signal, 13.317Hz here
+ 322:Core/Src/Amperometric.c ****   lprtia_cal.fRcal = AppAMPCfg.RcalVal;
+ 323:Core/Src/Amperometric.c ****   lprtia_cal.LpTiaRtia = AppAMPCfg.LptiaRtiaSel;
+ 324:Core/Src/Amperometric.c ****   lprtia_cal.LpAmpPwrMod = LPAMPPWR_NORM;
+ 325:Core/Src/Amperometric.c ****   lprtia_cal.bWithCtia = bFALSE;
+ 326:Core/Src/Amperometric.c ****   AD5940_LPRtiaCal(&lprtia_cal, &RtiaCalValue);
+ 327:Core/Src/Amperometric.c ****   AppAMPCfg.RtiaCalValue = RtiaCalValue;
+ 328:Core/Src/Amperometric.c ****  
+ 329:Core/Src/Amperometric.c ****   return AD5940ERR_OK;
+ 330:Core/Src/Amperometric.c **** }
+ 331:Core/Src/Amperometric.c **** 
+ 332:Core/Src/Amperometric.c **** /* This function provide application initialize.   */
+ 333:Core/Src/Amperometric.c **** AD5940Err AppAMPInit(uint32_t *pBuffer, uint32_t BufferSize)
+ 334:Core/Src/Amperometric.c **** {
+ 335:Core/Src/Amperometric.c ****   AD5940Err error = AD5940ERR_OK;
+ 336:Core/Src/Amperometric.c ****   SEQCfg_Type seq_cfg;
+ 337:Core/Src/Amperometric.c ****   FIFOCfg_Type fifo_cfg;
+ 338:Core/Src/Amperometric.c **** 
+ 339:Core/Src/Amperometric.c ****   if(AD5940_WakeUp(10) > 10)  /* Wakeup AFE by read register, read 10 times at most */
+ 340:Core/Src/Amperometric.c ****     return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 341:Core/Src/Amperometric.c **** 
+ 342:Core/Src/Amperometric.c ****   /* Configure sequencer and stop it */
+ 343:Core/Src/Amperometric.c ****   seq_cfg.SeqMemSize = SEQMEMSIZE_2KB;  /* 2kB SRAM is used for sequencer, others for data FIFO */
+ 344:Core/Src/Amperometric.c ****   seq_cfg.SeqBreakEn = bFALSE;
+ 345:Core/Src/Amperometric.c ****   seq_cfg.SeqIgnoreEn = bFALSE;
+ 346:Core/Src/Amperometric.c ****   seq_cfg.SeqCntCRCClr = bTRUE;
+ 347:Core/Src/Amperometric.c ****   seq_cfg.SeqEnable = bFALSE;
+ 348:Core/Src/Amperometric.c ****   seq_cfg.SeqWrTimer = 0;
+ 349:Core/Src/Amperometric.c ****   AD5940_SEQCfg(&seq_cfg);
+ 350:Core/Src/Amperometric.c **** 
+ 351:Core/Src/Amperometric.c ****   /* Do RTIA calibration */
+ 352:Core/Src/Amperometric.c ****   if(((AppAMPCfg.ReDoRtiaCal == bTRUE) || \
+ 353:Core/Src/Amperometric.c ****       AppAMPCfg.AMPInited == bFALSE) && AppAMPCfg.ExtRtia == bFALSE)  /* Do calibration on the firs
+ 354:Core/Src/Amperometric.c ****   {
+ 355:Core/Src/Amperometric.c ****     AppAMPRtiaCal();
+ 356:Core/Src/Amperometric.c ****     AppAMPCfg.ReDoRtiaCal = bFALSE;
+ 357:Core/Src/Amperometric.c ****   }else
+ 358:Core/Src/Amperometric.c **** 		AppAMPCfg.RtiaCalValue.Magnitude = AppAMPCfg.ExtRtiaVal;
+ 359:Core/Src/Amperometric.c ****   
+ 360:Core/Src/Amperometric.c **** 	/* Reconfigure FIFO */
+ 361:Core/Src/Amperometric.c ****   AD5940_FIFOCtrlS(DFTSRC_SINC3, bFALSE);									/* Disable FIFO firstly */
+ 362:Core/Src/Amperometric.c ****   fifo_cfg.FIFOEn = bTRUE;
+ 363:Core/Src/Amperometric.c ****   fifo_cfg.FIFOMode = FIFOMODE_FIFO;
+ 364:Core/Src/Amperometric.c ****   fifo_cfg.FIFOSize = FIFOSIZE_4KB;                       /* 4kB for FIFO, The reset 2kB for sequen
+ 365:Core/Src/Amperometric.c ****   fifo_cfg.FIFOSrc = AppAMPCfg.DataFifoSrc;
+ 366:Core/Src/Amperometric.c ****   fifo_cfg.FIFOThresh = AppAMPCfg.FifoThresh;              
+ 367:Core/Src/Amperometric.c ****   AD5940_FIFOCfg(&fifo_cfg);
+ 368:Core/Src/Amperometric.c **** 
+ 369:Core/Src/Amperometric.c ****   AD5940_INTCClrFlag(AFEINTSRC_ALLINT);
+ 370:Core/Src/Amperometric.c ****   
+ 371:Core/Src/Amperometric.c ****   /* Start sequence generator */
+ 372:Core/Src/Amperometric.c ****   /* Initialize sequencer generator */
+ 373:Core/Src/Amperometric.c ****   if((AppAMPCfg.AMPInited == bFALSE)||\
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 8
+
+
+ 374:Core/Src/Amperometric.c ****        (AppAMPCfg.bParaChanged == bTRUE))
+ 375:Core/Src/Amperometric.c ****   {
+ 376:Core/Src/Amperometric.c ****     if(pBuffer == 0)  return AD5940ERR_PARA;
+ 377:Core/Src/Amperometric.c ****     if(BufferSize == 0) return AD5940ERR_PARA;   
+ 378:Core/Src/Amperometric.c ****     AD5940_SEQGenInit(pBuffer, BufferSize);
+ 379:Core/Src/Amperometric.c **** 
+ 380:Core/Src/Amperometric.c ****     /* Generate initialize sequence */
+ 381:Core/Src/Amperometric.c ****     error = AppAMPSeqCfgGen(); /* Application initialization sequence using either MCU or sequencer
+ 382:Core/Src/Amperometric.c ****     if(error != AD5940ERR_OK) return error;
+ 383:Core/Src/Amperometric.c **** 
+ 384:Core/Src/Amperometric.c ****     /* Generate measurement sequence */
+ 385:Core/Src/Amperometric.c ****     error = AppAMPSeqMeasureGen();
+ 386:Core/Src/Amperometric.c ****     if(error != AD5940ERR_OK) return error;
+ 387:Core/Src/Amperometric.c **** 
+ 388:Core/Src/Amperometric.c ****     AppAMPCfg.bParaChanged = bFALSE; /* Clear this flag as we already implemented the new configura
+ 389:Core/Src/Amperometric.c ****   }
+ 390:Core/Src/Amperometric.c ****   /* Initialization sequencer  */
+ 391:Core/Src/Amperometric.c ****   AppAMPCfg.InitSeqInfo.WriteSRAM = bFALSE;
+ 392:Core/Src/Amperometric.c ****   AD5940_SEQInfoCfg(&AppAMPCfg.InitSeqInfo);
+ 393:Core/Src/Amperometric.c ****   seq_cfg.SeqEnable = bTRUE;
+ 394:Core/Src/Amperometric.c ****   AD5940_SEQCfg(&seq_cfg);  /* Enable sequencer */
+ 395:Core/Src/Amperometric.c ****   AD5940_SEQMmrTrig(AppAMPCfg.InitSeqInfo.SeqId);
+ 396:Core/Src/Amperometric.c ****   while(AD5940_INTCTestFlag(AFEINTC_1, AFEINTSRC_ENDSEQ) == bFALSE);
+ 397:Core/Src/Amperometric.c ****   
+ 398:Core/Src/Amperometric.c ****   /* Measurement sequence  */
+ 399:Core/Src/Amperometric.c ****   AppAMPCfg.MeasureSeqInfo.WriteSRAM = bFALSE;
+ 400:Core/Src/Amperometric.c ****   AD5940_SEQInfoCfg(&AppAMPCfg.MeasureSeqInfo);
+ 401:Core/Src/Amperometric.c **** 
+ 402:Core/Src/Amperometric.c **** //  seq_cfg.SeqEnable = bTRUE;
+ 403:Core/Src/Amperometric.c **** //  AD5940_SEQCfg(&seq_cfg);  /* Enable sequencer, and wait for trigger */
+ 404:Core/Src/Amperometric.c **** 	AD5940_SEQCtrlS(bTRUE);  /* Enable sequencer, and wait for trigger. It's disabled in initializatio
+ 405:Core/Src/Amperometric.c ****   AD5940_ClrMCUIntFlag();   /* Clear interrupt flag generated before */
+ 406:Core/Src/Amperometric.c **** 
+ 407:Core/Src/Amperometric.c ****   AD5940_AFEPwrBW(AppAMPCfg.PwrMod, AFEBW_250KHZ);
+ 408:Core/Src/Amperometric.c ****   AppAMPCfg.AMPInited = bTRUE;  /* AMP application has been initialized. */
+ 409:Core/Src/Amperometric.c ****   return AD5940ERR_OK;
+ 410:Core/Src/Amperometric.c **** }
+ 411:Core/Src/Amperometric.c **** 
+ 412:Core/Src/Amperometric.c **** 
+ 413:Core/Src/Amperometric.c **** /* Modify registers when AFE wakeup */
+ 414:Core/Src/Amperometric.c **** static AD5940Err AppAMPRegModify(int32_t * const pData, uint32_t *pDataCount)
+ 415:Core/Src/Amperometric.c **** {
+  28              		.loc 1 415 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		.loc 1 415 1 is_stmt 0 view .LVU1
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+ 416:Core/Src/Amperometric.c ****   if(AppAMPCfg.NumOfData > 0)
+  38              		.loc 1 416 3 is_stmt 1 view .LVU2
+  39              		.loc 1 416 15 is_stmt 0 view .LVU3
+  40 0002 0E4B     		ldr	r3, .L7
+  41 0004 DA6A     		ldr	r2, [r3, #44]
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 9
+
+
+  42              		.loc 1 416 5 view .LVU4
+  43 0006 002A     		cmp	r2, #0
+  44 0008 09DD     		ble	.L2
+ 417:Core/Src/Amperometric.c ****   {
+ 418:Core/Src/Amperometric.c ****     AppAMPCfg.FifoDataCount += *pDataCount/4;
+  45              		.loc 1 418 5 is_stmt 1 view .LVU5
+  46              		.loc 1 418 32 is_stmt 0 view .LVU6
+  47 000a 0868     		ldr	r0, [r1]
+  48              	.LVL1:
+  49              		.loc 1 418 29 view .LVU7
+  50 000c 1946     		mov	r1, r3
+  51              	.LVL2:
+  52              		.loc 1 418 29 view .LVU8
+  53 000e D3F89C30 		ldr	r3, [r3, #156]
+  54 0012 03EB9003 		add	r3, r3, r0, lsr #2
+  55 0016 C1F89C30 		str	r3, [r1, #156]
+ 419:Core/Src/Amperometric.c ****     if(AppAMPCfg.FifoDataCount >= AppAMPCfg.NumOfData)
+  56              		.loc 1 419 5 is_stmt 1 view .LVU9
+  57              		.loc 1 419 7 is_stmt 0 view .LVU10
+  58 001a 9342     		cmp	r3, r2
+  59 001c 06D2     		bcs	.L5
+  60              	.L2:
+ 420:Core/Src/Amperometric.c ****     {
+ 421:Core/Src/Amperometric.c ****       AD5940_WUPTCtrl(bFALSE);
+ 422:Core/Src/Amperometric.c ****       return AD5940ERR_OK;
+ 423:Core/Src/Amperometric.c ****     }
+ 424:Core/Src/Amperometric.c ****   }
+ 425:Core/Src/Amperometric.c ****   if(AppAMPCfg.StopRequired == bTRUE)
+  61              		.loc 1 425 3 is_stmt 1 view .LVU11
+  62              		.loc 1 425 15 is_stmt 0 view .LVU12
+  63 001e 074B     		ldr	r3, .L7
+  64 0020 93F89830 		ldrb	r3, [r3, #152]	@ zero_extendqisi2
+  65              		.loc 1 425 5 view .LVU13
+  66 0024 012B     		cmp	r3, #1
+  67 0026 05D0     		beq	.L6
+  68              	.L3:
+ 426:Core/Src/Amperometric.c ****   {
+ 427:Core/Src/Amperometric.c ****     AD5940_WUPTCtrl(bFALSE);
+ 428:Core/Src/Amperometric.c ****     return AD5940ERR_OK;
+ 429:Core/Src/Amperometric.c ****   }
+ 430:Core/Src/Amperometric.c ****   
+ 431:Core/Src/Amperometric.c ****   return AD5940ERR_OK;
+ 432:Core/Src/Amperometric.c **** }
+  69              		.loc 1 432 1 view .LVU14
+  70 0028 0020     		movs	r0, #0
+  71 002a 08BD     		pop	{r3, pc}
+  72              	.L5:
+ 421:Core/Src/Amperometric.c ****       return AD5940ERR_OK;
+  73              		.loc 1 421 7 is_stmt 1 view .LVU15
+  74 002c 0020     		movs	r0, #0
+  75 002e FFF7FEFF 		bl	AD5940_WUPTCtrl
+  76              	.LVL3:
+ 422:Core/Src/Amperometric.c ****     }
+  77              		.loc 1 422 7 view .LVU16
+ 422:Core/Src/Amperometric.c ****     }
+  78              		.loc 1 422 14 is_stmt 0 view .LVU17
+  79 0032 F9E7     		b	.L3
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 10
+
+
+  80              	.L6:
+ 427:Core/Src/Amperometric.c ****     return AD5940ERR_OK;
+  81              		.loc 1 427 5 is_stmt 1 view .LVU18
+  82 0034 0020     		movs	r0, #0
+  83 0036 FFF7FEFF 		bl	AD5940_WUPTCtrl
+  84              	.LVL4:
+ 428:Core/Src/Amperometric.c ****   }
+  85              		.loc 1 428 5 view .LVU19
+ 428:Core/Src/Amperometric.c ****   }
+  86              		.loc 1 428 12 is_stmt 0 view .LVU20
+  87 003a F5E7     		b	.L3
+  88              	.L8:
+  89              		.align	2
+  90              	.L7:
+  91 003c 00000000 		.word	.LANCHOR0
+  92              		.cfi_endproc
+  93              	.LFE9:
+  95              		.section	.text.AppAMPRtiaCal,"ax",%progbits
+  96              		.align	1
+  97              		.syntax unified
+  98              		.thumb
+  99              		.thumb_func
+ 100              		.fpu fpv5-d16
+ 102              	AppAMPRtiaCal:
+ 103              	.LFB7:
+ 308:Core/Src/Amperometric.c **** fImpPol_Type RtiaCalValue;  /* Calibration result */
+ 104              		.loc 1 308 1 is_stmt 1 view -0
+ 105              		.cfi_startproc
+ 106              		@ args = 0, pretend = 0, frame = 64
+ 107              		@ frame_needed = 0, uses_anonymous_args = 0
+ 108 0000 70B5     		push	{r4, r5, r6, lr}
+ 109              	.LCFI1:
+ 110              		.cfi_def_cfa_offset 16
+ 111              		.cfi_offset 4, -16
+ 112              		.cfi_offset 5, -12
+ 113              		.cfi_offset 6, -8
+ 114              		.cfi_offset 14, -4
+ 115 0002 90B0     		sub	sp, sp, #64
+ 116              	.LCFI2:
+ 117              		.cfi_def_cfa_offset 80
+ 309:Core/Src/Amperometric.c ****   LPRTIACal_Type lprtia_cal;
+ 118              		.loc 1 309 1 view .LVU22
+ 310:Core/Src/Amperometric.c ****   AD5940_StructInit(&lprtia_cal, sizeof(lprtia_cal));
+ 119              		.loc 1 310 3 view .LVU23
+ 311:Core/Src/Amperometric.c **** 
+ 120              		.loc 1 311 3 view .LVU24
+ 121 0004 3821     		movs	r1, #56
+ 122 0006 6846     		mov	r0, sp
+ 123 0008 FFF7FEFF 		bl	AD5940_StructInit
+ 124              	.LVL5:
+ 313:Core/Src/Amperometric.c ****   lprtia_cal.AdcClkFreq = AppAMPCfg.AdcClkFreq;
+ 125              		.loc 1 313 3 view .LVU25
+ 313:Core/Src/Amperometric.c ****   lprtia_cal.AdcClkFreq = AppAMPCfg.AdcClkFreq;
+ 126              		.loc 1 313 27 is_stmt 0 view .LVU26
+ 127 000c 0123     		movs	r3, #1
+ 128 000e 0D93     		str	r3, [sp, #52]
+ 314:Core/Src/Amperometric.c ****   lprtia_cal.SysClkFreq = AppAMPCfg.SysClkFreq;
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 11
+
+
+ 129              		.loc 1 314 3 is_stmt 1 view .LVU27
+ 314:Core/Src/Amperometric.c ****   lprtia_cal.SysClkFreq = AppAMPCfg.SysClkFreq;
+ 130              		.loc 1 314 36 is_stmt 0 view .LVU28
+ 131 0010 1A4C     		ldr	r4, .L11
+ 132 0012 D4ED087A 		vldr.32	s15, [r4, #32]
+ 314:Core/Src/Amperometric.c ****   lprtia_cal.SysClkFreq = AppAMPCfg.SysClkFreq;
+ 133              		.loc 1 314 25 view .LVU29
+ 134 0016 CDED037A 		vstr.32	s15, [sp, #12]
+ 315:Core/Src/Amperometric.c ****   lprtia_cal.ADCSinc3Osr = ADCSINC3OSR_4;
+ 135              		.loc 1 315 3 is_stmt 1 view .LVU30
+ 315:Core/Src/Amperometric.c ****   lprtia_cal.ADCSinc3Osr = ADCSINC3OSR_4;
+ 136              		.loc 1 315 36 is_stmt 0 view .LVU31
+ 137 001a A269     		ldr	r2, [r4, #24]	@ float
+ 315:Core/Src/Amperometric.c ****   lprtia_cal.ADCSinc3Osr = ADCSINC3OSR_4;
+ 138              		.loc 1 315 25 view .LVU32
+ 139 001c 0292     		str	r2, [sp, #8]	@ float
+ 316:Core/Src/Amperometric.c ****   lprtia_cal.ADCSinc2Osr = ADCSINC2OSR_22;        /* Use SINC2 data as DFT data source */
+ 140              		.loc 1 316 3 is_stmt 1 view .LVU33
+ 316:Core/Src/Amperometric.c ****   lprtia_cal.ADCSinc2Osr = ADCSINC2OSR_22;        /* Use SINC2 data as DFT data source */
+ 141              		.loc 1 316 26 is_stmt 0 view .LVU34
+ 142 001e 0893     		str	r3, [sp, #32]
+ 317:Core/Src/Amperometric.c ****   lprtia_cal.DftCfg.DftNum = DFTNUM_2048;         /* Maximum DFT number */
+ 143              		.loc 1 317 3 is_stmt 1 view .LVU35
+ 317:Core/Src/Amperometric.c ****   lprtia_cal.DftCfg.DftNum = DFTNUM_2048;         /* Maximum DFT number */
+ 144              		.loc 1 317 26 is_stmt 0 view .LVU36
+ 145 0020 0025     		movs	r5, #0
+ 146 0022 0995     		str	r5, [sp, #36]
+ 318:Core/Src/Amperometric.c ****   lprtia_cal.DftCfg.DftSrc = DFTSRC_SINC2NOTCH;   /* For frequency under 12Hz, need to optimize DFT
+ 147              		.loc 1 318 3 is_stmt 1 view .LVU37
+ 318:Core/Src/Amperometric.c ****   lprtia_cal.DftCfg.DftSrc = DFTSRC_SINC2NOTCH;   /* For frequency under 12Hz, need to optimize DFT
+ 148              		.loc 1 318 28 is_stmt 0 view .LVU38
+ 149 0024 0922     		movs	r2, #9
+ 150 0026 0A92     		str	r2, [sp, #40]
+ 319:Core/Src/Amperometric.c ****   lprtia_cal.DftCfg.HanWinEn = bTRUE;
+ 151              		.loc 1 319 3 is_stmt 1 view .LVU39
+ 319:Core/Src/Amperometric.c ****   lprtia_cal.DftCfg.HanWinEn = bTRUE;
+ 152              		.loc 1 319 28 is_stmt 0 view .LVU40
+ 153 0028 0B95     		str	r5, [sp, #44]
+ 320:Core/Src/Amperometric.c ****   lprtia_cal.fFreq = AppAMPCfg.AdcClkFreq/4/22/2048*3;  /* Sample 3 period of signal, 13.317Hz here
+ 154              		.loc 1 320 3 is_stmt 1 view .LVU41
+ 320:Core/Src/Amperometric.c ****   lprtia_cal.fFreq = AppAMPCfg.AdcClkFreq/4/22/2048*3;  /* Sample 3 period of signal, 13.317Hz here
+ 155              		.loc 1 320 30 is_stmt 0 view .LVU42
+ 156 002a 8DF83030 		strb	r3, [sp, #48]
+ 321:Core/Src/Amperometric.c ****   lprtia_cal.fRcal = AppAMPCfg.RcalVal;
+ 157              		.loc 1 321 3 is_stmt 1 view .LVU43
+ 321:Core/Src/Amperometric.c ****   lprtia_cal.fRcal = AppAMPCfg.RcalVal;
+ 158              		.loc 1 321 42 is_stmt 0 view .LVU44
+ 159 002e B5EE007A 		vmov.f32	s14, #2.5e-1
+ 160 0032 27EE877A 		vmul.f32	s14, s15, s14
+ 321:Core/Src/Amperometric.c ****   lprtia_cal.fRcal = AppAMPCfg.RcalVal;
+ 161              		.loc 1 321 44 view .LVU45
+ 162 0036 F3EE066A 		vmov.f32	s13, #2.2e+1
+ 163 003a C7EE267A 		vdiv.f32	s15, s14, s13
+ 321:Core/Src/Amperometric.c ****   lprtia_cal.fRcal = AppAMPCfg.RcalVal;
+ 164              		.loc 1 321 47 view .LVU46
+ 165 003e 9FED107A 		vldr.32	s14, .L11+4
+ 166 0042 67EE877A 		vmul.f32	s15, s15, s14
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 12
+
+
+ 321:Core/Src/Amperometric.c ****   lprtia_cal.fRcal = AppAMPCfg.RcalVal;
+ 167              		.loc 1 321 52 view .LVU47
+ 168 0046 B0EE087A 		vmov.f32	s14, #3.0e+0
+ 169 004a 67EE877A 		vmul.f32	s15, s15, s14
+ 321:Core/Src/Amperometric.c ****   lprtia_cal.fRcal = AppAMPCfg.RcalVal;
+ 170              		.loc 1 321 20 view .LVU48
+ 171 004e CDED007A 		vstr.32	s15, [sp]
+ 322:Core/Src/Amperometric.c ****   lprtia_cal.LpTiaRtia = AppAMPCfg.LptiaRtiaSel;
+ 172              		.loc 1 322 3 is_stmt 1 view .LVU49
+ 322:Core/Src/Amperometric.c ****   lprtia_cal.LpTiaRtia = AppAMPCfg.LptiaRtiaSel;
+ 173              		.loc 1 322 31 is_stmt 0 view .LVU50
+ 174 0052 236B     		ldr	r3, [r4, #48]	@ float
+ 322:Core/Src/Amperometric.c ****   lprtia_cal.LpTiaRtia = AppAMPCfg.LptiaRtiaSel;
+ 175              		.loc 1 322 20 view .LVU51
+ 176 0054 0193     		str	r3, [sp, #4]	@ float
+ 323:Core/Src/Amperometric.c ****   lprtia_cal.LpAmpPwrMod = LPAMPPWR_NORM;
+ 177              		.loc 1 323 3 is_stmt 1 view .LVU52
+ 323:Core/Src/Amperometric.c ****   lprtia_cal.LpAmpPwrMod = LPAMPPWR_NORM;
+ 178              		.loc 1 323 35 is_stmt 0 view .LVU53
+ 179 0056 A36C     		ldr	r3, [r4, #72]
+ 323:Core/Src/Amperometric.c ****   lprtia_cal.LpAmpPwrMod = LPAMPPWR_NORM;
+ 180              		.loc 1 323 24 view .LVU54
+ 181 0058 0693     		str	r3, [sp, #24]
+ 324:Core/Src/Amperometric.c ****   lprtia_cal.bWithCtia = bFALSE;
+ 182              		.loc 1 324 3 is_stmt 1 view .LVU55
+ 324:Core/Src/Amperometric.c ****   lprtia_cal.bWithCtia = bFALSE;
+ 183              		.loc 1 324 26 is_stmt 0 view .LVU56
+ 184 005a 0795     		str	r5, [sp, #28]
+ 325:Core/Src/Amperometric.c ****   AD5940_LPRtiaCal(&lprtia_cal, &RtiaCalValue);
+ 185              		.loc 1 325 3 is_stmt 1 view .LVU57
+ 325:Core/Src/Amperometric.c ****   AD5940_LPRtiaCal(&lprtia_cal, &RtiaCalValue);
+ 186              		.loc 1 325 24 is_stmt 0 view .LVU58
+ 187 005c 8DF81450 		strb	r5, [sp, #20]
+ 326:Core/Src/Amperometric.c ****   AppAMPCfg.RtiaCalValue = RtiaCalValue;
+ 188              		.loc 1 326 3 is_stmt 1 view .LVU59
+ 189 0060 0EAE     		add	r6, sp, #56
+ 190 0062 3146     		mov	r1, r6
+ 191 0064 6846     		mov	r0, sp
+ 192 0066 FFF7FEFF 		bl	AD5940_LPRtiaCal
+ 193              	.LVL6:
+ 327:Core/Src/Amperometric.c ****  
+ 194              		.loc 1 327 3 view .LVU60
+ 327:Core/Src/Amperometric.c ****  
+ 195              		.loc 1 327 26 is_stmt 0 view .LVU61
+ 196 006a 5434     		adds	r4, r4, #84
+ 197 006c 96E80300 		ldm	r6, {r0, r1}
+ 198 0070 84E80300 		stm	r4, {r0, r1}
+ 329:Core/Src/Amperometric.c **** }
+ 199              		.loc 1 329 3 is_stmt 1 view .LVU62
+ 330:Core/Src/Amperometric.c **** 
+ 200              		.loc 1 330 1 is_stmt 0 view .LVU63
+ 201 0074 2846     		mov	r0, r5
+ 202 0076 10B0     		add	sp, sp, #64
+ 203              	.LCFI3:
+ 204              		.cfi_def_cfa_offset 16
+ 205              		@ sp needed
+ 206 0078 70BD     		pop	{r4, r5, r6, pc}
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 13
+
+
+ 207              	.L12:
+ 208 007a 00BF     		.align	2
+ 209              	.L11:
+ 210 007c 00000000 		.word	.LANCHOR0
+ 211 0080 0000003A 		.word	973078528
+ 212              		.cfi_endproc
+ 213              	.LFE7:
+ 215              		.section	.text.AppAMPSeqCfgGen,"ax",%progbits
+ 216              		.align	1
+ 217              		.syntax unified
+ 218              		.thumb
+ 219              		.thumb_func
+ 220              		.fpu fpv5-d16
+ 222              	AppAMPSeqCfgGen:
+ 223              	.LFB5:
+ 137:Core/Src/Amperometric.c ****   AD5940Err error = AD5940ERR_OK;
+ 224              		.loc 1 137 1 is_stmt 1 view -0
+ 225              		.cfi_startproc
+ 226              		@ args = 0, pretend = 0, frame = 168
+ 227              		@ frame_needed = 0, uses_anonymous_args = 0
+ 228 0000 30B5     		push	{r4, r5, lr}
+ 229              	.LCFI4:
+ 230              		.cfi_def_cfa_offset 12
+ 231              		.cfi_offset 4, -12
+ 232              		.cfi_offset 5, -8
+ 233              		.cfi_offset 14, -4
+ 234 0002 ABB0     		sub	sp, sp, #172
+ 235              	.LCFI5:
+ 236              		.cfi_def_cfa_offset 184
+ 138:Core/Src/Amperometric.c ****   uint32_t const *pSeqCmd;
+ 237              		.loc 1 138 3 view .LVU65
+ 238              	.LVL7:
+ 139:Core/Src/Amperometric.c ****   uint32_t SeqLen;
+ 239              		.loc 1 139 3 view .LVU66
+ 140:Core/Src/Amperometric.c **** 
+ 240              		.loc 1 140 3 view .LVU67
+ 142:Core/Src/Amperometric.c ****   LPLoopCfg_Type lp_loop;
+ 241              		.loc 1 142 3 view .LVU68
+ 143:Core/Src/Amperometric.c ****   DSPCfg_Type dsp_cfg;
+ 242              		.loc 1 143 3 view .LVU69
+ 144:Core/Src/Amperometric.c ****   SWMatrixCfg_Type sw_cfg;
+ 243              		.loc 1 144 3 view .LVU70
+ 145:Core/Src/Amperometric.c ****   /* Start sequence generator here */
+ 244              		.loc 1 145 3 view .LVU71
+ 147:Core/Src/Amperometric.c **** 
+ 245              		.loc 1 147 3 view .LVU72
+ 246 0004 0120     		movs	r0, #1
+ 247 0006 FFF7FEFF 		bl	AD5940_SEQGenCtrl
+ 248              	.LVL8:
+ 151:Core/Src/Amperometric.c ****   aferef_cfg.Hp1V1BuffEn = bTRUE;
+ 249              		.loc 1 151 3 view .LVU73
+ 151:Core/Src/Amperometric.c ****   aferef_cfg.Hp1V1BuffEn = bTRUE;
+ 250              		.loc 1 151 26 is_stmt 0 view .LVU74
+ 251 000a 0125     		movs	r5, #1
+ 252 000c 8DF89050 		strb	r5, [sp, #144]
+ 152:Core/Src/Amperometric.c ****   aferef_cfg.Hp1V8BuffEn = bTRUE;
+ 253              		.loc 1 152 3 is_stmt 1 view .LVU75
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 14
+
+
+ 152:Core/Src/Amperometric.c ****   aferef_cfg.Hp1V8BuffEn = bTRUE;
+ 254              		.loc 1 152 26 is_stmt 0 view .LVU76
+ 255 0010 8DF89250 		strb	r5, [sp, #146]
+ 153:Core/Src/Amperometric.c ****   aferef_cfg.Disc1V1Cap = bFALSE;
+ 256              		.loc 1 153 3 is_stmt 1 view .LVU77
+ 153:Core/Src/Amperometric.c ****   aferef_cfg.Disc1V1Cap = bFALSE;
+ 257              		.loc 1 153 26 is_stmt 0 view .LVU78
+ 258 0014 8DF89150 		strb	r5, [sp, #145]
+ 154:Core/Src/Amperometric.c ****   aferef_cfg.Disc1V8Cap = bFALSE;
+ 259              		.loc 1 154 3 is_stmt 1 view .LVU79
+ 154:Core/Src/Amperometric.c ****   aferef_cfg.Disc1V8Cap = bFALSE;
+ 260              		.loc 1 154 25 is_stmt 0 view .LVU80
+ 261 0018 0024     		movs	r4, #0
+ 262 001a 8DF89C40 		strb	r4, [sp, #156]
+ 155:Core/Src/Amperometric.c ****   aferef_cfg.Hp1V8ThemBuff = bFALSE;
+ 263              		.loc 1 155 3 is_stmt 1 view .LVU81
+ 155:Core/Src/Amperometric.c ****   aferef_cfg.Hp1V8ThemBuff = bFALSE;
+ 264              		.loc 1 155 25 is_stmt 0 view .LVU82
+ 265 001e 8DF89B40 		strb	r4, [sp, #155]
+ 156:Core/Src/Amperometric.c ****   aferef_cfg.Hp1V8Ilimit = bFALSE;
+ 266              		.loc 1 156 3 is_stmt 1 view .LVU83
+ 156:Core/Src/Amperometric.c ****   aferef_cfg.Hp1V8Ilimit = bFALSE;
+ 267              		.loc 1 156 28 is_stmt 0 view .LVU84
+ 268 0022 8DF89940 		strb	r4, [sp, #153]
+ 157:Core/Src/Amperometric.c ****   aferef_cfg.Lp1V1BuffEn = bTRUE;
+ 269              		.loc 1 157 3 is_stmt 1 view .LVU85
+ 157:Core/Src/Amperometric.c ****   aferef_cfg.Lp1V1BuffEn = bTRUE;
+ 270              		.loc 1 157 26 is_stmt 0 view .LVU86
+ 271 0026 8DF89A40 		strb	r4, [sp, #154]
+ 158:Core/Src/Amperometric.c ****   aferef_cfg.Lp1V8BuffEn = bTRUE;
+ 272              		.loc 1 158 3 is_stmt 1 view .LVU87
+ 158:Core/Src/Amperometric.c ****   aferef_cfg.Lp1V8BuffEn = bTRUE;
+ 273              		.loc 1 158 26 is_stmt 0 view .LVU88
+ 274 002a 8DF89450 		strb	r5, [sp, #148]
+ 159:Core/Src/Amperometric.c ****   /* LP reference control - turn off them to save power*/
+ 275              		.loc 1 159 3 is_stmt 1 view .LVU89
+ 159:Core/Src/Amperometric.c ****   /* LP reference control - turn off them to save power*/
+ 276              		.loc 1 159 26 is_stmt 0 view .LVU90
+ 277 002e 8DF89350 		strb	r5, [sp, #147]
+ 161:Core/Src/Amperometric.c ****   aferef_cfg.LpRefBufEn = bTRUE;
+ 278              		.loc 1 161 3 is_stmt 1 view .LVU91
+ 161:Core/Src/Amperometric.c ****   aferef_cfg.LpRefBufEn = bTRUE;
+ 279              		.loc 1 161 26 is_stmt 0 view .LVU92
+ 280 0032 8DF89550 		strb	r5, [sp, #149]
+ 162:Core/Src/Amperometric.c ****   aferef_cfg.LpRefBoostEn = bFALSE;
+ 281              		.loc 1 162 3 is_stmt 1 view .LVU93
+ 162:Core/Src/Amperometric.c ****   aferef_cfg.LpRefBoostEn = bFALSE;
+ 282              		.loc 1 162 25 is_stmt 0 view .LVU94
+ 283 0036 8DF89650 		strb	r5, [sp, #150]
+ 163:Core/Src/Amperometric.c ****   AD5940_REFCfgS(&aferef_cfg);	
+ 284              		.loc 1 163 3 is_stmt 1 view .LVU95
+ 163:Core/Src/Amperometric.c ****   AD5940_REFCfgS(&aferef_cfg);	
+ 285              		.loc 1 163 27 is_stmt 0 view .LVU96
+ 286 003a 8DF89740 		strb	r4, [sp, #151]
+ 164:Core/Src/Amperometric.c **** 
+ 287              		.loc 1 164 3 is_stmt 1 view .LVU97
+ 288 003e 24A8     		add	r0, sp, #144
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 15
+
+
+ 289 0040 FFF7FEFF 		bl	AD5940_REFCfgS
+ 290              	.LVL9:
+ 166:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.LpDacSrc = LPDACSRC_MMR;
+ 291              		.loc 1 166 2 view .LVU98
+ 166:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.LpDacSrc = LPDACSRC_MMR;
+ 292              		.loc 1 166 28 is_stmt 0 view .LVU99
+ 293 0044 1594     		str	r4, [sp, #84]
+ 167:Core/Src/Amperometric.c **** 	
+ 294              		.loc 1 167 3 is_stmt 1 view .LVU100
+ 167:Core/Src/Amperometric.c **** 	
+ 295              		.loc 1 167 29 is_stmt 0 view .LVU101
+ 296 0046 1694     		str	r4, [sp, #88]
+ 170:Core/Src/Amperometric.c **** 	
+ 297              		.loc 1 170 3 is_stmt 1 view .LVU102
+ 170:Core/Src/Amperometric.c **** 	
+ 298              		.loc 1 170 28 is_stmt 0 view .LVU103
+ 299 0048 1E23     		movs	r3, #30
+ 300 004a 1993     		str	r3, [sp, #100]
+ 172:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.LpDacVbiasMux = LPDACVBIAS_12BIT;
+ 301              		.loc 1 172 3 is_stmt 1 view .LVU104
+ 172:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.LpDacVbiasMux = LPDACVBIAS_12BIT;
+ 302              		.loc 1 172 34 is_stmt 0 view .LVU105
+ 303 004c 1794     		str	r4, [sp, #92]
+ 173:Core/Src/Amperometric.c **** 	
+ 304              		.loc 1 173 3 is_stmt 1 view .LVU106
+ 173:Core/Src/Amperometric.c **** 	
+ 305              		.loc 1 173 34 is_stmt 0 view .LVU107
+ 306 004e 1894     		str	r4, [sp, #96]
+ 175:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.DataRst = bFALSE;
+ 307              		.loc 1 175 3 is_stmt 1 view .LVU108
+ 175:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.DataRst = bFALSE;
+ 308              		.loc 1 175 29 is_stmt 0 view .LVU109
+ 309 0050 1A94     		str	r4, [sp, #104]
+ 176:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.PowerEn = bTRUE;
+ 310              		.loc 1 176 3 is_stmt 1 view .LVU110
+ 176:Core/Src/Amperometric.c ****   lp_loop.LpDacCfg.PowerEn = bTRUE;
+ 311              		.loc 1 176 28 is_stmt 0 view .LVU111
+ 312 0052 8DF86C40 		strb	r4, [sp, #108]
+ 177:Core/Src/Amperometric.c **** 	
+ 313              		.loc 1 177 3 is_stmt 1 view .LVU112
+ 177:Core/Src/Amperometric.c **** 	
+ 314              		.loc 1 177 28 is_stmt 0 view .LVU113
+ 315 0056 8DF86D50 		strb	r5, [sp, #109]
+ 179:Core/Src/Amperometric.c **** 	lp_loop.LpDacCfg.DacData12Bit =(int32_t)((AppAMPCfg.SensorBias)/DAC12BITVOLT_1LSB) + lp_loop.LpDac
+ 316              		.loc 1 179 3 is_stmt 1 view .LVU114
+ 179:Core/Src/Amperometric.c **** 	lp_loop.LpDacCfg.DacData12Bit =(int32_t)((AppAMPCfg.SensorBias)/DAC12BITVOLT_1LSB) + lp_loop.LpDac
+ 317              		.loc 1 179 55 is_stmt 0 view .LVU115
+ 318 005a 4D4B     		ldr	r3, .L21
+ 319 005c 93ED177A 		vldr.32	s14, [r3, #92]
+ 179:Core/Src/Amperometric.c **** 	lp_loop.LpDacCfg.DacData12Bit =(int32_t)((AppAMPCfg.SensorBias)/DAC12BITVOLT_1LSB) + lp_loop.LpDac
+ 320              		.loc 1 179 61 view .LVU116
+ 321 0060 DFED4C7A 		vldr.32	s15, .L21+4
+ 322 0064 37EE677A 		vsub.f32	s14, s14, s15
+ 179:Core/Src/Amperometric.c **** 	lp_loop.LpDacCfg.DacData12Bit =(int32_t)((AppAMPCfg.SensorBias)/DAC12BITVOLT_1LSB) + lp_loop.LpDac
+ 323              		.loc 1 179 66 view .LVU117
+ 324 0068 DFED4B6A 		vldr.32	s13, .L21+8
+ 325 006c C7EE267A 		vdiv.f32	s15, s14, s13
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 16
+
+
+ 179:Core/Src/Amperometric.c **** 	lp_loop.LpDacCfg.DacData12Bit =(int32_t)((AppAMPCfg.SensorBias)/DAC12BITVOLT_1LSB) + lp_loop.LpDac
+ 326              		.loc 1 179 34 view .LVU118
+ 327 0070 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 179:Core/Src/Amperometric.c **** 	lp_loop.LpDacCfg.DacData12Bit =(int32_t)((AppAMPCfg.SensorBias)/DAC12BITVOLT_1LSB) + lp_loop.LpDac
+ 328              		.loc 1 179 32 view .LVU119
+ 329 0074 17EE902A 		vmov	r2, s15	@ int
+ 330 0078 92B2     		uxth	r2, r2
+ 331 007a ADF87020 		strh	r2, [sp, #112]	@ movhi
+ 180:Core/Src/Amperometric.c **** 	if(lp_loop.LpDacCfg.DacData12Bit>lp_loop.LpDacCfg.DacData6Bit*64)
+ 332              		.loc 1 180 2 is_stmt 1 view .LVU120
+ 180:Core/Src/Amperometric.c **** 	if(lp_loop.LpDacCfg.DacData12Bit>lp_loop.LpDacCfg.DacData6Bit*64)
+ 333              		.loc 1 180 53 is_stmt 0 view .LVU121
+ 334 007e D3ED186A 		vldr.32	s13, [r3, #96]
+ 180:Core/Src/Amperometric.c **** 	if(lp_loop.LpDacCfg.DacData12Bit>lp_loop.LpDacCfg.DacData6Bit*64)
+ 335              		.loc 1 180 65 view .LVU122
+ 336 0082 9FED467A 		vldr.32	s14, .L21+12
+ 337 0086 C6EE877A 		vdiv.f32	s15, s13, s14
+ 180:Core/Src/Amperometric.c **** 	if(lp_loop.LpDacCfg.DacData12Bit>lp_loop.LpDacCfg.DacData6Bit*64)
+ 338              		.loc 1 180 33 view .LVU123
+ 339 008a FDEEE77A 		vcvt.s32.f32	s15, s15
+ 340 008e 17EE903A 		vmov	r3, s15	@ int
+ 180:Core/Src/Amperometric.c **** 	if(lp_loop.LpDacCfg.DacData12Bit>lp_loop.LpDacCfg.DacData6Bit*64)
+ 341              		.loc 1 180 85 view .LVU124
+ 342 0092 03EB8213 		add	r3, r3, r2, lsl #6
+ 343 0096 9BB2     		uxth	r3, r3
+ 180:Core/Src/Amperometric.c **** 	if(lp_loop.LpDacCfg.DacData12Bit>lp_loop.LpDacCfg.DacData6Bit*64)
+ 344              		.loc 1 180 32 view .LVU125
+ 345 0098 ADF86E30 		strh	r3, [sp, #110]	@ movhi
+ 181:Core/Src/Amperometric.c **** 		lp_loop.LpDacCfg.DacData12Bit--;
+ 346              		.loc 1 181 2 is_stmt 1 view .LVU126
+ 181:Core/Src/Amperometric.c **** 		lp_loop.LpDacCfg.DacData12Bit--;
+ 347              		.loc 1 181 4 is_stmt 0 view .LVU127
+ 348 009c B3EB821F 		cmp	r3, r2, lsl #6
+ 349 00a0 02DD     		ble	.L14
+ 182:Core/Src/Amperometric.c **** 	lp_loop.LpAmpCfg.LpAmpSel = LPAMP0;
+ 350              		.loc 1 182 3 is_stmt 1 view .LVU128
+ 182:Core/Src/Amperometric.c **** 	lp_loop.LpAmpCfg.LpAmpSel = LPAMP0;
+ 351              		.loc 1 182 32 is_stmt 0 view .LVU129
+ 352 00a2 013B     		subs	r3, r3, #1
+ 353 00a4 ADF86E30 		strh	r3, [sp, #110]	@ movhi
+ 354              	.L14:
+ 183:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpAmpPwrMod = LPAMPPWR_NORM;
+ 355              		.loc 1 183 2 is_stmt 1 view .LVU130
+ 183:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpAmpPwrMod = LPAMPPWR_NORM;
+ 356              		.loc 1 183 28 is_stmt 0 view .LVU131
+ 357 00a8 0023     		movs	r3, #0
+ 358 00aa 1D93     		str	r3, [sp, #116]
+ 184:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpPaPwrEn = bTRUE;
+ 359              		.loc 1 184 3 is_stmt 1 view .LVU132
+ 184:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpPaPwrEn = bTRUE;
+ 360              		.loc 1 184 32 is_stmt 0 view .LVU133
+ 361 00ac 2193     		str	r3, [sp, #132]
+ 185:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpTiaPwrEn = bTRUE;
+ 362              		.loc 1 185 3 is_stmt 1 view .LVU134
+ 185:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpTiaPwrEn = bTRUE;
+ 363              		.loc 1 185 30 is_stmt 0 view .LVU135
+ 364 00ae 0123     		movs	r3, #1
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 17
+
+
+ 365 00b0 8DF88C30 		strb	r3, [sp, #140]
+ 186:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpTiaRf = AppAMPCfg.LpTiaRf;
+ 366              		.loc 1 186 3 is_stmt 1 view .LVU136
+ 186:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpTiaRf = AppAMPCfg.LpTiaRf;
+ 367              		.loc 1 186 31 is_stmt 0 view .LVU137
+ 368 00b4 8DF88D30 		strb	r3, [sp, #141]
+ 187:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpTiaRload = AppAMPCfg.LpTiaRl;
+ 369              		.loc 1 187 3 is_stmt 1 view .LVU138
+ 187:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpTiaRload = AppAMPCfg.LpTiaRl;
+ 370              		.loc 1 187 39 is_stmt 0 view .LVU139
+ 371 00b8 354B     		ldr	r3, .L21
+ 372 00ba DA6C     		ldr	r2, [r3, #76]
+ 187:Core/Src/Amperometric.c ****   lp_loop.LpAmpCfg.LpTiaRload = AppAMPCfg.LpTiaRl;
+ 373              		.loc 1 187 28 view .LVU140
+ 374 00bc 1E92     		str	r2, [sp, #120]
+ 188:Core/Src/Amperometric.c ****   if(AppAMPCfg.ExtRtia == bTRUE)
+ 375              		.loc 1 188 3 is_stmt 1 view .LVU141
+ 188:Core/Src/Amperometric.c ****   if(AppAMPCfg.ExtRtia == bTRUE)
+ 376              		.loc 1 188 42 is_stmt 0 view .LVU142
+ 377 00be 1A6D     		ldr	r2, [r3, #80]
+ 188:Core/Src/Amperometric.c ****   if(AppAMPCfg.ExtRtia == bTRUE)
+ 378              		.loc 1 188 31 view .LVU143
+ 379 00c0 1F92     		str	r2, [sp, #124]
+ 189:Core/Src/Amperometric.c ****   {
+ 380              		.loc 1 189 3 is_stmt 1 view .LVU144
+ 189:Core/Src/Amperometric.c ****   {
+ 381              		.loc 1 189 15 is_stmt 0 view .LVU145
+ 382 00c2 93F86430 		ldrb	r3, [r3, #100]	@ zero_extendqisi2
+ 189:Core/Src/Amperometric.c ****   {
+ 383              		.loc 1 189 5 view .LVU146
+ 384 00c6 012B     		cmp	r3, #1
+ 385 00c8 4ED0     		beq	.L19
+ 195:Core/Src/Amperometric.c **** 		
+ 386              		.loc 1 195 5 is_stmt 1 view .LVU147
+ 195:Core/Src/Amperometric.c **** 		
+ 387              		.loc 1 195 43 is_stmt 0 view .LVU148
+ 388 00ca 314B     		ldr	r3, .L21
+ 389 00cc 9B6C     		ldr	r3, [r3, #72]
+ 195:Core/Src/Amperometric.c **** 		
+ 390              		.loc 1 195 32 view .LVU149
+ 391 00ce 2093     		str	r3, [sp, #128]
+ 198:Core/Src/Amperometric.c **** 		//do not use re0, swicth10
+ 392              		.loc 1 198 5 is_stmt 1 view .LVU150
+ 198:Core/Src/Amperometric.c **** 		//do not use re0, swicth10
+ 393              		.loc 1 198 30 is_stmt 0 view .LVU151
+ 394 00d0 43F23403 		movw	r3, #12340
+ 395 00d4 2293     		str	r3, [sp, #136]
+ 396              	.L16:
+ 203:Core/Src/Amperometric.c **** 
+ 397              		.loc 1 203 3 is_stmt 1 view .LVU152
+ 398 00d6 15A8     		add	r0, sp, #84
+ 399 00d8 FFF7FEFF 		bl	AD5940_LPLoopCfgS
+ 400              	.LVL10:
+ 206:Core/Src/Amperometric.c ****   dsp_cfg.ADCBaseCfg.ADCMuxP = ADCMUXP_AIN4;
+ 401              		.loc 1 206 3 view .LVU153
+ 206:Core/Src/Amperometric.c ****   dsp_cfg.ADCBaseCfg.ADCMuxP = ADCMUXP_AIN4;
+ 402              		.loc 1 206 30 is_stmt 0 view .LVU154
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 18
+
+
+ 403 00dc 1023     		movs	r3, #16
+ 404 00de 0693     		str	r3, [sp, #24]
+ 207:Core/Src/Amperometric.c ****   dsp_cfg.ADCBaseCfg.ADCPga = AppAMPCfg.ADCPgaGain;
+ 405              		.loc 1 207 3 is_stmt 1 view .LVU155
+ 207:Core/Src/Amperometric.c ****   dsp_cfg.ADCBaseCfg.ADCPga = AppAMPCfg.ADCPgaGain;
+ 406              		.loc 1 207 30 is_stmt 0 view .LVU156
+ 407 00e0 1423     		movs	r3, #20
+ 408 00e2 0593     		str	r3, [sp, #20]
+ 208:Core/Src/Amperometric.c **** 	
+ 409              		.loc 1 208 3 is_stmt 1 view .LVU157
+ 208:Core/Src/Amperometric.c **** 	
+ 410              		.loc 1 208 40 is_stmt 0 view .LVU158
+ 411 00e4 2A4B     		ldr	r3, .L21
+ 412 00e6 DA6B     		ldr	r2, [r3, #60]
+ 208:Core/Src/Amperometric.c **** 	
+ 413              		.loc 1 208 29 view .LVU159
+ 414 00e8 0792     		str	r2, [sp, #28]
+ 210:Core/Src/Amperometric.c ****   memset(&dsp_cfg.DftCfg, 0, sizeof(dsp_cfg.DftCfg));
+ 415              		.loc 1 210 3 is_stmt 1 view .LVU160
+ 416 00ea 0024     		movs	r4, #0
+ 417 00ec 0D94     		str	r4, [sp, #52]
+ 418 00ee 0E94     		str	r4, [sp, #56]
+ 211:Core/Src/Amperometric.c **** 	
+ 419              		.loc 1 211 3 view .LVU161
+ 420 00f0 0F94     		str	r4, [sp, #60]
+ 421 00f2 1094     		str	r4, [sp, #64]
+ 422 00f4 1194     		str	r4, [sp, #68]
+ 213:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.ADCRate = ADCRATE_800KHZ;	/* Tell filter block clock rate of ADC*/
+ 423              		.loc 1 213 3 view .LVU162
+ 213:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.ADCRate = ADCRATE_800KHZ;	/* Tell filter block clock rate of ADC*/
+ 424              		.loc 1 213 34 is_stmt 0 view .LVU163
+ 425 00f6 0322     		movs	r2, #3
+ 426 00f8 0A92     		str	r2, [sp, #40]
+ 214:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.ADCSinc2Osr = AppAMPCfg.ADCSinc2Osr;
+ 427              		.loc 1 214 3 is_stmt 1 view .LVU164
+ 214:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.ADCSinc2Osr = AppAMPCfg.ADCSinc2Osr;
+ 428              		.loc 1 214 32 is_stmt 0 view .LVU165
+ 429 00fa 0125     		movs	r5, #1
+ 430 00fc 0B95     		str	r5, [sp, #44]
+ 215:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.ADCSinc3Osr = AppAMPCfg.ADCSinc3Osr;
+ 431              		.loc 1 215 3 is_stmt 1 view .LVU166
+ 215:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.ADCSinc3Osr = AppAMPCfg.ADCSinc3Osr;
+ 432              		.loc 1 215 47 is_stmt 0 view .LVU167
+ 433 00fe 93F84120 		ldrb	r2, [r3, #65]	@ zero_extendqisi2
+ 215:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.ADCSinc3Osr = AppAMPCfg.ADCSinc3Osr;
+ 434              		.loc 1 215 36 view .LVU168
+ 435 0102 0992     		str	r2, [sp, #36]
+ 216:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.BpSinc3 = bFALSE;
+ 436              		.loc 1 216 3 is_stmt 1 view .LVU169
+ 216:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.BpSinc3 = bFALSE;
+ 437              		.loc 1 216 47 is_stmt 0 view .LVU170
+ 438 0104 93F84030 		ldrb	r3, [r3, #64]	@ zero_extendqisi2
+ 216:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.BpSinc3 = bFALSE;
+ 439              		.loc 1 216 36 view .LVU171
+ 440 0108 0893     		str	r3, [sp, #32]
+ 217:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.BpNotch = bFALSE;
+ 441              		.loc 1 217 3 is_stmt 1 view .LVU172
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 19
+
+
+ 217:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.BpNotch = bFALSE;
+ 442              		.loc 1 217 32 is_stmt 0 view .LVU173
+ 443 010a 8DF83140 		strb	r4, [sp, #49]
+ 218:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.Sinc2NotchEnable = bTRUE;
+ 444              		.loc 1 218 3 is_stmt 1 view .LVU174
+ 218:Core/Src/Amperometric.c ****   dsp_cfg.ADCFilterCfg.Sinc2NotchEnable = bTRUE;
+ 445              		.loc 1 218 32 is_stmt 0 view .LVU175
+ 446 010e 8DF83040 		strb	r4, [sp, #48]
+ 219:Core/Src/Amperometric.c ****   
+ 447              		.loc 1 219 3 is_stmt 1 view .LVU176
+ 219:Core/Src/Amperometric.c ****   
+ 448              		.loc 1 219 41 is_stmt 0 view .LVU177
+ 449 0112 8DF83250 		strb	r5, [sp, #50]
+ 221:Core/Src/Amperometric.c ****   AD5940_DSPCfgS(&dsp_cfg);
+ 450              		.loc 1 221 3 is_stmt 1 view .LVU178
+ 451 0116 1294     		str	r4, [sp, #72]
+ 452 0118 1394     		str	r4, [sp, #76]
+ 453 011a 1494     		str	r4, [sp, #80]
+ 222:Core/Src/Amperometric.c ****   
+ 454              		.loc 1 222 3 view .LVU179
+ 455 011c 05A8     		add	r0, sp, #20
+ 456 011e FFF7FEFF 		bl	AD5940_DSPCfgS
+ 457              	.LVL11:
+ 225:Core/Src/Amperometric.c ****   sw_cfg.Pswitch = 0;
+ 458              		.loc 1 225 2 view .LVU180
+ 225:Core/Src/Amperometric.c ****   sw_cfg.Pswitch = 0;
+ 459              		.loc 1 225 17 is_stmt 0 view .LVU181
+ 460 0122 0194     		str	r4, [sp, #4]
+ 226:Core/Src/Amperometric.c ****   sw_cfg.Nswitch = 0;
+ 461              		.loc 1 226 3 is_stmt 1 view .LVU182
+ 226:Core/Src/Amperometric.c ****   sw_cfg.Nswitch = 0;
+ 462              		.loc 1 226 18 is_stmt 0 view .LVU183
+ 463 0124 0294     		str	r4, [sp, #8]
+ 227:Core/Src/Amperometric.c ****   sw_cfg.Tswitch = 0;  
+ 464              		.loc 1 227 3 is_stmt 1 view .LVU184
+ 227:Core/Src/Amperometric.c ****   sw_cfg.Tswitch = 0;  
+ 465              		.loc 1 227 18 is_stmt 0 view .LVU185
+ 466 0126 0394     		str	r4, [sp, #12]
+ 228:Core/Src/Amperometric.c **** 	
+ 467              		.loc 1 228 3 is_stmt 1 view .LVU186
+ 228:Core/Src/Amperometric.c **** 	
+ 468              		.loc 1 228 18 is_stmt 0 view .LVU187
+ 469 0128 0494     		str	r4, [sp, #16]
+ 230:Core/Src/Amperometric.c ****     
+ 470              		.loc 1 230 3 is_stmt 1 view .LVU188
+ 471 012a 01A8     		add	r0, sp, #4
+ 472 012c FFF7FEFF 		bl	AD5940_SWMatrixCfgS
+ 473              	.LVL12:
+ 233:Core/Src/Amperometric.c ****   AD5940_AFECtrlS(AFECTRL_SINC2NOTCH, bFALSE);
+ 474              		.loc 1 233 3 view .LVU189
+ 475 0130 2946     		mov	r1, r5
+ 476 0132 1B48     		ldr	r0, .L21+16
+ 477 0134 FFF7FEFF 		bl	AD5940_AFECtrlS
+ 478              	.LVL13:
+ 234:Core/Src/Amperometric.c ****   AD5940_SEQGpioCtrlS(0/*AGPIO_Pin6|AGPIO_Pin5|AGPIO_Pin1*/);        //GP6->endSeq, GP5 -> AD8233=O
+ 479              		.loc 1 234 3 view .LVU190
+ 480 0138 2146     		mov	r1, r4
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 20
+
+
+ 481 013a 4FF48030 		mov	r0, #65536
+ 482 013e FFF7FEFF 		bl	AD5940_AFECtrlS
+ 483              	.LVL14:
+ 235:Core/Src/Amperometric.c ****   
+ 484              		.loc 1 235 3 view .LVU191
+ 485 0142 2046     		mov	r0, r4
+ 486 0144 FFF7FEFF 		bl	AD5940_SEQGpioCtrlS
+ 487              	.LVL15:
+ 238:Core/Src/Amperometric.c **** 
+ 488              		.loc 1 238 3 view .LVU192
+ 489 0148 4FF00140 		mov	r0, #-2130706432
+ 490 014c FFF7FEFF 		bl	AD5940_SEQGenInsert
+ 491              	.LVL16:
+ 241:Core/Src/Amperometric.c ****   AD5940_SEQGenCtrl(bFALSE); /* Stop sequencer generator */
+ 492              		.loc 1 241 3 view .LVU193
+ 241:Core/Src/Amperometric.c ****   AD5940_SEQGenCtrl(bFALSE); /* Stop sequencer generator */
+ 493              		.loc 1 241 11 is_stmt 0 view .LVU194
+ 494 0150 28A9     		add	r1, sp, #160
+ 495 0152 29A8     		add	r0, sp, #164
+ 496 0154 FFF7FEFF 		bl	AD5940_SEQGenFetchSeq
+ 497              	.LVL17:
+ 498 0158 0546     		mov	r5, r0
+ 499              	.LVL18:
+ 242:Core/Src/Amperometric.c ****   if(error == AD5940ERR_OK)
+ 500              		.loc 1 242 3 is_stmt 1 view .LVU195
+ 501 015a 2046     		mov	r0, r4
+ 502              	.LVL19:
+ 242:Core/Src/Amperometric.c ****   if(error == AD5940ERR_OK)
+ 503              		.loc 1 242 3 is_stmt 0 view .LVU196
+ 504 015c FFF7FEFF 		bl	AD5940_SEQGenCtrl
+ 505              	.LVL20:
+ 243:Core/Src/Amperometric.c ****   {
+ 506              		.loc 1 243 3 is_stmt 1 view .LVU197
+ 243:Core/Src/Amperometric.c ****   {
+ 507              		.loc 1 243 5 is_stmt 0 view .LVU198
+ 508 0160 45B1     		cbz	r5, .L20
+ 509              	.L13:
+ 255:Core/Src/Amperometric.c **** 
+ 510              		.loc 1 255 1 view .LVU199
+ 511 0162 2846     		mov	r0, r5
+ 512 0164 2BB0     		add	sp, sp, #172
+ 513              	.LCFI6:
+ 514              		.cfi_remember_state
+ 515              		.cfi_def_cfa_offset 12
+ 516              		@ sp needed
+ 517 0166 30BD     		pop	{r4, r5, pc}
+ 518              	.LVL21:
+ 519              	.L19:
+ 520              	.LCFI7:
+ 521              		.cfi_restore_state
+ 191:Core/Src/Amperometric.c ****     lp_loop.LpAmpCfg.LpTiaSW = LPTIASW(9)|LPTIASW(2)|LPTIASW(4)|LPTIASW(5)|LPTIASW(12)|LPTIASW(13);
+ 522              		.loc 1 191 5 is_stmt 1 view .LVU200
+ 191:Core/Src/Amperometric.c ****     lp_loop.LpAmpCfg.LpTiaSW = LPTIASW(9)|LPTIASW(2)|LPTIASW(4)|LPTIASW(5)|LPTIASW(12)|LPTIASW(13);
+ 523              		.loc 1 191 32 is_stmt 0 view .LVU201
+ 524 0168 0023     		movs	r3, #0
+ 525 016a 2093     		str	r3, [sp, #128]
+ 192:Core/Src/Amperometric.c ****   }else
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 21
+
+
+ 526              		.loc 1 192 5 is_stmt 1 view .LVU202
+ 192:Core/Src/Amperometric.c ****   }else
+ 527              		.loc 1 192 30 is_stmt 0 view .LVU203
+ 528 016c 43F23423 		movw	r3, #12852
+ 529 0170 2293     		str	r3, [sp, #136]
+ 530 0172 B0E7     		b	.L16
+ 531              	.LVL22:
+ 532              	.L20:
+ 245:Core/Src/Amperometric.c ****     AppAMPCfg.InitSeqInfo.SeqRamAddr = AppAMPCfg.SeqStartAddr;
+ 533              		.loc 1 245 5 is_stmt 1 view .LVU204
+ 245:Core/Src/Amperometric.c ****     AppAMPCfg.InitSeqInfo.SeqRamAddr = AppAMPCfg.SeqStartAddr;
+ 534              		.loc 1 245 33 is_stmt 0 view .LVU205
+ 535 0174 064B     		ldr	r3, .L21
+ 536 0176 0122     		movs	r2, #1
+ 537 0178 1A67     		str	r2, [r3, #112]
+ 246:Core/Src/Amperometric.c ****     AppAMPCfg.InitSeqInfo.pSeqCmd = pSeqCmd;
+ 538              		.loc 1 246 5 is_stmt 1 view .LVU206
+ 246:Core/Src/Amperometric.c ****     AppAMPCfg.InitSeqInfo.pSeqCmd = pSeqCmd;
+ 539              		.loc 1 246 49 is_stmt 0 view .LVU207
+ 540 017a 5868     		ldr	r0, [r3, #4]
+ 246:Core/Src/Amperometric.c ****     AppAMPCfg.InitSeqInfo.pSeqCmd = pSeqCmd;
+ 541              		.loc 1 246 38 view .LVU208
+ 542 017c 5867     		str	r0, [r3, #116]
+ 247:Core/Src/Amperometric.c ****     AppAMPCfg.InitSeqInfo.SeqLen = SeqLen;
+ 543              		.loc 1 247 5 is_stmt 1 view .LVU209
+ 247:Core/Src/Amperometric.c ****     AppAMPCfg.InitSeqInfo.SeqLen = SeqLen;
+ 544              		.loc 1 247 35 is_stmt 0 view .LVU210
+ 545 017e 2999     		ldr	r1, [sp, #164]
+ 546 0180 C3F88010 		str	r1, [r3, #128]
+ 248:Core/Src/Amperometric.c ****     /* Write command to SRAM */
+ 547              		.loc 1 248 5 is_stmt 1 view .LVU211
+ 248:Core/Src/Amperometric.c ****     /* Write command to SRAM */
+ 548              		.loc 1 248 34 is_stmt 0 view .LVU212
+ 549 0184 289A     		ldr	r2, [sp, #160]
+ 550 0186 9A67     		str	r2, [r3, #120]
+ 250:Core/Src/Amperometric.c ****   }
+ 551              		.loc 1 250 5 is_stmt 1 view .LVU213
+ 552 0188 FFF7FEFF 		bl	AD5940_SEQCmdWrite
+ 553              	.LVL23:
+ 254:Core/Src/Amperometric.c **** }
+ 554              		.loc 1 254 3 view .LVU214
+ 254:Core/Src/Amperometric.c **** }
+ 555              		.loc 1 254 10 is_stmt 0 view .LVU215
+ 556 018c E9E7     		b	.L13
+ 557              	.L22:
+ 558 018e 00BF     		.align	2
+ 559              	.L21:
+ 560 0190 00000000 		.word	.LANCHOR0
+ 561 0194 00004843 		.word	1128792064
+ 562 0198 99880942 		.word	1107921049
+ 563 019c 9988093F 		.word	1057589401
+ 564 01a0 20000100 		.word	65568
+ 565              		.cfi_endproc
+ 566              	.LFE5:
+ 568              		.section	.text.AppAMPSeqMeasureGen,"ax",%progbits
+ 569              		.align	1
+ 570              		.syntax unified
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 22
+
+
+ 571              		.thumb
+ 572              		.thumb_func
+ 573              		.fpu fpv5-d16
+ 575              	AppAMPSeqMeasureGen:
+ 576              	.LFB6:
+ 259:Core/Src/Amperometric.c ****   AD5940Err error = AD5940ERR_OK;
+ 577              		.loc 1 259 1 is_stmt 1 view -0
+ 578              		.cfi_startproc
+ 579              		@ args = 0, pretend = 0, frame = 48
+ 580              		@ frame_needed = 0, uses_anonymous_args = 0
+ 581 0000 30B5     		push	{r4, r5, lr}
+ 582              	.LCFI8:
+ 583              		.cfi_def_cfa_offset 12
+ 584              		.cfi_offset 4, -12
+ 585              		.cfi_offset 5, -8
+ 586              		.cfi_offset 14, -4
+ 587 0002 8DB0     		sub	sp, sp, #52
+ 588              	.LCFI9:
+ 589              		.cfi_def_cfa_offset 64
+ 260:Core/Src/Amperometric.c ****   uint32_t const *pSeqCmd;
+ 590              		.loc 1 260 3 view .LVU217
+ 591              	.LVL24:
+ 261:Core/Src/Amperometric.c ****   uint32_t SeqLen;
+ 592              		.loc 1 261 3 view .LVU218
+ 262:Core/Src/Amperometric.c **** 
+ 593              		.loc 1 262 3 view .LVU219
+ 264:Core/Src/Amperometric.c ****   ClksCalInfo_Type clks_cal;
+ 594              		.loc 1 264 3 view .LVU220
+ 265:Core/Src/Amperometric.c ****   
+ 595              		.loc 1 265 3 view .LVU221
+ 267:Core/Src/Amperometric.c ****   clks_cal.DataCount = 1;
+ 596              		.loc 1 267 3 view .LVU222
+ 267:Core/Src/Amperometric.c ****   clks_cal.DataCount = 1;
+ 597              		.loc 1 267 21 is_stmt 0 view .LVU223
+ 598 0004 0223     		movs	r3, #2
+ 599 0006 0193     		str	r3, [sp, #4]
+ 268:Core/Src/Amperometric.c ****   clks_cal.ADCSinc2Osr = AppAMPCfg.ADCSinc2Osr;
+ 600              		.loc 1 268 3 is_stmt 1 view .LVU224
+ 268:Core/Src/Amperometric.c ****   clks_cal.ADCSinc2Osr = AppAMPCfg.ADCSinc2Osr;
+ 601              		.loc 1 268 22 is_stmt 0 view .LVU225
+ 602 0008 0124     		movs	r4, #1
+ 603 000a 0294     		str	r4, [sp, #8]
+ 269:Core/Src/Amperometric.c ****   clks_cal.ADCSinc3Osr = AppAMPCfg.ADCSinc3Osr;
+ 604              		.loc 1 269 3 is_stmt 1 view .LVU226
+ 269:Core/Src/Amperometric.c ****   clks_cal.ADCSinc3Osr = AppAMPCfg.ADCSinc3Osr;
+ 605              		.loc 1 269 35 is_stmt 0 view .LVU227
+ 606 000c 2A4B     		ldr	r3, .L27
+ 607 000e 93F84120 		ldrb	r2, [r3, #65]	@ zero_extendqisi2
+ 269:Core/Src/Amperometric.c ****   clks_cal.ADCSinc3Osr = AppAMPCfg.ADCSinc3Osr;
+ 608              		.loc 1 269 24 view .LVU228
+ 609 0012 0492     		str	r2, [sp, #16]
+ 270:Core/Src/Amperometric.c ****   clks_cal.ADCAvgNum = 0;
+ 610              		.loc 1 270 3 is_stmt 1 view .LVU229
+ 270:Core/Src/Amperometric.c ****   clks_cal.ADCAvgNum = 0;
+ 611              		.loc 1 270 35 is_stmt 0 view .LVU230
+ 612 0014 93F84020 		ldrb	r2, [r3, #64]	@ zero_extendqisi2
+ 270:Core/Src/Amperometric.c ****   clks_cal.ADCAvgNum = 0;
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 23
+
+
+ 613              		.loc 1 270 24 view .LVU231
+ 614 0018 0392     		str	r2, [sp, #12]
+ 271:Core/Src/Amperometric.c ****   clks_cal.RatioSys2AdcClk = AppAMPCfg.SysClkFreq/AppAMPCfg.AdcClkFreq;
+ 615              		.loc 1 271 3 is_stmt 1 view .LVU232
+ 271:Core/Src/Amperometric.c ****   clks_cal.RatioSys2AdcClk = AppAMPCfg.SysClkFreq/AppAMPCfg.AdcClkFreq;
+ 616              		.loc 1 271 22 is_stmt 0 view .LVU233
+ 617 001a 0025     		movs	r5, #0
+ 618 001c 0595     		str	r5, [sp, #20]
+ 272:Core/Src/Amperometric.c ****   AD5940_ClksCalculate(&clks_cal, &WaitClks);
+ 619              		.loc 1 272 3 is_stmt 1 view .LVU234
+ 272:Core/Src/Amperometric.c ****   AD5940_ClksCalculate(&clks_cal, &WaitClks);
+ 620              		.loc 1 272 39 is_stmt 0 view .LVU235
+ 621 001e D3ED066A 		vldr.32	s13, [r3, #24]
+ 272:Core/Src/Amperometric.c ****   AD5940_ClksCalculate(&clks_cal, &WaitClks);
+ 622              		.loc 1 272 60 view .LVU236
+ 623 0022 93ED087A 		vldr.32	s14, [r3, #32]
+ 272:Core/Src/Amperometric.c ****   AD5940_ClksCalculate(&clks_cal, &WaitClks);
+ 624              		.loc 1 272 50 view .LVU237
+ 625 0026 C6EE877A 		vdiv.f32	s15, s13, s14
+ 272:Core/Src/Amperometric.c ****   AD5940_ClksCalculate(&clks_cal, &WaitClks);
+ 626              		.loc 1 272 28 view .LVU238
+ 627 002a CDED087A 		vstr.32	s15, [sp, #32]
+ 273:Core/Src/Amperometric.c **** 	
+ 628              		.loc 1 273 3 is_stmt 1 view .LVU239
+ 629 002e 09A9     		add	r1, sp, #36
+ 630 0030 01A8     		add	r0, sp, #4
+ 631 0032 FFF7FEFF 		bl	AD5940_ClksCalculate
+ 632              	.LVL25:
+ 276:Core/Src/Amperometric.c ****   AD5940_SEQGenCtrl(bTRUE);
+ 633              		.loc 1 276 2 view .LVU240
+ 276:Core/Src/Amperometric.c ****   AD5940_SEQGenCtrl(bTRUE);
+ 634              		.loc 1 276 11 is_stmt 0 view .LVU241
+ 635 0036 099B     		ldr	r3, [sp, #36]
+ 636 0038 0F33     		adds	r3, r3, #15
+ 637 003a 0993     		str	r3, [sp, #36]
+ 277:Core/Src/Amperometric.c ****   AD5940_SEQGpioCtrlS(AGPIO_Pin2);
+ 638              		.loc 1 277 3 is_stmt 1 view .LVU242
+ 639 003c 2046     		mov	r0, r4
+ 640 003e FFF7FEFF 		bl	AD5940_SEQGenCtrl
+ 641              	.LVL26:
+ 278:Core/Src/Amperometric.c ****   AD5940_AFECtrlS(AFECTRL_ADCPWR|AFECTRL_SINC2NOTCH, bTRUE);
+ 642              		.loc 1 278 3 view .LVU243
+ 643 0042 0420     		movs	r0, #4
+ 644 0044 FFF7FEFF 		bl	AD5940_SEQGpioCtrlS
+ 645              	.LVL27:
+ 279:Core/Src/Amperometric.c **** 	
+ 646              		.loc 1 279 3 view .LVU244
+ 647 0048 2146     		mov	r1, r4
+ 648 004a 1C48     		ldr	r0, .L27+4
+ 649 004c FFF7FEFF 		bl	AD5940_AFECtrlS
+ 650              	.LVL28:
+ 281:Core/Src/Amperometric.c **** 	
+ 651              		.loc 1 281 3 view .LVU245
+ 652 0050 4FF47A60 		mov	r0, #4000
+ 653 0054 FFF7FEFF 		bl	AD5940_SEQGenInsert
+ 654              	.LVL29:
+ 283:Core/Src/Amperometric.c ****   AD5940_SEQGenInsert(SEQ_WAIT(WaitClks));  /* wait for first data ready */
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 24
+
+
+ 655              		.loc 1 283 3 view .LVU246
+ 656 0058 2146     		mov	r1, r4
+ 657 005a 4FF48070 		mov	r0, #256
+ 658 005e FFF7FEFF 		bl	AD5940_AFECtrlS
+ 659              	.LVL30:
+ 284:Core/Src/Amperometric.c **** 	
+ 660              		.loc 1 284 3 view .LVU247
+ 661 0062 0998     		ldr	r0, [sp, #36]
+ 662 0064 20F04040 		bic	r0, r0, #-1073741824
+ 663 0068 FFF7FEFF 		bl	AD5940_SEQGenInsert
+ 664              	.LVL31:
+ 286:Core/Src/Amperometric.c ****   AD5940_SEQGpioCtrlS(0);
+ 665              		.loc 1 286 3 view .LVU248
+ 666 006c 2946     		mov	r1, r5
+ 667 006e 1448     		ldr	r0, .L27+8
+ 668 0070 FFF7FEFF 		bl	AD5940_AFECtrlS
+ 669              	.LVL32:
+ 287:Core/Src/Amperometric.c ****   AD5940_EnterSleepS();/* Goto hibernate */
+ 670              		.loc 1 287 3 view .LVU249
+ 671 0074 2846     		mov	r0, r5
+ 672 0076 FFF7FEFF 		bl	AD5940_SEQGpioCtrlS
+ 673              	.LVL33:
+ 288:Core/Src/Amperometric.c ****   /* Sequence end. */
+ 674              		.loc 1 288 3 view .LVU250
+ 675 007a FFF7FEFF 		bl	AD5940_EnterSleepS
+ 676              	.LVL34:
+ 290:Core/Src/Amperometric.c ****   AD5940_SEQGenCtrl(bFALSE); /* Stop sequencer generator */
+ 677              		.loc 1 290 3 view .LVU251
+ 290:Core/Src/Amperometric.c ****   AD5940_SEQGenCtrl(bFALSE); /* Stop sequencer generator */
+ 678              		.loc 1 290 11 is_stmt 0 view .LVU252
+ 679 007e 0AA9     		add	r1, sp, #40
+ 680 0080 0BA8     		add	r0, sp, #44
+ 681 0082 FFF7FEFF 		bl	AD5940_SEQGenFetchSeq
+ 682              	.LVL35:
+ 683 0086 0446     		mov	r4, r0
+ 684              	.LVL36:
+ 291:Core/Src/Amperometric.c **** 
+ 685              		.loc 1 291 3 is_stmt 1 view .LVU253
+ 686 0088 2846     		mov	r0, r5
+ 687              	.LVL37:
+ 291:Core/Src/Amperometric.c **** 
+ 688              		.loc 1 291 3 is_stmt 0 view .LVU254
+ 689 008a FFF7FEFF 		bl	AD5940_SEQGenCtrl
+ 690              	.LVL38:
+ 293:Core/Src/Amperometric.c ****   {
+ 691              		.loc 1 293 3 is_stmt 1 view .LVU255
+ 293:Core/Src/Amperometric.c ****   {
+ 692              		.loc 1 293 5 is_stmt 0 view .LVU256
+ 693 008e 14B1     		cbz	r4, .L26
+ 694              	.L23:
+ 305:Core/Src/Amperometric.c **** 
+ 695              		.loc 1 305 1 view .LVU257
+ 696 0090 2046     		mov	r0, r4
+ 697 0092 0DB0     		add	sp, sp, #52
+ 698              	.LCFI10:
+ 699              		.cfi_remember_state
+ 700              		.cfi_def_cfa_offset 12
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 25
+
+
+ 701              		@ sp needed
+ 702 0094 30BD     		pop	{r4, r5, pc}
+ 703              	.LVL39:
+ 704              	.L26:
+ 705              	.LCFI11:
+ 706              		.cfi_restore_state
+ 295:Core/Src/Amperometric.c ****     AppAMPCfg.MeasureSeqInfo.SeqRamAddr = AppAMPCfg.InitSeqInfo.SeqRamAddr + AppAMPCfg.InitSeqInfo.
+ 707              		.loc 1 295 5 is_stmt 1 view .LVU258
+ 295:Core/Src/Amperometric.c ****     AppAMPCfg.MeasureSeqInfo.SeqRamAddr = AppAMPCfg.InitSeqInfo.SeqRamAddr + AppAMPCfg.InitSeqInfo.
+ 708              		.loc 1 295 36 is_stmt 0 view .LVU259
+ 709 0096 084B     		ldr	r3, .L27
+ 710 0098 C3F88450 		str	r5, [r3, #132]
+ 296:Core/Src/Amperometric.c ****     AppAMPCfg.MeasureSeqInfo.pSeqCmd = pSeqCmd;
+ 711              		.loc 1 296 5 is_stmt 1 view .LVU260
+ 296:Core/Src/Amperometric.c ****     AppAMPCfg.MeasureSeqInfo.pSeqCmd = pSeqCmd;
+ 712              		.loc 1 296 64 is_stmt 0 view .LVU261
+ 713 009c 586F     		ldr	r0, [r3, #116]
+ 296:Core/Src/Amperometric.c ****     AppAMPCfg.MeasureSeqInfo.pSeqCmd = pSeqCmd;
+ 714              		.loc 1 296 99 view .LVU262
+ 715 009e 9A6F     		ldr	r2, [r3, #120]
+ 296:Core/Src/Amperometric.c ****     AppAMPCfg.MeasureSeqInfo.pSeqCmd = pSeqCmd;
+ 716              		.loc 1 296 76 view .LVU263
+ 717 00a0 1044     		add	r0, r0, r2
+ 296:Core/Src/Amperometric.c ****     AppAMPCfg.MeasureSeqInfo.pSeqCmd = pSeqCmd;
+ 718              		.loc 1 296 41 view .LVU264
+ 719 00a2 C3F88800 		str	r0, [r3, #136]
+ 297:Core/Src/Amperometric.c ****     AppAMPCfg.MeasureSeqInfo.SeqLen = SeqLen;
+ 720              		.loc 1 297 5 is_stmt 1 view .LVU265
+ 297:Core/Src/Amperometric.c ****     AppAMPCfg.MeasureSeqInfo.SeqLen = SeqLen;
+ 721              		.loc 1 297 38 is_stmt 0 view .LVU266
+ 722 00a6 0B99     		ldr	r1, [sp, #44]
+ 723 00a8 C3F89410 		str	r1, [r3, #148]
+ 298:Core/Src/Amperometric.c ****     /* Write command to SRAM */
+ 724              		.loc 1 298 5 is_stmt 1 view .LVU267
+ 298:Core/Src/Amperometric.c ****     /* Write command to SRAM */
+ 725              		.loc 1 298 37 is_stmt 0 view .LVU268
+ 726 00ac 0A9A     		ldr	r2, [sp, #40]
+ 727 00ae C3F88C20 		str	r2, [r3, #140]
+ 300:Core/Src/Amperometric.c ****   }
+ 728              		.loc 1 300 5 is_stmt 1 view .LVU269
+ 729 00b2 FFF7FEFF 		bl	AD5940_SEQCmdWrite
+ 730              	.LVL40:
+ 304:Core/Src/Amperometric.c **** }
+ 731              		.loc 1 304 3 view .LVU270
+ 304:Core/Src/Amperometric.c **** }
+ 732              		.loc 1 304 10 is_stmt 0 view .LVU271
+ 733 00b6 EBE7     		b	.L23
+ 734              	.L28:
+ 735              		.align	2
+ 736              	.L27:
+ 737 00b8 00000000 		.word	.LANCHOR0
+ 738 00bc 80000100 		.word	65664
+ 739 00c0 80010100 		.word	65920
+ 740              		.cfi_endproc
+ 741              	.LFE6:
+ 743              		.section	.text.AppAMPGetCfg,"ax",%progbits
+ 744              		.align	1
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 26
+
+
+ 745              		.global	AppAMPGetCfg
+ 746              		.syntax unified
+ 747              		.thumb
+ 748              		.thumb_func
+ 749              		.fpu fpv5-d16
+ 751              	AppAMPGetCfg:
+ 752              	.LVL41:
+ 753              	.LFB3:
+  70:Core/Src/Amperometric.c ****   if(pCfg){
+ 754              		.loc 1 70 1 is_stmt 1 view -0
+ 755              		.cfi_startproc
+ 756              		@ args = 0, pretend = 0, frame = 0
+ 757              		@ frame_needed = 0, uses_anonymous_args = 0
+ 758              		@ link register save eliminated.
+  71:Core/Src/Amperometric.c ****     *(AppAMPCfg_Type**)pCfg = &AppAMPCfg;
+ 759              		.loc 1 71 3 view .LVU273
+  71:Core/Src/Amperometric.c ****     *(AppAMPCfg_Type**)pCfg = &AppAMPCfg;
+ 760              		.loc 1 71 5 is_stmt 0 view .LVU274
+ 761 0000 18B1     		cbz	r0, .L31
+  72:Core/Src/Amperometric.c ****     return AD5940ERR_OK;
+ 762              		.loc 1 72 5 is_stmt 1 view .LVU275
+  72:Core/Src/Amperometric.c ****     return AD5940ERR_OK;
+ 763              		.loc 1 72 29 is_stmt 0 view .LVU276
+ 764 0002 034A     		ldr	r2, .L32
+ 765 0004 0260     		str	r2, [r0]
+  73:Core/Src/Amperometric.c ****   }
+ 766              		.loc 1 73 5 is_stmt 1 view .LVU277
+  73:Core/Src/Amperometric.c ****   }
+ 767              		.loc 1 73 12 is_stmt 0 view .LVU278
+ 768 0006 0020     		movs	r0, #0
+ 769              	.LVL42:
+  73:Core/Src/Amperometric.c ****   }
+ 770              		.loc 1 73 12 view .LVU279
+ 771 0008 7047     		bx	lr
+ 772              	.LVL43:
+ 773              	.L31:
+  75:Core/Src/Amperometric.c **** }
+ 774              		.loc 1 75 10 view .LVU280
+ 775 000a 6FF00100 		mvn	r0, #1
+ 776              	.LVL44:
+  76:Core/Src/Amperometric.c **** 
+ 777              		.loc 1 76 1 view .LVU281
+ 778 000e 7047     		bx	lr
+ 779              	.L33:
+ 780              		.align	2
+ 781              	.L32:
+ 782 0010 00000000 		.word	.LANCHOR0
+ 783              		.cfi_endproc
+ 784              	.LFE3:
+ 786              		.section	.text.AppAMPCtrl,"ax",%progbits
+ 787              		.align	1
+ 788              		.global	AppAMPCtrl
+ 789              		.syntax unified
+ 790              		.thumb
+ 791              		.thumb_func
+ 792              		.fpu fpv5-d16
+ 794              	AppAMPCtrl:
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 27
+
+
+ 795              	.LVL45:
+ 796              	.LFB4:
+  80:Core/Src/Amperometric.c ****   switch (AmpCtrl)
+ 797              		.loc 1 80 1 is_stmt 1 view -0
+ 798              		.cfi_startproc
+ 799              		@ args = 0, pretend = 0, frame = 88
+ 800              		@ frame_needed = 0, uses_anonymous_args = 0
+  80:Core/Src/Amperometric.c ****   switch (AmpCtrl)
+ 801              		.loc 1 80 1 is_stmt 0 view .LVU283
+ 802 0000 70B5     		push	{r4, r5, r6, lr}
+ 803              	.LCFI12:
+ 804              		.cfi_def_cfa_offset 16
+ 805              		.cfi_offset 4, -16
+ 806              		.cfi_offset 5, -12
+ 807              		.cfi_offset 6, -8
+ 808              		.cfi_offset 14, -4
+ 809 0002 96B0     		sub	sp, sp, #88
+ 810              	.LCFI13:
+ 811              		.cfi_def_cfa_offset 104
+  81:Core/Src/Amperometric.c ****   {
+ 812              		.loc 1 81 3 is_stmt 1 view .LVU284
+ 813 0004 0428     		cmp	r0, #4
+ 814 0006 58D8     		bhi	.L42
+ 815 0008 DFE800F0 		tbb	[pc, r0]
+ 816              	.L37:
+ 817 000c 03       		.byte	(.L40-.L37)/2
+ 818 000d 2B       		.byte	(.L39-.L37)/2
+ 819 000e 38       		.byte	(.L38-.L37)/2
+ 820 000f 57       		.byte	(.L42-.L37)/2
+ 821 0010 3E       		.byte	(.L36-.L37)/2
+ 822 0011 00       		.p2align 1
+ 823              	.L40:
+ 824 0012 0446     		mov	r4, r0
+ 825              	.LBB2:
+  85:Core/Src/Amperometric.c ****       AD5940_ReadReg(REG_AFE_ADCDAT); /* Any SPI Operation can wakeup AFE */
+ 826              		.loc 1 85 7 view .LVU285
+  86:Core/Src/Amperometric.c ****       if(AppAMPCfg.AMPInited == bFALSE)
+ 827              		.loc 1 86 7 view .LVU286
+ 828 0014 42F27400 		movw	r0, #8308
+ 829              	.LVL46:
+  86:Core/Src/Amperometric.c ****       if(AppAMPCfg.AMPInited == bFALSE)
+ 830              		.loc 1 86 7 is_stmt 0 view .LVU287
+ 831 0018 FFF7FEFF 		bl	AD5940_ReadReg
+ 832              	.LVL47:
+  87:Core/Src/Amperometric.c ****         return AD5940ERR_APPERROR;
+ 833              		.loc 1 87 7 is_stmt 1 view .LVU288
+  87:Core/Src/Amperometric.c ****         return AD5940ERR_APPERROR;
+ 834              		.loc 1 87 19 is_stmt 0 view .LVU289
+ 835 001c 284B     		ldr	r3, .L45
+ 836 001e 93F86C30 		ldrb	r3, [r3, #108]	@ zero_extendqisi2
+  87:Core/Src/Amperometric.c ****         return AD5940ERR_APPERROR;
+ 837              		.loc 1 87 9 view .LVU290
+ 838 0022 DBB1     		cbz	r3, .L44
+  90:Core/Src/Amperometric.c ****       wupt_cfg.WuptEndSeq = WUPTENDSEQ_A;
+ 839              		.loc 1 90 7 is_stmt 1 view .LVU291
+  90:Core/Src/Amperometric.c ****       wupt_cfg.WuptEndSeq = WUPTENDSEQ_A;
+ 840              		.loc 1 90 23 is_stmt 0 view .LVU292
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 28
+
+
+ 841 0024 0123     		movs	r3, #1
+ 842 0026 8DF85430 		strb	r3, [sp, #84]
+  91:Core/Src/Amperometric.c ****       wupt_cfg.WuptOrder[0] = SEQID_0;
+ 843              		.loc 1 91 7 is_stmt 1 view .LVU293
+  91:Core/Src/Amperometric.c ****       wupt_cfg.WuptOrder[0] = SEQID_0;
+ 844              		.loc 1 91 27 is_stmt 0 view .LVU294
+ 845 002a 0026     		movs	r6, #0
+ 846 002c 0496     		str	r6, [sp, #16]
+  92:Core/Src/Amperometric.c ****       wupt_cfg.SeqxSleepTime[SEQID_0] = 4;
+ 847              		.loc 1 92 7 is_stmt 1 view .LVU295
+  92:Core/Src/Amperometric.c ****       wupt_cfg.SeqxSleepTime[SEQID_0] = 4;
+ 848              		.loc 1 92 29 is_stmt 0 view .LVU296
+ 849 002e 0596     		str	r6, [sp, #20]
+  93:Core/Src/Amperometric.c ****       wupt_cfg.SeqxWakeupTime[SEQID_0] = (uint32_t)(AppAMPCfg.WuptClkFreq*AppAMPCfg.AmpODR)-4;
+ 850              		.loc 1 93 7 is_stmt 1 view .LVU297
+  93:Core/Src/Amperometric.c ****       wupt_cfg.SeqxWakeupTime[SEQID_0] = (uint32_t)(AppAMPCfg.WuptClkFreq*AppAMPCfg.AmpODR)-4;
+ 851              		.loc 1 93 39 is_stmt 0 view .LVU298
+ 852 0030 0423     		movs	r3, #4
+ 853 0032 0D93     		str	r3, [sp, #52]
+  94:Core/Src/Amperometric.c ****       AD5940_WUPTCfg(&wupt_cfg);
+ 854              		.loc 1 94 7 is_stmt 1 view .LVU299
+  94:Core/Src/Amperometric.c ****       AD5940_WUPTCfg(&wupt_cfg);
+ 855              		.loc 1 94 62 is_stmt 0 view .LVU300
+ 856 0034 224D     		ldr	r5, .L45
+ 857 0036 D5ED077A 		vldr.32	s15, [r5, #28]
+  94:Core/Src/Amperometric.c ****       AD5940_WUPTCfg(&wupt_cfg);
+ 858              		.loc 1 94 84 view .LVU301
+ 859 003a 95ED0A7A 		vldr.32	s14, [r5, #40]
+  94:Core/Src/Amperometric.c ****       AD5940_WUPTCfg(&wupt_cfg);
+ 860              		.loc 1 94 74 view .LVU302
+ 861 003e 67EE877A 		vmul.f32	s15, s15, s14
+  94:Core/Src/Amperometric.c ****       AD5940_WUPTCfg(&wupt_cfg);
+ 862              		.loc 1 94 42 view .LVU303
+ 863 0042 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 864 0046 17EE903A 		vmov	r3, s15	@ int
+  94:Core/Src/Amperometric.c ****       AD5940_WUPTCfg(&wupt_cfg);
+ 865              		.loc 1 94 92 view .LVU304
+ 866 004a 043B     		subs	r3, r3, #4
+  94:Core/Src/Amperometric.c ****       AD5940_WUPTCfg(&wupt_cfg);
+ 867              		.loc 1 94 40 view .LVU305
+ 868 004c 1193     		str	r3, [sp, #68]
+  95:Core/Src/Amperometric.c ****       
+ 869              		.loc 1 95 7 is_stmt 1 view .LVU306
+ 870 004e 04A8     		add	r0, sp, #16
+ 871 0050 FFF7FEFF 		bl	AD5940_WUPTCfg
+ 872              	.LVL48:
+  97:Core/Src/Amperometric.c ****       break;
+ 873              		.loc 1 97 7 view .LVU307
+  97:Core/Src/Amperometric.c ****       break;
+ 874              		.loc 1 97 31 is_stmt 0 view .LVU308
+ 875 0054 C5F89C60 		str	r6, [r5, #156]
+  98:Core/Src/Amperometric.c ****     }
+ 876              		.loc 1 98 7 is_stmt 1 view .LVU309
+ 877              	.LBE2:
+ 131:Core/Src/Amperometric.c **** }
+ 878              		.loc 1 131 10 is_stmt 0 view .LVU310
+ 879 0058 2046     		mov	r0, r4
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 29
+
+
+ 880 005a 0DE0     		b	.L34
+ 881              	.L44:
+ 882              	.LBB3:
+  88:Core/Src/Amperometric.c ****       /* Start it */
+ 883              		.loc 1 88 9 is_stmt 1 view .LVU311
+  88:Core/Src/Amperometric.c ****       /* Start it */
+ 884              		.loc 1 88 16 is_stmt 0 view .LVU312
+ 885 005c 6FF06300 		mvn	r0, #99
+ 886 0060 0AE0     		b	.L34
+ 887              	.LVL49:
+ 888              	.L39:
+  88:Core/Src/Amperometric.c ****       /* Start it */
+ 889              		.loc 1 88 16 view .LVU313
+ 890              	.LBE3:
+ 102:Core/Src/Amperometric.c ****       /* Start Wupt right now */
+ 891              		.loc 1 102 7 is_stmt 1 view .LVU314
+ 892 0062 42F27400 		movw	r0, #8308
+ 893              	.LVL50:
+ 102:Core/Src/Amperometric.c ****       /* Start Wupt right now */
+ 894              		.loc 1 102 7 is_stmt 0 view .LVU315
+ 895 0066 FFF7FEFF 		bl	AD5940_ReadReg
+ 896              	.LVL51:
+ 104:Core/Src/Amperometric.c ****       /* There is chance this operation will fail because sequencer could put AFE back 
+ 897              		.loc 1 104 7 is_stmt 1 view .LVU316
+ 898 006a 0020     		movs	r0, #0
+ 899 006c FFF7FEFF 		bl	AD5940_WUPTCtrl
+ 900              	.LVL52:
+ 107:Core/Src/Amperometric.c ****       break;
+ 901              		.loc 1 107 7 view .LVU317
+ 902 0070 0020     		movs	r0, #0
+ 903 0072 FFF7FEFF 		bl	AD5940_WUPTCtrl
+ 904              	.LVL53:
+ 108:Core/Src/Amperometric.c ****     }
+ 905              		.loc 1 108 7 view .LVU318
+ 131:Core/Src/Amperometric.c **** }
+ 906              		.loc 1 131 10 is_stmt 0 view .LVU319
+ 907 0076 0020     		movs	r0, #0
+ 908              	.L34:
+ 132:Core/Src/Amperometric.c **** 
+ 909              		.loc 1 132 1 view .LVU320
+ 910 0078 16B0     		add	sp, sp, #88
+ 911              	.LCFI14:
+ 912              		.cfi_remember_state
+ 913              		.cfi_def_cfa_offset 16
+ 914              		@ sp needed
+ 915 007a 70BD     		pop	{r4, r5, r6, pc}
+ 916              	.LVL54:
+ 917              	.L38:
+ 918              	.LCFI15:
+ 919              		.cfi_restore_state
+ 112:Core/Src/Amperometric.c ****       break;
+ 920              		.loc 1 112 7 is_stmt 1 view .LVU321
+ 112:Core/Src/Amperometric.c ****       break;
+ 921              		.loc 1 112 30 is_stmt 0 view .LVU322
+ 922 007c 104B     		ldr	r3, .L45
+ 923 007e 0122     		movs	r2, #1
+ 924 0080 83F89820 		strb	r2, [r3, #152]
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 30
+
+
+ 113:Core/Src/Amperometric.c ****     }
+ 925              		.loc 1 113 7 is_stmt 1 view .LVU323
+ 131:Core/Src/Amperometric.c **** }
+ 926              		.loc 1 131 10 is_stmt 0 view .LVU324
+ 927 0084 0020     		movs	r0, #0
+ 928              	.LVL55:
+ 113:Core/Src/Amperometric.c ****     }
+ 929              		.loc 1 113 7 view .LVU325
+ 930 0086 F7E7     		b	.L34
+ 931              	.LVL56:
+ 932              	.L36:
+ 933              	.LBB4:
+ 117:Core/Src/Amperometric.c ****       /* Turn off LPloop related blocks which are not controlled automatically by sleep operation *
+ 934              		.loc 1 117 7 is_stmt 1 view .LVU326
+ 935 0088 0021     		movs	r1, #0
+ 936              	.LVL57:
+ 117:Core/Src/Amperometric.c ****       /* Turn off LPloop related blocks which are not controlled automatically by sleep operation *
+ 937              		.loc 1 117 7 is_stmt 0 view .LVU327
+ 938 008a 0120     		movs	r0, #1
+ 939              	.LVL58:
+ 117:Core/Src/Amperometric.c ****       /* Turn off LPloop related blocks which are not controlled automatically by sleep operation *
+ 940              		.loc 1 117 7 view .LVU328
+ 941 008c FFF7FEFF 		bl	AppAMPCtrl
+ 942              	.LVL59:
+ 119:Core/Src/Amperometric.c ****       LPLoopCfg_Type lp_loop;
+ 943              		.loc 1 119 7 is_stmt 1 view .LVU329
+ 120:Core/Src/Amperometric.c ****       memset(&aferef_cfg, 0, sizeof(aferef_cfg));
+ 944              		.loc 1 120 7 view .LVU330
+ 121:Core/Src/Amperometric.c ****       AD5940_REFCfgS(&aferef_cfg);
+ 945              		.loc 1 121 7 view .LVU331
+ 946 0090 0024     		movs	r4, #0
+ 947 0092 0094     		str	r4, [sp]
+ 948 0094 0194     		str	r4, [sp, #4]
+ 949 0096 0294     		str	r4, [sp, #8]
+ 950 0098 8DF80C40 		strb	r4, [sp, #12]
+ 122:Core/Src/Amperometric.c ****       memset(&lp_loop, 0, sizeof(lp_loop));
+ 951              		.loc 1 122 7 view .LVU332
+ 952 009c 6846     		mov	r0, sp
+ 953 009e FFF7FEFF 		bl	AD5940_REFCfgS
+ 954              	.LVL60:
+ 123:Core/Src/Amperometric.c ****       AD5940_LPLoopCfgS(&lp_loop);
+ 955              		.loc 1 123 7 view .LVU333
+ 956 00a2 3C22     		movs	r2, #60
+ 957 00a4 2146     		mov	r1, r4
+ 958 00a6 04A8     		add	r0, sp, #16
+ 959 00a8 FFF7FEFF 		bl	memset
+ 960              	.LVL61:
+ 124:Core/Src/Amperometric.c ****       AD5940_EnterSleepS();  /* Enter Hibernate */
+ 961              		.loc 1 124 7 view .LVU334
+ 962 00ac 04A8     		add	r0, sp, #16
+ 963 00ae FFF7FEFF 		bl	AD5940_LPLoopCfgS
+ 964              	.LVL62:
+ 125:Core/Src/Amperometric.c ****     }
+ 965              		.loc 1 125 7 view .LVU335
+ 966 00b2 FFF7FEFF 		bl	AD5940_EnterSleepS
+ 967              	.LVL63:
+ 968              	.LBE4:
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 31
+
+
+ 127:Core/Src/Amperometric.c ****     default:
+ 969              		.loc 1 127 5 view .LVU336
+ 131:Core/Src/Amperometric.c **** }
+ 970              		.loc 1 131 10 is_stmt 0 view .LVU337
+ 971 00b6 2046     		mov	r0, r4
+ 127:Core/Src/Amperometric.c ****     default:
+ 972              		.loc 1 127 5 view .LVU338
+ 973 00b8 DEE7     		b	.L34
+ 974              	.LVL64:
+ 975              	.L42:
+ 131:Core/Src/Amperometric.c **** }
+ 976              		.loc 1 131 10 view .LVU339
+ 977 00ba 0020     		movs	r0, #0
+ 978              	.LVL65:
+ 131:Core/Src/Amperometric.c **** }
+ 979              		.loc 1 131 10 view .LVU340
+ 980 00bc DCE7     		b	.L34
+ 981              	.L46:
+ 982 00be 00BF     		.align	2
+ 983              	.L45:
+ 984 00c0 00000000 		.word	.LANCHOR0
+ 985              		.cfi_endproc
+ 986              	.LFE4:
+ 988              		.section	.text.AppAMPInit,"ax",%progbits
+ 989              		.align	1
+ 990              		.global	AppAMPInit
+ 991              		.syntax unified
+ 992              		.thumb
+ 993              		.thumb_func
+ 994              		.fpu fpv5-d16
+ 996              	AppAMPInit:
+ 997              	.LVL66:
+ 998              	.LFB8:
+ 334:Core/Src/Amperometric.c ****   AD5940Err error = AD5940ERR_OK;
+ 999              		.loc 1 334 1 is_stmt 1 view -0
+ 1000              		.cfi_startproc
+ 1001              		@ args = 0, pretend = 0, frame = 32
+ 1002              		@ frame_needed = 0, uses_anonymous_args = 0
+ 334:Core/Src/Amperometric.c ****   AD5940Err error = AD5940ERR_OK;
+ 1003              		.loc 1 334 1 is_stmt 0 view .LVU342
+ 1004 0000 70B5     		push	{r4, r5, r6, lr}
+ 1005              	.LCFI16:
+ 1006              		.cfi_def_cfa_offset 16
+ 1007              		.cfi_offset 4, -16
+ 1008              		.cfi_offset 5, -12
+ 1009              		.cfi_offset 6, -8
+ 1010              		.cfi_offset 14, -4
+ 1011 0002 88B0     		sub	sp, sp, #32
+ 1012              	.LCFI17:
+ 1013              		.cfi_def_cfa_offset 48
+ 1014 0004 0446     		mov	r4, r0
+ 1015 0006 0D46     		mov	r5, r1
+ 335:Core/Src/Amperometric.c ****   SEQCfg_Type seq_cfg;
+ 1016              		.loc 1 335 3 is_stmt 1 view .LVU343
+ 1017              	.LVL67:
+ 336:Core/Src/Amperometric.c ****   FIFOCfg_Type fifo_cfg;
+ 1018              		.loc 1 336 3 view .LVU344
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 32
+
+
+ 337:Core/Src/Amperometric.c **** 
+ 1019              		.loc 1 337 3 view .LVU345
+ 339:Core/Src/Amperometric.c ****     return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 1020              		.loc 1 339 3 view .LVU346
+ 339:Core/Src/Amperometric.c ****     return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 1021              		.loc 1 339 6 is_stmt 0 view .LVU347
+ 1022 0008 0A20     		movs	r0, #10
+ 1023              	.LVL68:
+ 339:Core/Src/Amperometric.c ****     return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 1024              		.loc 1 339 6 view .LVU348
+ 1025 000a FFF7FEFF 		bl	AD5940_WakeUp
+ 1026              	.LVL69:
+ 339:Core/Src/Amperometric.c ****     return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 1027              		.loc 1 339 5 view .LVU349
+ 1028 000e 0A28     		cmp	r0, #10
+ 1029 0010 00F28380 		bhi	.L55
+ 343:Core/Src/Amperometric.c ****   seq_cfg.SeqBreakEn = bFALSE;
+ 1030              		.loc 1 343 3 is_stmt 1 view .LVU350
+ 343:Core/Src/Amperometric.c ****   seq_cfg.SeqBreakEn = bFALSE;
+ 1031              		.loc 1 343 22 is_stmt 0 view .LVU351
+ 1032 0014 0122     		movs	r2, #1
+ 1033 0016 0592     		str	r2, [sp, #20]
+ 344:Core/Src/Amperometric.c ****   seq_cfg.SeqIgnoreEn = bFALSE;
+ 1034              		.loc 1 344 3 is_stmt 1 view .LVU352
+ 344:Core/Src/Amperometric.c ****   seq_cfg.SeqIgnoreEn = bFALSE;
+ 1035              		.loc 1 344 22 is_stmt 0 view .LVU353
+ 1036 0018 0023     		movs	r3, #0
+ 1037 001a 8DF81930 		strb	r3, [sp, #25]
+ 345:Core/Src/Amperometric.c ****   seq_cfg.SeqCntCRCClr = bTRUE;
+ 1038              		.loc 1 345 3 is_stmt 1 view .LVU354
+ 345:Core/Src/Amperometric.c ****   seq_cfg.SeqCntCRCClr = bTRUE;
+ 1039              		.loc 1 345 23 is_stmt 0 view .LVU355
+ 1040 001e 8DF81A30 		strb	r3, [sp, #26]
+ 346:Core/Src/Amperometric.c ****   seq_cfg.SeqEnable = bFALSE;
+ 1041              		.loc 1 346 3 is_stmt 1 view .LVU356
+ 346:Core/Src/Amperometric.c ****   seq_cfg.SeqEnable = bFALSE;
+ 1042              		.loc 1 346 24 is_stmt 0 view .LVU357
+ 1043 0022 8DF81B20 		strb	r2, [sp, #27]
+ 347:Core/Src/Amperometric.c ****   seq_cfg.SeqWrTimer = 0;
+ 1044              		.loc 1 347 3 is_stmt 1 view .LVU358
+ 347:Core/Src/Amperometric.c ****   seq_cfg.SeqWrTimer = 0;
+ 1045              		.loc 1 347 21 is_stmt 0 view .LVU359
+ 1046 0026 8DF81830 		strb	r3, [sp, #24]
+ 348:Core/Src/Amperometric.c ****   AD5940_SEQCfg(&seq_cfg);
+ 1047              		.loc 1 348 3 is_stmt 1 view .LVU360
+ 348:Core/Src/Amperometric.c ****   AD5940_SEQCfg(&seq_cfg);
+ 1048              		.loc 1 348 22 is_stmt 0 view .LVU361
+ 1049 002a 0793     		str	r3, [sp, #28]
+ 349:Core/Src/Amperometric.c **** 
+ 1050              		.loc 1 349 3 is_stmt 1 view .LVU362
+ 1051 002c 05A8     		add	r0, sp, #20
+ 1052 002e FFF7FEFF 		bl	AD5940_SEQCfg
+ 1053              	.LVL70:
+ 352:Core/Src/Amperometric.c ****       AppAMPCfg.AMPInited == bFALSE) && AppAMPCfg.ExtRtia == bFALSE)  /* Do calibration on the firs
+ 1054              		.loc 1 352 3 view .LVU363
+ 352:Core/Src/Amperometric.c ****       AppAMPCfg.AMPInited == bFALSE) && AppAMPCfg.ExtRtia == bFALSE)  /* Do calibration on the firs
+ 1055              		.loc 1 352 17 is_stmt 0 view .LVU364
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 33
+
+
+ 1056 0032 3E4B     		ldr	r3, .L60
+ 1057 0034 1B7D     		ldrb	r3, [r3, #20]	@ zero_extendqisi2
+ 352:Core/Src/Amperometric.c ****       AppAMPCfg.AMPInited == bFALSE) && AppAMPCfg.ExtRtia == bFALSE)  /* Do calibration on the firs
+ 1058              		.loc 1 352 5 view .LVU365
+ 1059 0036 012B     		cmp	r3, #1
+ 1060 0038 03D0     		beq	.L49
+ 353:Core/Src/Amperometric.c ****   {
+ 1061              		.loc 1 353 16 discriminator 1 view .LVU366
+ 1062 003a 3C4B     		ldr	r3, .L60
+ 1063 003c 93F86C30 		ldrb	r3, [r3, #108]	@ zero_extendqisi2
+ 352:Core/Src/Amperometric.c ****       AppAMPCfg.AMPInited == bFALSE) && AppAMPCfg.ExtRtia == bFALSE)  /* Do calibration on the firs
+ 1064              		.loc 1 352 40 discriminator 1 view .LVU367
+ 1065 0040 23B9     		cbnz	r3, .L50
+ 1066              	.L49:
+ 353:Core/Src/Amperometric.c ****   {
+ 1067              		.loc 1 353 50 view .LVU368
+ 1068 0042 3A4B     		ldr	r3, .L60
+ 1069 0044 93F86430 		ldrb	r3, [r3, #100]	@ zero_extendqisi2
+ 353:Core/Src/Amperometric.c ****   {
+ 1070              		.loc 1 353 38 view .LVU369
+ 1071 0048 002B     		cmp	r3, #0
+ 1072 004a 4ED0     		beq	.L59
+ 1073              	.L50:
+ 358:Core/Src/Amperometric.c ****   
+ 1074              		.loc 1 358 3 is_stmt 1 view .LVU370
+ 358:Core/Src/Amperometric.c ****   
+ 1075              		.loc 1 358 47 is_stmt 0 view .LVU371
+ 1076 004c 374B     		ldr	r3, .L60
+ 1077 004e 9A6E     		ldr	r2, [r3, #104]	@ float
+ 358:Core/Src/Amperometric.c ****   
+ 1078              		.loc 1 358 36 view .LVU372
+ 1079 0050 5A65     		str	r2, [r3, #84]	@ float
+ 1080              	.L51:
+ 361:Core/Src/Amperometric.c ****   fifo_cfg.FIFOEn = bTRUE;
+ 1081              		.loc 1 361 3 is_stmt 1 view .LVU373
+ 1082 0052 0021     		movs	r1, #0
+ 1083 0054 0120     		movs	r0, #1
+ 1084 0056 FFF7FEFF 		bl	AD5940_FIFOCtrlS
+ 1085              	.LVL71:
+ 362:Core/Src/Amperometric.c ****   fifo_cfg.FIFOMode = FIFOMODE_FIFO;
+ 1086              		.loc 1 362 3 view .LVU374
+ 362:Core/Src/Amperometric.c ****   fifo_cfg.FIFOMode = FIFOMODE_FIFO;
+ 1087              		.loc 1 362 19 is_stmt 0 view .LVU375
+ 1088 005a 0123     		movs	r3, #1
+ 1089 005c 8DF80030 		strb	r3, [sp]
+ 363:Core/Src/Amperometric.c ****   fifo_cfg.FIFOSize = FIFOSIZE_4KB;                       /* 4kB for FIFO, The reset 2kB for sequen
+ 1090              		.loc 1 363 3 is_stmt 1 view .LVU376
+ 363:Core/Src/Amperometric.c ****   fifo_cfg.FIFOSize = FIFOSIZE_4KB;                       /* 4kB for FIFO, The reset 2kB for sequen
+ 1091              		.loc 1 363 21 is_stmt 0 view .LVU377
+ 1092 0060 0223     		movs	r3, #2
+ 1093 0062 0193     		str	r3, [sp, #4]
+ 364:Core/Src/Amperometric.c ****   fifo_cfg.FIFOSrc = AppAMPCfg.DataFifoSrc;
+ 1094              		.loc 1 364 3 is_stmt 1 view .LVU378
+ 364:Core/Src/Amperometric.c ****   fifo_cfg.FIFOSrc = AppAMPCfg.DataFifoSrc;
+ 1095              		.loc 1 364 21 is_stmt 0 view .LVU379
+ 1096 0064 0293     		str	r3, [sp, #8]
+ 365:Core/Src/Amperometric.c ****   fifo_cfg.FIFOThresh = AppAMPCfg.FifoThresh;              
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 34
+
+
+ 1097              		.loc 1 365 3 is_stmt 1 view .LVU380
+ 365:Core/Src/Amperometric.c ****   fifo_cfg.FIFOThresh = AppAMPCfg.FifoThresh;              
+ 1098              		.loc 1 365 31 is_stmt 0 view .LVU381
+ 1099 0066 314E     		ldr	r6, .L60
+ 1100 0068 736C     		ldr	r3, [r6, #68]
+ 365:Core/Src/Amperometric.c ****   fifo_cfg.FIFOThresh = AppAMPCfg.FifoThresh;              
+ 1101              		.loc 1 365 20 view .LVU382
+ 1102 006a 0393     		str	r3, [sp, #12]
+ 366:Core/Src/Amperometric.c ****   AD5940_FIFOCfg(&fifo_cfg);
+ 1103              		.loc 1 366 3 is_stmt 1 view .LVU383
+ 366:Core/Src/Amperometric.c ****   AD5940_FIFOCfg(&fifo_cfg);
+ 1104              		.loc 1 366 34 is_stmt 0 view .LVU384
+ 1105 006c 736A     		ldr	r3, [r6, #36]
+ 366:Core/Src/Amperometric.c ****   AD5940_FIFOCfg(&fifo_cfg);
+ 1106              		.loc 1 366 23 view .LVU385
+ 1107 006e 0493     		str	r3, [sp, #16]
+ 367:Core/Src/Amperometric.c **** 
+ 1108              		.loc 1 367 3 is_stmt 1 view .LVU386
+ 1109 0070 6846     		mov	r0, sp
+ 1110 0072 FFF7FEFF 		bl	AD5940_FIFOCfg
+ 1111              	.LVL72:
+ 369:Core/Src/Amperometric.c ****   
+ 1112              		.loc 1 369 3 view .LVU387
+ 1113 0076 4FF0FF30 		mov	r0, #-1
+ 1114 007a FFF7FEFF 		bl	AD5940_INTCClrFlag
+ 1115              	.LVL73:
+ 373:Core/Src/Amperometric.c ****        (AppAMPCfg.bParaChanged == bTRUE))
+ 1116              		.loc 1 373 3 view .LVU388
+ 373:Core/Src/Amperometric.c ****        (AppAMPCfg.bParaChanged == bTRUE))
+ 1117              		.loc 1 373 16 is_stmt 0 view .LVU389
+ 1118 007e 96F86C30 		ldrb	r3, [r6, #108]	@ zero_extendqisi2
+ 373:Core/Src/Amperometric.c ****        (AppAMPCfg.bParaChanged == bTRUE))
+ 1119              		.loc 1 373 5 view .LVU390
+ 1120 0082 002B     		cmp	r3, #0
+ 1121 0084 37D0     		beq	.L52
+ 374:Core/Src/Amperometric.c ****   {
+ 1122              		.loc 1 374 18 discriminator 1 view .LVU391
+ 1123 0086 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 373:Core/Src/Amperometric.c ****        (AppAMPCfg.bParaChanged == bTRUE))
+ 1124              		.loc 1 373 37 discriminator 1 view .LVU392
+ 1125 0088 012B     		cmp	r3, #1
+ 1126 008a 34D0     		beq	.L52
+ 1127              	.LVL74:
+ 1128              	.L53:
+ 391:Core/Src/Amperometric.c ****   AD5940_SEQInfoCfg(&AppAMPCfg.InitSeqInfo);
+ 1129              		.loc 1 391 3 is_stmt 1 view .LVU393
+ 391:Core/Src/Amperometric.c ****   AD5940_SEQInfoCfg(&AppAMPCfg.InitSeqInfo);
+ 1130              		.loc 1 391 35 is_stmt 0 view .LVU394
+ 1131 008c 274C     		ldr	r4, .L60
+ 1132              	.LVL75:
+ 391:Core/Src/Amperometric.c ****   AD5940_SEQInfoCfg(&AppAMPCfg.InitSeqInfo);
+ 1133              		.loc 1 391 35 view .LVU395
+ 1134 008e 0023     		movs	r3, #0
+ 1135 0090 84F87C30 		strb	r3, [r4, #124]
+ 392:Core/Src/Amperometric.c ****   seq_cfg.SeqEnable = bTRUE;
+ 1136              		.loc 1 392 3 is_stmt 1 view .LVU396
+ 1137 0094 04F17000 		add	r0, r4, #112
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 35
+
+
+ 1138 0098 FFF7FEFF 		bl	AD5940_SEQInfoCfg
+ 1139              	.LVL76:
+ 393:Core/Src/Amperometric.c ****   AD5940_SEQCfg(&seq_cfg);  /* Enable sequencer */
+ 1140              		.loc 1 393 3 view .LVU397
+ 393:Core/Src/Amperometric.c ****   AD5940_SEQCfg(&seq_cfg);  /* Enable sequencer */
+ 1141              		.loc 1 393 21 is_stmt 0 view .LVU398
+ 1142 009c 0123     		movs	r3, #1
+ 1143 009e 8DF81830 		strb	r3, [sp, #24]
+ 394:Core/Src/Amperometric.c ****   AD5940_SEQMmrTrig(AppAMPCfg.InitSeqInfo.SeqId);
+ 1144              		.loc 1 394 3 is_stmt 1 view .LVU399
+ 1145 00a2 05A8     		add	r0, sp, #20
+ 1146 00a4 FFF7FEFF 		bl	AD5940_SEQCfg
+ 1147              	.LVL77:
+ 395:Core/Src/Amperometric.c ****   while(AD5940_INTCTestFlag(AFEINTC_1, AFEINTSRC_ENDSEQ) == bFALSE);
+ 1148              		.loc 1 395 3 view .LVU400
+ 1149 00a8 206F     		ldr	r0, [r4, #112]
+ 1150 00aa FFF7FEFF 		bl	AD5940_SEQMmrTrig
+ 1151              	.LVL78:
+ 396:Core/Src/Amperometric.c ****   
+ 1152              		.loc 1 396 3 view .LVU401
+ 1153              	.L54:
+ 396:Core/Src/Amperometric.c ****   
+ 1154              		.loc 1 396 68 discriminator 1 view .LVU402
+ 396:Core/Src/Amperometric.c ****   
+ 1155              		.loc 1 396 8 discriminator 1 view .LVU403
+ 396:Core/Src/Amperometric.c ****   
+ 1156              		.loc 1 396 9 is_stmt 0 discriminator 1 view .LVU404
+ 1157 00ae 4FF40041 		mov	r1, #32768
+ 1158 00b2 0120     		movs	r0, #1
+ 1159 00b4 FFF7FEFF 		bl	AD5940_INTCTestFlag
+ 1160              	.LVL79:
+ 396:Core/Src/Amperometric.c ****   
+ 1161              		.loc 1 396 8 discriminator 1 view .LVU405
+ 1162 00b8 0028     		cmp	r0, #0
+ 1163 00ba F8D0     		beq	.L54
+ 399:Core/Src/Amperometric.c ****   AD5940_SEQInfoCfg(&AppAMPCfg.MeasureSeqInfo);
+ 1164              		.loc 1 399 3 is_stmt 1 view .LVU406
+ 399:Core/Src/Amperometric.c ****   AD5940_SEQInfoCfg(&AppAMPCfg.MeasureSeqInfo);
+ 1165              		.loc 1 399 38 is_stmt 0 view .LVU407
+ 1166 00bc 1B4D     		ldr	r5, .L60
+ 1167              	.LVL80:
+ 399:Core/Src/Amperometric.c ****   AD5940_SEQInfoCfg(&AppAMPCfg.MeasureSeqInfo);
+ 1168              		.loc 1 399 38 view .LVU408
+ 1169 00be 0024     		movs	r4, #0
+ 1170 00c0 85F89040 		strb	r4, [r5, #144]
+ 400:Core/Src/Amperometric.c **** 
+ 1171              		.loc 1 400 3 is_stmt 1 view .LVU409
+ 1172 00c4 05F18400 		add	r0, r5, #132
+ 1173 00c8 FFF7FEFF 		bl	AD5940_SEQInfoCfg
+ 1174              	.LVL81:
+ 404:Core/Src/Amperometric.c ****   AD5940_ClrMCUIntFlag();   /* Clear interrupt flag generated before */
+ 1175              		.loc 1 404 2 view .LVU410
+ 1176 00cc 0120     		movs	r0, #1
+ 1177 00ce FFF7FEFF 		bl	AD5940_SEQCtrlS
+ 1178              	.LVL82:
+ 405:Core/Src/Amperometric.c **** 
+ 1179              		.loc 1 405 3 view .LVU411
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 36
+
+
+ 1180 00d2 FFF7FEFF 		bl	AD5940_ClrMCUIntFlag
+ 1181              	.LVL83:
+ 407:Core/Src/Amperometric.c ****   AppAMPCfg.AMPInited = bTRUE;  /* AMP application has been initialized. */
+ 1182              		.loc 1 407 3 view .LVU412
+ 1183 00d6 0321     		movs	r1, #3
+ 1184 00d8 A86B     		ldr	r0, [r5, #56]
+ 1185 00da FFF7FEFF 		bl	AD5940_AFEPwrBW
+ 1186              	.LVL84:
+ 408:Core/Src/Amperometric.c ****   return AD5940ERR_OK;
+ 1187              		.loc 1 408 3 view .LVU413
+ 408:Core/Src/Amperometric.c ****   return AD5940ERR_OK;
+ 1188              		.loc 1 408 23 is_stmt 0 view .LVU414
+ 1189 00de 0123     		movs	r3, #1
+ 1190 00e0 85F86C30 		strb	r3, [r5, #108]
+ 409:Core/Src/Amperometric.c **** }
+ 1191              		.loc 1 409 3 is_stmt 1 view .LVU415
+ 409:Core/Src/Amperometric.c **** }
+ 1192              		.loc 1 409 10 is_stmt 0 view .LVU416
+ 1193 00e4 2046     		mov	r0, r4
+ 1194              	.L47:
+ 410:Core/Src/Amperometric.c **** 
+ 1195              		.loc 1 410 1 view .LVU417
+ 1196 00e6 08B0     		add	sp, sp, #32
+ 1197              	.LCFI18:
+ 1198              		.cfi_remember_state
+ 1199              		.cfi_def_cfa_offset 16
+ 1200              		@ sp needed
+ 1201 00e8 70BD     		pop	{r4, r5, r6, pc}
+ 1202              	.LVL85:
+ 1203              	.L59:
+ 1204              	.LCFI19:
+ 1205              		.cfi_restore_state
+ 355:Core/Src/Amperometric.c ****     AppAMPCfg.ReDoRtiaCal = bFALSE;
+ 1206              		.loc 1 355 5 is_stmt 1 view .LVU418
+ 1207 00ea FFF7FEFF 		bl	AppAMPRtiaCal
+ 1208              	.LVL86:
+ 356:Core/Src/Amperometric.c ****   }else
+ 1209              		.loc 1 356 5 view .LVU419
+ 356:Core/Src/Amperometric.c ****   }else
+ 1210              		.loc 1 356 27 is_stmt 0 view .LVU420
+ 1211 00ee 0F4B     		ldr	r3, .L60
+ 1212 00f0 0022     		movs	r2, #0
+ 1213 00f2 1A75     		strb	r2, [r3, #20]
+ 1214 00f4 ADE7     		b	.L51
+ 1215              	.L52:
+ 376:Core/Src/Amperometric.c ****     if(BufferSize == 0) return AD5940ERR_PARA;   
+ 1216              		.loc 1 376 5 is_stmt 1 view .LVU421
+ 376:Core/Src/Amperometric.c ****     if(BufferSize == 0) return AD5940ERR_PARA;   
+ 1217              		.loc 1 376 7 is_stmt 0 view .LVU422
+ 1218 00f6 9CB1     		cbz	r4, .L56
+ 377:Core/Src/Amperometric.c ****     AD5940_SEQGenInit(pBuffer, BufferSize);
+ 1219              		.loc 1 377 5 is_stmt 1 view .LVU423
+ 377:Core/Src/Amperometric.c ****     AD5940_SEQGenInit(pBuffer, BufferSize);
+ 1220              		.loc 1 377 7 is_stmt 0 view .LVU424
+ 1221 00f8 ADB1     		cbz	r5, .L57
+ 378:Core/Src/Amperometric.c **** 
+ 1222              		.loc 1 378 5 is_stmt 1 view .LVU425
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 37
+
+
+ 1223 00fa 2946     		mov	r1, r5
+ 1224 00fc 2046     		mov	r0, r4
+ 1225 00fe FFF7FEFF 		bl	AD5940_SEQGenInit
+ 1226              	.LVL87:
+ 381:Core/Src/Amperometric.c ****     if(error != AD5940ERR_OK) return error;
+ 1227              		.loc 1 381 5 view .LVU426
+ 381:Core/Src/Amperometric.c ****     if(error != AD5940ERR_OK) return error;
+ 1228              		.loc 1 381 13 is_stmt 0 view .LVU427
+ 1229 0102 FFF7FEFF 		bl	AppAMPSeqCfgGen
+ 1230              	.LVL88:
+ 382:Core/Src/Amperometric.c **** 
+ 1231              		.loc 1 382 5 is_stmt 1 view .LVU428
+ 382:Core/Src/Amperometric.c **** 
+ 1232              		.loc 1 382 7 is_stmt 0 view .LVU429
+ 1233 0106 0028     		cmp	r0, #0
+ 1234 0108 EDD1     		bne	.L47
+ 385:Core/Src/Amperometric.c ****     if(error != AD5940ERR_OK) return error;
+ 1235              		.loc 1 385 5 is_stmt 1 view .LVU430
+ 385:Core/Src/Amperometric.c ****     if(error != AD5940ERR_OK) return error;
+ 1236              		.loc 1 385 13 is_stmt 0 view .LVU431
+ 1237 010a FFF7FEFF 		bl	AppAMPSeqMeasureGen
+ 1238              	.LVL89:
+ 386:Core/Src/Amperometric.c **** 
+ 1239              		.loc 1 386 5 is_stmt 1 view .LVU432
+ 386:Core/Src/Amperometric.c **** 
+ 1240              		.loc 1 386 7 is_stmt 0 view .LVU433
+ 1241 010e 0028     		cmp	r0, #0
+ 1242 0110 E9D1     		bne	.L47
+ 388:Core/Src/Amperometric.c ****   }
+ 1243              		.loc 1 388 5 is_stmt 1 view .LVU434
+ 388:Core/Src/Amperometric.c ****   }
+ 1244              		.loc 1 388 28 is_stmt 0 view .LVU435
+ 1245 0112 064B     		ldr	r3, .L60
+ 1246 0114 0022     		movs	r2, #0
+ 1247 0116 1A70     		strb	r2, [r3]
+ 1248 0118 B8E7     		b	.L53
+ 1249              	.LVL90:
+ 1250              	.L55:
+ 340:Core/Src/Amperometric.c **** 
+ 1251              		.loc 1 340 12 view .LVU436
+ 1252 011a 6FF00800 		mvn	r0, #8
+ 1253 011e E2E7     		b	.L47
+ 1254              	.L56:
+ 376:Core/Src/Amperometric.c ****     if(BufferSize == 0) return AD5940ERR_PARA;   
+ 1255              		.loc 1 376 30 view .LVU437
+ 1256 0120 6FF00100 		mvn	r0, #1
+ 1257 0124 DFE7     		b	.L47
+ 1258              	.L57:
+ 377:Core/Src/Amperometric.c ****     AD5940_SEQGenInit(pBuffer, BufferSize);
+ 1259              		.loc 1 377 32 view .LVU438
+ 1260 0126 6FF00100 		mvn	r0, #1
+ 1261 012a DCE7     		b	.L47
+ 1262              	.L61:
+ 1263              		.align	2
+ 1264              	.L60:
+ 1265 012c 00000000 		.word	.LANCHOR0
+ 1266              		.cfi_endproc
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 38
+
+
+ 1267              	.LFE8:
+ 1269              		.section	.text.AppAMPCalcVoltage,"ax",%progbits
+ 1270              		.align	1
+ 1271              		.global	AppAMPCalcVoltage
+ 1272              		.syntax unified
+ 1273              		.thumb
+ 1274              		.thumb_func
+ 1275              		.fpu fpv5-d16
+ 1277              	AppAMPCalcVoltage:
+ 1278              	.LVL91:
+ 1279              	.LFB12:
+ 433:Core/Src/Amperometric.c **** 
+ 434:Core/Src/Amperometric.c **** 
+ 435:Core/Src/Amperometric.c **** /* Depending on the data type, do appropriate data pre-process before return back to controller */
+ 436:Core/Src/Amperometric.c **** static AD5940Err AppAMPDataProcess(int32_t * const pData, uint32_t *pDataCount)
+ 437:Core/Src/Amperometric.c **** {
+ 438:Core/Src/Amperometric.c ****   uint32_t i, datacount;
+ 439:Core/Src/Amperometric.c ****   datacount = *pDataCount;
+ 440:Core/Src/Amperometric.c ****   float *pOut = (float *)pData;
+ 441:Core/Src/Amperometric.c ****   for(i=0;i<datacount;i++)
+ 442:Core/Src/Amperometric.c ****   {
+ 443:Core/Src/Amperometric.c ****     pData[i] &= 0xffff;
+ 444:Core/Src/Amperometric.c **** 		//printf("%d\n",pData[i]);
+ 445:Core/Src/Amperometric.c ****     pOut[i] = AppAMPCalcCurrent(pData[i]);
+ 446:Core/Src/Amperometric.c ****   }
+ 447:Core/Src/Amperometric.c ****   return AD5940ERR_OK;
+ 448:Core/Src/Amperometric.c **** }
+ 449:Core/Src/Amperometric.c **** 
+ 450:Core/Src/Amperometric.c **** /**
+ 451:Core/Src/Amperometric.c **** 
+ 452:Core/Src/Amperometric.c **** */
+ 453:Core/Src/Amperometric.c **** AD5940Err AppAMPISR(void *pBuff, uint32_t *pCount)
+ 454:Core/Src/Amperometric.c **** {
+ 455:Core/Src/Amperometric.c ****   uint32_t FifoCnt;
+ 456:Core/Src/Amperometric.c ****   if(AD5940_WakeUp(10) > 10)  /* Wakeup AFE by read register, read 10 times at most */
+ 457:Core/Src/Amperometric.c ****     return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 458:Core/Src/Amperometric.c ****   AD5940_SleepKeyCtrlS(SLPKEY_LOCK);
+ 459:Core/Src/Amperometric.c **** 	
+ 460:Core/Src/Amperometric.c ****   *pCount = 0;  
+ 461:Core/Src/Amperometric.c ****   if(AD5940_INTCTestFlag(AFEINTC_0, AFEINTSRC_DATAFIFOTHRESH) == bTRUE)
+ 462:Core/Src/Amperometric.c ****   {
+ 463:Core/Src/Amperometric.c ****     FifoCnt = AD5940_FIFOGetCnt();
+ 464:Core/Src/Amperometric.c ****     AD5940_FIFORd((uint32_t *)pBuff, FifoCnt);
+ 465:Core/Src/Amperometric.c ****     AD5940_INTCClrFlag(AFEINTSRC_DATAFIFOTHRESH);
+ 466:Core/Src/Amperometric.c ****     AppAMPRegModify(pBuff, &FifoCnt);   /* If there is need to do AFE re-configure, do it here when
+ 467:Core/Src/Amperometric.c **** 		AD5940_SleepKeyCtrlS(SLPKEY_UNLOCK); 
+ 468:Core/Src/Amperometric.c ****     //AD5940_EnterSleepS();  /* Manually put AFE back to hibernate mode. This operation only takes 
+ 469:Core/Src/Amperometric.c **** 
+ 470:Core/Src/Amperometric.c ****     /* Process data */ 
+ 471:Core/Src/Amperometric.c ****     AppAMPDataProcess((int32_t*)pBuff,&FifoCnt); 
+ 472:Core/Src/Amperometric.c ****     *pCount = FifoCnt;
+ 473:Core/Src/Amperometric.c ****     return 0;
+ 474:Core/Src/Amperometric.c ****   }
+ 475:Core/Src/Amperometric.c ****   
+ 476:Core/Src/Amperometric.c ****   return 0;
+ 477:Core/Src/Amperometric.c **** } 
+ 478:Core/Src/Amperometric.c **** 
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 39
+
+
+ 479:Core/Src/Amperometric.c **** 
+ 480:Core/Src/Amperometric.c **** /* Calculate voltage */
+ 481:Core/Src/Amperometric.c **** float AppAMPCalcVoltage(uint32_t ADCcode)
+ 482:Core/Src/Amperometric.c **** {
+ 1280              		.loc 1 482 1 is_stmt 1 view -0
+ 1281              		.cfi_startproc
+ 1282              		@ args = 0, pretend = 0, frame = 0
+ 1283              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1284              		@ link register save eliminated.
+ 483:Core/Src/Amperometric.c ****   float kFactor = 1.835/1.82;
+ 1285              		.loc 1 483 3 view .LVU440
+ 484:Core/Src/Amperometric.c ****   float fVolt = 0.0;
+ 1286              		.loc 1 484 3 view .LVU441
+ 485:Core/Src/Amperometric.c ****   int32_t tmp = 0;
+ 1287              		.loc 1 485 3 view .LVU442
+ 486:Core/Src/Amperometric.c ****   tmp = ADCcode - 32768;
+ 1288              		.loc 1 486 3 view .LVU443
+ 1289              		.loc 1 486 17 is_stmt 0 view .LVU444
+ 1290 0000 A0F50040 		sub	r0, r0, #32768
+ 1291              	.LVL92:
+ 487:Core/Src/Amperometric.c ****   switch(AppAMPCfg.ADCPgaGain)
+ 1292              		.loc 1 487 3 is_stmt 1 view .LVU445
+ 1293              		.loc 1 487 19 is_stmt 0 view .LVU446
+ 1294 0004 3A4B     		ldr	r3, .L71
+ 1295 0006 DB6B     		ldr	r3, [r3, #60]
+ 1296 0008 042B     		cmp	r3, #4
+ 1297 000a 6ED8     		bhi	.L70
+ 1298 000c DFE803F0 		tbb	[pc, r3]
+ 1299              	.L65:
+ 1300 0010 03       		.byte	(.L69-.L65)/2
+ 1301 0011 15       		.byte	(.L68-.L65)/2
+ 1302 0012 2B       		.byte	(.L67-.L65)/2
+ 1303 0013 41       		.byte	(.L66-.L65)/2
+ 1304 0014 57       		.byte	(.L64-.L65)/2
+ 1305 0015 00       		.p2align 1
+ 1306              	.L69:
+ 488:Core/Src/Amperometric.c ****   {
+ 489:Core/Src/Amperometric.c ****     case ADCPGA_1:
+ 490:Core/Src/Amperometric.c ****       fVolt = ((float)(tmp)/32768)*(AppAMPCfg.ADCRefVolt/1)*kFactor;
+ 1307              		.loc 1 490 7 is_stmt 1 view .LVU447
+ 1308              		.loc 1 490 16 is_stmt 0 view .LVU448
+ 1309 0016 07EE900A 		vmov	s15, r0	@ int
+ 1310 001a B8EEE70A 		vcvt.f32.s32	s0, s15
+ 1311              		.loc 1 490 28 view .LVU449
+ 1312 001e DFED357A 		vldr.32	s15, .L71+4
+ 1313 0022 20EE270A 		vmul.f32	s0, s0, s15
+ 1314              		.loc 1 490 57 view .LVU450
+ 1315 0026 324B     		ldr	r3, .L71
+ 1316 0028 D3ED0D7A 		vldr.32	s15, [r3, #52]
+ 1317              		.loc 1 490 35 view .LVU451
+ 1318 002c 20EE270A 		vmul.f32	s0, s0, s15
+ 1319              		.loc 1 490 13 view .LVU452
+ 1320 0030 DFED317A 		vldr.32	s15, .L71+8
+ 1321 0034 20EE270A 		vmul.f32	s0, s0, s15
+ 1322              	.LVL93:
+ 491:Core/Src/Amperometric.c ****       break;
+ 1323              		.loc 1 491 7 is_stmt 1 view .LVU453
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 40
+
+
+ 1324 0038 7047     		bx	lr
+ 1325              	.LVL94:
+ 1326              	.L68:
+ 492:Core/Src/Amperometric.c ****     case ADCPGA_1P5:
+ 493:Core/Src/Amperometric.c ****       fVolt = ((float)(tmp)/32768)*(AppAMPCfg.ADCRefVolt/1.5f)*kFactor;
+ 1327              		.loc 1 493 7 view .LVU454
+ 1328              		.loc 1 493 16 is_stmt 0 view .LVU455
+ 1329 003a 07EE900A 		vmov	s15, r0	@ int
+ 1330 003e B8EEE70A 		vcvt.f32.s32	s0, s15
+ 1331              		.loc 1 493 28 view .LVU456
+ 1332 0042 DFED2C7A 		vldr.32	s15, .L71+4
+ 1333 0046 20EE270A 		vmul.f32	s0, s0, s15
+ 1334              		.loc 1 493 46 view .LVU457
+ 1335 004a 294B     		ldr	r3, .L71
+ 1336 004c D3ED0D6A 		vldr.32	s13, [r3, #52]
+ 1337              		.loc 1 493 57 view .LVU458
+ 1338 0050 B7EE087A 		vmov.f32	s14, #1.5e+0
+ 1339 0054 C6EE877A 		vdiv.f32	s15, s13, s14
+ 1340              		.loc 1 493 35 view .LVU459
+ 1341 0058 20EE270A 		vmul.f32	s0, s0, s15
+ 1342              		.loc 1 493 13 view .LVU460
+ 1343 005c DFED267A 		vldr.32	s15, .L71+8
+ 1344 0060 20EE270A 		vmul.f32	s0, s0, s15
+ 1345              	.LVL95:
+ 494:Core/Src/Amperometric.c ****       break;
+ 1346              		.loc 1 494 7 is_stmt 1 view .LVU461
+ 1347 0064 7047     		bx	lr
+ 1348              	.LVL96:
+ 1349              	.L67:
+ 495:Core/Src/Amperometric.c ****     case ADCPGA_2:
+ 496:Core/Src/Amperometric.c ****       fVolt = ((float)(tmp)/32768)*(AppAMPCfg.ADCRefVolt/2)*kFactor;
+ 1350              		.loc 1 496 7 view .LVU462
+ 1351              		.loc 1 496 16 is_stmt 0 view .LVU463
+ 1352 0066 07EE900A 		vmov	s15, r0	@ int
+ 1353 006a B8EEE70A 		vcvt.f32.s32	s0, s15
+ 1354              		.loc 1 496 28 view .LVU464
+ 1355 006e DFED217A 		vldr.32	s15, .L71+4
+ 1356 0072 20EE270A 		vmul.f32	s0, s0, s15
+ 1357              		.loc 1 496 46 view .LVU465
+ 1358 0076 1E4B     		ldr	r3, .L71
+ 1359 0078 D3ED0D7A 		vldr.32	s15, [r3, #52]
+ 1360              		.loc 1 496 57 view .LVU466
+ 1361 007c B6EE007A 		vmov.f32	s14, #5.0e-1
+ 1362 0080 67EE877A 		vmul.f32	s15, s15, s14
+ 1363              		.loc 1 496 35 view .LVU467
+ 1364 0084 20EE270A 		vmul.f32	s0, s0, s15
+ 1365              		.loc 1 496 13 view .LVU468
+ 1366 0088 DFED1B7A 		vldr.32	s15, .L71+8
+ 1367 008c 20EE270A 		vmul.f32	s0, s0, s15
+ 1368              	.LVL97:
+ 497:Core/Src/Amperometric.c ****       break;
+ 1369              		.loc 1 497 7 is_stmt 1 view .LVU469
+ 1370 0090 7047     		bx	lr
+ 1371              	.LVL98:
+ 1372              	.L66:
+ 498:Core/Src/Amperometric.c ****     case ADCPGA_4:
+ 499:Core/Src/Amperometric.c ****       fVolt = ((float)(tmp)/32768)*(AppAMPCfg.ADCRefVolt/4)*kFactor;
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 41
+
+
+ 1373              		.loc 1 499 7 view .LVU470
+ 1374              		.loc 1 499 16 is_stmt 0 view .LVU471
+ 1375 0092 07EE900A 		vmov	s15, r0	@ int
+ 1376 0096 B8EEE70A 		vcvt.f32.s32	s0, s15
+ 1377              		.loc 1 499 28 view .LVU472
+ 1378 009a DFED167A 		vldr.32	s15, .L71+4
+ 1379 009e 20EE270A 		vmul.f32	s0, s0, s15
+ 1380              		.loc 1 499 46 view .LVU473
+ 1381 00a2 134B     		ldr	r3, .L71
+ 1382 00a4 D3ED0D7A 		vldr.32	s15, [r3, #52]
+ 1383              		.loc 1 499 57 view .LVU474
+ 1384 00a8 B5EE007A 		vmov.f32	s14, #2.5e-1
+ 1385 00ac 67EE877A 		vmul.f32	s15, s15, s14
+ 1386              		.loc 1 499 35 view .LVU475
+ 1387 00b0 20EE270A 		vmul.f32	s0, s0, s15
+ 1388              		.loc 1 499 13 view .LVU476
+ 1389 00b4 DFED107A 		vldr.32	s15, .L71+8
+ 1390 00b8 20EE270A 		vmul.f32	s0, s0, s15
+ 1391              	.LVL99:
+ 500:Core/Src/Amperometric.c ****       break;
+ 1392              		.loc 1 500 7 is_stmt 1 view .LVU477
+ 1393 00bc 7047     		bx	lr
+ 1394              	.LVL100:
+ 1395              	.L64:
+ 501:Core/Src/Amperometric.c ****     case ADCPGA_9:
+ 502:Core/Src/Amperometric.c ****       fVolt = ((float)(tmp)/32768)*(AppAMPCfg.ADCRefVolt/9)*kFactor;
+ 1396              		.loc 1 502 7 view .LVU478
+ 1397              		.loc 1 502 16 is_stmt 0 view .LVU479
+ 1398 00be 07EE900A 		vmov	s15, r0	@ int
+ 1399 00c2 B8EEE70A 		vcvt.f32.s32	s0, s15
+ 1400              		.loc 1 502 28 view .LVU480
+ 1401 00c6 DFED0B7A 		vldr.32	s15, .L71+4
+ 1402 00ca 20EE270A 		vmul.f32	s0, s0, s15
+ 1403              		.loc 1 502 46 view .LVU481
+ 1404 00ce 084B     		ldr	r3, .L71
+ 1405 00d0 D3ED0D6A 		vldr.32	s13, [r3, #52]
+ 1406              		.loc 1 502 57 view .LVU482
+ 1407 00d4 B2EE027A 		vmov.f32	s14, #9.0e+0
+ 1408 00d8 C6EE877A 		vdiv.f32	s15, s13, s14
+ 1409              		.loc 1 502 35 view .LVU483
+ 1410 00dc 20EE270A 		vmul.f32	s0, s0, s15
+ 1411              		.loc 1 502 13 view .LVU484
+ 1412 00e0 DFED057A 		vldr.32	s15, .L71+8
+ 1413 00e4 20EE270A 		vmul.f32	s0, s0, s15
+ 1414              	.LVL101:
+ 503:Core/Src/Amperometric.c ****       break;
+ 1415              		.loc 1 503 7 is_stmt 1 view .LVU485
+ 1416 00e8 7047     		bx	lr
+ 1417              	.LVL102:
+ 1418              	.L70:
+ 487:Core/Src/Amperometric.c ****   {
+ 1419              		.loc 1 487 19 is_stmt 0 view .LVU486
+ 1420 00ea 9FED040A 		vldr.32	s0, .L71+12
+ 504:Core/Src/Amperometric.c ****   } 
+ 505:Core/Src/Amperometric.c ****   return fVolt;
+ 1421              		.loc 1 505 3 is_stmt 1 view .LVU487
+ 506:Core/Src/Amperometric.c **** }
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 42
+
+
+ 1422              		.loc 1 506 1 is_stmt 0 view .LVU488
+ 1423 00ee 7047     		bx	lr
+ 1424              	.L72:
+ 1425              		.align	2
+ 1426              	.L71:
+ 1427 00f0 00000000 		.word	.LANCHOR0
+ 1428 00f4 00000038 		.word	939524096
+ 1429 00f8 110E813F 		.word	1065422353
+ 1430 00fc 00000000 		.word	0
+ 1431              		.cfi_endproc
+ 1432              	.LFE12:
+ 1434              		.section	.text.AppAMPCalcCurrent,"ax",%progbits
+ 1435              		.align	1
+ 1436              		.global	AppAMPCalcCurrent
+ 1437              		.syntax unified
+ 1438              		.thumb
+ 1439              		.thumb_func
+ 1440              		.fpu fpv5-d16
+ 1442              	AppAMPCalcCurrent:
+ 1443              	.LVL103:
+ 1444              	.LFB13:
+ 507:Core/Src/Amperometric.c **** /* Calculate current in uA */
+ 508:Core/Src/Amperometric.c **** float AppAMPCalcCurrent(uint32_t ADCcode)
+ 509:Core/Src/Amperometric.c **** {
+ 1445              		.loc 1 509 1 is_stmt 1 view -0
+ 1446              		.cfi_startproc
+ 1447              		@ args = 0, pretend = 0, frame = 0
+ 1448              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1449              		.loc 1 509 1 is_stmt 0 view .LVU490
+ 1450 0000 08B5     		push	{r3, lr}
+ 1451              	.LCFI20:
+ 1452              		.cfi_def_cfa_offset 8
+ 1453              		.cfi_offset 3, -8
+ 1454              		.cfi_offset 14, -4
+ 510:Core/Src/Amperometric.c ****   float fCurrent, fVoltage = 0.0;
+ 1455              		.loc 1 510 3 is_stmt 1 view .LVU491
+ 1456              	.LVL104:
+ 511:Core/Src/Amperometric.c ****   fVoltage = AppAMPCalcVoltage(ADCcode);
+ 1457              		.loc 1 511 3 view .LVU492
+ 1458              		.loc 1 511 14 is_stmt 0 view .LVU493
+ 1459 0002 FFF7FEFF 		bl	AppAMPCalcVoltage
+ 1460              	.LVL105:
+ 512:Core/Src/Amperometric.c ****   fCurrent = fVoltage/AppAMPCfg.RtiaCalValue.Magnitude;
+ 1461              		.loc 1 512 3 is_stmt 1 view .LVU494
+ 1462              		.loc 1 512 45 is_stmt 0 view .LVU495
+ 1463 0006 054B     		ldr	r3, .L75
+ 1464 0008 D3ED157A 		vldr.32	s15, [r3, #84]
+ 1465              		.loc 1 512 12 view .LVU496
+ 1466 000c 80EE277A 		vdiv.f32	s14, s0, s15
+ 1467              	.LVL106:
+ 513:Core/Src/Amperometric.c ****   
+ 514:Core/Src/Amperometric.c ****   return -fCurrent*1000000;
+ 1468              		.loc 1 514 3 is_stmt 1 view .LVU497
+ 515:Core/Src/Amperometric.c **** }
+ 1469              		.loc 1 515 1 is_stmt 0 view .LVU498
+ 1470 0010 9FED030A 		vldr.32	s0, .L75+4
+ 1471              	.LVL107:
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 43
+
+
+ 1472              		.loc 1 515 1 view .LVU499
+ 1473 0014 27EE400A 		vnmul.f32	s0, s14, s0
+ 1474 0018 08BD     		pop	{r3, pc}
+ 1475              	.L76:
+ 1476 001a 00BF     		.align	2
+ 1477              	.L75:
+ 1478 001c 00000000 		.word	.LANCHOR0
+ 1479 0020 00247449 		.word	1232348160
+ 1480              		.cfi_endproc
+ 1481              	.LFE13:
+ 1483              		.section	.text.AppAMPDataProcess,"ax",%progbits
+ 1484              		.align	1
+ 1485              		.syntax unified
+ 1486              		.thumb
+ 1487              		.thumb_func
+ 1488              		.fpu fpv5-d16
+ 1490              	AppAMPDataProcess:
+ 1491              	.LVL108:
+ 1492              	.LFB10:
+ 437:Core/Src/Amperometric.c ****   uint32_t i, datacount;
+ 1493              		.loc 1 437 1 is_stmt 1 view -0
+ 1494              		.cfi_startproc
+ 1495              		@ args = 0, pretend = 0, frame = 0
+ 1496              		@ frame_needed = 0, uses_anonymous_args = 0
+ 437:Core/Src/Amperometric.c ****   uint32_t i, datacount;
+ 1497              		.loc 1 437 1 is_stmt 0 view .LVU501
+ 1498 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 1499              	.LCFI21:
+ 1500              		.cfi_def_cfa_offset 24
+ 1501              		.cfi_offset 3, -24
+ 1502              		.cfi_offset 4, -20
+ 1503              		.cfi_offset 5, -16
+ 1504              		.cfi_offset 6, -12
+ 1505              		.cfi_offset 7, -8
+ 1506              		.cfi_offset 14, -4
+ 1507 0002 0546     		mov	r5, r0
+ 438:Core/Src/Amperometric.c ****   datacount = *pDataCount;
+ 1508              		.loc 1 438 3 is_stmt 1 view .LVU502
+ 439:Core/Src/Amperometric.c ****   float *pOut = (float *)pData;
+ 1509              		.loc 1 439 3 view .LVU503
+ 439:Core/Src/Amperometric.c ****   float *pOut = (float *)pData;
+ 1510              		.loc 1 439 13 is_stmt 0 view .LVU504
+ 1511 0004 0F68     		ldr	r7, [r1]
+ 1512              	.LVL109:
+ 440:Core/Src/Amperometric.c ****   for(i=0;i<datacount;i++)
+ 1513              		.loc 1 440 3 is_stmt 1 view .LVU505
+ 441:Core/Src/Amperometric.c ****   {
+ 1514              		.loc 1 441 3 view .LVU506
+ 441:Core/Src/Amperometric.c ****   {
+ 1515              		.loc 1 441 8 is_stmt 0 view .LVU507
+ 1516 0006 0024     		movs	r4, #0
+ 1517              	.LVL110:
+ 1518              	.L78:
+ 441:Core/Src/Amperometric.c ****   {
+ 1519              		.loc 1 441 11 is_stmt 1 discriminator 1 view .LVU508
+ 441:Core/Src/Amperometric.c ****   {
+ 1520              		.loc 1 441 3 is_stmt 0 discriminator 1 view .LVU509
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 44
+
+
+ 1521 0008 BC42     		cmp	r4, r7
+ 1522 000a 0BD2     		bcs	.L81
+ 443:Core/Src/Amperometric.c **** 		//printf("%d\n",pData[i]);
+ 1523              		.loc 1 443 5 is_stmt 1 discriminator 3 view .LVU510
+ 443:Core/Src/Amperometric.c **** 		//printf("%d\n",pData[i]);
+ 1524              		.loc 1 443 14 is_stmt 0 discriminator 3 view .LVU511
+ 1525 000c 05EB8406 		add	r6, r5, r4, lsl #2
+ 1526 0010 35F82400 		ldrh	r0, [r5, r4, lsl #2]
+ 1527 0014 45F82400 		str	r0, [r5, r4, lsl #2]
+ 445:Core/Src/Amperometric.c ****   }
+ 1528              		.loc 1 445 5 is_stmt 1 discriminator 3 view .LVU512
+ 445:Core/Src/Amperometric.c ****   }
+ 1529              		.loc 1 445 15 is_stmt 0 discriminator 3 view .LVU513
+ 1530 0018 FFF7FEFF 		bl	AppAMPCalcCurrent
+ 1531              	.LVL111:
+ 445:Core/Src/Amperometric.c ****   }
+ 1532              		.loc 1 445 13 discriminator 3 view .LVU514
+ 1533 001c 86ED000A 		vstr.32	s0, [r6]
+ 441:Core/Src/Amperometric.c ****   {
+ 1534              		.loc 1 441 23 is_stmt 1 discriminator 3 view .LVU515
+ 441:Core/Src/Amperometric.c ****   {
+ 1535              		.loc 1 441 24 is_stmt 0 discriminator 3 view .LVU516
+ 1536 0020 0134     		adds	r4, r4, #1
+ 1537              	.LVL112:
+ 441:Core/Src/Amperometric.c ****   {
+ 1538              		.loc 1 441 24 discriminator 3 view .LVU517
+ 1539 0022 F1E7     		b	.L78
+ 1540              	.L81:
+ 447:Core/Src/Amperometric.c **** }
+ 1541              		.loc 1 447 3 is_stmt 1 view .LVU518
+ 448:Core/Src/Amperometric.c **** 
+ 1542              		.loc 1 448 1 is_stmt 0 view .LVU519
+ 1543 0024 0020     		movs	r0, #0
+ 1544 0026 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 448:Core/Src/Amperometric.c **** 
+ 1545              		.loc 1 448 1 view .LVU520
+ 1546              		.cfi_endproc
+ 1547              	.LFE10:
+ 1549              		.section	.text.AppAMPISR,"ax",%progbits
+ 1550              		.align	1
+ 1551              		.global	AppAMPISR
+ 1552              		.syntax unified
+ 1553              		.thumb
+ 1554              		.thumb_func
+ 1555              		.fpu fpv5-d16
+ 1557              	AppAMPISR:
+ 1558              	.LVL113:
+ 1559              	.LFB11:
+ 454:Core/Src/Amperometric.c ****   uint32_t FifoCnt;
+ 1560              		.loc 1 454 1 is_stmt 1 view -0
+ 1561              		.cfi_startproc
+ 1562              		@ args = 0, pretend = 0, frame = 8
+ 1563              		@ frame_needed = 0, uses_anonymous_args = 0
+ 454:Core/Src/Amperometric.c ****   uint32_t FifoCnt;
+ 1564              		.loc 1 454 1 is_stmt 0 view .LVU522
+ 1565 0000 30B5     		push	{r4, r5, lr}
+ 1566              	.LCFI22:
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 45
+
+
+ 1567              		.cfi_def_cfa_offset 12
+ 1568              		.cfi_offset 4, -12
+ 1569              		.cfi_offset 5, -8
+ 1570              		.cfi_offset 14, -4
+ 1571 0002 83B0     		sub	sp, sp, #12
+ 1572              	.LCFI23:
+ 1573              		.cfi_def_cfa_offset 24
+ 1574 0004 0546     		mov	r5, r0
+ 1575 0006 0C46     		mov	r4, r1
+ 455:Core/Src/Amperometric.c ****   if(AD5940_WakeUp(10) > 10)  /* Wakeup AFE by read register, read 10 times at most */
+ 1576              		.loc 1 455 3 is_stmt 1 view .LVU523
+ 456:Core/Src/Amperometric.c ****     return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 1577              		.loc 1 456 3 view .LVU524
+ 456:Core/Src/Amperometric.c ****     return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 1578              		.loc 1 456 6 is_stmt 0 view .LVU525
+ 1579 0008 0A20     		movs	r0, #10
+ 1580              	.LVL114:
+ 456:Core/Src/Amperometric.c ****     return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 1581              		.loc 1 456 6 view .LVU526
+ 1582 000a FFF7FEFF 		bl	AD5940_WakeUp
+ 1583              	.LVL115:
+ 456:Core/Src/Amperometric.c ****     return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 1584              		.loc 1 456 5 view .LVU527
+ 1585 000e 0A28     		cmp	r0, #10
+ 1586 0010 27D8     		bhi	.L84
+ 458:Core/Src/Amperometric.c **** 	
+ 1587              		.loc 1 458 3 is_stmt 1 view .LVU528
+ 1588 0012 0020     		movs	r0, #0
+ 1589 0014 FFF7FEFF 		bl	AD5940_SleepKeyCtrlS
+ 1590              	.LVL116:
+ 460:Core/Src/Amperometric.c ****   if(AD5940_INTCTestFlag(AFEINTC_0, AFEINTSRC_DATAFIFOTHRESH) == bTRUE)
+ 1591              		.loc 1 460 3 view .LVU529
+ 460:Core/Src/Amperometric.c ****   if(AD5940_INTCTestFlag(AFEINTC_0, AFEINTSRC_DATAFIFOTHRESH) == bTRUE)
+ 1592              		.loc 1 460 11 is_stmt 0 view .LVU530
+ 1593 0018 0020     		movs	r0, #0
+ 1594 001a 2060     		str	r0, [r4]
+ 461:Core/Src/Amperometric.c ****   {
+ 1595              		.loc 1 461 3 is_stmt 1 view .LVU531
+ 461:Core/Src/Amperometric.c ****   {
+ 1596              		.loc 1 461 6 is_stmt 0 view .LVU532
+ 1597 001c 4FF00071 		mov	r1, #33554432
+ 1598 0020 FFF7FEFF 		bl	AD5940_INTCTestFlag
+ 1599              	.LVL117:
+ 461:Core/Src/Amperometric.c ****   {
+ 1600              		.loc 1 461 5 view .LVU533
+ 1601 0024 0128     		cmp	r0, #1
+ 1602 0026 02D0     		beq	.L87
+ 476:Core/Src/Amperometric.c **** } 
+ 1603              		.loc 1 476 10 view .LVU534
+ 1604 0028 0020     		movs	r0, #0
+ 1605              	.L82:
+ 477:Core/Src/Amperometric.c **** 
+ 1606              		.loc 1 477 1 view .LVU535
+ 1607 002a 03B0     		add	sp, sp, #12
+ 1608              	.LCFI24:
+ 1609              		.cfi_remember_state
+ 1610              		.cfi_def_cfa_offset 12
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 46
+
+
+ 1611              		@ sp needed
+ 1612 002c 30BD     		pop	{r4, r5, pc}
+ 1613              	.LVL118:
+ 1614              	.L87:
+ 1615              	.LCFI25:
+ 1616              		.cfi_restore_state
+ 463:Core/Src/Amperometric.c ****     AD5940_FIFORd((uint32_t *)pBuff, FifoCnt);
+ 1617              		.loc 1 463 5 is_stmt 1 view .LVU536
+ 463:Core/Src/Amperometric.c ****     AD5940_FIFORd((uint32_t *)pBuff, FifoCnt);
+ 1618              		.loc 1 463 15 is_stmt 0 view .LVU537
+ 1619 002e FFF7FEFF 		bl	AD5940_FIFOGetCnt
+ 1620              	.LVL119:
+ 1621 0032 0146     		mov	r1, r0
+ 463:Core/Src/Amperometric.c ****     AD5940_FIFORd((uint32_t *)pBuff, FifoCnt);
+ 1622              		.loc 1 463 13 view .LVU538
+ 1623 0034 0190     		str	r0, [sp, #4]
+ 464:Core/Src/Amperometric.c ****     AD5940_INTCClrFlag(AFEINTSRC_DATAFIFOTHRESH);
+ 1624              		.loc 1 464 5 is_stmt 1 view .LVU539
+ 1625 0036 2846     		mov	r0, r5
+ 1626 0038 FFF7FEFF 		bl	AD5940_FIFORd
+ 1627              	.LVL120:
+ 465:Core/Src/Amperometric.c ****     AppAMPRegModify(pBuff, &FifoCnt);   /* If there is need to do AFE re-configure, do it here when
+ 1628              		.loc 1 465 5 view .LVU540
+ 1629 003c 4FF00070 		mov	r0, #33554432
+ 1630 0040 FFF7FEFF 		bl	AD5940_INTCClrFlag
+ 1631              	.LVL121:
+ 466:Core/Src/Amperometric.c **** 		AD5940_SleepKeyCtrlS(SLPKEY_UNLOCK); 
+ 1632              		.loc 1 466 5 view .LVU541
+ 1633 0044 01A9     		add	r1, sp, #4
+ 1634 0046 2846     		mov	r0, r5
+ 1635 0048 FFF7FEFF 		bl	AppAMPRegModify
+ 1636              	.LVL122:
+ 467:Core/Src/Amperometric.c ****     //AD5940_EnterSleepS();  /* Manually put AFE back to hibernate mode. This operation only takes 
+ 1637              		.loc 1 467 3 view .LVU542
+ 1638 004c 0648     		ldr	r0, .L88
+ 1639 004e FFF7FEFF 		bl	AD5940_SleepKeyCtrlS
+ 1640              	.LVL123:
+ 471:Core/Src/Amperometric.c ****     *pCount = FifoCnt;
+ 1641              		.loc 1 471 5 view .LVU543
+ 1642 0052 01A9     		add	r1, sp, #4
+ 1643 0054 2846     		mov	r0, r5
+ 1644 0056 FFF7FEFF 		bl	AppAMPDataProcess
+ 1645              	.LVL124:
+ 472:Core/Src/Amperometric.c ****     return 0;
+ 1646              		.loc 1 472 5 view .LVU544
+ 472:Core/Src/Amperometric.c ****     return 0;
+ 1647              		.loc 1 472 13 is_stmt 0 view .LVU545
+ 1648 005a 019B     		ldr	r3, [sp, #4]
+ 1649 005c 2360     		str	r3, [r4]
+ 473:Core/Src/Amperometric.c ****   }
+ 1650              		.loc 1 473 5 is_stmt 1 view .LVU546
+ 473:Core/Src/Amperometric.c ****   }
+ 1651              		.loc 1 473 12 is_stmt 0 view .LVU547
+ 1652 005e 0020     		movs	r0, #0
+ 1653 0060 E3E7     		b	.L82
+ 1654              	.L84:
+ 457:Core/Src/Amperometric.c ****   AD5940_SleepKeyCtrlS(SLPKEY_LOCK);
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 47
+
+
+ 1655              		.loc 1 457 12 view .LVU548
+ 1656 0062 6FF00800 		mvn	r0, #8
+ 1657 0066 E0E7     		b	.L82
+ 1658              	.L89:
+ 1659              		.align	2
+ 1660              	.L88:
+ 1661 0068 E5470A00 		.word	673765
+ 1662              		.cfi_endproc
+ 1663              	.LFE11:
+ 1665              		.global	AppAMPCfg
+ 1666              		.section	.data.AppAMPCfg,"aw"
+ 1667              		.align	2
+ 1668              		.set	.LANCHOR0,. + 0
+ 1671              	AppAMPCfg:
+ 1672 0000 00       		.byte	0
+ 1673 0001 000000   		.space	3
+ 1674 0004 00000000 		.word	0
+ 1675 0008 00000000 		.word	0
+ 1676 000c 00000000 		.word	0
+ 1677 0010 00000000 		.word	0
+ 1678 0014 01       		.byte	1
+ 1679 0015 000000   		.space	3
+ 1680 0018 0024744B 		.word	1265902592
+ 1681 001c 0000FA46 		.word	1190789120
+ 1682 0020 0024744B 		.word	1265902592
+ 1683 0024 05000000 		.word	5
+ 1684 0028 0000803F 		.word	1065353216
+ 1685 002c FFFFFFFF 		.word	-1
+ 1686 0030 00401C46 		.word	1176256512
+ 1687 0034 3E79E83F 		.word	1072199998
+ 1688 0038 00000000 		.word	0
+ 1689 003c 01000000 		.word	1
+ 1690 0040 01       		.byte	1
+ 1691 0041 00       		.byte	0
+ 1692 0042 0000     		.space	2
+ 1693 0044 03000000 		.word	3
+ 1694 0048 1A000000 		.word	26
+ 1695 004c 07000000 		.word	7
+ 1696 0050 04000000 		.word	4
+ 1697 0054 00000000 		.word	0
+ 1698 0058 00000000 		.space	4
+ 1699 005c 00808944 		.word	1149861888
+ 1700 0060 00007A44 		.word	1148846080
+ 1701 0064 00       		.byte	0
+ 1702 0065 000000   		.space	3
+ 1703 0068 00000000 		.word	0
+ 1704 006c 00       		.byte	0
+ 1705 006d 00000000 		.space	43
+ 1705      00000000 
+ 1705      00000000 
+ 1705      00000000 
+ 1705      00000000 
+ 1706 0098 00       		.byte	0
+ 1707 0099 00000000 		.space	7
+ 1707      000000
+ 1708              		.text
+ 1709              	.Letext0:
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 48
+
+
+ 1710              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 1711              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1712              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1713              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1714              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1715              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1716              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1717              		.file 9 "ad5940lib/AD5940.H"
+ 1718              		.file 10 "Core/Inc/Amperometric.h"
+ 1719              		.file 11 "<built-in>"
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 49
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Amperometric.c
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:17     .text.AppAMPRegModify:00000000 $t
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:24     .text.AppAMPRegModify:00000000 AppAMPRegModify
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:91     .text.AppAMPRegModify:0000003c $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:96     .text.AppAMPRtiaCal:00000000 $t
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:102    .text.AppAMPRtiaCal:00000000 AppAMPRtiaCal
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:210    .text.AppAMPRtiaCal:0000007c $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:216    .text.AppAMPSeqCfgGen:00000000 $t
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:222    .text.AppAMPSeqCfgGen:00000000 AppAMPSeqCfgGen
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:560    .text.AppAMPSeqCfgGen:00000190 $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:569    .text.AppAMPSeqMeasureGen:00000000 $t
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:575    .text.AppAMPSeqMeasureGen:00000000 AppAMPSeqMeasureGen
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:737    .text.AppAMPSeqMeasureGen:000000b8 $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:744    .text.AppAMPGetCfg:00000000 $t
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:751    .text.AppAMPGetCfg:00000000 AppAMPGetCfg
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:782    .text.AppAMPGetCfg:00000010 $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:787    .text.AppAMPCtrl:00000000 $t
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:794    .text.AppAMPCtrl:00000000 AppAMPCtrl
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:817    .text.AppAMPCtrl:0000000c $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:984    .text.AppAMPCtrl:000000c0 $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:989    .text.AppAMPInit:00000000 $t
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:996    .text.AppAMPInit:00000000 AppAMPInit
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1265   .text.AppAMPInit:0000012c $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1270   .text.AppAMPCalcVoltage:00000000 $t
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1277   .text.AppAMPCalcVoltage:00000000 AppAMPCalcVoltage
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1300   .text.AppAMPCalcVoltage:00000010 $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1427   .text.AppAMPCalcVoltage:000000f0 $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1435   .text.AppAMPCalcCurrent:00000000 $t
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1442   .text.AppAMPCalcCurrent:00000000 AppAMPCalcCurrent
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1478   .text.AppAMPCalcCurrent:0000001c $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1484   .text.AppAMPDataProcess:00000000 $t
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1490   .text.AppAMPDataProcess:00000000 AppAMPDataProcess
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1550   .text.AppAMPISR:00000000 $t
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1557   .text.AppAMPISR:00000000 AppAMPISR
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1661   .text.AppAMPISR:00000068 $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1671   .data.AppAMPCfg:00000000 AppAMPCfg
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1667   .data.AppAMPCfg:00000000 $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:822    .text.AppAMPCtrl:00000011 $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:822    .text.AppAMPCtrl:00000012 $t
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1305   .text.AppAMPCalcVoltage:00000015 $d
+C:\Users\root\AppData\Local\Temp\ccvhMU3P.s:1305   .text.AppAMPCalcVoltage:00000016 $t
+
+UNDEFINED SYMBOLS
+AD5940_WUPTCtrl
+AD5940_StructInit
+AD5940_LPRtiaCal
+AD5940_SEQGenCtrl
+AD5940_REFCfgS
+AD5940_LPLoopCfgS
+AD5940_DSPCfgS
+AD5940_SWMatrixCfgS
+AD5940_AFECtrlS
+AD5940_SEQGpioCtrlS
+AD5940_SEQGenInsert
+AD5940_SEQGenFetchSeq
+AD5940_SEQCmdWrite
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccvhMU3P.s 			page 50
+
+
+AD5940_ClksCalculate
+AD5940_EnterSleepS
+AD5940_ReadReg
+AD5940_WUPTCfg
+memset
+AD5940_WakeUp
+AD5940_SEQCfg
+AD5940_FIFOCtrlS
+AD5940_FIFOCfg
+AD5940_INTCClrFlag
+AD5940_SEQInfoCfg
+AD5940_SEQMmrTrig
+AD5940_INTCTestFlag
+AD5940_SEQCtrlS
+AD5940_ClrMCUIntFlag
+AD5940_AFEPwrBW
+AD5940_SEQGenInit
+AD5940_SleepKeyCtrlS
+AD5940_FIFOGetCnt
+AD5940_FIFORd

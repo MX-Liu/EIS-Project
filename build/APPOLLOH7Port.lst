@@ -1,0 +1,952 @@
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"APPOLLOH7Port.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.AD5940_ReadWriteNBytes,"ax",%progbits
+  17              		.align	1
+  18              		.global	AD5940_ReadWriteNBytes
+  19              		.arch armv7e-m
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv5-d16
+  25              	AD5940_ReadWriteNBytes:
+  26              	.LVL0:
+  27              	.LFB144:
+  28              		.file 1 "Core/Src/APPOLLOH7Port.c"
+   1:Core/Src/APPOLLOH7Port.c **** /**  
+   2:Core/Src/APPOLLOH7Port.c ****  * @file       NUCLEOF411Port.c
+   3:Core/Src/APPOLLOH7Port.c ****  * @brief      ST NUCLEOF411 board port file.
+   4:Core/Src/APPOLLOH7Port.c ****  * @version    V0.2.0
+   5:Core/Src/APPOLLOH7Port.c ****  * @author     ADI
+   6:Core/Src/APPOLLOH7Port.c ****  * @date       March 2019
+   7:Core/Src/APPOLLOH7Port.c ****  * @par Revision History:
+   8:Core/Src/APPOLLOH7Port.c ****  * 
+   9:Core/Src/APPOLLOH7Port.c ****  * Copyright (c) 2017-2019 Analog Devices, Inc. All Rights Reserved.
+  10:Core/Src/APPOLLOH7Port.c ****  * 
+  11:Core/Src/APPOLLOH7Port.c ****  * This software is proprietary to Analog Devices, Inc. and its licensors.
+  12:Core/Src/APPOLLOH7Port.c ****  * By using this software you agree to the terms of the associated
+  13:Core/Src/APPOLLOH7Port.c ****  * Analog Devices Software License Agreement.
+  14:Core/Src/APPOLLOH7Port.c **** **/
+  15:Core/Src/APPOLLOH7Port.c **** #include "ad5940.h"
+  16:Core/Src/APPOLLOH7Port.c **** #include "stdio.h"
+  17:Core/Src/APPOLLOH7Port.c **** #include "stm32h7xx_hal.h"
+  18:Core/Src/APPOLLOH7Port.c **** 
+  19:Core/Src/APPOLLOH7Port.c **** /* Definition for STM32 SPI clock resources */
+  20:Core/Src/APPOLLOH7Port.c **** #define AD5940SPI                          SPI1
+  21:Core/Src/APPOLLOH7Port.c **** #define AD5940_CLK_ENABLE()                __HAL_RCC_SPI1_CLK_ENABLE()
+  22:Core/Src/APPOLLOH7Port.c **** #define AD5940_SCK_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOA_CLK_ENABLE()
+  23:Core/Src/APPOLLOH7Port.c **** #define AD5940_MISO_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
+  24:Core/Src/APPOLLOH7Port.c **** #define AD5940_MOSI_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
+  25:Core/Src/APPOLLOH7Port.c **** #define AD5940_CS_GPIO_CLK_ENABLE()        __HAL_RCC_GPIOB_CLK_ENABLE()
+  26:Core/Src/APPOLLOH7Port.c **** #define AD5940_RST_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOB_CLK_ENABLE()
+  27:Core/Src/APPOLLOH7Port.c **** #define AD5940_GP0INT_GPIO_CLK_ENABLE()    __HAL_RCC_GPIOF_CLK_ENABLE()
+  28:Core/Src/APPOLLOH7Port.c **** 
+  29:Core/Src/APPOLLOH7Port.c **** #define AD5940SPI_FORCE_RESET()               __HAL_RCC_SPI1_FORCE_RESET()
+  30:Core/Src/APPOLLOH7Port.c **** #define AD5940SPI_RELEASE_RESET()             __HAL_RCC_SPI1_RELEASE_RESET()
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 2
+
+
+  31:Core/Src/APPOLLOH7Port.c **** 
+  32:Core/Src/APPOLLOH7Port.c **** /* Definition for AD5940 Pins */
+  33:Core/Src/APPOLLOH7Port.c **** #define AD5940_SCK_PIN                     GPIO_PIN_5
+  34:Core/Src/APPOLLOH7Port.c **** #define AD5940_SCK_GPIO_PORT               GPIOA
+  35:Core/Src/APPOLLOH7Port.c **** #define AD5940_SCK_AF                      GPIO_AF5_SPI1
+  36:Core/Src/APPOLLOH7Port.c **** #define AD5940_MISO_PIN                    GPIO_PIN_6
+  37:Core/Src/APPOLLOH7Port.c **** #define AD5940_MISO_GPIO_PORT              GPIOA
+  38:Core/Src/APPOLLOH7Port.c **** #define AD5940_MISO_AF                     GPIO_AF5_SPI1
+  39:Core/Src/APPOLLOH7Port.c **** #define AD5940_MOSI_PIN                    GPIO_PIN_7
+  40:Core/Src/APPOLLOH7Port.c **** #define AD5940_MOSI_GPIO_PORT              GPIOA
+  41:Core/Src/APPOLLOH7Port.c **** #define AD5940_MOSI_AF                     GPIO_AF5_SPI1
+  42:Core/Src/APPOLLOH7Port.c **** 
+  43:Core/Src/APPOLLOH7Port.c **** #define AD5940_CS_PIN                      GPIO_PIN_6
+  44:Core/Src/APPOLLOH7Port.c **** #define AD5940_CS_GPIO_PORT                GPIOB
+  45:Core/Src/APPOLLOH7Port.c **** 
+  46:Core/Src/APPOLLOH7Port.c **** #define AD5940_RST_PIN                     GPIO_PIN_0   
+  47:Core/Src/APPOLLOH7Port.c **** #define AD5940_RST_GPIO_PORT               GPIOB
+  48:Core/Src/APPOLLOH7Port.c **** 
+  49:Core/Src/APPOLLOH7Port.c **** #define AD5940_GP0INT_PIN                  GPIO_PIN_6   
+  50:Core/Src/APPOLLOH7Port.c **** #define AD5940_GP0INT_GPIO_PORT            GPIOF
+  51:Core/Src/APPOLLOH7Port.c **** #define AD5940_GP0INT_IRQn                 EXTI9_5_IRQn
+  52:Core/Src/APPOLLOH7Port.c **** 
+  53:Core/Src/APPOLLOH7Port.c **** SPI_HandleTypeDef  SpiHandle;
+  54:Core/Src/APPOLLOH7Port.c **** 
+  55:Core/Src/APPOLLOH7Port.c **** #define SYSTICK_MAXCOUNT ((1L<<24)-1) /* we use Systick to complete function Delay10uS(). This valu
+  56:Core/Src/APPOLLOH7Port.c **** #define SYSTICK_CLKFREQ   100000000L  /* Systick clock frequency in Hz. This only appies to NUCLEOF
+  57:Core/Src/APPOLLOH7Port.c **** volatile static uint8_t ucInterrupted = 0;       /* Flag to indicate interrupt occurred */
+  58:Core/Src/APPOLLOH7Port.c **** 
+  59:Core/Src/APPOLLOH7Port.c **** /**
+  60:Core/Src/APPOLLOH7Port.c **** 	@brief Using SPI to transmit N bytes and return the received bytes. This function targets to 
+  61:Core/Src/APPOLLOH7Port.c ****                      provide a more efficent way to transmit/receive data.
+  62:Core/Src/APPOLLOH7Port.c **** 	@param pSendBuffer :{0 - 0xFFFFFFFF}
+  63:Core/Src/APPOLLOH7Port.c ****       - Pointer to the data to be sent.
+  64:Core/Src/APPOLLOH7Port.c **** 	@param pRecvBuff :{0 - 0xFFFFFFFF}
+  65:Core/Src/APPOLLOH7Port.c ****       - Pointer to the buffer used to store received data.
+  66:Core/Src/APPOLLOH7Port.c **** 	@param length :{0 - 0xFFFFFFFF}
+  67:Core/Src/APPOLLOH7Port.c ****       - Data length in SendBuffer.
+  68:Core/Src/APPOLLOH7Port.c **** 	@return None.
+  69:Core/Src/APPOLLOH7Port.c **** **/
+  70:Core/Src/APPOLLOH7Port.c **** void AD5940_ReadWriteNBytes(unsigned char *pSendBuffer,unsigned char *pRecvBuff,unsigned long lengt
+  71:Core/Src/APPOLLOH7Port.c **** {
+  29              		.loc 1 71 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 71 1 is_stmt 0 view .LVU1
+  34 0000 00B5     		push	{lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 4
+  37              		.cfi_offset 14, -4
+  38 0002 83B0     		sub	sp, sp, #12
+  39              	.LCFI1:
+  40              		.cfi_def_cfa_offset 16
+  72:Core/Src/APPOLLOH7Port.c ****   HAL_SPI_TransmitReceive(&SpiHandle, pSendBuffer, pRecvBuff, length, (uint32_t)-1);
+  41              		.loc 1 72 3 is_stmt 1 view .LVU2
+  42 0004 4FF0FF33 		mov	r3, #-1
+  43 0008 0093     		str	r3, [sp]
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 3
+
+
+  44 000a 93B2     		uxth	r3, r2
+  45 000c 0A46     		mov	r2, r1
+  46              	.LVL1:
+  47              		.loc 1 72 3 is_stmt 0 view .LVU3
+  48 000e 0146     		mov	r1, r0
+  49              	.LVL2:
+  50              		.loc 1 72 3 view .LVU4
+  51 0010 0248     		ldr	r0, .L3
+  52              	.LVL3:
+  53              		.loc 1 72 3 view .LVU5
+  54 0012 FFF7FEFF 		bl	HAL_SPI_TransmitReceive
+  55              	.LVL4:
+  73:Core/Src/APPOLLOH7Port.c **** }
+  56              		.loc 1 73 1 view .LVU6
+  57 0016 03B0     		add	sp, sp, #12
+  58              	.LCFI2:
+  59              		.cfi_def_cfa_offset 4
+  60              		@ sp needed
+  61 0018 5DF804FB 		ldr	pc, [sp], #4
+  62              	.L4:
+  63              		.align	2
+  64              	.L3:
+  65 001c 00000000 		.word	SpiHandle
+  66              		.cfi_endproc
+  67              	.LFE144:
+  69              		.section	.text.AD5940_CsClr,"ax",%progbits
+  70              		.align	1
+  71              		.global	AD5940_CsClr
+  72              		.syntax unified
+  73              		.thumb
+  74              		.thumb_func
+  75              		.fpu fpv5-d16
+  77              	AD5940_CsClr:
+  78              	.LFB145:
+  74:Core/Src/APPOLLOH7Port.c **** 
+  75:Core/Src/APPOLLOH7Port.c **** void AD5940_CsClr(void)
+  76:Core/Src/APPOLLOH7Port.c **** {
+  79              		.loc 1 76 1 is_stmt 1 view -0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83 0000 08B5     		push	{r3, lr}
+  84              	.LCFI3:
+  85              		.cfi_def_cfa_offset 8
+  86              		.cfi_offset 3, -8
+  87              		.cfi_offset 14, -4
+  77:Core/Src/APPOLLOH7Port.c ****   HAL_GPIO_WritePin(AD5940_CS_GPIO_PORT, AD5940_CS_PIN, GPIO_PIN_RESET);
+  88              		.loc 1 77 3 view .LVU8
+  89 0002 0022     		movs	r2, #0
+  90 0004 4021     		movs	r1, #64
+  91 0006 0248     		ldr	r0, .L7
+  92 0008 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  93              	.LVL5:
+  78:Core/Src/APPOLLOH7Port.c **** }
+  94              		.loc 1 78 1 is_stmt 0 view .LVU9
+  95 000c 08BD     		pop	{r3, pc}
+  96              	.L8:
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 4
+
+
+  97 000e 00BF     		.align	2
+  98              	.L7:
+  99 0010 00040258 		.word	1476527104
+ 100              		.cfi_endproc
+ 101              	.LFE145:
+ 103              		.section	.text.AD5940_CsSet,"ax",%progbits
+ 104              		.align	1
+ 105              		.global	AD5940_CsSet
+ 106              		.syntax unified
+ 107              		.thumb
+ 108              		.thumb_func
+ 109              		.fpu fpv5-d16
+ 111              	AD5940_CsSet:
+ 112              	.LFB146:
+  79:Core/Src/APPOLLOH7Port.c **** 
+  80:Core/Src/APPOLLOH7Port.c **** void AD5940_CsSet(void)
+  81:Core/Src/APPOLLOH7Port.c **** {
+ 113              		.loc 1 81 1 is_stmt 1 view -0
+ 114              		.cfi_startproc
+ 115              		@ args = 0, pretend = 0, frame = 0
+ 116              		@ frame_needed = 0, uses_anonymous_args = 0
+ 117 0000 08B5     		push	{r3, lr}
+ 118              	.LCFI4:
+ 119              		.cfi_def_cfa_offset 8
+ 120              		.cfi_offset 3, -8
+ 121              		.cfi_offset 14, -4
+  82:Core/Src/APPOLLOH7Port.c ****   HAL_GPIO_WritePin(AD5940_CS_GPIO_PORT, AD5940_CS_PIN, GPIO_PIN_SET);
+ 122              		.loc 1 82 3 view .LVU11
+ 123 0002 0122     		movs	r2, #1
+ 124 0004 4021     		movs	r1, #64
+ 125 0006 0248     		ldr	r0, .L11
+ 126 0008 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 127              	.LVL6:
+  83:Core/Src/APPOLLOH7Port.c **** }
+ 128              		.loc 1 83 1 is_stmt 0 view .LVU12
+ 129 000c 08BD     		pop	{r3, pc}
+ 130              	.L12:
+ 131 000e 00BF     		.align	2
+ 132              	.L11:
+ 133 0010 00040258 		.word	1476527104
+ 134              		.cfi_endproc
+ 135              	.LFE146:
+ 137              		.section	.text.AD5940_RstSet,"ax",%progbits
+ 138              		.align	1
+ 139              		.global	AD5940_RstSet
+ 140              		.syntax unified
+ 141              		.thumb
+ 142              		.thumb_func
+ 143              		.fpu fpv5-d16
+ 145              	AD5940_RstSet:
+ 146              	.LFB147:
+  84:Core/Src/APPOLLOH7Port.c **** 
+  85:Core/Src/APPOLLOH7Port.c **** void AD5940_RstSet(void)
+  86:Core/Src/APPOLLOH7Port.c **** {
+ 147              		.loc 1 86 1 is_stmt 1 view -0
+ 148              		.cfi_startproc
+ 149              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 5
+
+
+ 150              		@ frame_needed = 0, uses_anonymous_args = 0
+ 151 0000 08B5     		push	{r3, lr}
+ 152              	.LCFI5:
+ 153              		.cfi_def_cfa_offset 8
+ 154              		.cfi_offset 3, -8
+ 155              		.cfi_offset 14, -4
+  87:Core/Src/APPOLLOH7Port.c ****   HAL_GPIO_WritePin(AD5940_RST_GPIO_PORT, AD5940_RST_PIN, GPIO_PIN_SET);
+ 156              		.loc 1 87 3 view .LVU14
+ 157 0002 0122     		movs	r2, #1
+ 158 0004 1146     		mov	r1, r2
+ 159 0006 0248     		ldr	r0, .L15
+ 160 0008 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 161              	.LVL7:
+  88:Core/Src/APPOLLOH7Port.c **** }
+ 162              		.loc 1 88 1 is_stmt 0 view .LVU15
+ 163 000c 08BD     		pop	{r3, pc}
+ 164              	.L16:
+ 165 000e 00BF     		.align	2
+ 166              	.L15:
+ 167 0010 00040258 		.word	1476527104
+ 168              		.cfi_endproc
+ 169              	.LFE147:
+ 171              		.section	.text.AD5940_RstClr,"ax",%progbits
+ 172              		.align	1
+ 173              		.global	AD5940_RstClr
+ 174              		.syntax unified
+ 175              		.thumb
+ 176              		.thumb_func
+ 177              		.fpu fpv5-d16
+ 179              	AD5940_RstClr:
+ 180              	.LFB148:
+  89:Core/Src/APPOLLOH7Port.c **** 
+  90:Core/Src/APPOLLOH7Port.c **** void AD5940_RstClr(void)
+  91:Core/Src/APPOLLOH7Port.c **** {
+ 181              		.loc 1 91 1 is_stmt 1 view -0
+ 182              		.cfi_startproc
+ 183              		@ args = 0, pretend = 0, frame = 0
+ 184              		@ frame_needed = 0, uses_anonymous_args = 0
+ 185 0000 08B5     		push	{r3, lr}
+ 186              	.LCFI6:
+ 187              		.cfi_def_cfa_offset 8
+ 188              		.cfi_offset 3, -8
+ 189              		.cfi_offset 14, -4
+  92:Core/Src/APPOLLOH7Port.c ****   HAL_GPIO_WritePin(AD5940_RST_GPIO_PORT, AD5940_RST_PIN, GPIO_PIN_RESET);
+ 190              		.loc 1 92 3 view .LVU17
+ 191 0002 0022     		movs	r2, #0
+ 192 0004 0121     		movs	r1, #1
+ 193 0006 0248     		ldr	r0, .L19
+ 194 0008 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 195              	.LVL8:
+  93:Core/Src/APPOLLOH7Port.c **** }
+ 196              		.loc 1 93 1 is_stmt 0 view .LVU18
+ 197 000c 08BD     		pop	{r3, pc}
+ 198              	.L20:
+ 199 000e 00BF     		.align	2
+ 200              	.L19:
+ 201 0010 00040258 		.word	1476527104
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 6
+
+
+ 202              		.cfi_endproc
+ 203              	.LFE148:
+ 205              		.section	.text.AD5940_Delay10us,"ax",%progbits
+ 206              		.align	1
+ 207              		.global	AD5940_Delay10us
+ 208              		.syntax unified
+ 209              		.thumb
+ 210              		.thumb_func
+ 211              		.fpu fpv5-d16
+ 213              	AD5940_Delay10us:
+ 214              	.LVL9:
+ 215              	.LFB149:
+  94:Core/Src/APPOLLOH7Port.c **** 
+  95:Core/Src/APPOLLOH7Port.c **** void AD5940_Delay10us(uint32_t time)
+  96:Core/Src/APPOLLOH7Port.c **** {
+ 216              		.loc 1 96 1 is_stmt 1 view -0
+ 217              		.cfi_startproc
+ 218              		@ args = 0, pretend = 0, frame = 0
+ 219              		@ frame_needed = 0, uses_anonymous_args = 0
+ 220              		.loc 1 96 1 is_stmt 0 view .LVU20
+ 221 0000 08B5     		push	{r3, lr}
+ 222              	.LCFI7:
+ 223              		.cfi_def_cfa_offset 8
+ 224              		.cfi_offset 3, -8
+ 225              		.cfi_offset 14, -4
+ 226 0002 0246     		mov	r2, r0
+  97:Core/Src/APPOLLOH7Port.c ****   time/=100;
+ 227              		.loc 1 97 3 is_stmt 1 view .LVU21
+ 228              		.loc 1 97 7 is_stmt 0 view .LVU22
+ 229 0004 044B     		ldr	r3, .L25
+ 230 0006 A3FB0013 		umull	r1, r3, r3, r0
+ 231 000a 5809     		lsrs	r0, r3, #5
+ 232              	.LVL10:
+  98:Core/Src/APPOLLOH7Port.c ****   if(time == 0) time =1;
+ 233              		.loc 1 98 3 is_stmt 1 view .LVU23
+ 234              		.loc 1 98 5 is_stmt 0 view .LVU24
+ 235 000c 632A     		cmp	r2, #99
+ 236 000e 00D8     		bhi	.L22
+ 237              		.loc 1 98 22 view .LVU25
+ 238 0010 0120     		movs	r0, #1
+ 239              	.LVL11:
+ 240              	.L22:
+  99:Core/Src/APPOLLOH7Port.c ****   HAL_Delay(time);
+ 241              		.loc 1 99 3 is_stmt 1 view .LVU26
+ 242 0012 FFF7FEFF 		bl	HAL_Delay
+ 243              	.LVL12:
+ 100:Core/Src/APPOLLOH7Port.c **** }
+ 244              		.loc 1 100 1 is_stmt 0 view .LVU27
+ 245 0016 08BD     		pop	{r3, pc}
+ 246              	.L26:
+ 247              		.align	2
+ 248              	.L25:
+ 249 0018 1F85EB51 		.word	1374389535
+ 250              		.cfi_endproc
+ 251              	.LFE149:
+ 253              		.section	.text.AD5940_GetMCUIntFlag,"ax",%progbits
+ 254              		.align	1
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 7
+
+
+ 255              		.global	AD5940_GetMCUIntFlag
+ 256              		.syntax unified
+ 257              		.thumb
+ 258              		.thumb_func
+ 259              		.fpu fpv5-d16
+ 261              	AD5940_GetMCUIntFlag:
+ 262              	.LFB150:
+ 101:Core/Src/APPOLLOH7Port.c **** 
+ 102:Core/Src/APPOLLOH7Port.c **** uint32_t AD5940_GetMCUIntFlag(void)
+ 103:Core/Src/APPOLLOH7Port.c **** {
+ 263              		.loc 1 103 1 is_stmt 1 view -0
+ 264              		.cfi_startproc
+ 265              		@ args = 0, pretend = 0, frame = 0
+ 266              		@ frame_needed = 0, uses_anonymous_args = 0
+ 267              		@ link register save eliminated.
+ 104:Core/Src/APPOLLOH7Port.c **** 	return ucInterrupted;
+ 268              		.loc 1 104 2 view .LVU29
+ 269              		.loc 1 104 9 is_stmt 0 view .LVU30
+ 270 0000 014B     		ldr	r3, .L28
+ 271 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 105:Core/Src/APPOLLOH7Port.c **** }
+ 272              		.loc 1 105 1 view .LVU31
+ 273 0004 7047     		bx	lr
+ 274              	.L29:
+ 275 0006 00BF     		.align	2
+ 276              	.L28:
+ 277 0008 00000000 		.word	.LANCHOR0
+ 278              		.cfi_endproc
+ 279              	.LFE150:
+ 281              		.section	.text.AD5940_ClrMCUIntFlag,"ax",%progbits
+ 282              		.align	1
+ 283              		.global	AD5940_ClrMCUIntFlag
+ 284              		.syntax unified
+ 285              		.thumb
+ 286              		.thumb_func
+ 287              		.fpu fpv5-d16
+ 289              	AD5940_ClrMCUIntFlag:
+ 290              	.LFB151:
+ 106:Core/Src/APPOLLOH7Port.c **** 
+ 107:Core/Src/APPOLLOH7Port.c **** uint32_t AD5940_ClrMCUIntFlag(void)
+ 108:Core/Src/APPOLLOH7Port.c **** {
+ 291              		.loc 1 108 1 is_stmt 1 view -0
+ 292              		.cfi_startproc
+ 293              		@ args = 0, pretend = 0, frame = 0
+ 294              		@ frame_needed = 0, uses_anonymous_args = 0
+ 295              		@ link register save eliminated.
+ 109:Core/Src/APPOLLOH7Port.c **** 	ucInterrupted = 0;
+ 296              		.loc 1 109 2 view .LVU33
+ 297              		.loc 1 109 16 is_stmt 0 view .LVU34
+ 298 0000 024B     		ldr	r3, .L31
+ 299 0002 0022     		movs	r2, #0
+ 300 0004 1A70     		strb	r2, [r3]
+ 110:Core/Src/APPOLLOH7Port.c **** 	return 1;
+ 301              		.loc 1 110 2 is_stmt 1 view .LVU35
+ 111:Core/Src/APPOLLOH7Port.c **** }
+ 302              		.loc 1 111 1 is_stmt 0 view .LVU36
+ 303 0006 0120     		movs	r0, #1
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 8
+
+
+ 304 0008 7047     		bx	lr
+ 305              	.L32:
+ 306 000a 00BF     		.align	2
+ 307              	.L31:
+ 308 000c 00000000 		.word	.LANCHOR0
+ 309              		.cfi_endproc
+ 310              	.LFE151:
+ 312              		.section	.text.AD5940_MCUResourceInit,"ax",%progbits
+ 313              		.align	1
+ 314              		.global	AD5940_MCUResourceInit
+ 315              		.syntax unified
+ 316              		.thumb
+ 317              		.thumb_func
+ 318              		.fpu fpv5-d16
+ 320              	AD5940_MCUResourceInit:
+ 321              	.LVL13:
+ 322              	.LFB152:
+ 112:Core/Src/APPOLLOH7Port.c **** 
+ 113:Core/Src/APPOLLOH7Port.c **** uint32_t AD5940_MCUResourceInit(void *pCfg)
+ 114:Core/Src/APPOLLOH7Port.c **** {
+ 323              		.loc 1 114 1 is_stmt 1 view -0
+ 324              		.cfi_startproc
+ 325              		@ args = 0, pretend = 0, frame = 48
+ 326              		@ frame_needed = 0, uses_anonymous_args = 0
+ 327              		.loc 1 114 1 is_stmt 0 view .LVU38
+ 328 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 329              	.LCFI8:
+ 330              		.cfi_def_cfa_offset 24
+ 331              		.cfi_offset 4, -24
+ 332              		.cfi_offset 5, -20
+ 333              		.cfi_offset 6, -16
+ 334              		.cfi_offset 7, -12
+ 335              		.cfi_offset 8, -8
+ 336              		.cfi_offset 14, -4
+ 337 0004 8CB0     		sub	sp, sp, #48
+ 338              	.LCFI9:
+ 339              		.cfi_def_cfa_offset 72
+ 115:Core/Src/APPOLLOH7Port.c ****   GPIO_InitTypeDef  GPIO_InitStruct;
+ 340              		.loc 1 115 3 is_stmt 1 view .LVU39
+ 116:Core/Src/APPOLLOH7Port.c ****   
+ 117:Core/Src/APPOLLOH7Port.c ****   /* Step1, initialize SPI peripheral and its GPIOs for CS/RST */
+ 118:Core/Src/APPOLLOH7Port.c ****   AD5940_SCK_GPIO_CLK_ENABLE();
+ 341              		.loc 1 118 3 view .LVU40
+ 342              	.LBB2:
+ 343              		.loc 1 118 3 view .LVU41
+ 344              		.loc 1 118 3 view .LVU42
+ 345 0006 574C     		ldr	r4, .L35
+ 346 0008 D4F8E030 		ldr	r3, [r4, #224]
+ 347 000c 43F00103 		orr	r3, r3, #1
+ 348 0010 C4F8E030 		str	r3, [r4, #224]
+ 349              		.loc 1 118 3 view .LVU43
+ 350 0014 D4F8E030 		ldr	r3, [r4, #224]
+ 351 0018 03F00103 		and	r3, r3, #1
+ 352 001c 0093     		str	r3, [sp]
+ 353              		.loc 1 118 3 view .LVU44
+ 354 001e 009B     		ldr	r3, [sp]
+ 355              	.LBE2:
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 9
+
+
+ 356              		.loc 1 118 3 view .LVU45
+ 119:Core/Src/APPOLLOH7Port.c ****   AD5940_MISO_GPIO_CLK_ENABLE();
+ 357              		.loc 1 119 3 view .LVU46
+ 358              	.LBB3:
+ 359              		.loc 1 119 3 view .LVU47
+ 360              		.loc 1 119 3 view .LVU48
+ 361 0020 D4F8E030 		ldr	r3, [r4, #224]
+ 362 0024 43F00103 		orr	r3, r3, #1
+ 363 0028 C4F8E030 		str	r3, [r4, #224]
+ 364              		.loc 1 119 3 view .LVU49
+ 365 002c D4F8E030 		ldr	r3, [r4, #224]
+ 366 0030 03F00103 		and	r3, r3, #1
+ 367 0034 0193     		str	r3, [sp, #4]
+ 368              		.loc 1 119 3 view .LVU50
+ 369 0036 019B     		ldr	r3, [sp, #4]
+ 370              	.LBE3:
+ 371              		.loc 1 119 3 view .LVU51
+ 120:Core/Src/APPOLLOH7Port.c ****   AD5940_MOSI_GPIO_CLK_ENABLE();
+ 372              		.loc 1 120 3 view .LVU52
+ 373              	.LBB4:
+ 374              		.loc 1 120 3 view .LVU53
+ 375              		.loc 1 120 3 view .LVU54
+ 376 0038 D4F8E030 		ldr	r3, [r4, #224]
+ 377 003c 43F00103 		orr	r3, r3, #1
+ 378 0040 C4F8E030 		str	r3, [r4, #224]
+ 379              		.loc 1 120 3 view .LVU55
+ 380 0044 D4F8E030 		ldr	r3, [r4, #224]
+ 381 0048 03F00103 		and	r3, r3, #1
+ 382 004c 0293     		str	r3, [sp, #8]
+ 383              		.loc 1 120 3 view .LVU56
+ 384 004e 029B     		ldr	r3, [sp, #8]
+ 385              	.LBE4:
+ 386              		.loc 1 120 3 view .LVU57
+ 121:Core/Src/APPOLLOH7Port.c ****   AD5940_CS_GPIO_CLK_ENABLE();
+ 387              		.loc 1 121 3 view .LVU58
+ 388              	.LBB5:
+ 389              		.loc 1 121 3 view .LVU59
+ 390              		.loc 1 121 3 view .LVU60
+ 391 0050 D4F8E030 		ldr	r3, [r4, #224]
+ 392 0054 43F00203 		orr	r3, r3, #2
+ 393 0058 C4F8E030 		str	r3, [r4, #224]
+ 394              		.loc 1 121 3 view .LVU61
+ 395 005c D4F8E030 		ldr	r3, [r4, #224]
+ 396 0060 03F00203 		and	r3, r3, #2
+ 397 0064 0393     		str	r3, [sp, #12]
+ 398              		.loc 1 121 3 view .LVU62
+ 399 0066 039B     		ldr	r3, [sp, #12]
+ 400              	.LBE5:
+ 401              		.loc 1 121 3 view .LVU63
+ 122:Core/Src/APPOLLOH7Port.c ****   AD5940_RST_GPIO_CLK_ENABLE();
+ 402              		.loc 1 122 3 view .LVU64
+ 403              	.LBB6:
+ 404              		.loc 1 122 3 view .LVU65
+ 405              		.loc 1 122 3 view .LVU66
+ 406 0068 D4F8E030 		ldr	r3, [r4, #224]
+ 407 006c 43F00203 		orr	r3, r3, #2
+ 408 0070 C4F8E030 		str	r3, [r4, #224]
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 10
+
+
+ 409              		.loc 1 122 3 view .LVU67
+ 410 0074 D4F8E030 		ldr	r3, [r4, #224]
+ 411 0078 03F00203 		and	r3, r3, #2
+ 412 007c 0493     		str	r3, [sp, #16]
+ 413              		.loc 1 122 3 view .LVU68
+ 414 007e 049B     		ldr	r3, [sp, #16]
+ 415              	.LBE6:
+ 416              		.loc 1 122 3 view .LVU69
+ 123:Core/Src/APPOLLOH7Port.c ****   /* Enable SPI clock */
+ 124:Core/Src/APPOLLOH7Port.c ****   AD5940_CLK_ENABLE(); 
+ 417              		.loc 1 124 3 view .LVU70
+ 418              	.LBB7:
+ 419              		.loc 1 124 3 view .LVU71
+ 420              		.loc 1 124 3 view .LVU72
+ 421 0080 D4F8F030 		ldr	r3, [r4, #240]
+ 422 0084 43F48053 		orr	r3, r3, #4096
+ 423 0088 C4F8F030 		str	r3, [r4, #240]
+ 424              		.loc 1 124 3 view .LVU73
+ 425 008c D4F8F030 		ldr	r3, [r4, #240]
+ 426 0090 03F48053 		and	r3, r3, #4096
+ 427 0094 0593     		str	r3, [sp, #20]
+ 428              		.loc 1 124 3 view .LVU74
+ 429 0096 059B     		ldr	r3, [sp, #20]
+ 430              	.LBE7:
+ 431              		.loc 1 124 3 view .LVU75
+ 125:Core/Src/APPOLLOH7Port.c ****   
+ 126:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Pin       = AD5940_SCK_PIN;
+ 432              		.loc 1 126 3 view .LVU76
+ 433              		.loc 1 126 29 is_stmt 0 view .LVU77
+ 434 0098 2023     		movs	r3, #32
+ 435 009a 0793     		str	r3, [sp, #28]
+ 127:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
+ 436              		.loc 1 127 3 is_stmt 1 view .LVU78
+ 437              		.loc 1 127 29 is_stmt 0 view .LVU79
+ 438 009c 0223     		movs	r3, #2
+ 439 009e 0893     		str	r3, [sp, #32]
+ 128:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Pull      = GPIO_PULLDOWN;
+ 440              		.loc 1 128 3 is_stmt 1 view .LVU80
+ 441              		.loc 1 128 29 is_stmt 0 view .LVU81
+ 442 00a0 0993     		str	r3, [sp, #36]
+ 129:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
+ 443              		.loc 1 129 3 is_stmt 1 view .LVU82
+ 444              		.loc 1 129 29 is_stmt 0 view .LVU83
+ 445 00a2 4FF00308 		mov	r8, #3
+ 446 00a6 CDF82880 		str	r8, [sp, #40]
+ 130:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Alternate = AD5940_SCK_AF;
+ 447              		.loc 1 130 3 is_stmt 1 view .LVU84
+ 448              		.loc 1 130 29 is_stmt 0 view .LVU85
+ 449 00aa 0526     		movs	r6, #5
+ 450 00ac 0B96     		str	r6, [sp, #44]
+ 131:Core/Src/APPOLLOH7Port.c ****   HAL_GPIO_Init(AD5940_SCK_GPIO_PORT, &GPIO_InitStruct);
+ 451              		.loc 1 131 3 is_stmt 1 view .LVU86
+ 452 00ae 2E4D     		ldr	r5, .L35+4
+ 453 00b0 07A9     		add	r1, sp, #28
+ 454 00b2 2846     		mov	r0, r5
+ 455              	.LVL14:
+ 456              		.loc 1 131 3 is_stmt 0 view .LVU87
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 11
+
+
+ 457 00b4 FFF7FEFF 		bl	HAL_GPIO_Init
+ 458              	.LVL15:
+ 132:Core/Src/APPOLLOH7Port.c ****   
+ 133:Core/Src/APPOLLOH7Port.c ****   /* SPI MISO GPIO pin configuration  */
+ 134:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Pin = AD5940_MISO_PIN;
+ 459              		.loc 1 134 3 is_stmt 1 view .LVU88
+ 460              		.loc 1 134 23 is_stmt 0 view .LVU89
+ 461 00b8 4027     		movs	r7, #64
+ 462 00ba 0797     		str	r7, [sp, #28]
+ 135:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Alternate = AD5940_MISO_AF;
+ 463              		.loc 1 135 3 is_stmt 1 view .LVU90
+ 464              		.loc 1 135 29 is_stmt 0 view .LVU91
+ 465 00bc 0B96     		str	r6, [sp, #44]
+ 136:Core/Src/APPOLLOH7Port.c ****   HAL_GPIO_Init(AD5940_MISO_GPIO_PORT, &GPIO_InitStruct);
+ 466              		.loc 1 136 3 is_stmt 1 view .LVU92
+ 467 00be 07A9     		add	r1, sp, #28
+ 468 00c0 2846     		mov	r0, r5
+ 469 00c2 FFF7FEFF 		bl	HAL_GPIO_Init
+ 470              	.LVL16:
+ 137:Core/Src/APPOLLOH7Port.c ****   
+ 138:Core/Src/APPOLLOH7Port.c ****   /* SPI MOSI GPIO pin configuration  */
+ 139:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Pin = AD5940_MOSI_PIN;
+ 471              		.loc 1 139 3 view .LVU93
+ 472              		.loc 1 139 23 is_stmt 0 view .LVU94
+ 473 00c6 8023     		movs	r3, #128
+ 474 00c8 0793     		str	r3, [sp, #28]
+ 140:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Alternate = AD5940_MOSI_AF;
+ 475              		.loc 1 140 3 is_stmt 1 view .LVU95
+ 476              		.loc 1 140 29 is_stmt 0 view .LVU96
+ 477 00ca 0B96     		str	r6, [sp, #44]
+ 141:Core/Src/APPOLLOH7Port.c ****   HAL_GPIO_Init(AD5940_MOSI_GPIO_PORT, &GPIO_InitStruct);
+ 478              		.loc 1 141 3 is_stmt 1 view .LVU97
+ 479 00cc 07A9     		add	r1, sp, #28
+ 480 00ce 2846     		mov	r0, r5
+ 481 00d0 FFF7FEFF 		bl	HAL_GPIO_Init
+ 482              	.LVL17:
+ 142:Core/Src/APPOLLOH7Port.c ****   /* SPI CS GPIO pin configuration  */
+ 143:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Pin = AD5940_CS_PIN;
+ 483              		.loc 1 143 3 view .LVU98
+ 484              		.loc 1 143 23 is_stmt 0 view .LVU99
+ 485 00d4 0797     		str	r7, [sp, #28]
+ 144:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+ 486              		.loc 1 144 3 is_stmt 1 view .LVU100
+ 487              		.loc 1 144 24 is_stmt 0 view .LVU101
+ 488 00d6 0126     		movs	r6, #1
+ 489 00d8 0896     		str	r6, [sp, #32]
+ 145:Core/Src/APPOLLOH7Port.c ****   HAL_GPIO_Init(AD5940_CS_GPIO_PORT, &GPIO_InitStruct);
+ 490              		.loc 1 145 3 is_stmt 1 view .LVU102
+ 491 00da 05F58065 		add	r5, r5, #1024
+ 492 00de 07A9     		add	r1, sp, #28
+ 493 00e0 2846     		mov	r0, r5
+ 494 00e2 FFF7FEFF 		bl	HAL_GPIO_Init
+ 495              	.LVL18:
+ 146:Core/Src/APPOLLOH7Port.c ****   
+ 147:Core/Src/APPOLLOH7Port.c ****   /* SPI RST GPIO pin configuration  */
+ 148:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Pin = AD5940_RST_PIN;
+ 496              		.loc 1 148 3 view .LVU103
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 12
+
+
+ 497              		.loc 1 148 23 is_stmt 0 view .LVU104
+ 498 00e6 0796     		str	r6, [sp, #28]
+ 149:Core/Src/APPOLLOH7Port.c ****   HAL_GPIO_Init(AD5940_RST_GPIO_PORT, &GPIO_InitStruct);
+ 499              		.loc 1 149 3 is_stmt 1 view .LVU105
+ 500 00e8 07A9     		add	r1, sp, #28
+ 501 00ea 2846     		mov	r0, r5
+ 502 00ec FFF7FEFF 		bl	HAL_GPIO_Init
+ 503              	.LVL19:
+ 150:Core/Src/APPOLLOH7Port.c ****   
+ 151:Core/Src/APPOLLOH7Port.c ****   AD5940_CsSet();
+ 504              		.loc 1 151 3 view .LVU106
+ 505 00f0 FFF7FEFF 		bl	AD5940_CsSet
+ 506              	.LVL20:
+ 152:Core/Src/APPOLLOH7Port.c ****   AD5940_RstSet();
+ 507              		.loc 1 152 3 view .LVU107
+ 508 00f4 FFF7FEFF 		bl	AD5940_RstSet
+ 509              	.LVL21:
+ 153:Core/Src/APPOLLOH7Port.c ****   
+ 154:Core/Src/APPOLLOH7Port.c ****   /* Set the SPI parameters */
+ 155:Core/Src/APPOLLOH7Port.c ****   SpiHandle.Instance               = AD5940SPI;
+ 510              		.loc 1 155 3 view .LVU108
+ 511              		.loc 1 155 36 is_stmt 0 view .LVU109
+ 512 00f8 1C48     		ldr	r0, .L35+8
+ 513 00fa 1D4B     		ldr	r3, .L35+12
+ 514 00fc 0360     		str	r3, [r0]
+ 156:Core/Src/APPOLLOH7Port.c ****   SpiHandle.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64; //SPI clock should be < AD5940_Syste
+ 515              		.loc 1 156 3 is_stmt 1 view .LVU110
+ 516              		.loc 1 156 36 is_stmt 0 view .LVU111
+ 517 00fe 4FF0A043 		mov	r3, #1342177280
+ 518 0102 C361     		str	r3, [r0, #28]
+ 157:Core/Src/APPOLLOH7Port.c ****   SpiHandle.Init.Direction         = SPI_DIRECTION_2LINES;
+ 519              		.loc 1 157 3 is_stmt 1 view .LVU112
+ 520              		.loc 1 157 36 is_stmt 0 view .LVU113
+ 521 0104 0025     		movs	r5, #0
+ 522 0106 8560     		str	r5, [r0, #8]
+ 158:Core/Src/APPOLLOH7Port.c ****   SpiHandle.Init.CLKPhase          = SPI_PHASE_1EDGE;
+ 523              		.loc 1 158 3 is_stmt 1 view .LVU114
+ 524              		.loc 1 158 36 is_stmt 0 view .LVU115
+ 525 0108 4561     		str	r5, [r0, #20]
+ 159:Core/Src/APPOLLOH7Port.c ****   SpiHandle.Init.CLKPolarity       = SPI_POLARITY_LOW;
+ 526              		.loc 1 159 3 is_stmt 1 view .LVU116
+ 527              		.loc 1 159 36 is_stmt 0 view .LVU117
+ 528 010a 0561     		str	r5, [r0, #16]
+ 160:Core/Src/APPOLLOH7Port.c ****   SpiHandle.Init.DataSize          = SPI_DATASIZE_8BIT;
+ 529              		.loc 1 160 3 is_stmt 1 view .LVU118
+ 530              		.loc 1 160 36 is_stmt 0 view .LVU119
+ 531 010c 0723     		movs	r3, #7
+ 532 010e C360     		str	r3, [r0, #12]
+ 161:Core/Src/APPOLLOH7Port.c ****   SpiHandle.Init.FirstBit          = SPI_FIRSTBIT_MSB;
+ 533              		.loc 1 161 3 is_stmt 1 view .LVU120
+ 534              		.loc 1 161 36 is_stmt 0 view .LVU121
+ 535 0110 0562     		str	r5, [r0, #32]
+ 162:Core/Src/APPOLLOH7Port.c ****   SpiHandle.Init.TIMode            = SPI_TIMODE_DISABLE;
+ 536              		.loc 1 162 3 is_stmt 1 view .LVU122
+ 537              		.loc 1 162 36 is_stmt 0 view .LVU123
+ 538 0112 4562     		str	r5, [r0, #36]
+ 163:Core/Src/APPOLLOH7Port.c ****   SpiHandle.Init.CRCCalculation    = SPI_CRCCALCULATION_DISABLE;
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 13
+
+
+ 539              		.loc 1 163 3 is_stmt 1 view .LVU124
+ 540              		.loc 1 163 36 is_stmt 0 view .LVU125
+ 541 0114 8562     		str	r5, [r0, #40]
+ 164:Core/Src/APPOLLOH7Port.c ****   SpiHandle.Init.CRCPolynomial     = 7;
+ 542              		.loc 1 164 3 is_stmt 1 view .LVU126
+ 543              		.loc 1 164 36 is_stmt 0 view .LVU127
+ 544 0116 C362     		str	r3, [r0, #44]
+ 165:Core/Src/APPOLLOH7Port.c ****   SpiHandle.Init.NSS               = SPI_NSS_SOFT;
+ 545              		.loc 1 165 3 is_stmt 1 view .LVU128
+ 546              		.loc 1 165 36 is_stmt 0 view .LVU129
+ 547 0118 4FF08063 		mov	r3, #67108864
+ 548 011c 8361     		str	r3, [r0, #24]
+ 166:Core/Src/APPOLLOH7Port.c ****   SpiHandle.Init.Mode = SPI_MODE_MASTER;
+ 549              		.loc 1 166 3 is_stmt 1 view .LVU130
+ 550              		.loc 1 166 23 is_stmt 0 view .LVU131
+ 551 011e 4FF48003 		mov	r3, #4194304
+ 552 0122 4360     		str	r3, [r0, #4]
+ 167:Core/Src/APPOLLOH7Port.c ****   HAL_SPI_Init(&SpiHandle);
+ 553              		.loc 1 167 3 is_stmt 1 view .LVU132
+ 554 0124 FFF7FEFF 		bl	HAL_SPI_Init
+ 555              	.LVL22:
+ 168:Core/Src/APPOLLOH7Port.c ****   
+ 169:Core/Src/APPOLLOH7Port.c ****   /* Step 2: Configure external interrupot line */
+ 170:Core/Src/APPOLLOH7Port.c ****   AD5940_GP0INT_GPIO_CLK_ENABLE();
+ 556              		.loc 1 170 3 view .LVU133
+ 557              	.LBB8:
+ 558              		.loc 1 170 3 view .LVU134
+ 559              		.loc 1 170 3 view .LVU135
+ 560 0128 D4F8E030 		ldr	r3, [r4, #224]
+ 561 012c 43F02003 		orr	r3, r3, #32
+ 562 0130 C4F8E030 		str	r3, [r4, #224]
+ 563              		.loc 1 170 3 view .LVU136
+ 564 0134 D4F8E030 		ldr	r3, [r4, #224]
+ 565 0138 03F02003 		and	r3, r3, #32
+ 566 013c 0693     		str	r3, [sp, #24]
+ 567              		.loc 1 170 3 view .LVU137
+ 568 013e 069B     		ldr	r3, [sp, #24]
+ 569              	.LBE8:
+ 570              		.loc 1 170 3 view .LVU138
+ 171:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Pin       = AD5940_GP0INT_PIN;
+ 571              		.loc 1 171 3 view .LVU139
+ 572              		.loc 1 171 29 is_stmt 0 view .LVU140
+ 573 0140 0797     		str	r7, [sp, #28]
+ 172:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Mode      = GPIO_MODE_IT_FALLING;
+ 574              		.loc 1 172 3 is_stmt 1 view .LVU141
+ 575              		.loc 1 172 29 is_stmt 0 view .LVU142
+ 576 0142 0C4B     		ldr	r3, .L35+16
+ 577 0144 0893     		str	r3, [sp, #32]
+ 173:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Pull      = GPIO_PULLUP;
+ 578              		.loc 1 173 3 is_stmt 1 view .LVU143
+ 579              		.loc 1 173 29 is_stmt 0 view .LVU144
+ 580 0146 0996     		str	r6, [sp, #36]
+ 174:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
+ 581              		.loc 1 174 3 is_stmt 1 view .LVU145
+ 582              		.loc 1 174 29 is_stmt 0 view .LVU146
+ 583 0148 CDF82880 		str	r8, [sp, #40]
+ 175:Core/Src/APPOLLOH7Port.c ****   GPIO_InitStruct.Alternate = 0;
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 14
+
+
+ 584              		.loc 1 175 3 is_stmt 1 view .LVU147
+ 585              		.loc 1 175 29 is_stmt 0 view .LVU148
+ 586 014c 0B95     		str	r5, [sp, #44]
+ 176:Core/Src/APPOLLOH7Port.c ****   HAL_GPIO_Init(AD5940_GP0INT_GPIO_PORT, &GPIO_InitStruct);
+ 587              		.loc 1 176 3 is_stmt 1 view .LVU149
+ 588 014e 07A9     		add	r1, sp, #28
+ 589 0150 0948     		ldr	r0, .L35+20
+ 590 0152 FFF7FEFF 		bl	HAL_GPIO_Init
+ 591              	.LVL23:
+ 177:Core/Src/APPOLLOH7Port.c ****   
+ 178:Core/Src/APPOLLOH7Port.c ****   /* Enable and set EXTI Line0 Interrupt to the lowest priority */
+ 179:Core/Src/APPOLLOH7Port.c ****   HAL_NVIC_EnableIRQ(AD5940_GP0INT_IRQn);
+ 592              		.loc 1 179 3 view .LVU150
+ 593 0156 1720     		movs	r0, #23
+ 594 0158 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 595              	.LVL24:
+ 180:Core/Src/APPOLLOH7Port.c **** //  HAL_NVIC_SetPriority(AD5940_GP0INT_IRQn, 0, 0);
+ 181:Core/Src/APPOLLOH7Port.c ****   return 0;
+ 596              		.loc 1 181 3 view .LVU151
+ 182:Core/Src/APPOLLOH7Port.c **** }
+ 597              		.loc 1 182 1 is_stmt 0 view .LVU152
+ 598 015c 2846     		mov	r0, r5
+ 599 015e 0CB0     		add	sp, sp, #48
+ 600              	.LCFI10:
+ 601              		.cfi_def_cfa_offset 24
+ 602              		@ sp needed
+ 603 0160 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 604              	.L36:
+ 605              		.align	2
+ 606              	.L35:
+ 607 0164 00440258 		.word	1476543488
+ 608 0168 00000258 		.word	1476526080
+ 609 016c 00000000 		.word	SpiHandle
+ 610 0170 00300140 		.word	1073819648
+ 611 0174 00002111 		.word	287375360
+ 612 0178 00140258 		.word	1476531200
+ 613              		.cfi_endproc
+ 614              	.LFE152:
+ 616              		.section	.text.HAL_GPIO_EXTI_Callback,"ax",%progbits
+ 617              		.align	1
+ 618              		.global	HAL_GPIO_EXTI_Callback
+ 619              		.syntax unified
+ 620              		.thumb
+ 621              		.thumb_func
+ 622              		.fpu fpv5-d16
+ 624              	HAL_GPIO_EXTI_Callback:
+ 625              	.LVL25:
+ 626              	.LFB153:
+ 183:Core/Src/APPOLLOH7Port.c **** 
+ 184:Core/Src/APPOLLOH7Port.c **** /* MCU related external line interrupt service routine */
+ 185:Core/Src/APPOLLOH7Port.c **** 
+ 186:Core/Src/APPOLLOH7Port.c **** //void EXTI9_5_IRQn_IRQHandler()
+ 187:Core/Src/APPOLLOH7Port.c **** //{
+ 188:Core/Src/APPOLLOH7Port.c **** //  ucInterrupted = 1;
+ 189:Core/Src/APPOLLOH7Port.c **** //  __HAL_GPIO_EXTI_CLEAR_IT(AD5940_GP0INT_PIN);
+ 190:Core/Src/APPOLLOH7Port.c **** //}
+ 191:Core/Src/APPOLLOH7Port.c **** 
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 15
+
+
+ 192:Core/Src/APPOLLOH7Port.c **** void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+ 193:Core/Src/APPOLLOH7Port.c **** {
+ 627              		.loc 1 193 1 is_stmt 1 view -0
+ 628              		.cfi_startproc
+ 629              		@ args = 0, pretend = 0, frame = 0
+ 630              		@ frame_needed = 0, uses_anonymous_args = 0
+ 631              		@ link register save eliminated.
+ 194:Core/Src/APPOLLOH7Port.c ****   if(GPIO_Pin == GPIO_PIN_6)
+ 632              		.loc 1 194 3 view .LVU154
+ 633              		.loc 1 194 5 is_stmt 0 view .LVU155
+ 634 0000 4028     		cmp	r0, #64
+ 635 0002 00D0     		beq	.L39
+ 636              	.L37:
+ 195:Core/Src/APPOLLOH7Port.c ****   {
+ 196:Core/Src/APPOLLOH7Port.c ****     ucInterrupted = 1;
+ 197:Core/Src/APPOLLOH7Port.c ****   } 
+ 198:Core/Src/APPOLLOH7Port.c **** }
+ 637              		.loc 1 198 1 view .LVU156
+ 638 0004 7047     		bx	lr
+ 639              	.L39:
+ 196:Core/Src/APPOLLOH7Port.c ****   } 
+ 640              		.loc 1 196 5 is_stmt 1 view .LVU157
+ 196:Core/Src/APPOLLOH7Port.c ****   } 
+ 641              		.loc 1 196 19 is_stmt 0 view .LVU158
+ 642 0006 024B     		ldr	r3, .L40
+ 643 0008 0122     		movs	r2, #1
+ 644 000a 1A70     		strb	r2, [r3]
+ 645              		.loc 1 198 1 view .LVU159
+ 646 000c FAE7     		b	.L37
+ 647              	.L41:
+ 648 000e 00BF     		.align	2
+ 649              	.L40:
+ 650 0010 00000000 		.word	.LANCHOR0
+ 651              		.cfi_endproc
+ 652              	.LFE153:
+ 654              		.comm	SpiHandle,136,4
+ 655              		.section	.bss.ucInterrupted,"aw",%nobits
+ 656              		.set	.LANCHOR0,. + 0
+ 659              	ucInterrupted:
+ 660 0000 00       		.space	1
+ 661              		.text
+ 662              	.Letext0:
+ 663              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 664              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 665              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 666              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 667              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 668              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 669              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 670              		.file 9 "Drivers/CMSIS/Include/core_cm7.h"
+ 671              		.file 10 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h"
+ 672              		.file 11 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+ 673              		.file 12 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 674              		.file 13 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
+ 675              		.file 14 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma.h"
+ 676              		.file 15 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash.h"
+ 677              		.file 16 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi.h"
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 16
+
+
+ 678              		.file 17 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h"
+ 679              		.file 18 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h"
+ 680              		.file 19 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_cortex.h"
+ARM GAS  C:\Users\root\AppData\Local\Temp\cclHBKrm.s 			page 17
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 APPOLLOH7Port.c
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:17     .text.AD5940_ReadWriteNBytes:00000000 $t
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:25     .text.AD5940_ReadWriteNBytes:00000000 AD5940_ReadWriteNBytes
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:65     .text.AD5940_ReadWriteNBytes:0000001c $d
+                            *COM*:00000088 SpiHandle
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:70     .text.AD5940_CsClr:00000000 $t
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:77     .text.AD5940_CsClr:00000000 AD5940_CsClr
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:99     .text.AD5940_CsClr:00000010 $d
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:104    .text.AD5940_CsSet:00000000 $t
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:111    .text.AD5940_CsSet:00000000 AD5940_CsSet
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:133    .text.AD5940_CsSet:00000010 $d
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:138    .text.AD5940_RstSet:00000000 $t
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:145    .text.AD5940_RstSet:00000000 AD5940_RstSet
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:167    .text.AD5940_RstSet:00000010 $d
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:172    .text.AD5940_RstClr:00000000 $t
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:179    .text.AD5940_RstClr:00000000 AD5940_RstClr
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:201    .text.AD5940_RstClr:00000010 $d
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:206    .text.AD5940_Delay10us:00000000 $t
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:213    .text.AD5940_Delay10us:00000000 AD5940_Delay10us
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:249    .text.AD5940_Delay10us:00000018 $d
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:254    .text.AD5940_GetMCUIntFlag:00000000 $t
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:261    .text.AD5940_GetMCUIntFlag:00000000 AD5940_GetMCUIntFlag
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:277    .text.AD5940_GetMCUIntFlag:00000008 $d
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:282    .text.AD5940_ClrMCUIntFlag:00000000 $t
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:289    .text.AD5940_ClrMCUIntFlag:00000000 AD5940_ClrMCUIntFlag
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:308    .text.AD5940_ClrMCUIntFlag:0000000c $d
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:313    .text.AD5940_MCUResourceInit:00000000 $t
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:320    .text.AD5940_MCUResourceInit:00000000 AD5940_MCUResourceInit
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:607    .text.AD5940_MCUResourceInit:00000164 $d
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:617    .text.HAL_GPIO_EXTI_Callback:00000000 $t
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:624    .text.HAL_GPIO_EXTI_Callback:00000000 HAL_GPIO_EXTI_Callback
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:650    .text.HAL_GPIO_EXTI_Callback:00000010 $d
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:659    .bss.ucInterrupted:00000000 ucInterrupted
+C:\Users\root\AppData\Local\Temp\cclHBKrm.s:660    .bss.ucInterrupted:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_SPI_TransmitReceive
+HAL_GPIO_WritePin
+HAL_Delay
+HAL_GPIO_Init
+HAL_SPI_Init
+HAL_NVIC_EnableIRQ

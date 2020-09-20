@@ -1,0 +1,9 @@
+sensor_read_v2\ad5940main.o: ..\Core\Src\AD5940Main.c
+sensor_read_v2\ad5940main.o: ../Core/Inc/Impedance.h
+sensor_read_v2\ad5940main.o: ..\ad5940lib\ad5940.h
+sensor_read_v2\ad5940main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+sensor_read_v2\ad5940main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+sensor_read_v2\ad5940main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+sensor_read_v2\ad5940main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+sensor_read_v2\ad5940main.o: ../Core/Inc/Amperometric.h
+sensor_read_v2\ad5940main.o: ../Core/Inc/voltage.h

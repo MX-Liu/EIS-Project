@@ -1,0 +1,174 @@
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccmbZVBX.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"stm32h7xx_hal_msp.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.HAL_MspInit,"ax",%progbits
+  17              		.align	1
+  18              		.global	HAL_MspInit
+  19              		.arch armv7e-m
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv5-d16
+  25              	HAL_MspInit:
+  26              	.LFB141:
+  27              		.file 1 "Core/Src/stm32h7xx_hal_msp.c"
+   1:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE BEGIN Header */
+   2:Core/Src/stm32h7xx_hal_msp.c **** /**
+   3:Core/Src/stm32h7xx_hal_msp.c ****   ******************************************************************************
+   4:Core/Src/stm32h7xx_hal_msp.c ****   * File Name          : stm32h7xx_hal_msp.c
+   5:Core/Src/stm32h7xx_hal_msp.c ****   * Description        : This file provides code for the MSP Initialization
+   6:Core/Src/stm32h7xx_hal_msp.c ****   *                      and de-Initialization codes.
+   7:Core/Src/stm32h7xx_hal_msp.c ****   ******************************************************************************
+   8:Core/Src/stm32h7xx_hal_msp.c ****   * @attention
+   9:Core/Src/stm32h7xx_hal_msp.c ****   *
+  10:Core/Src/stm32h7xx_hal_msp.c ****   * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+  11:Core/Src/stm32h7xx_hal_msp.c ****   * All rights reserved.</center></h2>
+  12:Core/Src/stm32h7xx_hal_msp.c ****   *
+  13:Core/Src/stm32h7xx_hal_msp.c ****   * This software component is licensed by ST under BSD 3-Clause license,
+  14:Core/Src/stm32h7xx_hal_msp.c ****   * the "License"; You may not use this file except in compliance with the
+  15:Core/Src/stm32h7xx_hal_msp.c ****   * License. You may obtain a copy of the License at:
+  16:Core/Src/stm32h7xx_hal_msp.c ****   *                        opensource.org/licenses/BSD-3-Clause
+  17:Core/Src/stm32h7xx_hal_msp.c ****   *
+  18:Core/Src/stm32h7xx_hal_msp.c ****   ******************************************************************************
+  19:Core/Src/stm32h7xx_hal_msp.c ****   */
+  20:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE END Header */
+  21:Core/Src/stm32h7xx_hal_msp.c **** 
+  22:Core/Src/stm32h7xx_hal_msp.c **** /* Includes ------------------------------------------------------------------*/
+  23:Core/Src/stm32h7xx_hal_msp.c **** #include "main.h"
+  24:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE BEGIN Includes */
+  25:Core/Src/stm32h7xx_hal_msp.c **** 
+  26:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE END Includes */
+  27:Core/Src/stm32h7xx_hal_msp.c **** 
+  28:Core/Src/stm32h7xx_hal_msp.c **** /* Private typedef -----------------------------------------------------------*/
+  29:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE BEGIN TD */
+  30:Core/Src/stm32h7xx_hal_msp.c **** 
+  31:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE END TD */
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccmbZVBX.s 			page 2
+
+
+  32:Core/Src/stm32h7xx_hal_msp.c **** 
+  33:Core/Src/stm32h7xx_hal_msp.c **** /* Private define ------------------------------------------------------------*/
+  34:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE BEGIN Define */
+  35:Core/Src/stm32h7xx_hal_msp.c **** 
+  36:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE END Define */
+  37:Core/Src/stm32h7xx_hal_msp.c **** 
+  38:Core/Src/stm32h7xx_hal_msp.c **** /* Private macro -------------------------------------------------------------*/
+  39:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE BEGIN Macro */
+  40:Core/Src/stm32h7xx_hal_msp.c **** 
+  41:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE END Macro */
+  42:Core/Src/stm32h7xx_hal_msp.c **** 
+  43:Core/Src/stm32h7xx_hal_msp.c **** /* Private variables ---------------------------------------------------------*/
+  44:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE BEGIN PV */
+  45:Core/Src/stm32h7xx_hal_msp.c **** 
+  46:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE END PV */
+  47:Core/Src/stm32h7xx_hal_msp.c **** 
+  48:Core/Src/stm32h7xx_hal_msp.c **** /* Private function prototypes -----------------------------------------------*/
+  49:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE BEGIN PFP */
+  50:Core/Src/stm32h7xx_hal_msp.c **** 
+  51:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE END PFP */
+  52:Core/Src/stm32h7xx_hal_msp.c **** 
+  53:Core/Src/stm32h7xx_hal_msp.c **** /* External functions --------------------------------------------------------*/
+  54:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE BEGIN ExternalFunctions */
+  55:Core/Src/stm32h7xx_hal_msp.c **** 
+  56:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE END ExternalFunctions */
+  57:Core/Src/stm32h7xx_hal_msp.c **** 
+  58:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE BEGIN 0 */
+  59:Core/Src/stm32h7xx_hal_msp.c **** 
+  60:Core/Src/stm32h7xx_hal_msp.c **** /* USER CODE END 0 */
+  61:Core/Src/stm32h7xx_hal_msp.c **** /**
+  62:Core/Src/stm32h7xx_hal_msp.c ****   * Initializes the Global MSP.
+  63:Core/Src/stm32h7xx_hal_msp.c ****   */
+  64:Core/Src/stm32h7xx_hal_msp.c **** void HAL_MspInit(void)
+  65:Core/Src/stm32h7xx_hal_msp.c **** {
+  28              		.loc 1 65 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 82B0     		sub	sp, sp, #8
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  66:Core/Src/stm32h7xx_hal_msp.c ****   /* USER CODE BEGIN MspInit 0 */
+  67:Core/Src/stm32h7xx_hal_msp.c **** 
+  68:Core/Src/stm32h7xx_hal_msp.c ****   /* USER CODE END MspInit 0 */
+  69:Core/Src/stm32h7xx_hal_msp.c **** 
+  70:Core/Src/stm32h7xx_hal_msp.c ****   __HAL_RCC_SYSCFG_CLK_ENABLE();
+  36              		.loc 1 70 3 view .LVU1
+  37              	.LBB2:
+  38              		.loc 1 70 3 view .LVU2
+  39              		.loc 1 70 3 view .LVU3
+  40 0002 074B     		ldr	r3, .L3
+  41 0004 D3F8F420 		ldr	r2, [r3, #244]
+  42 0008 42F00202 		orr	r2, r2, #2
+  43 000c C3F8F420 		str	r2, [r3, #244]
+  44              		.loc 1 70 3 view .LVU4
+  45 0010 D3F8F430 		ldr	r3, [r3, #244]
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccmbZVBX.s 			page 3
+
+
+  46 0014 03F00203 		and	r3, r3, #2
+  47 0018 0193     		str	r3, [sp, #4]
+  48              		.loc 1 70 3 view .LVU5
+  49 001a 019B     		ldr	r3, [sp, #4]
+  50              	.LBE2:
+  51              		.loc 1 70 3 view .LVU6
+  71:Core/Src/stm32h7xx_hal_msp.c **** 
+  72:Core/Src/stm32h7xx_hal_msp.c ****   /* System interrupt init*/
+  73:Core/Src/stm32h7xx_hal_msp.c **** 
+  74:Core/Src/stm32h7xx_hal_msp.c ****   /* USER CODE BEGIN MspInit 1 */
+  75:Core/Src/stm32h7xx_hal_msp.c **** 
+  76:Core/Src/stm32h7xx_hal_msp.c ****   /* USER CODE END MspInit 1 */
+  77:Core/Src/stm32h7xx_hal_msp.c **** }
+  52              		.loc 1 77 1 is_stmt 0 view .LVU7
+  53 001c 02B0     		add	sp, sp, #8
+  54              	.LCFI1:
+  55              		.cfi_def_cfa_offset 0
+  56              		@ sp needed
+  57 001e 7047     		bx	lr
+  58              	.L4:
+  59              		.align	2
+  60              	.L3:
+  61 0020 00440258 		.word	1476543488
+  62              		.cfi_endproc
+  63              	.LFE141:
+  65              		.text
+  66              	.Letext0:
+  67              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+  68              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+  69              		.file 4 "Drivers/CMSIS/Include/core_cm7.h"
+  70              		.file 5 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h"
+  71              		.file 6 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h"
+  72              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+  73              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+  74              		.file 9 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+  75              		.file 10 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+  76              		.file 11 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+  77              		.file 12 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+  78              		.file 13 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash.h"
+  79              		.file 14 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h"
+  80              		.file 15 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h"
+ARM GAS  C:\Users\root\AppData\Local\Temp\ccmbZVBX.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32h7xx_hal_msp.c
+C:\Users\root\AppData\Local\Temp\ccmbZVBX.s:17     .text.HAL_MspInit:00000000 $t
+C:\Users\root\AppData\Local\Temp\ccmbZVBX.s:25     .text.HAL_MspInit:00000000 HAL_MspInit
+C:\Users\root\AppData\Local\Temp\ccmbZVBX.s:61     .text.HAL_MspInit:00000020 $d
+
+NO UNDEFINED SYMBOLS

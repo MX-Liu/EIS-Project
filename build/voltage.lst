@@ -1,0 +1,2432 @@
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"voltage.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.AppVOLSeqCfgGen,"ax",%progbits
+  17              		.align	1
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv5-d16
+  24              	AppVOLSeqCfgGen:
+  25              	.LFB6:
+  26              		.file 1 "Core/Src/voltage.c"
+   1:Core/Src/voltage.c **** #include "ad5940.h"
+   2:Core/Src/voltage.c **** #include <stdio.h>
+   3:Core/Src/voltage.c **** #include "string.h"
+   4:Core/Src/voltage.c **** #include "math.h"
+   5:Core/Src/voltage.c **** #include "voltage.h"
+   6:Core/Src/voltage.c **** 
+   7:Core/Src/voltage.c **** /* Default LPDAC resolution(2.5V internal reference). */
+   8:Core/Src/voltage.c **** #define DAC12BITVOLT_1LSB   (2200.0f/4095)  //mV
+   9:Core/Src/voltage.c **** #define DAC6BITVOLT_1LSB    (DAC12BITVOLT_1LSB*64)  //mV
+  10:Core/Src/voltage.c **** 
+  11:Core/Src/voltage.c **** AppVOLCfg_Type AppVOLCfg = 
+  12:Core/Src/voltage.c **** {
+  13:Core/Src/voltage.c ****     .bParaChanged = bFALSE,
+  14:Core/Src/voltage.c ****     .SeqStartAddr = 0,
+  15:Core/Src/voltage.c ****     .MaxSeqLen = 0,
+  16:Core/Src/voltage.c ****     
+  17:Core/Src/voltage.c ****     .SeqStartAddrCal = 0,
+  18:Core/Src/voltage.c ****     .MaxSeqLenCal = 0,
+  19:Core/Src/voltage.c ****     
+  20:Core/Src/voltage.c ****     .VolODR = 1000.0,           /* 20.0 Hz*/
+  21:Core/Src/voltage.c ****     .NumOfData = -1,
+  22:Core/Src/voltage.c ****     .SysClkFreq = 16000000.0,
+  23:Core/Src/voltage.c ****     .WuptClkFreq = 32000.0,
+  24:Core/Src/voltage.c ****     .AdcClkFreq = 16000000.0,
+  25:Core/Src/voltage.c ****     .RcalVal = 10000.0,
+  26:Core/Src/voltage.c ****     
+  27:Core/Src/voltage.c ****     .DswitchSel = SWD_CE0,
+  28:Core/Src/voltage.c ****     .PswitchSel = SWP_CE0,
+  29:Core/Src/voltage.c ****     .NswitchSel = SWN_AIN1,
+  30:Core/Src/voltage.c ****     .TswitchSel = SWT_AIN1,
+  31:Core/Src/voltage.c ****     
+  32:Core/Src/voltage.c ****     .PwrMod = AFEPWR_HP,
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 2
+
+
+  33:Core/Src/voltage.c ****     
+  34:Core/Src/voltage.c ****     .HstiaRtiaSel = HSTIARTIA_5K,
+  35:Core/Src/voltage.c ****     .ExcitBufGain = EXCITBUFGAIN_2,
+  36:Core/Src/voltage.c ****     .HsDacGain = HSDACGAIN_1,
+  37:Core/Src/voltage.c ****     .HsDacUpdateRate = 7,
+  38:Core/Src/voltage.c ****     
+  39:Core/Src/voltage.c ****     .DacVoltPP = 600.0,
+  40:Core/Src/voltage.c ****     .BiasVolt = -0.0f,
+  41:Core/Src/voltage.c ****     
+  42:Core/Src/voltage.c ****     .SinFreq = 100000.0, /* 1000Hz */
+  43:Core/Src/voltage.c ****     
+  44:Core/Src/voltage.c ****     .DftNum = DFTNUM_16384,
+  45:Core/Src/voltage.c ****     .DftSrc = DFTSRC_SINC3,
+  46:Core/Src/voltage.c ****     .HanWinEn = bTRUE,
+  47:Core/Src/voltage.c ****     
+  48:Core/Src/voltage.c ****     .AdcPgaGain = ADCPGA_1,
+  49:Core/Src/voltage.c ****     .ADCSinc3Osr = ADCSINC3OSR_2,
+  50:Core/Src/voltage.c ****     .ADCSinc2Osr = ADCSINC2OSR_44,
+  51:Core/Src/voltage.c ****     
+  52:Core/Src/voltage.c ****     .ADCAvgNum = ADCAVGNUM_16,
+  53:Core/Src/voltage.c ****     
+  54:Core/Src/voltage.c ****     .SweepCfg.SweepEn = bFALSE,
+  55:Core/Src/voltage.c ****     .SweepCfg.SweepStart = 1000,
+  56:Core/Src/voltage.c ****     .SweepCfg.SweepStop = 100000.0,
+  57:Core/Src/voltage.c ****     .SweepCfg.SweepPoints = 101,
+  58:Core/Src/voltage.c ****     .SweepCfg.SweepLog = bFALSE,
+  59:Core/Src/voltage.c ****     .SweepCfg.SweepIndex = 0,
+  60:Core/Src/voltage.c ****     
+  61:Core/Src/voltage.c ****     .FifoThresh = 64,
+  62:Core/Src/voltage.c ****     .APPInited = bFALSE,
+  63:Core/Src/voltage.c ****     .StopRequired = bFALSE,
+  64:Core/Src/voltage.c **** };
+  65:Core/Src/voltage.c **** 
+  66:Core/Src/voltage.c **** int32_t get_APPVOLGetCfg(void *pCfg)
+  67:Core/Src/voltage.c **** {
+  68:Core/Src/voltage.c ****     if(pCfg)
+  69:Core/Src/voltage.c ****     {
+  70:Core/Src/voltage.c ****         *(AppVOLCfg_Type**) pCfg = &AppVOLCfg;
+  71:Core/Src/voltage.c **** 		
+  72:Core/Src/voltage.c **** 		
+  73:Core/Src/voltage.c ****         return AD5940ERR_OK;
+  74:Core/Src/voltage.c ****     }
+  75:Core/Src/voltage.c ****     else
+  76:Core/Src/voltage.c ****     {
+  77:Core/Src/voltage.c ****         return AD5940ERR_PARA;
+  78:Core/Src/voltage.c ****     }
+  79:Core/Src/voltage.c **** }
+  80:Core/Src/voltage.c **** 
+  81:Core/Src/voltage.c **** int32_t AppVOLCtrl(uint32_t Command, void *pPara)
+  82:Core/Src/voltage.c **** {
+  83:Core/Src/voltage.c ****   
+  84:Core/Src/voltage.c **** 	switch (Command)
+  85:Core/Src/voltage.c **** 	{
+  86:Core/Src/voltage.c **** 		case VOLCTRL_START:
+  87:Core/Src/voltage.c **** 		{
+  88:Core/Src/voltage.c **** 			WUPTCfg_Type wupt_cfg;
+  89:Core/Src/voltage.c **** 			if(AD5940_WakeUp(10) > 10)  /* Wakeup AFE by read register, read 10 times at most */
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 3
+
+
+  90:Core/Src/voltage.c **** 				return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+  91:Core/Src/voltage.c **** 			if(AppVOLCfg.APPInited == bFALSE)
+  92:Core/Src/voltage.c **** 				return AD5940ERR_APPERROR;
+  93:Core/Src/voltage.c **** 			/* Start it */
+  94:Core/Src/voltage.c **** 			wupt_cfg.WuptEn = bTRUE;
+  95:Core/Src/voltage.c **** 			wupt_cfg.WuptEndSeq = WUPTENDSEQ_A;
+  96:Core/Src/voltage.c **** 			wupt_cfg.WuptOrder[0] = SEQID_0;
+  97:Core/Src/voltage.c **** 			wupt_cfg.SeqxSleepTime[SEQID_0] = 1;
+  98:Core/Src/voltage.c **** 			wupt_cfg.SeqxWakeupTime[SEQID_0] = (uint32_t)(AppVOLCfg.WuptClkFreq/AppVOLCfg.VolODR)-1;
+  99:Core/Src/voltage.c **** 			
+ 100:Core/Src/voltage.c **** 			AD5940_WUPTCfg(&wupt_cfg);
+ 101:Core/Src/voltage.c **** 			AppVOLCfg.FifoDataCount = 0;  /* restart */
+ 102:Core/Src/voltage.c **** 			break;
+ 103:Core/Src/voltage.c **** 		}
+ 104:Core/Src/voltage.c **** 		case VOLCTRL_GETFREQ:
+ 105:Core/Src/voltage.c ****       {
+ 106:Core/Src/voltage.c ****         if(pPara == 0)
+ 107:Core/Src/voltage.c ****           return AD5940ERR_PARA;
+ 108:Core/Src/voltage.c ****         if(AppVOLCfg.SweepCfg.SweepEn == bTRUE)
+ 109:Core/Src/voltage.c ****           *(float*)pPara = AppVOLCfg.FreqofData;
+ 110:Core/Src/voltage.c ****         else
+ 111:Core/Src/voltage.c ****           *(float*)pPara = AppVOLCfg.SinFreq;
+ 112:Core/Src/voltage.c ****       }
+ 113:Core/Src/voltage.c ****     break;
+ 114:Core/Src/voltage.c **** 			
+ 115:Core/Src/voltage.c **** 		default:
+ 116:Core/Src/voltage.c **** 		break;
+ 117:Core/Src/voltage.c **** 	}
+ 118:Core/Src/voltage.c **** 	return AD5940ERR_OK;
+ 119:Core/Src/voltage.c **** }
+ 120:Core/Src/voltage.c **** 
+ 121:Core/Src/voltage.c **** 
+ 122:Core/Src/voltage.c **** /* generated code snnipet */
+ 123:Core/Src/voltage.c **** float AppVOLGetCurrFreq(void)
+ 124:Core/Src/voltage.c **** {
+ 125:Core/Src/voltage.c ****   if(AppVOLCfg.SweepCfg.SweepEn == bTRUE)
+ 126:Core/Src/voltage.c ****     return AppVOLCfg.FreqofData;
+ 127:Core/Src/voltage.c ****   else
+ 128:Core/Src/voltage.c ****     return AppVOLCfg.SinFreq;
+ 129:Core/Src/voltage.c **** }
+ 130:Core/Src/voltage.c **** 
+ 131:Core/Src/voltage.c **** /* Application sequence initialization */
+ 132:Core/Src/voltage.c **** static AD5940Err AppVOLSeqCfgGen(void)
+ 133:Core/Src/voltage.c **** {
+  27              		.loc 1 133 1 view -0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 232
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 10B5     		push	{r4, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 4, -8
+  35              		.cfi_offset 14, -4
+  36 0002 BAB0     		sub	sp, sp, #232
+  37              	.LCFI1:
+  38              		.cfi_def_cfa_offset 240
+ 134:Core/Src/voltage.c **** 	AD5940Err error = AD5940ERR_OK;
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 4
+
+
+  39              		.loc 1 134 2 view .LVU1
+  40              	.LVL0:
+ 135:Core/Src/voltage.c **** 	
+ 136:Core/Src/voltage.c **** 	const uint32_t *pSeqCmd;
+  41              		.loc 1 136 2 view .LVU2
+ 137:Core/Src/voltage.c **** 	uint32_t SeqLen;
+  42              		.loc 1 137 2 view .LVU3
+ 138:Core/Src/voltage.c **** 	AFERefCfg_Type aferef_cfg;
+  43              		.loc 1 138 2 view .LVU4
+ 139:Core/Src/voltage.c **** 	HSLoopCfg_Type HsLoopCfg;
+  44              		.loc 1 139 2 view .LVU5
+ 140:Core/Src/voltage.c **** 	DSPCfg_Type dsp_cfg;
+  45              		.loc 1 140 2 view .LVU6
+ 141:Core/Src/voltage.c **** 	float sin_freq;
+  46              		.loc 1 141 2 view .LVU7
+ 142:Core/Src/voltage.c **** 	
+ 143:Core/Src/voltage.c **** 	/* Start sequence generator here */
+ 144:Core/Src/voltage.c **** 	AD5940_SEQGenCtrl(bTRUE);
+  47              		.loc 1 144 2 view .LVU8
+  48 0004 0120     		movs	r0, #1
+  49 0006 FFF7FEFF 		bl	AD5940_SEQGenCtrl
+  50              	.LVL1:
+ 145:Core/Src/voltage.c **** 	AD5940_AFECtrlS(AFECTRL_ALL, bFALSE);  /* Init all to disable state */
+  51              		.loc 1 145 2 view .LVU9
+  52 000a 0021     		movs	r1, #0
+  53 000c 9648     		ldr	r0, .L21
+  54 000e FFF7FEFF 		bl	AD5940_AFECtrlS
+  55              	.LVL2:
+ 146:Core/Src/voltage.c **** 	
+ 147:Core/Src/voltage.c **** 	/****configuration the AFCON Register***/
+ 148:Core/Src/voltage.c **** 	aferef_cfg.HpBandgapEn = bTRUE;
+  56              		.loc 1 148 2 view .LVU10
+  57              		.loc 1 148 25 is_stmt 0 view .LVU11
+  58 0012 0123     		movs	r3, #1
+  59 0014 8DF8D030 		strb	r3, [sp, #208]
+ 149:Core/Src/voltage.c **** 	aferef_cfg.Hp1V1BuffEn = bTRUE;
+  60              		.loc 1 149 2 is_stmt 1 view .LVU12
+  61              		.loc 1 149 25 is_stmt 0 view .LVU13
+  62 0018 8DF8D230 		strb	r3, [sp, #210]
+ 150:Core/Src/voltage.c **** 	aferef_cfg.Hp1V8BuffEn = bTRUE;
+  63              		.loc 1 150 2 is_stmt 1 view .LVU14
+  64              		.loc 1 150 25 is_stmt 0 view .LVU15
+  65 001c 8DF8D130 		strb	r3, [sp, #209]
+ 151:Core/Src/voltage.c **** 	aferef_cfg.Disc1V1Cap = bFALSE;
+  66              		.loc 1 151 2 is_stmt 1 view .LVU16
+  67              		.loc 1 151 24 is_stmt 0 view .LVU17
+  68 0020 0023     		movs	r3, #0
+  69 0022 8DF8DC30 		strb	r3, [sp, #220]
+ 152:Core/Src/voltage.c **** 	aferef_cfg.Disc1V8Cap = bFALSE;
+  70              		.loc 1 152 2 is_stmt 1 view .LVU18
+  71              		.loc 1 152 24 is_stmt 0 view .LVU19
+  72 0026 8DF8DB30 		strb	r3, [sp, #219]
+ 153:Core/Src/voltage.c **** 	aferef_cfg.Hp1V8ThemBuff = bFALSE;
+  73              		.loc 1 153 2 is_stmt 1 view .LVU20
+  74              		.loc 1 153 27 is_stmt 0 view .LVU21
+  75 002a 8DF8D930 		strb	r3, [sp, #217]
+ 154:Core/Src/voltage.c **** 	aferef_cfg.Hp1V8Ilimit = bFALSE;
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 5
+
+
+  76              		.loc 1 154 2 is_stmt 1 view .LVU22
+  77              		.loc 1 154 25 is_stmt 0 view .LVU23
+  78 002e 8DF8DA30 		strb	r3, [sp, #218]
+ 155:Core/Src/voltage.c **** 	aferef_cfg.Lp1V1BuffEn = bFALSE;
+  79              		.loc 1 155 2 is_stmt 1 view .LVU24
+  80              		.loc 1 155 25 is_stmt 0 view .LVU25
+  81 0032 8DF8D430 		strb	r3, [sp, #212]
+ 156:Core/Src/voltage.c **** 	aferef_cfg.Lp1V8BuffEn = bFALSE;
+  82              		.loc 1 156 2 is_stmt 1 view .LVU26
+  83              		.loc 1 156 25 is_stmt 0 view .LVU27
+  84 0036 8DF8D330 		strb	r3, [sp, #211]
+ 157:Core/Src/voltage.c **** 	
+ 158:Core/Src/voltage.c **** 	/* LP reference control - turn off them to save power*/
+ 159:Core/Src/voltage.c ****   if(AppVOLCfg.BiasVolt != 0.0f)    /* With bias voltage */
+  85              		.loc 1 159 3 is_stmt 1 view .LVU28
+  86              		.loc 1 159 15 is_stmt 0 view .LVU29
+  87 003a 8C4B     		ldr	r3, .L21+4
+  88 003c D3ED157A 		vldr.32	s15, [r3, #84]
+  89              		.loc 1 159 5 view .LVU30
+  90 0040 F5EE407A 		vcmp.f32	s15, #0
+  91 0044 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  92 0048 00F0E180 		beq	.L2
+ 160:Core/Src/voltage.c ****   {
+ 161:Core/Src/voltage.c ****     aferef_cfg.LpBandgapEn = bTRUE;
+  93              		.loc 1 161 5 is_stmt 1 view .LVU31
+  94              		.loc 1 161 28 is_stmt 0 view .LVU32
+  95 004c 0123     		movs	r3, #1
+  96 004e 8DF8D530 		strb	r3, [sp, #213]
+ 162:Core/Src/voltage.c ****     aferef_cfg.LpRefBufEn = bTRUE;
+  97              		.loc 1 162 5 is_stmt 1 view .LVU33
+  98              		.loc 1 162 27 is_stmt 0 view .LVU34
+  99 0052 8DF8D630 		strb	r3, [sp, #214]
+ 100              	.L3:
+ 163:Core/Src/voltage.c ****   }
+ 164:Core/Src/voltage.c ****   else
+ 165:Core/Src/voltage.c ****   {
+ 166:Core/Src/voltage.c ****     aferef_cfg.LpBandgapEn = bFALSE;
+ 167:Core/Src/voltage.c ****     aferef_cfg.LpRefBufEn = bFALSE;
+ 168:Core/Src/voltage.c ****   }
+ 169:Core/Src/voltage.c **** 	AD5940_REFCfgS(&aferef_cfg);
+ 101              		.loc 1 169 2 is_stmt 1 view .LVU35
+ 102 0056 34A8     		add	r0, sp, #208
+ 103 0058 FFF7FEFF 		bl	AD5940_REFCfgS
+ 104              	.LVL3:
+ 170:Core/Src/voltage.c **** 	/***high speed LOOP configuration*****************************/
+ 171:Core/Src/voltage.c **** 	
+ 172:Core/Src/voltage.c **** 	/***high speed dac configuration***/
+ 173:Core/Src/voltage.c **** 	HsLoopCfg.HsDacCfg.ExcitBufGain = AppVOLCfg.ExcitBufGain;
+ 105              		.loc 1 173 2 view .LVU36
+ 106              		.loc 1 173 45 is_stmt 0 view .LVU37
+ 107 005c 834B     		ldr	r3, .L21+4
+ 108 005e 5A6C     		ldr	r2, [r3, #68]
+ 109              		.loc 1 173 34 view .LVU38
+ 110 0060 1C92     		str	r2, [sp, #112]
+ 174:Core/Src/voltage.c **** 	HsLoopCfg.HsDacCfg.HsDacGain = AppVOLCfg.HsDacGain;
+ 111              		.loc 1 174 2 is_stmt 1 view .LVU39
+ 112              		.loc 1 174 42 is_stmt 0 view .LVU40
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 6
+
+
+ 113 0062 9A6C     		ldr	r2, [r3, #72]
+ 114              		.loc 1 174 31 view .LVU41
+ 115 0064 1D92     		str	r2, [sp, #116]
+ 175:Core/Src/voltage.c **** 	HsLoopCfg.HsDacCfg.HsDacUpdateRate = AppVOLCfg.HsDacUpdateRate;
+ 116              		.loc 1 175 2 is_stmt 1 view .LVU42
+ 117              		.loc 1 175 48 is_stmt 0 view .LVU43
+ 118 0066 DA6C     		ldr	r2, [r3, #76]
+ 119              		.loc 1 175 37 view .LVU44
+ 120 0068 1E92     		str	r2, [sp, #120]
+ 176:Core/Src/voltage.c **** 	
+ 177:Core/Src/voltage.c **** 	/***high speed dac TIA configuration************************/
+ 178:Core/Src/voltage.c **** 	HsLoopCfg.HsTiaCfg.DiodeClose = bFALSE;
+ 121              		.loc 1 178 2 is_stmt 1 view .LVU45
+ 122              		.loc 1 178 32 is_stmt 0 view .LVU46
+ 123 006a 0022     		movs	r2, #0
+ 124 006c 8DF8BC20 		strb	r2, [sp, #188]
+ 179:Core/Src/voltage.c **** 	
+ 180:Core/Src/voltage.c **** 	if(AppVOLCfg.BiasVolt != 0.0f)    /* With bias voltage */
+ 125              		.loc 1 180 2 is_stmt 1 view .LVU47
+ 126              		.loc 1 180 14 is_stmt 0 view .LVU48
+ 127 0070 D3ED157A 		vldr.32	s15, [r3, #84]
+ 128              		.loc 1 180 4 view .LVU49
+ 129 0074 F5EE407A 		vcmp.f32	s15, #0
+ 130 0078 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 131 007c 00F0CD80 		beq	.L4
+ 181:Core/Src/voltage.c **** 		HsLoopCfg.HsTiaCfg.HstiaBias = HSTIABIAS_VZERO0;
+ 132              		.loc 1 181 3 is_stmt 1 view .LVU50
+ 133              		.loc 1 181 32 is_stmt 0 view .LVU51
+ 134 0080 0123     		movs	r3, #1
+ 135 0082 2C93     		str	r3, [sp, #176]
+ 136              	.L5:
+ 182:Core/Src/voltage.c **** 	else
+ 183:Core/Src/voltage.c **** 		HsLoopCfg.HsTiaCfg.HstiaBias = HSTIABIAS_1P1;
+ 184:Core/Src/voltage.c **** 	
+ 185:Core/Src/voltage.c **** 	HsLoopCfg.HsTiaCfg.HstiaCtia = 31; /* 31pF + 2pF */
+ 137              		.loc 1 185 2 is_stmt 1 view .LVU52
+ 138              		.loc 1 185 31 is_stmt 0 view .LVU53
+ 139 0084 1F23     		movs	r3, #31
+ 140 0086 2E93     		str	r3, [sp, #184]
+ 186:Core/Src/voltage.c **** 	HsLoopCfg.HsTiaCfg.HstiaDeRload = HSTIADERLOAD_OPEN;
+ 141              		.loc 1 186 2 is_stmt 1 view .LVU54
+ 142              		.loc 1 186 34 is_stmt 0 view .LVU55
+ 143 0088 0523     		movs	r3, #5
+ 144 008a 3193     		str	r3, [sp, #196]
+ 187:Core/Src/voltage.c **** 	HsLoopCfg.HsTiaCfg.HstiaDeRtia = HSTIADERTIA_OPEN;
+ 145              		.loc 1 187 2 is_stmt 1 view .LVU56
+ 146              		.loc 1 187 33 is_stmt 0 view .LVU57
+ 147 008c 0B23     		movs	r3, #11
+ 148 008e 3093     		str	r3, [sp, #192]
+ 188:Core/Src/voltage.c **** 	HsLoopCfg.HsTiaCfg.HstiaRtiaSel = AppVOLCfg.HstiaRtiaSel;
+ 149              		.loc 1 188 2 is_stmt 1 view .LVU58
+ 150              		.loc 1 188 45 is_stmt 0 view .LVU59
+ 151 0090 764B     		ldr	r3, .L21+4
+ 152 0092 1A6C     		ldr	r2, [r3, #64]
+ 153              		.loc 1 188 34 view .LVU60
+ 154 0094 2D92     		str	r2, [sp, #180]
+ 189:Core/Src/voltage.c **** 	
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 7
+
+
+ 190:Core/Src/voltage.c **** 	/***high speed loop switch matrix configuration*************/
+ 191:Core/Src/voltage.c **** 	HsLoopCfg.SWMatCfg.Dswitch = AppVOLCfg.DswitchSel;
+ 155              		.loc 1 191 2 is_stmt 1 view .LVU61
+ 156              		.loc 1 191 40 is_stmt 0 view .LVU62
+ 157 0096 DA6A     		ldr	r2, [r3, #44]
+ 158              		.loc 1 191 29 view .LVU63
+ 159 0098 1892     		str	r2, [sp, #96]
+ 192:Core/Src/voltage.c **** 	HsLoopCfg.SWMatCfg.Pswitch = AppVOLCfg.PswitchSel;
+ 160              		.loc 1 192 2 is_stmt 1 view .LVU64
+ 161              		.loc 1 192 40 is_stmt 0 view .LVU65
+ 162 009a 1A6B     		ldr	r2, [r3, #48]
+ 163              		.loc 1 192 29 view .LVU66
+ 164 009c 1992     		str	r2, [sp, #100]
+ 193:Core/Src/voltage.c **** 	HsLoopCfg.SWMatCfg.Nswitch = AppVOLCfg.NswitchSel;
+ 165              		.loc 1 193 2 is_stmt 1 view .LVU67
+ 166              		.loc 1 193 40 is_stmt 0 view .LVU68
+ 167 009e 5A6B     		ldr	r2, [r3, #52]
+ 168              		.loc 1 193 29 view .LVU69
+ 169 00a0 1A92     		str	r2, [sp, #104]
+ 194:Core/Src/voltage.c **** 	HsLoopCfg.SWMatCfg.Tswitch = SWT_TRTIA|AppVOLCfg.TswitchSel;
+ 170              		.loc 1 194 2 is_stmt 1 view .LVU70
+ 171              		.loc 1 194 50 is_stmt 0 view .LVU71
+ 172 00a2 9A6B     		ldr	r2, [r3, #56]
+ 173              		.loc 1 194 40 view .LVU72
+ 174 00a4 42F48072 		orr	r2, r2, #256
+ 175              		.loc 1 194 29 view .LVU73
+ 176 00a8 1B92     		str	r2, [sp, #108]
+ 195:Core/Src/voltage.c **** 	
+ 196:Core/Src/voltage.c **** 	/***high speed loop wave generation configuration***********/
+ 197:Core/Src/voltage.c **** 	HsLoopCfg.WgCfg.WgType = WGTYPE_SIN;
+ 177              		.loc 1 197 2 is_stmt 1 view .LVU74
+ 178              		.loc 1 197 25 is_stmt 0 view .LVU75
+ 179 00aa 0222     		movs	r2, #2
+ 180 00ac 1F92     		str	r2, [sp, #124]
+ 198:Core/Src/voltage.c **** 	HsLoopCfg.WgCfg.GainCalEn = bTRUE;
+ 181              		.loc 1 198 2 is_stmt 1 view .LVU76
+ 182              		.loc 1 198 28 is_stmt 0 view .LVU77
+ 183 00ae 0122     		movs	r2, #1
+ 184 00b0 8DF88020 		strb	r2, [sp, #128]
+ 199:Core/Src/voltage.c **** 	HsLoopCfg.WgCfg.OffsetCalEn = bTRUE;
+ 185              		.loc 1 199 2 is_stmt 1 view .LVU78
+ 186              		.loc 1 199 30 is_stmt 0 view .LVU79
+ 187 00b4 8DF88120 		strb	r2, [sp, #129]
+ 200:Core/Src/voltage.c **** 	if(AppVOLCfg.SweepCfg.SweepEn == bTRUE)
+ 188              		.loc 1 200 2 is_stmt 1 view .LVU80
+ 189              		.loc 1 200 23 is_stmt 0 view .LVU81
+ 190 00b8 93F87030 		ldrb	r3, [r3, #112]	@ zero_extendqisi2
+ 191              		.loc 1 200 4 view .LVU82
+ 192 00bc 9342     		cmp	r3, r2
+ 193 00be 00F0AF80 		beq	.L19
+ 201:Core/Src/voltage.c **** 	{
+ 202:Core/Src/voltage.c **** 		AppVOLCfg.FreqofData = AppVOLCfg.SweepCfg.SweepStart;
+ 203:Core/Src/voltage.c **** 		AppVOLCfg.SweepCurrFreq = AppVOLCfg.SweepCfg.SweepStart;
+ 204:Core/Src/voltage.c **** 		AD5940_SweepNext(&AppVOLCfg.SweepCfg, &AppVOLCfg.SweepNextFreq);
+ 205:Core/Src/voltage.c **** 		sin_freq = AppVOLCfg.SweepCurrFreq;
+ 206:Core/Src/voltage.c **** 		//printf("frequency: %0.2f \n", sin_freq);
+ 207:Core/Src/voltage.c **** 	}
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 8
+
+
+ 208:Core/Src/voltage.c **** 	else
+ 209:Core/Src/voltage.c **** 	{
+ 210:Core/Src/voltage.c **** 		sin_freq = AppVOLCfg.SinFreq;
+ 194              		.loc 1 210 3 is_stmt 1 view .LVU83
+ 195              		.loc 1 210 12 is_stmt 0 view .LVU84
+ 196 00c2 6A4B     		ldr	r3, .L21+4
+ 197 00c4 93ED160A 		vldr.32	s0, [r3, #88]
+ 198              	.LVL4:
+ 211:Core/Src/voltage.c **** 		AppVOLCfg.FreqofData = sin_freq;
+ 199              		.loc 1 211 3 is_stmt 1 view .LVU85
+ 200              		.loc 1 211 24 is_stmt 0 view .LVU86
+ 201 00c8 83ED250A 		vstr.32	s0, [r3, #148]
+ 202              	.L7:
+ 212:Core/Src/voltage.c **** 	}
+ 213:Core/Src/voltage.c **** 	
+ 214:Core/Src/voltage.c **** 	HsLoopCfg.WgCfg.SinCfg.SinFreqWord = AD5940_WGFreqWordCal(sin_freq, AppVOLCfg.SysClkFreq);
+ 203              		.loc 1 214 2 is_stmt 1 view .LVU87
+ 204              		.loc 1 214 39 is_stmt 0 view .LVU88
+ 205 00cc 674C     		ldr	r4, .L21+4
+ 206 00ce D4ED080A 		vldr.32	s1, [r4, #32]
+ 207 00d2 FFF7FEFF 		bl	AD5940_WGFreqWordCal
+ 208              	.LVL5:
+ 209              		.loc 1 214 37 view .LVU89
+ 210 00d6 2790     		str	r0, [sp, #156]
+ 215:Core/Src/voltage.c **** 	HsLoopCfg.WgCfg.SinCfg.SinAmplitudeWord = (uint32_t)(AppVOLCfg.DacVoltPP/800.0f*2047 + 0.5f);
+ 211              		.loc 1 215 2 is_stmt 1 view .LVU90
+ 212              		.loc 1 215 64 is_stmt 0 view .LVU91
+ 213 00d8 D4ED146A 		vldr.32	s13, [r4, #80]
+ 214              		.loc 1 215 74 view .LVU92
+ 215 00dc 9FED647A 		vldr.32	s14, .L21+8
+ 216 00e0 C6EE877A 		vdiv.f32	s15, s13, s14
+ 217              		.loc 1 215 81 view .LVU93
+ 218 00e4 9FED637A 		vldr.32	s14, .L21+12
+ 219 00e8 67EE877A 		vmul.f32	s15, s15, s14
+ 220              		.loc 1 215 87 view .LVU94
+ 221 00ec B6EE007A 		vmov.f32	s14, #5.0e-1
+ 222 00f0 77EE877A 		vadd.f32	s15, s15, s14
+ 223              		.loc 1 215 44 view .LVU95
+ 224 00f4 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 225              		.loc 1 215 42 view .LVU96
+ 226 00f8 CDED287A 		vstr.32	s15, [sp, #160]	@ int
+ 216:Core/Src/voltage.c **** 	HsLoopCfg.WgCfg.SinCfg.SinOffsetWord = 0;
+ 227              		.loc 1 216 2 is_stmt 1 view .LVU97
+ 228              		.loc 1 216 39 is_stmt 0 view .LVU98
+ 229 00fc 0023     		movs	r3, #0
+ 230 00fe 2993     		str	r3, [sp, #164]
+ 217:Core/Src/voltage.c **** 	HsLoopCfg.WgCfg.SinCfg.SinPhaseWord = 0;
+ 231              		.loc 1 217 2 is_stmt 1 view .LVU99
+ 232              		.loc 1 217 38 is_stmt 0 view .LVU100
+ 233 0100 2A93     		str	r3, [sp, #168]
+ 218:Core/Src/voltage.c **** 	AD5940_HSLoopCfgS(&HsLoopCfg);
+ 234              		.loc 1 218 2 is_stmt 1 view .LVU101
+ 235 0102 18A8     		add	r0, sp, #96
+ 236 0104 FFF7FEFF 		bl	AD5940_HSLoopCfgS
+ 237              	.LVL6:
+ 219:Core/Src/voltage.c **** 		
+ 220:Core/Src/voltage.c **** 	if(AppVOLCfg.BiasVolt != 0.0f)    /* With bias voltage */
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 9
+
+
+ 238              		.loc 1 220 2 view .LVU102
+ 239              		.loc 1 220 14 is_stmt 0 view .LVU103
+ 240 0108 D4ED157A 		vldr.32	s15, [r4, #84]
+ 241              		.loc 1 220 4 view .LVU104
+ 242 010c F5EE407A 		vcmp.f32	s15, #0
+ 243 0110 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 244 0114 39D0     		beq	.L8
+ 245              	.LBB2:
+ 221:Core/Src/voltage.c **** 	{
+ 222:Core/Src/voltage.c **** 		LPDACCfg_Type lpdac_cfg;
+ 246              		.loc 1 222 3 is_stmt 1 view .LVU105
+ 223:Core/Src/voltage.c **** 		
+ 224:Core/Src/voltage.c **** 		lpdac_cfg.LpdacSel = LPDAC0;
+ 247              		.loc 1 224 3 view .LVU106
+ 248              		.loc 1 224 22 is_stmt 0 view .LVU107
+ 249 0116 0023     		movs	r3, #0
+ 250 0118 0093     		str	r3, [sp]
+ 225:Core/Src/voltage.c **** 		lpdac_cfg.LpDacVbiasMux = LPDACVBIAS_12BIT; /* Use Vbias to tuning BiasVolt. */
+ 251              		.loc 1 225 3 is_stmt 1 view .LVU108
+ 252              		.loc 1 225 27 is_stmt 0 view .LVU109
+ 253 011a 0393     		str	r3, [sp, #12]
+ 226:Core/Src/voltage.c **** 		lpdac_cfg.LpDacVzeroMux = LPDACVZERO_6BIT;  /* Vbias-Vzero = BiasVolt */
+ 254              		.loc 1 226 3 is_stmt 1 view .LVU110
+ 255              		.loc 1 226 27 is_stmt 0 view .LVU111
+ 256 011c 0293     		str	r3, [sp, #8]
+ 227:Core/Src/voltage.c **** 		lpdac_cfg.DacData6Bit = 0x40>>1;            /* Set Vzero to middle scale. */
+ 257              		.loc 1 227 3 is_stmt 1 view .LVU112
+ 258              		.loc 1 227 25 is_stmt 0 view .LVU113
+ 259 011e 2023     		movs	r3, #32
+ 260 0120 ADF81C30 		strh	r3, [sp, #28]	@ movhi
+ 228:Core/Src/voltage.c **** 		if(AppVOLCfg.BiasVolt<-1100.0f) AppVOLCfg.BiasVolt = -1100.0f + DAC12BITVOLT_1LSB;
+ 261              		.loc 1 228 3 is_stmt 1 view .LVU114
+ 262              		.loc 1 228 5 is_stmt 0 view .LVU115
+ 263 0124 9FED547A 		vldr.32	s14, .L21+16
+ 264 0128 F4EEC77A 		vcmpe.f32	s15, s14
+ 265 012c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 266 0130 01D5     		bpl	.L9
+ 267              		.loc 1 228 35 is_stmt 1 discriminator 1 view .LVU116
+ 268              		.loc 1 228 54 is_stmt 0 discriminator 1 view .LVU117
+ 269 0132 524A     		ldr	r2, .L21+20
+ 270 0134 6265     		str	r2, [r4, #84]	@ float
+ 271              	.L9:
+ 229:Core/Src/voltage.c **** 		if(AppVOLCfg.BiasVolt> 1100.0f) AppVOLCfg.BiasVolt = 1100.0f - DAC12BITVOLT_1LSB;
+ 272              		.loc 1 229 3 is_stmt 1 view .LVU118
+ 273              		.loc 1 229 15 is_stmt 0 view .LVU119
+ 274 0136 4D4B     		ldr	r3, .L21+4
+ 275 0138 93ED157A 		vldr.32	s14, [r3, #84]
+ 276              		.loc 1 229 5 view .LVU120
+ 277 013c DFED507A 		vldr.32	s15, .L21+24
+ 278 0140 B4EEE77A 		vcmpe.f32	s14, s15
+ 279 0144 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 280 0148 01DD     		ble	.L11
+ 281              		.loc 1 229 35 is_stmt 1 discriminator 1 view .LVU121
+ 282              		.loc 1 229 54 is_stmt 0 discriminator 1 view .LVU122
+ 283 014a 4E4A     		ldr	r2, .L21+28
+ 284 014c 5A65     		str	r2, [r3, #84]	@ float
+ 285              	.L11:
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 10
+
+
+ 230:Core/Src/voltage.c **** 		lpdac_cfg.DacData12Bit = (uint32_t)((AppVOLCfg.BiasVolt + 1100.0f)/DAC12BITVOLT_1LSB);
+ 286              		.loc 1 230 3 is_stmt 1 view .LVU123
+ 287              		.loc 1 230 49 is_stmt 0 view .LVU124
+ 288 014e 474B     		ldr	r3, .L21+4
+ 289 0150 93ED157A 		vldr.32	s14, [r3, #84]
+ 290              		.loc 1 230 59 view .LVU125
+ 291 0154 DFED4A7A 		vldr.32	s15, .L21+24
+ 292 0158 37EE277A 		vadd.f32	s14, s14, s15
+ 293              		.loc 1 230 69 view .LVU126
+ 294 015c DFED4A6A 		vldr.32	s13, .L21+32
+ 295 0160 C7EE267A 		vdiv.f32	s15, s14, s13
+ 296              		.loc 1 230 28 view .LVU127
+ 297 0164 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 298              		.loc 1 230 26 view .LVU128
+ 299 0168 17EE903A 		vmov	r3, s15	@ int
+ 300 016c ADF81A30 		strh	r3, [sp, #26]	@ movhi
+ 231:Core/Src/voltage.c **** 		lpdac_cfg.DataRst = bFALSE;      /* Do not reset data register */
+ 301              		.loc 1 231 3 is_stmt 1 view .LVU129
+ 302              		.loc 1 231 21 is_stmt 0 view .LVU130
+ 303 0170 0023     		movs	r3, #0
+ 304 0172 8DF81830 		strb	r3, [sp, #24]
+ 232:Core/Src/voltage.c **** 		lpdac_cfg.LpDacSW = LPDACSW_VBIAS2LPPA|LPDACSW_VBIAS2PIN|LPDACSW_VZERO2LPTIA|LPDACSW_VZERO2PIN|LP
+ 305              		.loc 1 232 3 is_stmt 1 view .LVU131
+ 306              		.loc 1 232 21 is_stmt 0 view .LVU132
+ 307 0176 1F22     		movs	r2, #31
+ 308 0178 0492     		str	r2, [sp, #16]
+ 233:Core/Src/voltage.c **** 		lpdac_cfg.LpDacRef = LPDACREF_2P5;
+ 309              		.loc 1 233 3 is_stmt 1 view .LVU133
+ 310              		.loc 1 233 22 is_stmt 0 view .LVU134
+ 311 017a 0593     		str	r3, [sp, #20]
+ 234:Core/Src/voltage.c **** 		lpdac_cfg.LpDacSrc = LPDACSRC_MMR;      /* Use MMR data, we use LPDAC to generate bias voltage fo
+ 312              		.loc 1 234 3 is_stmt 1 view .LVU135
+ 313              		.loc 1 234 22 is_stmt 0 view .LVU136
+ 314 017c 0193     		str	r3, [sp, #4]
+ 235:Core/Src/voltage.c **** 		lpdac_cfg.PowerEn = bTRUE;              /* Power up LPDAC */
+ 315              		.loc 1 235 3 is_stmt 1 view .LVU137
+ 316              		.loc 1 235 21 is_stmt 0 view .LVU138
+ 317 017e 0123     		movs	r3, #1
+ 318 0180 8DF81930 		strb	r3, [sp, #25]
+ 236:Core/Src/voltage.c **** 		AD5940_LPDACCfgS(&lpdac_cfg);
+ 319              		.loc 1 236 3 is_stmt 1 view .LVU139
+ 320 0184 6846     		mov	r0, sp
+ 321 0186 FFF7FEFF 		bl	AD5940_LPDACCfgS
+ 322              	.LVL7:
+ 323              	.L8:
+ 324              	.LBE2:
+ 237:Core/Src/voltage.c **** 	}
+ 238:Core/Src/voltage.c **** 	
+ 239:Core/Src/voltage.c **** 	/***********digital signal process part configuration********************************/
+ 240:Core/Src/voltage.c **** 	
+ 241:Core/Src/voltage.c **** 	/**************configuration of ADC input matrix and PGA*****************************/
+ 242:Core/Src/voltage.c **** 	dsp_cfg.ADCBaseCfg.ADCMuxN = ADCMUXN_HSTIA_N;
+ 325              		.loc 1 242 2 view .LVU140
+ 326              		.loc 1 242 29 is_stmt 0 view .LVU141
+ 327 018a 0122     		movs	r2, #1
+ 328 018c 0992     		str	r2, [sp, #36]
+ 243:Core/Src/voltage.c **** 	dsp_cfg.ADCBaseCfg.ADCMuxP = ADCMUXP_HSTIA_P;
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 11
+
+
+ 329              		.loc 1 243 2 is_stmt 1 view .LVU142
+ 330              		.loc 1 243 29 is_stmt 0 view .LVU143
+ 331 018e 0892     		str	r2, [sp, #32]
+ 244:Core/Src/voltage.c **** 	dsp_cfg.ADCBaseCfg.ADCPga = AppVOLCfg.AdcPgaGain;
+ 332              		.loc 1 244 2 is_stmt 1 view .LVU144
+ 333              		.loc 1 244 39 is_stmt 0 view .LVU145
+ 334 0190 364C     		ldr	r4, .L21+4
+ 335 0192 A36E     		ldr	r3, [r4, #104]
+ 336              		.loc 1 244 28 view .LVU146
+ 337 0194 0A93     		str	r3, [sp, #40]
+ 245:Core/Src/voltage.c **** 	memset(&dsp_cfg.ADCDigCompCfg, 0, sizeof(dsp_cfg.ADCDigCompCfg));
+ 338              		.loc 1 245 2 is_stmt 1 view .LVU147
+ 339 0196 0023     		movs	r3, #0
+ 340 0198 1093     		str	r3, [sp, #64]
+ 341 019a 1193     		str	r3, [sp, #68]
+ 246:Core/Src/voltage.c **** 	
+ 247:Core/Src/voltage.c **** 	
+ 248:Core/Src/voltage.c **** 	dsp_cfg.ADCFilterCfg.ADCAvgNum = AppVOLCfg.ADCAvgNum;
+ 342              		.loc 1 248 2 view .LVU148
+ 343              		.loc 1 248 44 is_stmt 0 view .LVU149
+ 344 019c 94F86E10 		ldrb	r1, [r4, #110]	@ zero_extendqisi2
+ 345              		.loc 1 248 33 view .LVU150
+ 346 01a0 0D91     		str	r1, [sp, #52]
+ 249:Core/Src/voltage.c **** 	dsp_cfg.ADCFilterCfg.ADCRate = ADCRATE_800KHZ;	/* Tell filter block clock rate of ADC*/
+ 347              		.loc 1 249 2 is_stmt 1 view .LVU151
+ 348              		.loc 1 249 31 is_stmt 0 view .LVU152
+ 349 01a2 0E92     		str	r2, [sp, #56]
+ 250:Core/Src/voltage.c **** 	dsp_cfg.ADCFilterCfg.ADCSinc2Osr = AppVOLCfg.ADCSinc2Osr;
+ 350              		.loc 1 250 2 is_stmt 1 view .LVU153
+ 351              		.loc 1 250 46 is_stmt 0 view .LVU154
+ 352 01a4 94F86D10 		ldrb	r1, [r4, #109]	@ zero_extendqisi2
+ 353              		.loc 1 250 35 view .LVU155
+ 354 01a8 0C91     		str	r1, [sp, #48]
+ 251:Core/Src/voltage.c **** 	dsp_cfg.ADCFilterCfg.ADCSinc3Osr = AppVOLCfg.ADCSinc3Osr;
+ 355              		.loc 1 251 2 is_stmt 1 view .LVU156
+ 356              		.loc 1 251 46 is_stmt 0 view .LVU157
+ 357 01aa 94F86C10 		ldrb	r1, [r4, #108]	@ zero_extendqisi2
+ 358              		.loc 1 251 35 view .LVU158
+ 359 01ae 0B91     		str	r1, [sp, #44]
+ 252:Core/Src/voltage.c **** 	dsp_cfg.ADCFilterCfg.BpNotch = bTRUE;
+ 360              		.loc 1 252 2 is_stmt 1 view .LVU159
+ 361              		.loc 1 252 31 is_stmt 0 view .LVU160
+ 362 01b0 8DF83C20 		strb	r2, [sp, #60]
+ 253:Core/Src/voltage.c **** 	dsp_cfg.ADCFilterCfg.BpSinc3 = bFALSE;
+ 363              		.loc 1 253 2 is_stmt 1 view .LVU161
+ 364              		.loc 1 253 31 is_stmt 0 view .LVU162
+ 365 01b4 8DF83D30 		strb	r3, [sp, #61]
+ 254:Core/Src/voltage.c **** 	dsp_cfg.ADCFilterCfg.Sinc2NotchEnable = bTRUE;
+ 366              		.loc 1 254 2 is_stmt 1 view .LVU163
+ 367              		.loc 1 254 40 is_stmt 0 view .LVU164
+ 368 01b8 8DF83E20 		strb	r2, [sp, #62]
+ 255:Core/Src/voltage.c **** 	dsp_cfg.DftCfg.DftNum = AppVOLCfg.DftNum;
+ 369              		.loc 1 255 2 is_stmt 1 view .LVU165
+ 370              		.loc 1 255 35 is_stmt 0 view .LVU166
+ 371 01bc E26D     		ldr	r2, [r4, #92]
+ 372              		.loc 1 255 24 view .LVU167
+ 373 01be 1292     		str	r2, [sp, #72]
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 12
+
+
+ 256:Core/Src/voltage.c **** 	dsp_cfg.DftCfg.DftSrc = AppVOLCfg.DftSrc;
+ 374              		.loc 1 256 2 is_stmt 1 view .LVU168
+ 375              		.loc 1 256 35 is_stmt 0 view .LVU169
+ 376 01c0 226E     		ldr	r2, [r4, #96]
+ 377              		.loc 1 256 24 view .LVU170
+ 378 01c2 1392     		str	r2, [sp, #76]
+ 257:Core/Src/voltage.c **** 	dsp_cfg.DftCfg.HanWinEn = AppVOLCfg.HanWinEn;
+ 379              		.loc 1 257 2 is_stmt 1 view .LVU171
+ 380              		.loc 1 257 37 is_stmt 0 view .LVU172
+ 381 01c4 94F86420 		ldrb	r2, [r4, #100]	@ zero_extendqisi2
+ 382              		.loc 1 257 26 view .LVU173
+ 383 01c8 8DF85020 		strb	r2, [sp, #80]
+ 258:Core/Src/voltage.c **** 	
+ 259:Core/Src/voltage.c **** 	memset(&dsp_cfg.StatCfg, 0, sizeof(dsp_cfg.StatCfg)); // since the statistics value not be output 
+ 384              		.loc 1 259 2 is_stmt 1 view .LVU174
+ 385 01cc 1593     		str	r3, [sp, #84]
+ 386 01ce 1693     		str	r3, [sp, #88]
+ 387 01d0 1793     		str	r3, [sp, #92]
+ 260:Core/Src/voltage.c **** 	
+ 261:Core/Src/voltage.c **** 	AD5940_DSPCfgS(&dsp_cfg);
+ 388              		.loc 1 261 2 view .LVU175
+ 389 01d2 08A8     		add	r0, sp, #32
+ 390 01d4 FFF7FEFF 		bl	AD5940_DSPCfgS
+ 391              	.LVL8:
+ 262:Core/Src/voltage.c **** 		
+ 263:Core/Src/voltage.c **** 	/* Enable all of them. They are automatically turned off during hibernate mode to save power */
+ 264:Core/Src/voltage.c **** 	if(AppVOLCfg.BiasVolt == 0.0f)
+ 392              		.loc 1 264 2 view .LVU176
+ 393              		.loc 1 264 14 is_stmt 0 view .LVU177
+ 394 01d8 D4ED157A 		vldr.32	s15, [r4, #84]
+ 395              		.loc 1 264 4 view .LVU178
+ 396 01dc F5EE407A 		vcmp.f32	s15, #0
+ 397 01e0 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 398 01e4 2BD1     		bne	.L13
+ 265:Core/Src/voltage.c **** 		AD5940_AFECtrlS(AFECTRL_HSTIAPWR|AFECTRL_INAMPPWR|AFECTRL_EXTBUFPWR|\
+ 399              		.loc 1 265 3 is_stmt 1 view .LVU179
+ 400 01e6 0121     		movs	r1, #1
+ 401 01e8 2848     		ldr	r0, .L21+36
+ 402 01ea FFF7FEFF 		bl	AD5940_AFECtrlS
+ 403              	.LVL9:
+ 404              	.L14:
+ 266:Core/Src/voltage.c **** 					AFECTRL_WG|AFECTRL_DACREFPWR|AFECTRL_HSDACPWR|\
+ 267:Core/Src/voltage.c **** 					AFECTRL_SINC2NOTCH, bTRUE);
+ 268:Core/Src/voltage.c **** 	else
+ 269:Core/Src/voltage.c **** 		AD5940_AFECtrlS(AFECTRL_HSTIAPWR|AFECTRL_INAMPPWR|AFECTRL_EXTBUFPWR|\
+ 270:Core/Src/voltage.c **** 					AFECTRL_WG|AFECTRL_DACREFPWR|AFECTRL_HSDACPWR|\
+ 271:Core/Src/voltage.c **** 					AFECTRL_SINC2NOTCH|AFECTRL_DCBUFPWR, bTRUE);
+ 272:Core/Src/voltage.c **** 		/* Sequence end. */
+ 273:Core/Src/voltage.c **** 	AD5940_SEQGenInsert(SEQ_STOP()); /* Add one extra command to disable sequencer for initialization 
+ 405              		.loc 1 273 2 view .LVU180
+ 406 01ee 4FF00140 		mov	r0, #-2130706432
+ 407 01f2 FFF7FEFF 		bl	AD5940_SEQGenInsert
+ 408              	.LVL10:
+ 274:Core/Src/voltage.c **** 	
+ 275:Core/Src/voltage.c **** 	/* Stop here */
+ 276:Core/Src/voltage.c **** 	error = AD5940_SEQGenFetchSeq(&pSeqCmd, &SeqLen);
+ 409              		.loc 1 276 2 view .LVU181
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 13
+
+
+ 410              		.loc 1 276 10 is_stmt 0 view .LVU182
+ 411 01f6 38A9     		add	r1, sp, #224
+ 412 01f8 39A8     		add	r0, sp, #228
+ 413 01fa FFF7FEFF 		bl	AD5940_SEQGenFetchSeq
+ 414              	.LVL11:
+ 415 01fe 0446     		mov	r4, r0
+ 416              	.LVL12:
+ 277:Core/Src/voltage.c **** 		
+ 278:Core/Src/voltage.c **** 	AD5940_SEQGenCtrl(bFALSE); /* Stop sequencer generator */
+ 417              		.loc 1 278 2 is_stmt 1 view .LVU183
+ 418 0200 0020     		movs	r0, #0
+ 419              	.LVL13:
+ 420              		.loc 1 278 2 is_stmt 0 view .LVU184
+ 421 0202 FFF7FEFF 		bl	AD5940_SEQGenCtrl
+ 422              	.LVL14:
+ 279:Core/Src/voltage.c **** 	if(error == AD5940ERR_OK)
+ 423              		.loc 1 279 2 is_stmt 1 view .LVU185
+ 424              		.loc 1 279 4 is_stmt 0 view .LVU186
+ 425 0206 FCB1     		cbz	r4, .L20
+ 426              	.L1:
+ 280:Core/Src/voltage.c **** 	{
+ 281:Core/Src/voltage.c **** 		AppVOLCfg.InitSeqInfo.SeqId = SEQID_1;
+ 282:Core/Src/voltage.c **** 		AppVOLCfg.InitSeqInfo.SeqRamAddr = AppVOLCfg.SeqStartAddr;
+ 283:Core/Src/voltage.c **** 		AppVOLCfg.InitSeqInfo.pSeqCmd = pSeqCmd;
+ 284:Core/Src/voltage.c **** 		AppVOLCfg.InitSeqInfo.SeqLen = SeqLen;
+ 285:Core/Src/voltage.c **** 		/* Write command to SRAM */
+ 286:Core/Src/voltage.c **** 		AD5940_SEQCmdWrite(AppVOLCfg.InitSeqInfo.SeqRamAddr, pSeqCmd, SeqLen);
+ 287:Core/Src/voltage.c **** 	}
+ 288:Core/Src/voltage.c **** 	else
+ 289:Core/Src/voltage.c **** 		return error; /* Error */
+ 290:Core/Src/voltage.c **** 	return AD5940ERR_OK;
+ 291:Core/Src/voltage.c **** }
+ 427              		.loc 1 291 1 view .LVU187
+ 428 0208 2046     		mov	r0, r4
+ 429 020a 3AB0     		add	sp, sp, #232
+ 430              	.LCFI2:
+ 431              		.cfi_remember_state
+ 432              		.cfi_def_cfa_offset 8
+ 433              		@ sp needed
+ 434 020c 10BD     		pop	{r4, pc}
+ 435              	.LVL15:
+ 436              	.L2:
+ 437              	.LCFI3:
+ 438              		.cfi_restore_state
+ 166:Core/Src/voltage.c ****     aferef_cfg.LpRefBufEn = bFALSE;
+ 439              		.loc 1 166 5 is_stmt 1 view .LVU188
+ 166:Core/Src/voltage.c ****     aferef_cfg.LpRefBufEn = bFALSE;
+ 440              		.loc 1 166 28 is_stmt 0 view .LVU189
+ 441 020e 0023     		movs	r3, #0
+ 442 0210 8DF8D530 		strb	r3, [sp, #213]
+ 167:Core/Src/voltage.c ****   }
+ 443              		.loc 1 167 5 is_stmt 1 view .LVU190
+ 167:Core/Src/voltage.c ****   }
+ 444              		.loc 1 167 27 is_stmt 0 view .LVU191
+ 445 0214 8DF8D630 		strb	r3, [sp, #214]
+ 446 0218 1DE7     		b	.L3
+ 447              	.L4:
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 14
+
+
+ 183:Core/Src/voltage.c **** 	
+ 448              		.loc 1 183 3 is_stmt 1 view .LVU192
+ 183:Core/Src/voltage.c **** 	
+ 449              		.loc 1 183 32 is_stmt 0 view .LVU193
+ 450 021a 0023     		movs	r3, #0
+ 451 021c 2C93     		str	r3, [sp, #176]
+ 452 021e 31E7     		b	.L5
+ 453              	.L19:
+ 202:Core/Src/voltage.c **** 		AppVOLCfg.SweepCurrFreq = AppVOLCfg.SweepCfg.SweepStart;
+ 454              		.loc 1 202 3 is_stmt 1 view .LVU194
+ 202:Core/Src/voltage.c **** 		AppVOLCfg.SweepCurrFreq = AppVOLCfg.SweepCfg.SweepStart;
+ 455              		.loc 1 202 44 is_stmt 0 view .LVU195
+ 456 0220 124C     		ldr	r4, .L21+4
+ 457 0222 636F     		ldr	r3, [r4, #116]	@ float
+ 202:Core/Src/voltage.c **** 		AppVOLCfg.SweepCurrFreq = AppVOLCfg.SweepCfg.SweepStart;
+ 458              		.loc 1 202 24 view .LVU196
+ 459 0224 C4F89430 		str	r3, [r4, #148]	@ float
+ 203:Core/Src/voltage.c **** 		AD5940_SweepNext(&AppVOLCfg.SweepCfg, &AppVOLCfg.SweepNextFreq);
+ 460              		.loc 1 203 3 is_stmt 1 view .LVU197
+ 203:Core/Src/voltage.c **** 		AD5940_SweepNext(&AppVOLCfg.SweepCfg, &AppVOLCfg.SweepNextFreq);
+ 461              		.loc 1 203 27 is_stmt 0 view .LVU198
+ 462 0228 C4F88C30 		str	r3, [r4, #140]	@ float
+ 204:Core/Src/voltage.c **** 		sin_freq = AppVOLCfg.SweepCurrFreq;
+ 463              		.loc 1 204 3 is_stmt 1 view .LVU199
+ 464 022c 04F19001 		add	r1, r4, #144
+ 465 0230 04F17000 		add	r0, r4, #112
+ 466 0234 FFF7FEFF 		bl	AD5940_SweepNext
+ 467              	.LVL16:
+ 205:Core/Src/voltage.c **** 		//printf("frequency: %0.2f \n", sin_freq);
+ 468              		.loc 1 205 3 view .LVU200
+ 205:Core/Src/voltage.c **** 		//printf("frequency: %0.2f \n", sin_freq);
+ 469              		.loc 1 205 12 is_stmt 0 view .LVU201
+ 470 0238 94ED230A 		vldr.32	s0, [r4, #140]
+ 471              	.LVL17:
+ 205:Core/Src/voltage.c **** 		//printf("frequency: %0.2f \n", sin_freq);
+ 472              		.loc 1 205 12 view .LVU202
+ 473 023c 46E7     		b	.L7
+ 474              	.LVL18:
+ 475              	.L13:
+ 269:Core/Src/voltage.c **** 					AFECTRL_WG|AFECTRL_DACREFPWR|AFECTRL_HSDACPWR|\
+ 476              		.loc 1 269 3 is_stmt 1 view .LVU203
+ 477 023e 0121     		movs	r1, #1
+ 478 0240 1348     		ldr	r0, .L21+40
+ 479 0242 FFF7FEFF 		bl	AD5940_AFECtrlS
+ 480              	.LVL19:
+ 481 0246 D2E7     		b	.L14
+ 482              	.LVL20:
+ 483              	.L20:
+ 281:Core/Src/voltage.c **** 		AppVOLCfg.InitSeqInfo.SeqRamAddr = AppVOLCfg.SeqStartAddr;
+ 484              		.loc 1 281 3 view .LVU204
+ 281:Core/Src/voltage.c **** 		AppVOLCfg.InitSeqInfo.SeqRamAddr = AppVOLCfg.SeqStartAddr;
+ 485              		.loc 1 281 31 is_stmt 0 view .LVU205
+ 486 0248 084B     		ldr	r3, .L21+4
+ 487 024a 0122     		movs	r2, #1
+ 488 024c C3F89C20 		str	r2, [r3, #156]
+ 282:Core/Src/voltage.c **** 		AppVOLCfg.InitSeqInfo.pSeqCmd = pSeqCmd;
+ 489              		.loc 1 282 3 is_stmt 1 view .LVU206
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 15
+
+
+ 282:Core/Src/voltage.c **** 		AppVOLCfg.InitSeqInfo.pSeqCmd = pSeqCmd;
+ 490              		.loc 1 282 47 is_stmt 0 view .LVU207
+ 491 0250 5868     		ldr	r0, [r3, #4]
+ 282:Core/Src/voltage.c **** 		AppVOLCfg.InitSeqInfo.pSeqCmd = pSeqCmd;
+ 492              		.loc 1 282 36 view .LVU208
+ 493 0252 C3F8A000 		str	r0, [r3, #160]
+ 283:Core/Src/voltage.c **** 		AppVOLCfg.InitSeqInfo.SeqLen = SeqLen;
+ 494              		.loc 1 283 3 is_stmt 1 view .LVU209
+ 283:Core/Src/voltage.c **** 		AppVOLCfg.InitSeqInfo.SeqLen = SeqLen;
+ 495              		.loc 1 283 33 is_stmt 0 view .LVU210
+ 496 0256 3999     		ldr	r1, [sp, #228]
+ 497 0258 C3F8AC10 		str	r1, [r3, #172]
+ 284:Core/Src/voltage.c **** 		/* Write command to SRAM */
+ 498              		.loc 1 284 3 is_stmt 1 view .LVU211
+ 284:Core/Src/voltage.c **** 		/* Write command to SRAM */
+ 499              		.loc 1 284 32 is_stmt 0 view .LVU212
+ 500 025c 389A     		ldr	r2, [sp, #224]
+ 501 025e C3F8A420 		str	r2, [r3, #164]
+ 286:Core/Src/voltage.c **** 	}
+ 502              		.loc 1 286 3 is_stmt 1 view .LVU213
+ 503 0262 FFF7FEFF 		bl	AD5940_SEQCmdWrite
+ 504              	.LVL21:
+ 290:Core/Src/voltage.c **** }
+ 505              		.loc 1 290 2 view .LVU214
+ 290:Core/Src/voltage.c **** }
+ 506              		.loc 1 290 9 is_stmt 0 view .LVU215
+ 507 0266 CFE7     		b	.L1
+ 508              	.L22:
+ 509              		.align	2
+ 510              	.L21:
+ 511 0268 E0FF3900 		.word	3801056
+ 512 026c 00000000 		.word	.LANCHOR0
+ 513 0270 00004844 		.word	1145569280
+ 514 0274 00E0FF44 		.word	1157619712
+ 515 0278 008089C4 		.word	-997621760
+ 516 027c CF6E89C4 		.word	-997626161
+ 517 0280 00808944 		.word	1149861888
+ 518 0284 CF6E8944 		.word	1149857487
+ 519 0288 9988093F 		.word	1057589401
+ 520 028c 404E1100 		.word	1134144
+ 521 0290 404E3100 		.word	3231296
+ 522              		.cfi_endproc
+ 523              	.LFE6:
+ 525              		.section	.text.AppVOLSeqMeasureGen,"ax",%progbits
+ 526              		.align	1
+ 527              		.syntax unified
+ 528              		.thumb
+ 529              		.thumb_func
+ 530              		.fpu fpv5-d16
+ 532              	AppVOLSeqMeasureGen:
+ 533              	.LFB7:
+ 292:Core/Src/voltage.c **** 
+ 293:Core/Src/voltage.c **** static AD5940Err AppVOLSeqMeasureGen(void)
+ 294:Core/Src/voltage.c **** {
+ 534              		.loc 1 294 1 is_stmt 1 view -0
+ 535              		.cfi_startproc
+ 536              		@ args = 0, pretend = 0, frame = 64
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 16
+
+
+ 537              		@ frame_needed = 0, uses_anonymous_args = 0
+ 538 0000 70B5     		push	{r4, r5, r6, lr}
+ 539              	.LCFI4:
+ 540              		.cfi_def_cfa_offset 16
+ 541              		.cfi_offset 4, -16
+ 542              		.cfi_offset 5, -12
+ 543              		.cfi_offset 6, -8
+ 544              		.cfi_offset 14, -4
+ 545 0002 90B0     		sub	sp, sp, #64
+ 546              	.LCFI5:
+ 547              		.cfi_def_cfa_offset 80
+ 295:Core/Src/voltage.c **** 	AD5940Err error = AD5940ERR_OK;
+ 548              		.loc 1 295 2 view .LVU217
+ 549              	.LVL22:
+ 296:Core/Src/voltage.c **** 	const uint32_t *pSeqCmd;
+ 550              		.loc 1 296 2 view .LVU218
+ 297:Core/Src/voltage.c **** 	uint32_t SeqLen;
+ 551              		.loc 1 297 2 view .LVU219
+ 298:Core/Src/voltage.c **** 	uint32_t WaitClks;
+ 552              		.loc 1 298 2 view .LVU220
+ 299:Core/Src/voltage.c **** 	SWMatrixCfg_Type sw_cfg;
+ 553              		.loc 1 299 2 view .LVU221
+ 300:Core/Src/voltage.c **** 	ClksCalInfo_Type clks_cal;
+ 554              		.loc 1 300 2 view .LVU222
+ 301:Core/Src/voltage.c **** 		
+ 302:Core/Src/voltage.c **** 	clks_cal.DataType = DATATYPE_SINC2;
+ 555              		.loc 1 302 2 view .LVU223
+ 556              		.loc 1 302 20 is_stmt 0 view .LVU224
+ 557 0004 0223     		movs	r3, #2
+ 558 0006 0193     		str	r3, [sp, #4]
+ 303:Core/Src/voltage.c **** 	clks_cal.DataCount = 1;
+ 559              		.loc 1 303 2 is_stmt 1 view .LVU225
+ 560              		.loc 1 303 21 is_stmt 0 view .LVU226
+ 561 0008 0125     		movs	r5, #1
+ 562 000a 0295     		str	r5, [sp, #8]
+ 304:Core/Src/voltage.c **** 	clks_cal.ADCSinc2Osr = AppVOLCfg.ADCSinc2Osr;
+ 563              		.loc 1 304 2 is_stmt 1 view .LVU227
+ 564              		.loc 1 304 34 is_stmt 0 view .LVU228
+ 565 000c 304C     		ldr	r4, .L27
+ 566 000e 94F86D30 		ldrb	r3, [r4, #109]	@ zero_extendqisi2
+ 567              		.loc 1 304 23 view .LVU229
+ 568 0012 0493     		str	r3, [sp, #16]
+ 305:Core/Src/voltage.c **** 	clks_cal.ADCSinc3Osr = AppVOLCfg.ADCSinc3Osr;
+ 569              		.loc 1 305 2 is_stmt 1 view .LVU230
+ 570              		.loc 1 305 34 is_stmt 0 view .LVU231
+ 571 0014 94F86C30 		ldrb	r3, [r4, #108]	@ zero_extendqisi2
+ 572              		.loc 1 305 23 view .LVU232
+ 573 0018 0393     		str	r3, [sp, #12]
+ 306:Core/Src/voltage.c **** 	clks_cal.ADCAvgNum = 0;
+ 574              		.loc 1 306 2 is_stmt 1 view .LVU233
+ 575              		.loc 1 306 21 is_stmt 0 view .LVU234
+ 576 001a 0026     		movs	r6, #0
+ 577 001c 0596     		str	r6, [sp, #20]
+ 307:Core/Src/voltage.c **** 	clks_cal.RatioSys2AdcClk = AppVOLCfg.SysClkFreq/AppVOLCfg.AdcClkFreq;
+ 578              		.loc 1 307 2 is_stmt 1 view .LVU235
+ 579              		.loc 1 307 38 is_stmt 0 view .LVU236
+ 580 001e D4ED086A 		vldr.32	s13, [r4, #32]
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 17
+
+
+ 581              		.loc 1 307 59 view .LVU237
+ 582 0022 94ED097A 		vldr.32	s14, [r4, #36]
+ 583              		.loc 1 307 49 view .LVU238
+ 584 0026 C6EE877A 		vdiv.f32	s15, s13, s14
+ 585              		.loc 1 307 27 view .LVU239
+ 586 002a CDED087A 		vstr.32	s15, [sp, #32]
+ 308:Core/Src/voltage.c **** 	AD5940_ClksCalculate(&clks_cal, &WaitClks);
+ 587              		.loc 1 308 2 is_stmt 1 view .LVU240
+ 588 002e 0DA9     		add	r1, sp, #52
+ 589 0030 01A8     		add	r0, sp, #4
+ 590 0032 FFF7FEFF 		bl	AD5940_ClksCalculate
+ 591              	.LVL23:
+ 309:Core/Src/voltage.c **** 		
+ 310:Core/Src/voltage.c **** 	AD5940_SEQGenCtrl(bTRUE);
+ 592              		.loc 1 310 2 view .LVU241
+ 593 0036 2846     		mov	r0, r5
+ 594 0038 FFF7FEFF 		bl	AD5940_SEQGenCtrl
+ 595              	.LVL24:
+ 311:Core/Src/voltage.c **** 	AD5940_SEQGpioCtrlS(AGPIO_Pin2); /* Set GPIO1, clear others that under control */
+ 596              		.loc 1 311 2 view .LVU242
+ 597 003c 0420     		movs	r0, #4
+ 598 003e FFF7FEFF 		bl	AD5940_SEQGpioCtrlS
+ 599              	.LVL25:
+ 312:Core/Src/voltage.c **** 	AD5940_SEQGenInsert(SEQ_WAIT(16*250));  /* @todo wait 250us? 16Mhz*/
+ 600              		.loc 1 312 2 view .LVU243
+ 601 0042 4FF47A60 		mov	r0, #4000
+ 602 0046 FFF7FEFF 		bl	AD5940_SEQGenInsert
+ 603              	.LVL26:
+ 313:Core/Src/voltage.c **** 		
+ 314:Core/Src/voltage.c **** 	/*******************************************************************************/
+ 315:Core/Src/voltage.c **** 	/* Configure matrix for external Rz */
+ 316:Core/Src/voltage.c **** 	sw_cfg.Dswitch = AppVOLCfg.DswitchSel;
+ 604              		.loc 1 316 2 view .LVU244
+ 605              		.loc 1 316 28 is_stmt 0 view .LVU245
+ 606 004a E36A     		ldr	r3, [r4, #44]
+ 607              		.loc 1 316 17 view .LVU246
+ 608 004c 0993     		str	r3, [sp, #36]
+ 317:Core/Src/voltage.c **** 	sw_cfg.Pswitch = AppVOLCfg.PswitchSel;
+ 609              		.loc 1 317 2 is_stmt 1 view .LVU247
+ 610              		.loc 1 317 28 is_stmt 0 view .LVU248
+ 611 004e 236B     		ldr	r3, [r4, #48]
+ 612              		.loc 1 317 17 view .LVU249
+ 613 0050 0A93     		str	r3, [sp, #40]
+ 318:Core/Src/voltage.c **** 	sw_cfg.Nswitch = AppVOLCfg.NswitchSel;
+ 614              		.loc 1 318 2 is_stmt 1 view .LVU250
+ 615              		.loc 1 318 28 is_stmt 0 view .LVU251
+ 616 0052 636B     		ldr	r3, [r4, #52]
+ 617              		.loc 1 318 17 view .LVU252
+ 618 0054 0B93     		str	r3, [sp, #44]
+ 319:Core/Src/voltage.c **** 	sw_cfg.Tswitch = SWT_TRTIA|AppVOLCfg.TswitchSel;
+ 619              		.loc 1 319 2 is_stmt 1 view .LVU253
+ 620              		.loc 1 319 38 is_stmt 0 view .LVU254
+ 621 0056 A36B     		ldr	r3, [r4, #56]
+ 622              		.loc 1 319 28 view .LVU255
+ 623 0058 43F48073 		orr	r3, r3, #256
+ 624              		.loc 1 319 17 view .LVU256
+ 625 005c 0C93     		str	r3, [sp, #48]
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 18
+
+
+ 320:Core/Src/voltage.c **** 	AD5940_SWMatrixCfgS(&sw_cfg);			
+ 626              		.loc 1 320 2 is_stmt 1 view .LVU257
+ 627 005e 09A8     		add	r0, sp, #36
+ 628 0060 FFF7FEFF 		bl	AD5940_SWMatrixCfgS
+ 629              	.LVL27:
+ 321:Core/Src/voltage.c **** 	AD5940_AFECtrlS(AFECTRL_ADCPWR|AFECTRL_WG, bTRUE);  /* Enable Waveform generator */
+ 630              		.loc 1 321 2 view .LVU258
+ 631 0064 2946     		mov	r1, r5
+ 632 0066 4FF48140 		mov	r0, #16512
+ 633 006a FFF7FEFF 		bl	AD5940_AFECtrlS
+ 634              	.LVL28:
+ 322:Core/Src/voltage.c **** 	
+ 323:Core/Src/voltage.c **** 	AD5940_SEQGenInsert(SEQ_WAIT(16*10));  //delay for signal settling DFT_WAIT
+ 635              		.loc 1 323 2 view .LVU259
+ 636 006e A020     		movs	r0, #160
+ 637 0070 FFF7FEFF 		bl	AD5940_SEQGenInsert
+ 638              	.LVL29:
+ 324:Core/Src/voltage.c **** 	
+ 325:Core/Src/voltage.c **** 	AD5940_AFECtrlS(AFECTRL_ADCCNV, bTRUE);  /* Start ADC convert*/
+ 639              		.loc 1 325 2 view .LVU260
+ 640 0074 2946     		mov	r1, r5
+ 641 0076 4FF48070 		mov	r0, #256
+ 642 007a FFF7FEFF 		bl	AD5940_AFECtrlS
+ 643              	.LVL30:
+ 326:Core/Src/voltage.c **** 	AD5940_SEQGenInsert(SEQ_WAIT(WaitClks));  /* wait for first data ready */
+ 644              		.loc 1 326 2 view .LVU261
+ 645 007e 0D98     		ldr	r0, [sp, #52]
+ 646 0080 20F04040 		bic	r0, r0, #-1073741824
+ 647 0084 FFF7FEFF 		bl	AD5940_SEQGenInsert
+ 648              	.LVL31:
+ 327:Core/Src/voltage.c **** 	
+ 328:Core/Src/voltage.c **** 	AD5940_AFECtrlS(AFECTRL_ADCCNV|AFECTRL_WG|AFECTRL_ADCPWR, bFALSE);  /* Stop ADC convert */
+ 649              		.loc 1 328 2 view .LVU262
+ 650 0088 3146     		mov	r1, r6
+ 651 008a 4FF48340 		mov	r0, #16768
+ 652 008e FFF7FEFF 		bl	AD5940_AFECtrlS
+ 653              	.LVL32:
+ 329:Core/Src/voltage.c **** 	
+ 330:Core/Src/voltage.c **** //	AD5940_AFECtrlS(AFECTRL_HSTIAPWR|AFECTRL_INAMPPWR|AFECTRL_EXTBUFPWR|\
+ 331:Core/Src/voltage.c **** //					AFECTRL_WG|AFECTRL_DACREFPWR|AFECTRL_HSDACPWR|\
+ 332:Core/Src/voltage.c **** //					AFECTRL_SINC2NOTCH, bFALSE);
+ 333:Core/Src/voltage.c **** //					
+ 334:Core/Src/voltage.c **** //	AD5940_SEQGpioCtrlS(0); /* Clr GPIO1 */
+ 335:Core/Src/voltage.c **** //	
+ 336:Core/Src/voltage.c **** //	AD5940_EnterSleepS();/* Goto hibernate */
+ 337:Core/Src/voltage.c **** //	
+ 338:Core/Src/voltage.c **** 	/* Sequence end. */	
+ 339:Core/Src/voltage.c **** 	error = AD5940_SEQGenFetchSeq(&pSeqCmd, &SeqLen);	
+ 654              		.loc 1 339 2 view .LVU263
+ 655              		.loc 1 339 10 is_stmt 0 view .LVU264
+ 656 0092 0EA9     		add	r1, sp, #56
+ 657 0094 0FA8     		add	r0, sp, #60
+ 658 0096 FFF7FEFF 		bl	AD5940_SEQGenFetchSeq
+ 659              	.LVL33:
+ 660 009a 0446     		mov	r4, r0
+ 661              	.LVL34:
+ 340:Core/Src/voltage.c **** 	AD5940_SEQGenCtrl(bFALSE); /* Stop sequencer generator */
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 19
+
+
+ 662              		.loc 1 340 2 is_stmt 1 view .LVU265
+ 663 009c 3046     		mov	r0, r6
+ 664              	.LVL35:
+ 665              		.loc 1 340 2 is_stmt 0 view .LVU266
+ 666 009e FFF7FEFF 		bl	AD5940_SEQGenCtrl
+ 667              	.LVL36:
+ 341:Core/Src/voltage.c **** 	
+ 342:Core/Src/voltage.c **** 	if(error == AD5940ERR_OK)
+ 668              		.loc 1 342 2 is_stmt 1 view .LVU267
+ 669              		.loc 1 342 4 is_stmt 0 view .LVU268
+ 670 00a2 14B1     		cbz	r4, .L26
+ 671              	.L23:
+ 343:Core/Src/voltage.c **** 	{
+ 344:Core/Src/voltage.c **** 		AppVOLCfg.MeasureSeqInfo.SeqId = SEQID_0;
+ 345:Core/Src/voltage.c **** 		AppVOLCfg.MeasureSeqInfo.SeqRamAddr = AppVOLCfg.InitSeqInfo.SeqRamAddr + AppVOLCfg.InitSeqInfo.Se
+ 346:Core/Src/voltage.c **** 		AppVOLCfg.MeasureSeqInfo.pSeqCmd = pSeqCmd;
+ 347:Core/Src/voltage.c **** 		AppVOLCfg.MeasureSeqInfo.SeqLen = SeqLen;
+ 348:Core/Src/voltage.c **** 		/* Write command to SRAM */
+ 349:Core/Src/voltage.c **** 		AD5940_SEQCmdWrite(AppVOLCfg.MeasureSeqInfo.SeqRamAddr, pSeqCmd, SeqLen);
+ 350:Core/Src/voltage.c **** 	}
+ 351:Core/Src/voltage.c **** 	else
+ 352:Core/Src/voltage.c **** 		return error; /* Error */
+ 353:Core/Src/voltage.c **** 	return AD5940ERR_OK;
+ 354:Core/Src/voltage.c **** }
+ 672              		.loc 1 354 1 view .LVU269
+ 673 00a4 2046     		mov	r0, r4
+ 674 00a6 10B0     		add	sp, sp, #64
+ 675              	.LCFI6:
+ 676              		.cfi_remember_state
+ 677              		.cfi_def_cfa_offset 16
+ 678              		@ sp needed
+ 679 00a8 70BD     		pop	{r4, r5, r6, pc}
+ 680              	.LVL37:
+ 681              	.L26:
+ 682              	.LCFI7:
+ 683              		.cfi_restore_state
+ 344:Core/Src/voltage.c **** 		AppVOLCfg.MeasureSeqInfo.SeqRamAddr = AppVOLCfg.InitSeqInfo.SeqRamAddr + AppVOLCfg.InitSeqInfo.Se
+ 684              		.loc 1 344 3 is_stmt 1 view .LVU270
+ 344:Core/Src/voltage.c **** 		AppVOLCfg.MeasureSeqInfo.SeqRamAddr = AppVOLCfg.InitSeqInfo.SeqRamAddr + AppVOLCfg.InitSeqInfo.Se
+ 685              		.loc 1 344 34 is_stmt 0 view .LVU271
+ 686 00aa 094B     		ldr	r3, .L27
+ 687 00ac C3F8B060 		str	r6, [r3, #176]
+ 345:Core/Src/voltage.c **** 		AppVOLCfg.MeasureSeqInfo.pSeqCmd = pSeqCmd;
+ 688              		.loc 1 345 3 is_stmt 1 view .LVU272
+ 345:Core/Src/voltage.c **** 		AppVOLCfg.MeasureSeqInfo.pSeqCmd = pSeqCmd;
+ 689              		.loc 1 345 62 is_stmt 0 view .LVU273
+ 690 00b0 D3F8A000 		ldr	r0, [r3, #160]
+ 345:Core/Src/voltage.c **** 		AppVOLCfg.MeasureSeqInfo.pSeqCmd = pSeqCmd;
+ 691              		.loc 1 345 97 view .LVU274
+ 692 00b4 D3F8A420 		ldr	r2, [r3, #164]
+ 345:Core/Src/voltage.c **** 		AppVOLCfg.MeasureSeqInfo.pSeqCmd = pSeqCmd;
+ 693              		.loc 1 345 74 view .LVU275
+ 694 00b8 1044     		add	r0, r0, r2
+ 345:Core/Src/voltage.c **** 		AppVOLCfg.MeasureSeqInfo.pSeqCmd = pSeqCmd;
+ 695              		.loc 1 345 39 view .LVU276
+ 696 00ba C3F8B400 		str	r0, [r3, #180]
+ 346:Core/Src/voltage.c **** 		AppVOLCfg.MeasureSeqInfo.SeqLen = SeqLen;
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 20
+
+
+ 697              		.loc 1 346 3 is_stmt 1 view .LVU277
+ 346:Core/Src/voltage.c **** 		AppVOLCfg.MeasureSeqInfo.SeqLen = SeqLen;
+ 698              		.loc 1 346 36 is_stmt 0 view .LVU278
+ 699 00be 0F99     		ldr	r1, [sp, #60]
+ 700 00c0 C3F8C010 		str	r1, [r3, #192]
+ 347:Core/Src/voltage.c **** 		/* Write command to SRAM */
+ 701              		.loc 1 347 3 is_stmt 1 view .LVU279
+ 347:Core/Src/voltage.c **** 		/* Write command to SRAM */
+ 702              		.loc 1 347 35 is_stmt 0 view .LVU280
+ 703 00c4 0E9A     		ldr	r2, [sp, #56]
+ 704 00c6 C3F8B820 		str	r2, [r3, #184]
+ 349:Core/Src/voltage.c **** 	}
+ 705              		.loc 1 349 3 is_stmt 1 view .LVU281
+ 706 00ca FFF7FEFF 		bl	AD5940_SEQCmdWrite
+ 707              	.LVL38:
+ 353:Core/Src/voltage.c **** }
+ 708              		.loc 1 353 2 view .LVU282
+ 353:Core/Src/voltage.c **** }
+ 709              		.loc 1 353 9 is_stmt 0 view .LVU283
+ 710 00ce E9E7     		b	.L23
+ 711              	.L28:
+ 712              		.align	2
+ 713              	.L27:
+ 714 00d0 00000000 		.word	.LANCHOR0
+ 715              		.cfi_endproc
+ 716              	.LFE7:
+ 718              		.section	.text.AppVOLRegModify,"ax",%progbits
+ 719              		.align	1
+ 720              		.syntax unified
+ 721              		.thumb
+ 722              		.thumb_func
+ 723              		.fpu fpv5-d16
+ 725              	AppVOLRegModify:
+ 726              	.LVL39:
+ 727              	.LFB9:
+ 355:Core/Src/voltage.c **** 
+ 356:Core/Src/voltage.c **** /* This function provide application initialize. It can also enable Wupt that will automatically tr
+ 357:Core/Src/voltage.c **** int32_t AppVOLInit(uint32_t *pBuffer, uint32_t BufferSize)
+ 358:Core/Src/voltage.c **** {
+ 359:Core/Src/voltage.c **** 	AD5940Err error = AD5940ERR_OK;  
+ 360:Core/Src/voltage.c **** 	SEQCfg_Type seq_cfg;
+ 361:Core/Src/voltage.c **** 	FIFOCfg_Type fifo_cfg;
+ 362:Core/Src/voltage.c **** 	
+ 363:Core/Src/voltage.c **** 	if(AD5940_WakeUp(10) > 10)  /* Wakeup AFE by read register, read 10 times at most */
+ 364:Core/Src/voltage.c **** 		return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 365:Core/Src/voltage.c **** 	
+ 366:Core/Src/voltage.c **** 	/* Configure sequencer and stop it */
+ 367:Core/Src/voltage.c **** 	seq_cfg.SeqMemSize = SEQMEMSIZE_2KB;  /* 2kB SRAM is used for sequencer, others for data FIFO */
+ 368:Core/Src/voltage.c **** 	seq_cfg.SeqBreakEn = bFALSE;
+ 369:Core/Src/voltage.c **** 	seq_cfg.SeqIgnoreEn = bTRUE;
+ 370:Core/Src/voltage.c **** 	seq_cfg.SeqCntCRCClr = bTRUE;
+ 371:Core/Src/voltage.c **** 	seq_cfg.SeqEnable = bFALSE;
+ 372:Core/Src/voltage.c **** 	seq_cfg.SeqWrTimer = 0;
+ 373:Core/Src/voltage.c **** 	AD5940_SEQCfg(&seq_cfg);
+ 374:Core/Src/voltage.c **** 	
+ 375:Core/Src/voltage.c **** 	/* Reconfigure FIFO */
+ 376:Core/Src/voltage.c **** 	AD5940_FIFOCtrlS(DFTSRC_SINC3, bFALSE);	/* Disable FIFO firstly */
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 21
+
+
+ 377:Core/Src/voltage.c **** 	fifo_cfg.FIFOEn = bTRUE;
+ 378:Core/Src/voltage.c **** 	fifo_cfg.FIFOMode = FIFOMODE_FIFO;
+ 379:Core/Src/voltage.c **** 	fifo_cfg.FIFOSize = FIFOSIZE_4KB; /* 4kB for FIFO, The reset 2kB for sequencer */
+ 380:Core/Src/voltage.c **** 	fifo_cfg.FIFOSrc = FIFOSRC_SINC3;
+ 381:Core/Src/voltage.c **** 	fifo_cfg.FIFOThresh = AppVOLCfg.FifoThresh;           
+ 382:Core/Src/voltage.c **** 	AD5940_FIFOCfg(&fifo_cfg);
+ 383:Core/Src/voltage.c **** 	AD5940_INTCClrFlag(AFEINTSRC_ALLINT);
+ 384:Core/Src/voltage.c **** 	
+ 385:Core/Src/voltage.c **** 	/* Start sequence generator */
+ 386:Core/Src/voltage.c **** 	/* Initialize sequencer generator */
+ 387:Core/Src/voltage.c **** 	if((AppVOLCfg.APPInited == bFALSE)||\
+ 388:Core/Src/voltage.c **** 		(AppVOLCfg.bParaChanged == bTRUE))
+ 389:Core/Src/voltage.c **** 	{
+ 390:Core/Src/voltage.c **** 		if(pBuffer == 0)  return AD5940ERR_PARA;
+ 391:Core/Src/voltage.c **** 		if(BufferSize == 0) return AD5940ERR_PARA;
+ 392:Core/Src/voltage.c **** 		
+ 393:Core/Src/voltage.c **** 		AD5940_SEQGenInit(pBuffer, BufferSize);
+ 394:Core/Src/voltage.c **** 	
+ 395:Core/Src/voltage.c **** 		/* Generate initialize sequence */
+ 396:Core/Src/voltage.c **** 		error = AppVOLSeqCfgGen(); /* Application initialization sequence using either MCU or sequencer *
+ 397:Core/Src/voltage.c **** 		if(error != AD5940ERR_OK) return error;
+ 398:Core/Src/voltage.c **** 	
+ 399:Core/Src/voltage.c **** 		/* Generate measurement sequence */
+ 400:Core/Src/voltage.c **** 		error = AppVOLSeqMeasureGen();
+ 401:Core/Src/voltage.c **** 		if(error != AD5940ERR_OK) return error;
+ 402:Core/Src/voltage.c **** 	
+ 403:Core/Src/voltage.c **** 		AppVOLCfg.bParaChanged = bFALSE; /* Clear this flag as we already implemented the new configurati
+ 404:Core/Src/voltage.c **** 	}
+ 405:Core/Src/voltage.c **** 	
+ 406:Core/Src/voltage.c **** 	/* Initialization sequencer  */
+ 407:Core/Src/voltage.c **** 	AppVOLCfg.InitSeqInfo.WriteSRAM = bFALSE;
+ 408:Core/Src/voltage.c **** 	AD5940_SEQInfoCfg(&AppVOLCfg.InitSeqInfo);
+ 409:Core/Src/voltage.c **** 	seq_cfg.SeqEnable = bTRUE;
+ 410:Core/Src/voltage.c **** 	AD5940_SEQCfg(&seq_cfg);  /* Enable sequencer */
+ 411:Core/Src/voltage.c **** 	AD5940_SEQMmrTrig(AppVOLCfg.InitSeqInfo.SeqId);
+ 412:Core/Src/voltage.c **** 	while(AD5940_INTCTestFlag(AFEINTC_1, AFEINTSRC_ENDSEQ) == bFALSE);
+ 413:Core/Src/voltage.c **** 	
+ 414:Core/Src/voltage.c **** 	/* Measurement sequence  */
+ 415:Core/Src/voltage.c **** 	AppVOLCfg.MeasureSeqInfo.WriteSRAM = bFALSE;
+ 416:Core/Src/voltage.c **** 	AD5940_SEQInfoCfg(&AppVOLCfg.MeasureSeqInfo);
+ 417:Core/Src/voltage.c **** 	
+ 418:Core/Src/voltage.c **** 	seq_cfg.SeqEnable = bTRUE;
+ 419:Core/Src/voltage.c **** 	AD5940_SEQCfg(&seq_cfg);  /* Enable sequencer, and wait for trigger */
+ 420:Core/Src/voltage.c **** 	AD5940_ClrMCUIntFlag();   /* Clear interrupt flag generated before */
+ 421:Core/Src/voltage.c **** 	AD5940_AFEPwrBW(AppVOLCfg.PwrMod, AFEBW_250KHZ);
+ 422:Core/Src/voltage.c **** 	AppVOLCfg.APPInited = bTRUE;  /* IMP application has been initialized. */
+ 423:Core/Src/voltage.c **** 	return AD5940ERR_OK;
+ 424:Core/Src/voltage.c **** }
+ 425:Core/Src/voltage.c **** 
+ 426:Core/Src/voltage.c **** /* Modify registers when AFE wakeup */
+ 427:Core/Src/voltage.c **** static AD5940Err AppVOLRegModify(int32_t * const pData, uint32_t *pDataCount)
+ 428:Core/Src/voltage.c **** {
+ 728              		.loc 1 428 1 is_stmt 1 view -0
+ 729              		.cfi_startproc
+ 730              		@ args = 0, pretend = 0, frame = 0
+ 731              		@ frame_needed = 0, uses_anonymous_args = 0
+ 732              		.loc 1 428 1 is_stmt 0 view .LVU285
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 22
+
+
+ 733 0000 08B5     		push	{r3, lr}
+ 734              	.LCFI8:
+ 735              		.cfi_def_cfa_offset 8
+ 736              		.cfi_offset 3, -8
+ 737              		.cfi_offset 14, -4
+ 429:Core/Src/voltage.c **** 	if(AppVOLCfg.NumOfData > 0)
+ 738              		.loc 1 429 2 is_stmt 1 view .LVU286
+ 739              		.loc 1 429 14 is_stmt 0 view .LVU287
+ 740 0002 0E4B     		ldr	r3, .L35
+ 741 0004 9A69     		ldr	r2, [r3, #24]
+ 742              		.loc 1 429 4 view .LVU288
+ 743 0006 002A     		cmp	r2, #0
+ 744 0008 09DD     		ble	.L30
+ 430:Core/Src/voltage.c **** 	{
+ 431:Core/Src/voltage.c **** 		AppVOLCfg.FifoDataCount += *pDataCount/4;
+ 745              		.loc 1 431 3 is_stmt 1 view .LVU289
+ 746              		.loc 1 431 30 is_stmt 0 view .LVU290
+ 747 000a 0868     		ldr	r0, [r1]
+ 748              	.LVL40:
+ 749              		.loc 1 431 27 view .LVU291
+ 750 000c 1946     		mov	r1, r3
+ 751              	.LVL41:
+ 752              		.loc 1 431 27 view .LVU292
+ 753 000e D3F8C830 		ldr	r3, [r3, #200]
+ 754 0012 03EB9003 		add	r3, r3, r0, lsr #2
+ 755 0016 C1F8C830 		str	r3, [r1, #200]
+ 432:Core/Src/voltage.c **** 		if(AppVOLCfg.FifoDataCount >= AppVOLCfg.NumOfData)
+ 756              		.loc 1 432 3 is_stmt 1 view .LVU293
+ 757              		.loc 1 432 5 is_stmt 0 view .LVU294
+ 758 001a 9342     		cmp	r3, r2
+ 759 001c 06D2     		bcs	.L33
+ 760              	.L30:
+ 433:Core/Src/voltage.c **** 		{
+ 434:Core/Src/voltage.c **** 		AD5940_WUPTCtrl(bFALSE);
+ 435:Core/Src/voltage.c **** 		return AD5940ERR_OK;
+ 436:Core/Src/voltage.c **** 		}
+ 437:Core/Src/voltage.c **** 	}
+ 438:Core/Src/voltage.c **** 	if(AppVOLCfg.StopRequired == bTRUE)
+ 761              		.loc 1 438 2 is_stmt 1 view .LVU295
+ 762              		.loc 1 438 14 is_stmt 0 view .LVU296
+ 763 001e 074B     		ldr	r3, .L35
+ 764 0020 93F8C430 		ldrb	r3, [r3, #196]	@ zero_extendqisi2
+ 765              		.loc 1 438 4 view .LVU297
+ 766 0024 012B     		cmp	r3, #1
+ 767 0026 05D0     		beq	.L34
+ 768              	.L31:
+ 439:Core/Src/voltage.c **** 	{
+ 440:Core/Src/voltage.c **** 		AD5940_WUPTCtrl(bFALSE);
+ 441:Core/Src/voltage.c **** 		return AD5940ERR_OK;
+ 442:Core/Src/voltage.c **** 	}
+ 443:Core/Src/voltage.c **** 	
+ 444:Core/Src/voltage.c **** 	return AD5940ERR_OK;
+ 445:Core/Src/voltage.c **** }
+ 769              		.loc 1 445 1 view .LVU298
+ 770 0028 0020     		movs	r0, #0
+ 771 002a 08BD     		pop	{r3, pc}
+ 772              	.L33:
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 23
+
+
+ 434:Core/Src/voltage.c **** 		return AD5940ERR_OK;
+ 773              		.loc 1 434 3 is_stmt 1 view .LVU299
+ 774 002c 0020     		movs	r0, #0
+ 775 002e FFF7FEFF 		bl	AD5940_WUPTCtrl
+ 776              	.LVL42:
+ 435:Core/Src/voltage.c **** 		}
+ 777              		.loc 1 435 3 view .LVU300
+ 435:Core/Src/voltage.c **** 		}
+ 778              		.loc 1 435 10 is_stmt 0 view .LVU301
+ 779 0032 F9E7     		b	.L31
+ 780              	.L34:
+ 440:Core/Src/voltage.c **** 		return AD5940ERR_OK;
+ 781              		.loc 1 440 3 is_stmt 1 view .LVU302
+ 782 0034 0020     		movs	r0, #0
+ 783 0036 FFF7FEFF 		bl	AD5940_WUPTCtrl
+ 784              	.LVL43:
+ 441:Core/Src/voltage.c **** 	}
+ 785              		.loc 1 441 3 view .LVU303
+ 441:Core/Src/voltage.c **** 	}
+ 786              		.loc 1 441 10 is_stmt 0 view .LVU304
+ 787 003a F5E7     		b	.L31
+ 788              	.L36:
+ 789              		.align	2
+ 790              	.L35:
+ 791 003c 00000000 		.word	.LANCHOR0
+ 792              		.cfi_endproc
+ 793              	.LFE9:
+ 795              		.section	.text.get_APPVOLGetCfg,"ax",%progbits
+ 796              		.align	1
+ 797              		.global	get_APPVOLGetCfg
+ 798              		.syntax unified
+ 799              		.thumb
+ 800              		.thumb_func
+ 801              		.fpu fpv5-d16
+ 803              	get_APPVOLGetCfg:
+ 804              	.LVL44:
+ 805              	.LFB3:
+  67:Core/Src/voltage.c ****     if(pCfg)
+ 806              		.loc 1 67 1 is_stmt 1 view -0
+ 807              		.cfi_startproc
+ 808              		@ args = 0, pretend = 0, frame = 0
+ 809              		@ frame_needed = 0, uses_anonymous_args = 0
+ 810              		@ link register save eliminated.
+  68:Core/Src/voltage.c ****     {
+ 811              		.loc 1 68 5 view .LVU306
+  68:Core/Src/voltage.c ****     {
+ 812              		.loc 1 68 7 is_stmt 0 view .LVU307
+ 813 0000 18B1     		cbz	r0, .L39
+  70:Core/Src/voltage.c **** 		
+ 814              		.loc 1 70 9 is_stmt 1 view .LVU308
+  70:Core/Src/voltage.c **** 		
+ 815              		.loc 1 70 34 is_stmt 0 view .LVU309
+ 816 0002 034A     		ldr	r2, .L40
+ 817 0004 0260     		str	r2, [r0]
+  73:Core/Src/voltage.c ****     }
+ 818              		.loc 1 73 9 is_stmt 1 view .LVU310
+  73:Core/Src/voltage.c ****     }
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 24
+
+
+ 819              		.loc 1 73 16 is_stmt 0 view .LVU311
+ 820 0006 0020     		movs	r0, #0
+ 821              	.LVL45:
+  73:Core/Src/voltage.c ****     }
+ 822              		.loc 1 73 16 view .LVU312
+ 823 0008 7047     		bx	lr
+ 824              	.LVL46:
+ 825              	.L39:
+  77:Core/Src/voltage.c ****     }
+ 826              		.loc 1 77 16 view .LVU313
+ 827 000a 6FF00100 		mvn	r0, #1
+ 828              	.LVL47:
+  79:Core/Src/voltage.c **** 
+ 829              		.loc 1 79 1 view .LVU314
+ 830 000e 7047     		bx	lr
+ 831              	.L41:
+ 832              		.align	2
+ 833              	.L40:
+ 834 0010 00000000 		.word	.LANCHOR0
+ 835              		.cfi_endproc
+ 836              	.LFE3:
+ 838              		.section	.text.AppVOLCtrl,"ax",%progbits
+ 839              		.align	1
+ 840              		.global	AppVOLCtrl
+ 841              		.syntax unified
+ 842              		.thumb
+ 843              		.thumb_func
+ 844              		.fpu fpv5-d16
+ 846              	AppVOLCtrl:
+ 847              	.LVL48:
+ 848              	.LFB4:
+  82:Core/Src/voltage.c ****   
+ 849              		.loc 1 82 1 is_stmt 1 view -0
+ 850              		.cfi_startproc
+ 851              		@ args = 0, pretend = 0, frame = 72
+ 852              		@ frame_needed = 0, uses_anonymous_args = 0
+  84:Core/Src/voltage.c **** 	{
+ 853              		.loc 1 84 2 view .LVU316
+ 854 0000 18B1     		cbz	r0, .L43
+ 855 0002 0328     		cmp	r0, #3
+ 856 0004 2ED0     		beq	.L44
+ 857 0006 0020     		movs	r0, #0
+ 858              	.LVL49:
+  84:Core/Src/voltage.c **** 	{
+ 859              		.loc 1 84 2 is_stmt 0 view .LVU317
+ 860 0008 7047     		bx	lr
+ 861              	.LVL50:
+ 862              	.L43:
+  82:Core/Src/voltage.c ****   
+ 863              		.loc 1 82 1 view .LVU318
+ 864 000a 30B5     		push	{r4, r5, lr}
+ 865              	.LCFI9:
+ 866              		.cfi_def_cfa_offset 12
+ 867              		.cfi_offset 4, -12
+ 868              		.cfi_offset 5, -8
+ 869              		.cfi_offset 14, -4
+ 870 000c 93B0     		sub	sp, sp, #76
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 25
+
+
+ 871              	.LCFI10:
+ 872              		.cfi_def_cfa_offset 88
+ 873              	.LBB3:
+  88:Core/Src/voltage.c **** 			if(AD5940_WakeUp(10) > 10)  /* Wakeup AFE by read register, read 10 times at most */
+ 874              		.loc 1 88 4 is_stmt 1 view .LVU319
+  89:Core/Src/voltage.c **** 				return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 875              		.loc 1 89 4 view .LVU320
+  89:Core/Src/voltage.c **** 				return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 876              		.loc 1 89 7 is_stmt 0 view .LVU321
+ 877 000e 0A20     		movs	r0, #10
+ 878              	.LVL51:
+  89:Core/Src/voltage.c **** 				return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 879              		.loc 1 89 7 view .LVU322
+ 880 0010 FFF7FEFF 		bl	AD5940_WakeUp
+ 881              	.LVL52:
+  89:Core/Src/voltage.c **** 				return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 882              		.loc 1 89 6 view .LVU323
+ 883 0014 0A28     		cmp	r0, #10
+ 884 0016 21D8     		bhi	.L48
+  91:Core/Src/voltage.c **** 				return AD5940ERR_APPERROR;
+ 885              		.loc 1 91 4 is_stmt 1 view .LVU324
+  91:Core/Src/voltage.c **** 				return AD5940ERR_APPERROR;
+ 886              		.loc 1 91 16 is_stmt 0 view .LVU325
+ 887 0018 1C4B     		ldr	r3, .L56
+ 888 001a 93F89830 		ldrb	r3, [r3, #152]	@ zero_extendqisi2
+  91:Core/Src/voltage.c **** 				return AD5940ERR_APPERROR;
+ 889              		.loc 1 91 6 view .LVU326
+ 890 001e 13B9     		cbnz	r3, .L54
+  92:Core/Src/voltage.c **** 			/* Start it */
+ 891              		.loc 1 92 12 view .LVU327
+ 892 0020 6FF06300 		mvn	r0, #99
+ 893 0024 1CE0     		b	.L42
+ 894              	.L54:
+  94:Core/Src/voltage.c **** 			wupt_cfg.WuptEndSeq = WUPTENDSEQ_A;
+ 895              		.loc 1 94 4 is_stmt 1 view .LVU328
+  94:Core/Src/voltage.c **** 			wupt_cfg.WuptEndSeq = WUPTENDSEQ_A;
+ 896              		.loc 1 94 20 is_stmt 0 view .LVU329
+ 897 0026 0123     		movs	r3, #1
+ 898 0028 8DF84430 		strb	r3, [sp, #68]
+  95:Core/Src/voltage.c **** 			wupt_cfg.WuptOrder[0] = SEQID_0;
+ 899              		.loc 1 95 4 is_stmt 1 view .LVU330
+  95:Core/Src/voltage.c **** 			wupt_cfg.WuptOrder[0] = SEQID_0;
+ 900              		.loc 1 95 24 is_stmt 0 view .LVU331
+ 901 002c 0024     		movs	r4, #0
+ 902 002e 0094     		str	r4, [sp]
+  96:Core/Src/voltage.c **** 			wupt_cfg.SeqxSleepTime[SEQID_0] = 1;
+ 903              		.loc 1 96 4 is_stmt 1 view .LVU332
+  96:Core/Src/voltage.c **** 			wupt_cfg.SeqxSleepTime[SEQID_0] = 1;
+ 904              		.loc 1 96 26 is_stmt 0 view .LVU333
+ 905 0030 0194     		str	r4, [sp, #4]
+  97:Core/Src/voltage.c **** 			wupt_cfg.SeqxWakeupTime[SEQID_0] = (uint32_t)(AppVOLCfg.WuptClkFreq/AppVOLCfg.VolODR)-1;
+ 906              		.loc 1 97 4 is_stmt 1 view .LVU334
+  97:Core/Src/voltage.c **** 			wupt_cfg.SeqxWakeupTime[SEQID_0] = (uint32_t)(AppVOLCfg.WuptClkFreq/AppVOLCfg.VolODR)-1;
+ 907              		.loc 1 97 36 is_stmt 0 view .LVU335
+ 908 0032 0993     		str	r3, [sp, #36]
+  98:Core/Src/voltage.c **** 			
+ 909              		.loc 1 98 4 is_stmt 1 view .LVU336
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 26
+
+
+  98:Core/Src/voltage.c **** 			
+ 910              		.loc 1 98 59 is_stmt 0 view .LVU337
+ 911 0034 154D     		ldr	r5, .L56
+ 912 0036 D5ED076A 		vldr.32	s13, [r5, #28]
+  98:Core/Src/voltage.c **** 			
+ 913              		.loc 1 98 81 view .LVU338
+ 914 003a 95ED057A 		vldr.32	s14, [r5, #20]
+  98:Core/Src/voltage.c **** 			
+ 915              		.loc 1 98 71 view .LVU339
+ 916 003e C6EE877A 		vdiv.f32	s15, s13, s14
+  98:Core/Src/voltage.c **** 			
+ 917              		.loc 1 98 39 view .LVU340
+ 918 0042 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 919 0046 17EE903A 		vmov	r3, s15	@ int
+  98:Core/Src/voltage.c **** 			
+ 920              		.loc 1 98 89 view .LVU341
+ 921 004a 013B     		subs	r3, r3, #1
+  98:Core/Src/voltage.c **** 			
+ 922              		.loc 1 98 37 view .LVU342
+ 923 004c 0D93     		str	r3, [sp, #52]
+ 100:Core/Src/voltage.c **** 			AppVOLCfg.FifoDataCount = 0;  /* restart */
+ 924              		.loc 1 100 4 is_stmt 1 view .LVU343
+ 925 004e 6846     		mov	r0, sp
+ 926 0050 FFF7FEFF 		bl	AD5940_WUPTCfg
+ 927              	.LVL53:
+ 101:Core/Src/voltage.c **** 			break;
+ 928              		.loc 1 101 4 view .LVU344
+ 101:Core/Src/voltage.c **** 			break;
+ 929              		.loc 1 101 28 is_stmt 0 view .LVU345
+ 930 0054 C5F8C840 		str	r4, [r5, #200]
+ 102:Core/Src/voltage.c **** 		}
+ 931              		.loc 1 102 4 is_stmt 1 view .LVU346
+ 932              	.LBE3:
+ 118:Core/Src/voltage.c **** }
+ 933              		.loc 1 118 9 is_stmt 0 view .LVU347
+ 934 0058 2046     		mov	r0, r4
+ 935 005a 01E0     		b	.L42
+ 936              	.L48:
+ 937              	.LBB4:
+  90:Core/Src/voltage.c **** 			if(AppVOLCfg.APPInited == bFALSE)
+ 938              		.loc 1 90 12 view .LVU348
+ 939 005c 6FF00800 		mvn	r0, #8
+ 940              	.L42:
+ 941              	.LBE4:
+ 119:Core/Src/voltage.c **** 
+ 942              		.loc 1 119 1 view .LVU349
+ 943 0060 13B0     		add	sp, sp, #76
+ 944              	.LCFI11:
+ 945              		.cfi_def_cfa_offset 12
+ 946              		@ sp needed
+ 947 0062 30BD     		pop	{r4, r5, pc}
+ 948              	.LVL54:
+ 949              	.L44:
+ 950              	.LCFI12:
+ 951              		.cfi_def_cfa_offset 0
+ 952              		.cfi_restore 4
+ 953              		.cfi_restore 5
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 27
+
+
+ 954              		.cfi_restore 14
+ 106:Core/Src/voltage.c ****           return AD5940ERR_PARA;
+ 955              		.loc 1 106 9 is_stmt 1 view .LVU350
+ 106:Core/Src/voltage.c ****           return AD5940ERR_PARA;
+ 956              		.loc 1 106 11 is_stmt 0 view .LVU351
+ 957 0064 79B1     		cbz	r1, .L50
+ 108:Core/Src/voltage.c ****           *(float*)pPara = AppVOLCfg.FreqofData;
+ 958              		.loc 1 108 9 is_stmt 1 view .LVU352
+ 108:Core/Src/voltage.c ****           *(float*)pPara = AppVOLCfg.FreqofData;
+ 959              		.loc 1 108 30 is_stmt 0 view .LVU353
+ 960 0066 094B     		ldr	r3, .L56
+ 961 0068 93F87030 		ldrb	r3, [r3, #112]	@ zero_extendqisi2
+ 108:Core/Src/voltage.c ****           *(float*)pPara = AppVOLCfg.FreqofData;
+ 962              		.loc 1 108 11 view .LVU354
+ 963 006c 012B     		cmp	r3, #1
+ 964 006e 04D0     		beq	.L55
+ 111:Core/Src/voltage.c ****       }
+ 965              		.loc 1 111 11 is_stmt 1 view .LVU355
+ 111:Core/Src/voltage.c ****       }
+ 966              		.loc 1 111 37 is_stmt 0 view .LVU356
+ 967 0070 064B     		ldr	r3, .L56
+ 968 0072 9B6D     		ldr	r3, [r3, #88]	@ float
+ 111:Core/Src/voltage.c ****       }
+ 969              		.loc 1 111 26 view .LVU357
+ 970 0074 0B60     		str	r3, [r1]	@ float
+ 118:Core/Src/voltage.c **** }
+ 971              		.loc 1 118 9 view .LVU358
+ 972 0076 0020     		movs	r0, #0
+ 973              	.LVL55:
+ 118:Core/Src/voltage.c **** }
+ 974              		.loc 1 118 9 view .LVU359
+ 975 0078 7047     		bx	lr
+ 976              	.LVL56:
+ 977              	.L55:
+ 109:Core/Src/voltage.c ****         else
+ 978              		.loc 1 109 11 is_stmt 1 view .LVU360
+ 109:Core/Src/voltage.c ****         else
+ 979              		.loc 1 109 37 is_stmt 0 view .LVU361
+ 980 007a 044B     		ldr	r3, .L56
+ 981 007c D3F89430 		ldr	r3, [r3, #148]	@ float
+ 109:Core/Src/voltage.c ****         else
+ 982              		.loc 1 109 26 view .LVU362
+ 983 0080 0B60     		str	r3, [r1]	@ float
+ 118:Core/Src/voltage.c **** }
+ 984              		.loc 1 118 9 view .LVU363
+ 985 0082 0020     		movs	r0, #0
+ 986              	.LVL57:
+ 118:Core/Src/voltage.c **** }
+ 987              		.loc 1 118 9 view .LVU364
+ 988 0084 7047     		bx	lr
+ 989              	.LVL58:
+ 990              	.L50:
+ 107:Core/Src/voltage.c ****         if(AppVOLCfg.SweepCfg.SweepEn == bTRUE)
+ 991              		.loc 1 107 18 view .LVU365
+ 992 0086 6FF00100 		mvn	r0, #1
+ 993              	.LVL59:
+ 119:Core/Src/voltage.c **** 
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 28
+
+
+ 994              		.loc 1 119 1 view .LVU366
+ 995 008a 7047     		bx	lr
+ 996              	.L57:
+ 997              		.align	2
+ 998              	.L56:
+ 999 008c 00000000 		.word	.LANCHOR0
+ 1000              		.cfi_endproc
+ 1001              	.LFE4:
+ 1003              		.section	.text.AppVOLGetCurrFreq,"ax",%progbits
+ 1004              		.align	1
+ 1005              		.global	AppVOLGetCurrFreq
+ 1006              		.syntax unified
+ 1007              		.thumb
+ 1008              		.thumb_func
+ 1009              		.fpu fpv5-d16
+ 1011              	AppVOLGetCurrFreq:
+ 1012              	.LFB5:
+ 124:Core/Src/voltage.c ****   if(AppVOLCfg.SweepCfg.SweepEn == bTRUE)
+ 1013              		.loc 1 124 1 is_stmt 1 view -0
+ 1014              		.cfi_startproc
+ 1015              		@ args = 0, pretend = 0, frame = 0
+ 1016              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1017              		@ link register save eliminated.
+ 125:Core/Src/voltage.c ****     return AppVOLCfg.FreqofData;
+ 1018              		.loc 1 125 3 view .LVU368
+ 125:Core/Src/voltage.c ****     return AppVOLCfg.FreqofData;
+ 1019              		.loc 1 125 24 is_stmt 0 view .LVU369
+ 1020 0000 064B     		ldr	r3, .L62
+ 1021 0002 93F87030 		ldrb	r3, [r3, #112]	@ zero_extendqisi2
+ 125:Core/Src/voltage.c ****     return AppVOLCfg.FreqofData;
+ 1022              		.loc 1 125 5 view .LVU370
+ 1023 0006 012B     		cmp	r3, #1
+ 1024 0008 03D0     		beq	.L61
+ 128:Core/Src/voltage.c **** }
+ 1025              		.loc 1 128 5 is_stmt 1 view .LVU371
+ 128:Core/Src/voltage.c **** }
+ 1026              		.loc 1 128 21 is_stmt 0 view .LVU372
+ 1027 000a 044B     		ldr	r3, .L62
+ 1028 000c 93ED160A 		vldr.32	s0, [r3, #88]
+ 129:Core/Src/voltage.c **** 
+ 1029              		.loc 1 129 1 view .LVU373
+ 1030 0010 7047     		bx	lr
+ 1031              	.L61:
+ 126:Core/Src/voltage.c ****   else
+ 1032              		.loc 1 126 5 is_stmt 1 view .LVU374
+ 126:Core/Src/voltage.c ****   else
+ 1033              		.loc 1 126 21 is_stmt 0 view .LVU375
+ 1034 0012 024B     		ldr	r3, .L62
+ 1035 0014 93ED250A 		vldr.32	s0, [r3, #148]
+ 1036 0018 7047     		bx	lr
+ 1037              	.L63:
+ 1038 001a 00BF     		.align	2
+ 1039              	.L62:
+ 1040 001c 00000000 		.word	.LANCHOR0
+ 1041              		.cfi_endproc
+ 1042              	.LFE5:
+ 1044              		.section	.text.AppVOLInit,"ax",%progbits
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 29
+
+
+ 1045              		.align	1
+ 1046              		.global	AppVOLInit
+ 1047              		.syntax unified
+ 1048              		.thumb
+ 1049              		.thumb_func
+ 1050              		.fpu fpv5-d16
+ 1052              	AppVOLInit:
+ 1053              	.LVL60:
+ 1054              	.LFB8:
+ 358:Core/Src/voltage.c **** 	AD5940Err error = AD5940ERR_OK;  
+ 1055              		.loc 1 358 1 is_stmt 1 view -0
+ 1056              		.cfi_startproc
+ 1057              		@ args = 0, pretend = 0, frame = 32
+ 1058              		@ frame_needed = 0, uses_anonymous_args = 0
+ 358:Core/Src/voltage.c **** 	AD5940Err error = AD5940ERR_OK;  
+ 1059              		.loc 1 358 1 is_stmt 0 view .LVU377
+ 1060 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 1061              	.LCFI13:
+ 1062              		.cfi_def_cfa_offset 20
+ 1063              		.cfi_offset 4, -20
+ 1064              		.cfi_offset 5, -16
+ 1065              		.cfi_offset 6, -12
+ 1066              		.cfi_offset 7, -8
+ 1067              		.cfi_offset 14, -4
+ 1068 0002 89B0     		sub	sp, sp, #36
+ 1069              	.LCFI14:
+ 1070              		.cfi_def_cfa_offset 56
+ 1071 0004 0646     		mov	r6, r0
+ 1072 0006 0F46     		mov	r7, r1
+ 359:Core/Src/voltage.c **** 	SEQCfg_Type seq_cfg;
+ 1073              		.loc 1 359 2 is_stmt 1 view .LVU378
+ 1074              	.LVL61:
+ 360:Core/Src/voltage.c **** 	FIFOCfg_Type fifo_cfg;
+ 1075              		.loc 1 360 2 view .LVU379
+ 361:Core/Src/voltage.c **** 	
+ 1076              		.loc 1 361 2 view .LVU380
+ 363:Core/Src/voltage.c **** 		return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 1077              		.loc 1 363 2 view .LVU381
+ 363:Core/Src/voltage.c **** 		return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 1078              		.loc 1 363 5 is_stmt 0 view .LVU382
+ 1079 0008 0A20     		movs	r0, #10
+ 1080              	.LVL62:
+ 363:Core/Src/voltage.c **** 		return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 1081              		.loc 1 363 5 view .LVU383
+ 1082 000a FFF7FEFF 		bl	AD5940_WakeUp
+ 1083              	.LVL63:
+ 363:Core/Src/voltage.c **** 		return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 1084              		.loc 1 363 4 view .LVU384
+ 1085 000e 0A28     		cmp	r0, #10
+ 1086 0010 6DD8     		bhi	.L69
+ 367:Core/Src/voltage.c **** 	seq_cfg.SeqBreakEn = bFALSE;
+ 1087              		.loc 1 367 2 is_stmt 1 view .LVU385
+ 367:Core/Src/voltage.c **** 	seq_cfg.SeqBreakEn = bFALSE;
+ 1088              		.loc 1 367 21 is_stmt 0 view .LVU386
+ 1089 0012 0125     		movs	r5, #1
+ 1090 0014 0595     		str	r5, [sp, #20]
+ 368:Core/Src/voltage.c **** 	seq_cfg.SeqIgnoreEn = bTRUE;
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 30
+
+
+ 1091              		.loc 1 368 2 is_stmt 1 view .LVU387
+ 368:Core/Src/voltage.c **** 	seq_cfg.SeqIgnoreEn = bTRUE;
+ 1092              		.loc 1 368 21 is_stmt 0 view .LVU388
+ 1093 0016 0024     		movs	r4, #0
+ 1094 0018 8DF81940 		strb	r4, [sp, #25]
+ 369:Core/Src/voltage.c **** 	seq_cfg.SeqCntCRCClr = bTRUE;
+ 1095              		.loc 1 369 2 is_stmt 1 view .LVU389
+ 369:Core/Src/voltage.c **** 	seq_cfg.SeqCntCRCClr = bTRUE;
+ 1096              		.loc 1 369 22 is_stmt 0 view .LVU390
+ 1097 001c 8DF81A50 		strb	r5, [sp, #26]
+ 370:Core/Src/voltage.c **** 	seq_cfg.SeqEnable = bFALSE;
+ 1098              		.loc 1 370 2 is_stmt 1 view .LVU391
+ 370:Core/Src/voltage.c **** 	seq_cfg.SeqEnable = bFALSE;
+ 1099              		.loc 1 370 23 is_stmt 0 view .LVU392
+ 1100 0020 8DF81B50 		strb	r5, [sp, #27]
+ 371:Core/Src/voltage.c **** 	seq_cfg.SeqWrTimer = 0;
+ 1101              		.loc 1 371 2 is_stmt 1 view .LVU393
+ 371:Core/Src/voltage.c **** 	seq_cfg.SeqWrTimer = 0;
+ 1102              		.loc 1 371 20 is_stmt 0 view .LVU394
+ 1103 0024 8DF81840 		strb	r4, [sp, #24]
+ 372:Core/Src/voltage.c **** 	AD5940_SEQCfg(&seq_cfg);
+ 1104              		.loc 1 372 2 is_stmt 1 view .LVU395
+ 372:Core/Src/voltage.c **** 	AD5940_SEQCfg(&seq_cfg);
+ 1105              		.loc 1 372 21 is_stmt 0 view .LVU396
+ 1106 0028 0794     		str	r4, [sp, #28]
+ 373:Core/Src/voltage.c **** 	
+ 1107              		.loc 1 373 2 is_stmt 1 view .LVU397
+ 1108 002a 05A8     		add	r0, sp, #20
+ 1109 002c FFF7FEFF 		bl	AD5940_SEQCfg
+ 1110              	.LVL64:
+ 376:Core/Src/voltage.c **** 	fifo_cfg.FIFOEn = bTRUE;
+ 1111              		.loc 1 376 2 view .LVU398
+ 1112 0030 2146     		mov	r1, r4
+ 1113 0032 2846     		mov	r0, r5
+ 1114 0034 FFF7FEFF 		bl	AD5940_FIFOCtrlS
+ 1115              	.LVL65:
+ 377:Core/Src/voltage.c **** 	fifo_cfg.FIFOMode = FIFOMODE_FIFO;
+ 1116              		.loc 1 377 2 view .LVU399
+ 377:Core/Src/voltage.c **** 	fifo_cfg.FIFOMode = FIFOMODE_FIFO;
+ 1117              		.loc 1 377 18 is_stmt 0 view .LVU400
+ 1118 0038 8DF80050 		strb	r5, [sp]
+ 378:Core/Src/voltage.c **** 	fifo_cfg.FIFOSize = FIFOSIZE_4KB; /* 4kB for FIFO, The reset 2kB for sequencer */
+ 1119              		.loc 1 378 2 is_stmt 1 view .LVU401
+ 378:Core/Src/voltage.c **** 	fifo_cfg.FIFOSize = FIFOSIZE_4KB; /* 4kB for FIFO, The reset 2kB for sequencer */
+ 1120              		.loc 1 378 20 is_stmt 0 view .LVU402
+ 1121 003c 0223     		movs	r3, #2
+ 1122 003e 0193     		str	r3, [sp, #4]
+ 379:Core/Src/voltage.c **** 	fifo_cfg.FIFOSrc = FIFOSRC_SINC3;
+ 1123              		.loc 1 379 2 is_stmt 1 view .LVU403
+ 379:Core/Src/voltage.c **** 	fifo_cfg.FIFOSrc = FIFOSRC_SINC3;
+ 1124              		.loc 1 379 20 is_stmt 0 view .LVU404
+ 1125 0040 0293     		str	r3, [sp, #8]
+ 380:Core/Src/voltage.c **** 	fifo_cfg.FIFOThresh = AppVOLCfg.FifoThresh;           
+ 1126              		.loc 1 380 2 is_stmt 1 view .LVU405
+ 380:Core/Src/voltage.c **** 	fifo_cfg.FIFOThresh = AppVOLCfg.FifoThresh;           
+ 1127              		.loc 1 380 19 is_stmt 0 view .LVU406
+ 1128 0042 0394     		str	r4, [sp, #12]
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 31
+
+
+ 381:Core/Src/voltage.c **** 	AD5940_FIFOCfg(&fifo_cfg);
+ 1129              		.loc 1 381 2 is_stmt 1 view .LVU407
+ 381:Core/Src/voltage.c **** 	AD5940_FIFOCfg(&fifo_cfg);
+ 1130              		.loc 1 381 33 is_stmt 0 view .LVU408
+ 1131 0044 2E4C     		ldr	r4, .L73
+ 1132 0046 D4F88830 		ldr	r3, [r4, #136]
+ 381:Core/Src/voltage.c **** 	AD5940_FIFOCfg(&fifo_cfg);
+ 1133              		.loc 1 381 22 view .LVU409
+ 1134 004a 0493     		str	r3, [sp, #16]
+ 382:Core/Src/voltage.c **** 	AD5940_INTCClrFlag(AFEINTSRC_ALLINT);
+ 1135              		.loc 1 382 2 is_stmt 1 view .LVU410
+ 1136 004c 6846     		mov	r0, sp
+ 1137 004e FFF7FEFF 		bl	AD5940_FIFOCfg
+ 1138              	.LVL66:
+ 383:Core/Src/voltage.c **** 	
+ 1139              		.loc 1 383 2 view .LVU411
+ 1140 0052 4FF0FF30 		mov	r0, #-1
+ 1141 0056 FFF7FEFF 		bl	AD5940_INTCClrFlag
+ 1142              	.LVL67:
+ 387:Core/Src/voltage.c **** 		(AppVOLCfg.bParaChanged == bTRUE))
+ 1143              		.loc 1 387 2 view .LVU412
+ 387:Core/Src/voltage.c **** 		(AppVOLCfg.bParaChanged == bTRUE))
+ 1144              		.loc 1 387 15 is_stmt 0 view .LVU413
+ 1145 005a 94F89830 		ldrb	r3, [r4, #152]	@ zero_extendqisi2
+ 387:Core/Src/voltage.c **** 		(AppVOLCfg.bParaChanged == bTRUE))
+ 1146              		.loc 1 387 4 view .LVU414
+ 1147 005e A3B3     		cbz	r3, .L66
+ 388:Core/Src/voltage.c **** 	{
+ 1148              		.loc 1 388 13 discriminator 1 view .LVU415
+ 1149 0060 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 387:Core/Src/voltage.c **** 		(AppVOLCfg.bParaChanged == bTRUE))
+ 1150              		.loc 1 387 36 discriminator 1 view .LVU416
+ 1151 0062 AB42     		cmp	r3, r5
+ 1152 0064 31D0     		beq	.L66
+ 1153              	.LVL68:
+ 1154              	.L67:
+ 407:Core/Src/voltage.c **** 	AD5940_SEQInfoCfg(&AppVOLCfg.InitSeqInfo);
+ 1155              		.loc 1 407 2 is_stmt 1 view .LVU417
+ 407:Core/Src/voltage.c **** 	AD5940_SEQInfoCfg(&AppVOLCfg.InitSeqInfo);
+ 1156              		.loc 1 407 34 is_stmt 0 view .LVU418
+ 1157 0066 264C     		ldr	r4, .L73
+ 1158 0068 0023     		movs	r3, #0
+ 1159 006a 84F8A830 		strb	r3, [r4, #168]
+ 408:Core/Src/voltage.c **** 	seq_cfg.SeqEnable = bTRUE;
+ 1160              		.loc 1 408 2 is_stmt 1 view .LVU419
+ 1161 006e 04F19C00 		add	r0, r4, #156
+ 1162 0072 FFF7FEFF 		bl	AD5940_SEQInfoCfg
+ 1163              	.LVL69:
+ 409:Core/Src/voltage.c **** 	AD5940_SEQCfg(&seq_cfg);  /* Enable sequencer */
+ 1164              		.loc 1 409 2 view .LVU420
+ 409:Core/Src/voltage.c **** 	AD5940_SEQCfg(&seq_cfg);  /* Enable sequencer */
+ 1165              		.loc 1 409 20 is_stmt 0 view .LVU421
+ 1166 0076 0123     		movs	r3, #1
+ 1167 0078 8DF81830 		strb	r3, [sp, #24]
+ 410:Core/Src/voltage.c **** 	AD5940_SEQMmrTrig(AppVOLCfg.InitSeqInfo.SeqId);
+ 1168              		.loc 1 410 2 is_stmt 1 view .LVU422
+ 1169 007c 05A8     		add	r0, sp, #20
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 32
+
+
+ 1170 007e FFF7FEFF 		bl	AD5940_SEQCfg
+ 1171              	.LVL70:
+ 411:Core/Src/voltage.c **** 	while(AD5940_INTCTestFlag(AFEINTC_1, AFEINTSRC_ENDSEQ) == bFALSE);
+ 1172              		.loc 1 411 2 view .LVU423
+ 1173 0082 D4F89C00 		ldr	r0, [r4, #156]
+ 1174 0086 FFF7FEFF 		bl	AD5940_SEQMmrTrig
+ 1175              	.LVL71:
+ 412:Core/Src/voltage.c **** 	
+ 1176              		.loc 1 412 2 view .LVU424
+ 1177              	.L68:
+ 412:Core/Src/voltage.c **** 	
+ 1178              		.loc 1 412 67 discriminator 1 view .LVU425
+ 412:Core/Src/voltage.c **** 	
+ 1179              		.loc 1 412 7 discriminator 1 view .LVU426
+ 412:Core/Src/voltage.c **** 	
+ 1180              		.loc 1 412 8 is_stmt 0 discriminator 1 view .LVU427
+ 1181 008a 4FF40041 		mov	r1, #32768
+ 1182 008e 0120     		movs	r0, #1
+ 1183 0090 FFF7FEFF 		bl	AD5940_INTCTestFlag
+ 1184              	.LVL72:
+ 412:Core/Src/voltage.c **** 	
+ 1185              		.loc 1 412 7 discriminator 1 view .LVU428
+ 1186 0094 0028     		cmp	r0, #0
+ 1187 0096 F8D0     		beq	.L68
+ 415:Core/Src/voltage.c **** 	AD5940_SEQInfoCfg(&AppVOLCfg.MeasureSeqInfo);
+ 1188              		.loc 1 415 2 is_stmt 1 view .LVU429
+ 415:Core/Src/voltage.c **** 	AD5940_SEQInfoCfg(&AppVOLCfg.MeasureSeqInfo);
+ 1189              		.loc 1 415 37 is_stmt 0 view .LVU430
+ 1190 0098 194D     		ldr	r5, .L73
+ 1191 009a 0024     		movs	r4, #0
+ 1192 009c 85F8BC40 		strb	r4, [r5, #188]
+ 416:Core/Src/voltage.c **** 	
+ 1193              		.loc 1 416 2 is_stmt 1 view .LVU431
+ 1194 00a0 05F1B000 		add	r0, r5, #176
+ 1195 00a4 FFF7FEFF 		bl	AD5940_SEQInfoCfg
+ 1196              	.LVL73:
+ 418:Core/Src/voltage.c **** 	AD5940_SEQCfg(&seq_cfg);  /* Enable sequencer, and wait for trigger */
+ 1197              		.loc 1 418 2 view .LVU432
+ 418:Core/Src/voltage.c **** 	AD5940_SEQCfg(&seq_cfg);  /* Enable sequencer, and wait for trigger */
+ 1198              		.loc 1 418 20 is_stmt 0 view .LVU433
+ 1199 00a8 0126     		movs	r6, #1
+ 1200              	.LVL74:
+ 418:Core/Src/voltage.c **** 	AD5940_SEQCfg(&seq_cfg);  /* Enable sequencer, and wait for trigger */
+ 1201              		.loc 1 418 20 view .LVU434
+ 1202 00aa 8DF81860 		strb	r6, [sp, #24]
+ 419:Core/Src/voltage.c **** 	AD5940_ClrMCUIntFlag();   /* Clear interrupt flag generated before */
+ 1203              		.loc 1 419 2 is_stmt 1 view .LVU435
+ 1204 00ae 05A8     		add	r0, sp, #20
+ 1205 00b0 FFF7FEFF 		bl	AD5940_SEQCfg
+ 1206              	.LVL75:
+ 420:Core/Src/voltage.c **** 	AD5940_AFEPwrBW(AppVOLCfg.PwrMod, AFEBW_250KHZ);
+ 1207              		.loc 1 420 2 view .LVU436
+ 1208 00b4 FFF7FEFF 		bl	AD5940_ClrMCUIntFlag
+ 1209              	.LVL76:
+ 421:Core/Src/voltage.c **** 	AppVOLCfg.APPInited = bTRUE;  /* IMP application has been initialized. */
+ 1210              		.loc 1 421 2 view .LVU437
+ 1211 00b8 0321     		movs	r1, #3
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 33
+
+
+ 1212 00ba E86B     		ldr	r0, [r5, #60]
+ 1213 00bc FFF7FEFF 		bl	AD5940_AFEPwrBW
+ 1214              	.LVL77:
+ 422:Core/Src/voltage.c **** 	return AD5940ERR_OK;
+ 1215              		.loc 1 422 2 view .LVU438
+ 422:Core/Src/voltage.c **** 	return AD5940ERR_OK;
+ 1216              		.loc 1 422 22 is_stmt 0 view .LVU439
+ 1217 00c0 85F89860 		strb	r6, [r5, #152]
+ 423:Core/Src/voltage.c **** }
+ 1218              		.loc 1 423 2 is_stmt 1 view .LVU440
+ 423:Core/Src/voltage.c **** }
+ 1219              		.loc 1 423 9 is_stmt 0 view .LVU441
+ 1220 00c4 2046     		mov	r0, r4
+ 1221              	.L64:
+ 424:Core/Src/voltage.c **** 
+ 1222              		.loc 1 424 1 view .LVU442
+ 1223 00c6 09B0     		add	sp, sp, #36
+ 1224              	.LCFI15:
+ 1225              		.cfi_remember_state
+ 1226              		.cfi_def_cfa_offset 20
+ 1227              		@ sp needed
+ 1228 00c8 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 1229              	.LVL78:
+ 1230              	.L66:
+ 1231              	.LCFI16:
+ 1232              		.cfi_restore_state
+ 390:Core/Src/voltage.c **** 		if(BufferSize == 0) return AD5940ERR_PARA;
+ 1233              		.loc 1 390 3 is_stmt 1 view .LVU443
+ 390:Core/Src/voltage.c **** 		if(BufferSize == 0) return AD5940ERR_PARA;
+ 1234              		.loc 1 390 5 is_stmt 0 view .LVU444
+ 1235 00ca 9EB1     		cbz	r6, .L70
+ 391:Core/Src/voltage.c **** 		
+ 1236              		.loc 1 391 3 is_stmt 1 view .LVU445
+ 391:Core/Src/voltage.c **** 		
+ 1237              		.loc 1 391 5 is_stmt 0 view .LVU446
+ 1238 00cc AFB1     		cbz	r7, .L71
+ 393:Core/Src/voltage.c **** 	
+ 1239              		.loc 1 393 3 is_stmt 1 view .LVU447
+ 1240 00ce 3946     		mov	r1, r7
+ 1241 00d0 3046     		mov	r0, r6
+ 1242 00d2 FFF7FEFF 		bl	AD5940_SEQGenInit
+ 1243              	.LVL79:
+ 396:Core/Src/voltage.c **** 		if(error != AD5940ERR_OK) return error;
+ 1244              		.loc 1 396 3 view .LVU448
+ 396:Core/Src/voltage.c **** 		if(error != AD5940ERR_OK) return error;
+ 1245              		.loc 1 396 11 is_stmt 0 view .LVU449
+ 1246 00d6 FFF7FEFF 		bl	AppVOLSeqCfgGen
+ 1247              	.LVL80:
+ 397:Core/Src/voltage.c **** 	
+ 1248              		.loc 1 397 3 is_stmt 1 view .LVU450
+ 397:Core/Src/voltage.c **** 	
+ 1249              		.loc 1 397 5 is_stmt 0 view .LVU451
+ 1250 00da 0028     		cmp	r0, #0
+ 1251 00dc F3D1     		bne	.L64
+ 400:Core/Src/voltage.c **** 		if(error != AD5940ERR_OK) return error;
+ 1252              		.loc 1 400 3 is_stmt 1 view .LVU452
+ 400:Core/Src/voltage.c **** 		if(error != AD5940ERR_OK) return error;
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 34
+
+
+ 1253              		.loc 1 400 11 is_stmt 0 view .LVU453
+ 1254 00de FFF7FEFF 		bl	AppVOLSeqMeasureGen
+ 1255              	.LVL81:
+ 401:Core/Src/voltage.c **** 	
+ 1256              		.loc 1 401 3 is_stmt 1 view .LVU454
+ 401:Core/Src/voltage.c **** 	
+ 1257              		.loc 1 401 5 is_stmt 0 view .LVU455
+ 1258 00e2 0028     		cmp	r0, #0
+ 1259 00e4 EFD1     		bne	.L64
+ 403:Core/Src/voltage.c **** 	}
+ 1260              		.loc 1 403 3 is_stmt 1 view .LVU456
+ 403:Core/Src/voltage.c **** 	}
+ 1261              		.loc 1 403 26 is_stmt 0 view .LVU457
+ 1262 00e6 064B     		ldr	r3, .L73
+ 1263 00e8 0022     		movs	r2, #0
+ 1264 00ea 1A70     		strb	r2, [r3]
+ 1265 00ec BBE7     		b	.L67
+ 1266              	.LVL82:
+ 1267              	.L69:
+ 364:Core/Src/voltage.c **** 	
+ 1268              		.loc 1 364 10 view .LVU458
+ 1269 00ee 6FF00800 		mvn	r0, #8
+ 1270 00f2 E8E7     		b	.L64
+ 1271              	.L70:
+ 390:Core/Src/voltage.c **** 		if(BufferSize == 0) return AD5940ERR_PARA;
+ 1272              		.loc 1 390 28 view .LVU459
+ 1273 00f4 6FF00100 		mvn	r0, #1
+ 1274 00f8 E5E7     		b	.L64
+ 1275              	.L71:
+ 391:Core/Src/voltage.c **** 		
+ 1276              		.loc 1 391 30 view .LVU460
+ 1277 00fa 6FF00100 		mvn	r0, #1
+ 1278 00fe E2E7     		b	.L64
+ 1279              	.L74:
+ 1280              		.align	2
+ 1281              	.L73:
+ 1282 0100 00000000 		.word	.LANCHOR0
+ 1283              		.cfi_endproc
+ 1284              	.LFE8:
+ 1286              		.section	.text.AppVOLDataProcess,"ax",%progbits
+ 1287              		.align	1
+ 1288              		.global	AppVOLDataProcess
+ 1289              		.syntax unified
+ 1290              		.thumb
+ 1291              		.thumb_func
+ 1292              		.fpu fpv5-d16
+ 1294              	AppVOLDataProcess:
+ 1295              	.LVL83:
+ 1296              	.LFB10:
+ 446:Core/Src/voltage.c **** 
+ 447:Core/Src/voltage.c **** /* Calculate voltage */
+ 448:Core/Src/voltage.c **** /* float AppAMPCalcVoltage(uint32_t ADCcode)
+ 449:Core/Src/voltage.c **** {
+ 450:Core/Src/voltage.c **** 	float kFactor = 1.835/1.82;
+ 451:Core/Src/voltage.c **** 	float fVolt = 0.0;
+ 452:Core/Src/voltage.c **** 	int32_t tmp = 0;
+ 453:Core/Src/voltage.c **** 	tmp = ADCcode - 32768;
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 35
+
+
+ 454:Core/Src/voltage.c **** 	switch(AppVOLCfg.ADCPgaGain)
+ 455:Core/Src/voltage.c **** 	{
+ 456:Core/Src/voltage.c **** 		case ADCPGA_1:
+ 457:Core/Src/voltage.c **** 		fVolt = ((float)(tmp)/32768)*(AppVOLCfg.ADCRefVolt/1)*kFactor;
+ 458:Core/Src/voltage.c **** 		break;
+ 459:Core/Src/voltage.c **** 		case ADCPGA_1P5:
+ 460:Core/Src/voltage.c **** 		fVolt = ((float)(tmp)/32768)*(AppVOLCfg.ADCRefVolt/1.5f)*kFactor;
+ 461:Core/Src/voltage.c **** 		break;
+ 462:Core/Src/voltage.c **** 		case ADCPGA_2:
+ 463:Core/Src/voltage.c **** 		fVolt = ((float)(tmp)/32768)*(AppVOLCfg.ADCRefVolt/2)*kFactor;
+ 464:Core/Src/voltage.c **** 		break;
+ 465:Core/Src/voltage.c **** 		case ADCPGA_4:
+ 466:Core/Src/voltage.c **** 		fVolt = ((float)(tmp)/32768)*(AppVOLCfg.ADCRefVolt/4)*kFactor;
+ 467:Core/Src/voltage.c **** 		break;
+ 468:Core/Src/voltage.c **** 		case ADCPGA_9:
+ 469:Core/Src/voltage.c **** 		fVolt = ((float)(tmp)/32768)*(AppVOLCfg.ADCRefVolt/9)*kFactor;
+ 470:Core/Src/voltage.c **** 		break;
+ 471:Core/Src/voltage.c **** 	} 
+ 472:Core/Src/voltage.c **** 	return fVolt;
+ 473:Core/Src/voltage.c **** } */
+ 474:Core/Src/voltage.c **** 
+ 475:Core/Src/voltage.c **** int32_t AppVOLDataProcess(int32_t * const pData, uint32_t *pDataCount)
+ 476:Core/Src/voltage.c **** {
+ 1297              		.loc 1 476 1 is_stmt 1 view -0
+ 1298              		.cfi_startproc
+ 1299              		@ args = 0, pretend = 0, frame = 0
+ 1300              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1301              		@ link register save eliminated.
+ 477:Core/Src/voltage.c ****   uint32_t DataCount = *pDataCount;
+ 1302              		.loc 1 477 3 view .LVU462
+ 1303              		.loc 1 477 12 is_stmt 0 view .LVU463
+ 1304 0000 0968     		ldr	r1, [r1]
+ 1305              	.LVL84:
+ 478:Core/Src/voltage.c **** 	
+ 479:Core/Src/voltage.c ****   /* Convert DFT result to int32_t type */
+ 480:Core/Src/voltage.c ****   for(uint32_t i=0; i<DataCount; i++)
+ 1306              		.loc 1 480 3 is_stmt 1 view .LVU464
+ 1307              	.LBB5:
+ 1308              		.loc 1 480 7 view .LVU465
+ 1309              		.loc 1 480 16 is_stmt 0 view .LVU466
+ 1310 0002 0023     		movs	r3, #0
+ 1311              	.LVL85:
+ 1312              	.L76:
+ 1313              		.loc 1 480 21 is_stmt 1 discriminator 1 view .LVU467
+ 1314              		.loc 1 480 3 is_stmt 0 discriminator 1 view .LVU468
+ 1315 0004 8B42     		cmp	r3, r1
+ 1316 0006 05D2     		bcs	.L78
+ 481:Core/Src/voltage.c ****   {
+ 482:Core/Src/voltage.c ****     pData[i] &= 0xffff;
+ 1317              		.loc 1 482 5 is_stmt 1 discriminator 3 view .LVU469
+ 1318              		.loc 1 482 14 is_stmt 0 discriminator 3 view .LVU470
+ 1319 0008 30F82320 		ldrh	r2, [r0, r3, lsl #2]
+ 1320 000c 40F82320 		str	r2, [r0, r3, lsl #2]
+ 480:Core/Src/voltage.c ****   {
+ 1321              		.loc 1 480 34 is_stmt 1 discriminator 3 view .LVU471
+ 480:Core/Src/voltage.c ****   {
+ 1322              		.loc 1 480 35 is_stmt 0 discriminator 3 view .LVU472
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 36
+
+
+ 1323 0010 0133     		adds	r3, r3, #1
+ 1324              	.LVL86:
+ 480:Core/Src/voltage.c ****   {
+ 1325              		.loc 1 480 35 discriminator 3 view .LVU473
+ 1326 0012 F7E7     		b	.L76
+ 1327              	.L78:
+ 480:Core/Src/voltage.c ****   {
+ 1328              		.loc 1 480 35 discriminator 3 view .LVU474
+ 1329              	.LBE5:
+ 483:Core/Src/voltage.c **** 		//pData[i] -= 32768;
+ 484:Core/Src/voltage.c ****   }
+ 485:Core/Src/voltage.c ****   
+ 486:Core/Src/voltage.c ****   return 0;
+ 1330              		.loc 1 486 3 is_stmt 1 view .LVU475
+ 487:Core/Src/voltage.c **** }
+ 1331              		.loc 1 487 1 is_stmt 0 view .LVU476
+ 1332 0014 0020     		movs	r0, #0
+ 1333              	.LVL87:
+ 1334              		.loc 1 487 1 view .LVU477
+ 1335 0016 7047     		bx	lr
+ 1336              		.cfi_endproc
+ 1337              	.LFE10:
+ 1339              		.section	.text.AppVOLISR,"ax",%progbits
+ 1340              		.align	1
+ 1341              		.global	AppVOLISR
+ 1342              		.syntax unified
+ 1343              		.thumb
+ 1344              		.thumb_func
+ 1345              		.fpu fpv5-d16
+ 1347              	AppVOLISR:
+ 1348              	.LVL88:
+ 1349              	.LFB11:
+ 488:Core/Src/voltage.c **** 
+ 489:Core/Src/voltage.c **** 
+ 490:Core/Src/voltage.c **** 
+ 491:Core/Src/voltage.c **** int32_t AppVOLISR(void *pBuff, uint32_t *pCount)
+ 492:Core/Src/voltage.c **** {
+ 1350              		.loc 1 492 1 is_stmt 1 view -0
+ 1351              		.cfi_startproc
+ 1352              		@ args = 0, pretend = 0, frame = 8
+ 1353              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1354              		.loc 1 492 1 is_stmt 0 view .LVU479
+ 1355 0000 30B5     		push	{r4, r5, lr}
+ 1356              	.LCFI17:
+ 1357              		.cfi_def_cfa_offset 12
+ 1358              		.cfi_offset 4, -12
+ 1359              		.cfi_offset 5, -8
+ 1360              		.cfi_offset 14, -4
+ 1361 0002 83B0     		sub	sp, sp, #12
+ 1362              	.LCFI18:
+ 1363              		.cfi_def_cfa_offset 24
+ 1364 0004 0546     		mov	r5, r0
+ 1365 0006 0C46     		mov	r4, r1
+ 493:Core/Src/voltage.c **** 	uint32_t FifoCnt;
+ 1366              		.loc 1 493 2 is_stmt 1 view .LVU480
+ 494:Core/Src/voltage.c **** 	*pCount = 0;
+ 1367              		.loc 1 494 2 view .LVU481
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 37
+
+
+ 1368              		.loc 1 494 10 is_stmt 0 view .LVU482
+ 1369 0008 0023     		movs	r3, #0
+ 1370 000a 0B60     		str	r3, [r1]
+ 495:Core/Src/voltage.c **** 	
+ 496:Core/Src/voltage.c **** 	if(AD5940_WakeUp(10) > 10)  /* Wakeup AFE by read register, read 10 times at most */
+ 1371              		.loc 1 496 2 is_stmt 1 view .LVU483
+ 1372              		.loc 1 496 5 is_stmt 0 view .LVU484
+ 1373 000c 0A20     		movs	r0, #10
+ 1374              	.LVL89:
+ 1375              		.loc 1 496 5 view .LVU485
+ 1376 000e FFF7FEFF 		bl	AD5940_WakeUp
+ 1377              	.LVL90:
+ 1378              		.loc 1 496 4 view .LVU486
+ 1379 0012 0A28     		cmp	r0, #10
+ 1380 0014 26D8     		bhi	.L81
+ 497:Core/Src/voltage.c **** 		return AD5940ERR_WAKEUP;  /* Wakeup Failed */
+ 498:Core/Src/voltage.c **** 	
+ 499:Core/Src/voltage.c **** 	AD5940_SleepKeyCtrlS(SLPKEY_LOCK);  /* Prohibit AFE to enter sleep mode. */
+ 1381              		.loc 1 499 2 is_stmt 1 view .LVU487
+ 1382 0016 0020     		movs	r0, #0
+ 1383 0018 FFF7FEFF 		bl	AD5940_SleepKeyCtrlS
+ 1384              	.LVL91:
+ 500:Core/Src/voltage.c **** 	
+ 501:Core/Src/voltage.c **** 	if(AD5940_INTCTestFlag(AFEINTC_0, AFEINTSRC_DATAFIFOTHRESH) == bTRUE)
+ 1385              		.loc 1 501 2 view .LVU488
+ 1386              		.loc 1 501 5 is_stmt 0 view .LVU489
+ 1387 001c 4FF00071 		mov	r1, #33554432
+ 1388 0020 0020     		movs	r0, #0
+ 1389 0022 FFF7FEFF 		bl	AD5940_INTCTestFlag
+ 1390              	.LVL92:
+ 1391              		.loc 1 501 4 view .LVU490
+ 1392 0026 0128     		cmp	r0, #1
+ 1393 0028 02D0     		beq	.L84
+ 502:Core/Src/voltage.c **** 	{
+ 503:Core/Src/voltage.c **** 		FifoCnt = AD5940_FIFOGetCnt();
+ 504:Core/Src/voltage.c **** 		AD5940_FIFORd((uint32_t *)pBuff, FifoCnt);
+ 505:Core/Src/voltage.c **** 		AD5940_INTCClrFlag(AFEINTSRC_DATAFIFOTHRESH);
+ 506:Core/Src/voltage.c **** 		AppVOLRegModify(pBuff, &FifoCnt);   /* If there is need to do AFE re-configure, do it here when A
+ 507:Core/Src/voltage.c **** 		AD5940_SleepKeyCtrlS(SLPKEY_UNLOCK);  /* Allow AFE to enter sleep mode. */
+ 508:Core/Src/voltage.c **** 		/* Process data */ 
+ 509:Core/Src/voltage.c **** 		AppVOLDataProcess((int32_t*)pBuff,&FifoCnt); 
+ 510:Core/Src/voltage.c **** 	
+ 511:Core/Src/voltage.c **** 		*pCount = FifoCnt;
+ 512:Core/Src/voltage.c **** 		return 0;
+ 513:Core/Src/voltage.c **** 	}
+ 514:Core/Src/voltage.c **** 	
+ 515:Core/Src/voltage.c **** 	return 0;
+ 1394              		.loc 1 515 9 view .LVU491
+ 1395 002a 0020     		movs	r0, #0
+ 1396              	.L79:
+ 516:Core/Src/voltage.c **** } 
+ 1397              		.loc 1 516 1 view .LVU492
+ 1398 002c 03B0     		add	sp, sp, #12
+ 1399              	.LCFI19:
+ 1400              		.cfi_remember_state
+ 1401              		.cfi_def_cfa_offset 12
+ 1402              		@ sp needed
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 38
+
+
+ 1403 002e 30BD     		pop	{r4, r5, pc}
+ 1404              	.LVL93:
+ 1405              	.L84:
+ 1406              	.LCFI20:
+ 1407              		.cfi_restore_state
+ 503:Core/Src/voltage.c **** 		AD5940_FIFORd((uint32_t *)pBuff, FifoCnt);
+ 1408              		.loc 1 503 3 is_stmt 1 view .LVU493
+ 503:Core/Src/voltage.c **** 		AD5940_FIFORd((uint32_t *)pBuff, FifoCnt);
+ 1409              		.loc 1 503 13 is_stmt 0 view .LVU494
+ 1410 0030 FFF7FEFF 		bl	AD5940_FIFOGetCnt
+ 1411              	.LVL94:
+ 1412 0034 0146     		mov	r1, r0
+ 503:Core/Src/voltage.c **** 		AD5940_FIFORd((uint32_t *)pBuff, FifoCnt);
+ 1413              		.loc 1 503 11 view .LVU495
+ 1414 0036 0190     		str	r0, [sp, #4]
+ 504:Core/Src/voltage.c **** 		AD5940_INTCClrFlag(AFEINTSRC_DATAFIFOTHRESH);
+ 1415              		.loc 1 504 3 is_stmt 1 view .LVU496
+ 1416 0038 2846     		mov	r0, r5
+ 1417 003a FFF7FEFF 		bl	AD5940_FIFORd
+ 1418              	.LVL95:
+ 505:Core/Src/voltage.c **** 		AppVOLRegModify(pBuff, &FifoCnt);   /* If there is need to do AFE re-configure, do it here when A
+ 1419              		.loc 1 505 3 view .LVU497
+ 1420 003e 4FF00070 		mov	r0, #33554432
+ 1421 0042 FFF7FEFF 		bl	AD5940_INTCClrFlag
+ 1422              	.LVL96:
+ 506:Core/Src/voltage.c **** 		AD5940_SleepKeyCtrlS(SLPKEY_UNLOCK);  /* Allow AFE to enter sleep mode. */
+ 1423              		.loc 1 506 3 view .LVU498
+ 1424 0046 01A9     		add	r1, sp, #4
+ 1425 0048 2846     		mov	r0, r5
+ 1426 004a FFF7FEFF 		bl	AppVOLRegModify
+ 1427              	.LVL97:
+ 507:Core/Src/voltage.c **** 		/* Process data */ 
+ 1428              		.loc 1 507 3 view .LVU499
+ 1429 004e 0748     		ldr	r0, .L85
+ 1430 0050 FFF7FEFF 		bl	AD5940_SleepKeyCtrlS
+ 1431              	.LVL98:
+ 509:Core/Src/voltage.c **** 	
+ 1432              		.loc 1 509 3 view .LVU500
+ 1433 0054 01A9     		add	r1, sp, #4
+ 1434 0056 2846     		mov	r0, r5
+ 1435 0058 FFF7FEFF 		bl	AppVOLDataProcess
+ 1436              	.LVL99:
+ 511:Core/Src/voltage.c **** 		return 0;
+ 1437              		.loc 1 511 3 view .LVU501
+ 511:Core/Src/voltage.c **** 		return 0;
+ 1438              		.loc 1 511 11 is_stmt 0 view .LVU502
+ 1439 005c 019B     		ldr	r3, [sp, #4]
+ 1440 005e 2360     		str	r3, [r4]
+ 512:Core/Src/voltage.c **** 	}
+ 1441              		.loc 1 512 3 is_stmt 1 view .LVU503
+ 512:Core/Src/voltage.c **** 	}
+ 1442              		.loc 1 512 10 is_stmt 0 view .LVU504
+ 1443 0060 0020     		movs	r0, #0
+ 1444 0062 E3E7     		b	.L79
+ 1445              	.L81:
+ 497:Core/Src/voltage.c **** 	
+ 1446              		.loc 1 497 10 view .LVU505
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 39
+
+
+ 1447 0064 6FF00800 		mvn	r0, #8
+ 1448 0068 E0E7     		b	.L79
+ 1449              	.L86:
+ 1450 006a 00BF     		.align	2
+ 1451              	.L85:
+ 1452 006c E5470A00 		.word	673765
+ 1453              		.cfi_endproc
+ 1454              	.LFE11:
+ 1456              		.global	AppVOLCfg
+ 1457              		.section	.data.AppVOLCfg,"aw"
+ 1458              		.align	2
+ 1459              		.set	.LANCHOR0,. + 0
+ 1462              	AppVOLCfg:
+ 1463 0000 00       		.byte	0
+ 1464 0001 000000   		.space	3
+ 1465 0004 00000000 		.word	0
+ 1466 0008 00000000 		.word	0
+ 1467 000c 00000000 		.word	0
+ 1468 0010 00000000 		.word	0
+ 1469 0014 00007A44 		.word	1148846080
+ 1470 0018 FFFFFFFF 		.word	-1
+ 1471 001c 0000FA46 		.word	1190789120
+ 1472 0020 0024744B 		.word	1265902592
+ 1473 0024 0024744B 		.word	1265902592
+ 1474 0028 00401C46 		.word	1176256512
+ 1475 002c 10000000 		.word	16
+ 1476 0030 00040000 		.word	1024
+ 1477 0034 02000000 		.word	2
+ 1478 0038 02000000 		.word	2
+ 1479 003c 01000000 		.word	1
+ 1480 0040 02000000 		.word	2
+ 1481 0044 00000000 		.word	0
+ 1482 0048 00000000 		.word	0
+ 1483 004c 07000000 		.word	7
+ 1484 0050 00001644 		.word	1142292480
+ 1485 0054 00000080 		.word	-2147483648
+ 1486 0058 0050C347 		.word	1203982336
+ 1487 005c 0C000000 		.word	12
+ 1488 0060 01000000 		.word	1
+ 1489 0064 01       		.byte	1
+ 1490 0065 000000   		.space	3
+ 1491 0068 00000000 		.word	0
+ 1492 006c 02       		.byte	2
+ 1493 006d 01       		.byte	1
+ 1494 006e 03       		.byte	3
+ 1495 006f 00       		.space	1
+ 1496 0070 00       		.byte	0
+ 1497 0071 000000   		.space	3
+ 1498 0074 00007A44 		.word	1148846080
+ 1499 0078 0050C347 		.word	1203982336
+ 1500 007c 65000000 		.word	101
+ 1501 0080 00       		.byte	0
+ 1502 0081 000000   		.space	3
+ 1503 0084 00000000 		.word	0
+ 1504 0088 40000000 		.word	64
+ 1505 008c 00000000 		.space	12
+ 1505      00000000 
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 40
+
+
+ 1505      00000000 
+ 1506 0098 00       		.byte	0
+ 1507 0099 00000000 		.space	43
+ 1507      00000000 
+ 1507      00000000 
+ 1507      00000000 
+ 1507      00000000 
+ 1508 00c4 00       		.byte	0
+ 1509 00c5 00000000 		.space	7
+ 1509      000000
+ 1510              		.text
+ 1511              	.Letext0:
+ 1512              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 1513              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1514              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1515              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1516              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1517              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1518              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1519              		.file 9 "ad5940lib/ad5940.h"
+ 1520              		.file 10 "Core/Inc/voltage.h"
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 41
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 voltage.c
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:17     .text.AppVOLSeqCfgGen:00000000 $t
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:24     .text.AppVOLSeqCfgGen:00000000 AppVOLSeqCfgGen
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:511    .text.AppVOLSeqCfgGen:00000268 $d
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:526    .text.AppVOLSeqMeasureGen:00000000 $t
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:532    .text.AppVOLSeqMeasureGen:00000000 AppVOLSeqMeasureGen
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:714    .text.AppVOLSeqMeasureGen:000000d0 $d
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:719    .text.AppVOLRegModify:00000000 $t
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:725    .text.AppVOLRegModify:00000000 AppVOLRegModify
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:791    .text.AppVOLRegModify:0000003c $d
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:796    .text.get_APPVOLGetCfg:00000000 $t
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:803    .text.get_APPVOLGetCfg:00000000 get_APPVOLGetCfg
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:834    .text.get_APPVOLGetCfg:00000010 $d
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:839    .text.AppVOLCtrl:00000000 $t
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:846    .text.AppVOLCtrl:00000000 AppVOLCtrl
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:999    .text.AppVOLCtrl:0000008c $d
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:1004   .text.AppVOLGetCurrFreq:00000000 $t
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:1011   .text.AppVOLGetCurrFreq:00000000 AppVOLGetCurrFreq
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:1040   .text.AppVOLGetCurrFreq:0000001c $d
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:1045   .text.AppVOLInit:00000000 $t
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:1052   .text.AppVOLInit:00000000 AppVOLInit
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:1282   .text.AppVOLInit:00000100 $d
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:1287   .text.AppVOLDataProcess:00000000 $t
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:1294   .text.AppVOLDataProcess:00000000 AppVOLDataProcess
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:1340   .text.AppVOLISR:00000000 $t
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:1347   .text.AppVOLISR:00000000 AppVOLISR
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:1452   .text.AppVOLISR:0000006c $d
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:1462   .data.AppVOLCfg:00000000 AppVOLCfg
+C:\Users\root\AppData\Local\Temp\cchcmaC7.s:1458   .data.AppVOLCfg:00000000 $d
+
+UNDEFINED SYMBOLS
+AD5940_SEQGenCtrl
+AD5940_AFECtrlS
+AD5940_REFCfgS
+AD5940_WGFreqWordCal
+AD5940_HSLoopCfgS
+AD5940_LPDACCfgS
+AD5940_DSPCfgS
+AD5940_SEQGenInsert
+AD5940_SEQGenFetchSeq
+AD5940_SweepNext
+AD5940_SEQCmdWrite
+AD5940_ClksCalculate
+AD5940_SEQGpioCtrlS
+AD5940_SWMatrixCfgS
+AD5940_WUPTCtrl
+AD5940_WakeUp
+AD5940_WUPTCfg
+AD5940_SEQCfg
+AD5940_FIFOCtrlS
+AD5940_FIFOCfg
+AD5940_INTCClrFlag
+AD5940_SEQInfoCfg
+AD5940_SEQMmrTrig
+AD5940_INTCTestFlag
+AD5940_ClrMCUIntFlag
+ARM GAS  C:\Users\root\AppData\Local\Temp\cchcmaC7.s 			page 42
+
+
+AD5940_AFEPwrBW
+AD5940_SEQGenInit
+AD5940_SleepKeyCtrlS
+AD5940_FIFOGetCnt
+AD5940_FIFORd

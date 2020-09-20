@@ -1,0 +1,48 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ARM Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Sensor_Read_V2.elf",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false, 
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\Program Files (x86)\\GNU Arm Embedded Toolchain\\9 2020-q2-update\\bin\\arm-none-eabi-gdb.exe",
+            "targetArchitecture": "arm", 
+            "setupCommands": [
+                {
+                    "description": "choose debug document (.elf) to gdb",
+                    "text": "file C:/Users/root/Desktop/ad5940_project/STM32/Sensor_Read_V2/build/Sensor_Read_V2.elf",
+                    "ignoreFailures": false
+                },
+                {
+                    "description": "connect GDB Server",
+                    "text": "target remote localhost:3333",                                 
+                    "ignoreFailures": false
+                },
+                {
+                    "description": "Reset MCU",
+                    "text": "monitor reset",                                              
+                    "ignoreFailures": false
+                },
+                {
+                    "description": "Halt",
+                    "text": "monitor halt",                                                  
+                    "ignoreFailures": false
+                },
+                {
+                    "description":"Download MCU",
+                    "text": "load" ,              
+                    "ignoreFailures": false                                      
+                }
+            ],
+            "preLaunchTask": "build", 
+        }
+    ]
+}
+

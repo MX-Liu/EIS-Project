@@ -1,0 +1,45 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/",
+                    "${workspaceFolder}/Drivers/CMSIS",
+                    "${workspaceFolder}/Drivers/STM32H7xx_HAL_Driver",
+                    "${workspaceFolder}/Drivers/STM32H7xx_HAL_Driver/Inc",
+                    "${workspaceFolder}/Drivers/CMSIS/Device",
+                    "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32H7xx/Include",
+                    "${workspaceFolder}/Core/Inc",
+                    "${workspaceFolder}/ad5940lib",
+                    "${workspaceFolder}/Core"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "${workspaceFolder}/",
+                "${workspaceFolder}/Drivers/CMSIS",
+                "${workspaceFolder}/Drivers/STM32H7xx_HAL_Driver",
+                "${workspaceFolder}/Drivers/STM32H7xx_HAL_Driver/Inc",
+                "${workspaceFolder}/Drivers/CMSIS/Device",
+                "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32H7xx/Include",
+                "${workspaceFolder}/Core/inc",
+                "${workspaceFolder}/ad5940lib",
+                "${workspaceFolder}/Core"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "__CC_ARM",
+                "USE_STDPERIPH_DRIVER",
+                "USE_HAL_DRIVER,STM32H743xx"
+            ],
+            "compilerPath": "D:\\Program Files\\LLVM\\bin\\clang-format.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

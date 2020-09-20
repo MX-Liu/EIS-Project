@@ -1,0 +1,2366 @@
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 1
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"AD5940Main.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.AD5940PlatformCfg_IMP,"ax",%progbits
+  17              		.align	1
+  18              		.arch armv7e-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv5-d16
+  24              	AD5940PlatformCfg_IMP:
+  25              	.LFB7:
+  26              		.file 1 "Core/Src/AD5940Main.c"
+   1:Core/Src/AD5940Main.c **** // /*!
+   2:Core/Src/AD5940Main.c **** //  *****************************************************************************
+   3:Core/Src/AD5940Main.c **** //  @file:    AD5940Main.c
+   4:Core/Src/AD5940Main.c **** //  @author:  Neo Xu
+   5:Core/Src/AD5940Main.c **** //  @brief:   Standard 4-wire or 2-wire impedance measurement example.
+   6:Core/Src/AD5940Main.c **** //  -----------------------------------------------------------------------------
+   7:Core/Src/AD5940Main.c **** 
+   8:Core/Src/AD5940Main.c **** // Copyright (c) 2017-2019 Analog Devices, Inc. All Rights Reserved.
+   9:Core/Src/AD5940Main.c **** 
+  10:Core/Src/AD5940Main.c **** // This software is proprietary to Analog Devices, Inc. and its licensors.
+  11:Core/Src/AD5940Main.c **** // By using this software you agree to the terms of the associated
+  12:Core/Src/AD5940Main.c **** // Analog Devices Software License Agreement.
+  13:Core/Src/AD5940Main.c ****  
+  14:Core/Src/AD5940Main.c **** // *****************************************************************************/
+  15:Core/Src/AD5940Main.c **** // #include "Impedance.h"
+  16:Core/Src/AD5940Main.c **** 
+  17:Core/Src/AD5940Main.c **** // /**
+  18:Core/Src/AD5940Main.c **** //    User could configure following parameters
+  19:Core/Src/AD5940Main.c **** // **/
+  20:Core/Src/AD5940Main.c **** 
+  21:Core/Src/AD5940Main.c **** // #define APPBUFF_SIZE 512
+  22:Core/Src/AD5940Main.c **** // uint32_t AppBuff[APPBUFF_SIZE];
+  23:Core/Src/AD5940Main.c **** 
+  24:Core/Src/AD5940Main.c **** // int32_t ImpedanceShowResult(uint32_t *pData, uint32_t DataCount)
+  25:Core/Src/AD5940Main.c **** // {
+  26:Core/Src/AD5940Main.c **** //   float freq;
+  27:Core/Src/AD5940Main.c **** 	
+  28:Core/Src/AD5940Main.c **** // 	float phase;
+  29:Core/Src/AD5940Main.c **** 
+  30:Core/Src/AD5940Main.c **** //   fImpPol_Type *pImp = (fImpPol_Type*)pData;
+  31:Core/Src/AD5940Main.c **** //   AppIMPCtrl(IMPCTRL_GETFREQ, &freq);
+  32:Core/Src/AD5940Main.c **** 
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 2
+
+
+  33:Core/Src/AD5940Main.c ****  
+  34:Core/Src/AD5940Main.c ****   
+  35:Core/Src/AD5940Main.c **** // 	//printf("%.2f,", freq);
+  36:Core/Src/AD5940Main.c **** 	
+  37:Core/Src/AD5940Main.c **** //   /*Process data*/
+  38:Core/Src/AD5940Main.c **** //   for(int i=0;i<DataCount;i++)
+  39:Core/Src/AD5940Main.c **** //   {
+  40:Core/Src/AD5940Main.c **** // 		if(pImp[i].Phase*180/MATH_PI > 180)
+  41:Core/Src/AD5940Main.c **** // 		{
+  42:Core/Src/AD5940Main.c **** // 			phase = pImp[i].Phase*180/MATH_PI - 360;
+  43:Core/Src/AD5940Main.c **** // 		}
+  44:Core/Src/AD5940Main.c **** // 		else
+  45:Core/Src/AD5940Main.c **** // 		{
+  46:Core/Src/AD5940Main.c **** // 			phase = pImp[i].Phase*180/MATH_PI;
+  47:Core/Src/AD5940Main.c **** // 		}
+  48:Core/Src/AD5940Main.c **** //     //printf("RzMag: %f Ohm , RzPhase: %f \n",pImp[i].Magnitude,pImp[i].Phase*180/MATH_PI);
+  49:Core/Src/AD5940Main.c **** //   }
+  50:Core/Src/AD5940Main.c **** //   return 0;
+  51:Core/Src/AD5940Main.c **** // }
+  52:Core/Src/AD5940Main.c **** 
+  53:Core/Src/AD5940Main.c **** // static int32_t AD5940PlatformCfg(void)
+  54:Core/Src/AD5940Main.c **** // {
+  55:Core/Src/AD5940Main.c **** //   CLKCfg_Type clk_cfg;
+  56:Core/Src/AD5940Main.c **** //   FIFOCfg_Type fifo_cfg;
+  57:Core/Src/AD5940Main.c **** //   AGPIOCfg_Type gpio_cfg;
+  58:Core/Src/AD5940Main.c **** 
+  59:Core/Src/AD5940Main.c **** //   /* Use hardware reset */
+  60:Core/Src/AD5940Main.c **** //   AD5940_HWReset();
+  61:Core/Src/AD5940Main.c **** //   AD5940_Initialize();
+  62:Core/Src/AD5940Main.c **** //   /* Platform configuration */
+  63:Core/Src/AD5940Main.c **** //   /* Step1. Configure clock */
+  64:Core/Src/AD5940Main.c **** //   clk_cfg.ADCClkDiv = ADCCLKDIV_1;
+  65:Core/Src/AD5940Main.c **** //   clk_cfg.ADCCLkSrc = ADCCLKSRC_HFOSC;
+  66:Core/Src/AD5940Main.c **** //   clk_cfg.SysClkDiv = SYSCLKDIV_1;
+  67:Core/Src/AD5940Main.c **** //   clk_cfg.SysClkSrc = SYSCLKSRC_HFOSC;
+  68:Core/Src/AD5940Main.c **** //   clk_cfg.HfOSC32MHzMode = bFALSE;
+  69:Core/Src/AD5940Main.c **** //   clk_cfg.HFOSCEn = bTRUE;
+  70:Core/Src/AD5940Main.c **** //   clk_cfg.HFXTALEn = bFALSE;
+  71:Core/Src/AD5940Main.c **** //   clk_cfg.LFOSCEn = bTRUE;
+  72:Core/Src/AD5940Main.c **** //   AD5940_CLKCfg(&clk_cfg);
+  73:Core/Src/AD5940Main.c **** //   /* Step2. Configure FIFO and Sequencer*/
+  74:Core/Src/AD5940Main.c **** //   fifo_cfg.FIFOEn = bFALSE;
+  75:Core/Src/AD5940Main.c **** //   fifo_cfg.FIFOMode = FIFOMODE_FIFO;
+  76:Core/Src/AD5940Main.c **** //   fifo_cfg.FIFOSize = FIFOSIZE_4KB;                       /* 4kB for FIFO, The reset 2kB for seq
+  77:Core/Src/AD5940Main.c **** //   fifo_cfg.FIFOSrc = FIFOSRC_DFT;
+  78:Core/Src/AD5940Main.c **** //   fifo_cfg.FIFOThresh = 4;//AppIMPCfg.FifoThresh;        /* DFT result. One pair for RCAL, anoth
+  79:Core/Src/AD5940Main.c **** //   AD5940_FIFOCfg(&fifo_cfg);
+  80:Core/Src/AD5940Main.c **** //   fifo_cfg.FIFOEn = bTRUE;
+  81:Core/Src/AD5940Main.c **** //   AD5940_FIFOCfg(&fifo_cfg);
+  82:Core/Src/AD5940Main.c ****   
+  83:Core/Src/AD5940Main.c **** //   /* Step3. Interrupt controller */
+  84:Core/Src/AD5940Main.c **** //   AD5940_INTCCfg(AFEINTC_1, AFEINTSRC_ALLINT, bTRUE);   /* Enable all interrupt in INTC1, so we 
+  85:Core/Src/AD5940Main.c **** //   AD5940_INTCClrFlag(AFEINTSRC_ALLINT);
+  86:Core/Src/AD5940Main.c **** //   AD5940_INTCCfg(AFEINTC_0, AFEINTSRC_DATAFIFOTHRESH, bTRUE); 
+  87:Core/Src/AD5940Main.c **** //   AD5940_INTCClrFlag(AFEINTSRC_ALLINT);
+  88:Core/Src/AD5940Main.c **** //   /* Step4: Reconfigure GPIO */
+  89:Core/Src/AD5940Main.c **** //   gpio_cfg.FuncSet = GP0_INT|GP1_SLEEP|GP2_SYNC;
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 3
+
+
+  90:Core/Src/AD5940Main.c **** //   gpio_cfg.InputEnSet = 0;
+  91:Core/Src/AD5940Main.c **** //   gpio_cfg.OutputEnSet = AGPIO_Pin0|AGPIO_Pin1|AGPIO_Pin2;
+  92:Core/Src/AD5940Main.c **** //   gpio_cfg.OutVal = 0;
+  93:Core/Src/AD5940Main.c **** //   gpio_cfg.PullEnSet = 0;
+  94:Core/Src/AD5940Main.c **** //   AD5940_AGPIOCfg(&gpio_cfg);
+  95:Core/Src/AD5940Main.c **** //   AD5940_SleepKeyCtrlS(SLPKEY_UNLOCK);  /* Allow AFE to enter sleep mode. */
+  96:Core/Src/AD5940Main.c **** //   return 0;
+  97:Core/Src/AD5940Main.c **** // }
+  98:Core/Src/AD5940Main.c **** 
+  99:Core/Src/AD5940Main.c **** // void AD5940ImpedanceStructInit(void)
+ 100:Core/Src/AD5940Main.c **** // {
+ 101:Core/Src/AD5940Main.c **** //   AppIMPCfg_Type *pImpedanceCfg;
+ 102:Core/Src/AD5940Main.c ****   
+ 103:Core/Src/AD5940Main.c **** //   AppIMPGetCfg(&pImpedanceCfg);
+ 104:Core/Src/AD5940Main.c **** //   /* Step1: configure initialization sequence Info */
+ 105:Core/Src/AD5940Main.c **** //   pImpedanceCfg->SeqStartAddr = 0;
+ 106:Core/Src/AD5940Main.c **** //   pImpedanceCfg->MaxSeqLen = 512; /* @todo add checker in function */
+ 107:Core/Src/AD5940Main.c **** 
+ 108:Core/Src/AD5940Main.c **** //   pImpedanceCfg->RcalVal = 10000.0;
+ 109:Core/Src/AD5940Main.c **** //   pImpedanceCfg->SinFreq = 60000.0;
+ 110:Core/Src/AD5940Main.c **** //   pImpedanceCfg->FifoThresh = 4;
+ 111:Core/Src/AD5940Main.c **** 	
+ 112:Core/Src/AD5940Main.c **** // 	/* Set switch matrix to onboard(EVAL-AD5940ELECZ) dummy sensor. */
+ 113:Core/Src/AD5940Main.c **** // 	/* Note the RCAL0 resistor is 10kOhm. */
+ 114:Core/Src/AD5940Main.c **** // 	pImpedanceCfg->DswitchSel = SWD_CE0;
+ 115:Core/Src/AD5940Main.c **** // 	//pImpedanceCfg->PswitchSel = SWP_RE0;
+ 116:Core/Src/AD5940Main.c **** 	
+ 117:Core/Src/AD5940Main.c **** // 	pImpedanceCfg->PswitchSel = SWP_CE0;
+ 118:Core/Src/AD5940Main.c **** 	
+ 119:Core/Src/AD5940Main.c **** // 	//pImpedanceCfg->NswitchSel = SWN_SE0;
+ 120:Core/Src/AD5940Main.c **** 	
+ 121:Core/Src/AD5940Main.c **** // 	pImpedanceCfg->NswitchSel = SWN_AIN1;
+ 122:Core/Src/AD5940Main.c **** // 	//pImpedanceCfg->TswitchSel = SWT_SE0LOAD;
+ 123:Core/Src/AD5940Main.c **** 	
+ 124:Core/Src/AD5940Main.c **** // 	pImpedanceCfg->TswitchSel = SWT_AIN1;
+ 125:Core/Src/AD5940Main.c **** 	
+ 126:Core/Src/AD5940Main.c **** // 	/* The dummy sensor is as low as 5kOhm. We need to make sure RTIA is small enough that HSTIA wo
+ 127:Core/Src/AD5940Main.c **** // 	//pImpedanceCfg->HstiaRtiaSel = HSTIARTIA_5K;	
+ 128:Core/Src/AD5940Main.c **** // 	pImpedanceCfg->HstiaRtiaSel = HSTIARTIA_200;
+ 129:Core/Src/AD5940Main.c **** 	
+ 130:Core/Src/AD5940Main.c **** // 	/* Configure the sweep function. */
+ 131:Core/Src/AD5940Main.c **** // 	pImpedanceCfg->SweepCfg.SweepEn = bTRUE;
+ 132:Core/Src/AD5940Main.c **** // 	pImpedanceCfg->SweepCfg.SweepStart = 100;	/* Start from 1kHz */
+ 133:Core/Src/AD5940Main.c **** // 	pImpedanceCfg->SweepCfg.SweepStop = 200e3f;		/* Stop at 100kHz */
+ 134:Core/Src/AD5940Main.c **** // 	pImpedanceCfg->SweepCfg.SweepPoints = 201;		/* Points is 101 */
+ 135:Core/Src/AD5940Main.c **** // 	//pImpedanceCfg->SweepCfg.SweepLog = bTRUE;
+ 136:Core/Src/AD5940Main.c **** // 	pImpedanceCfg->SweepCfg.SweepLog = bTRUE;
+ 137:Core/Src/AD5940Main.c **** // 	/* Configure Power Mode. Use HP mode if frequency is higher than 80kHz. */
+ 138:Core/Src/AD5940Main.c **** // 	pImpedanceCfg->PwrMod = AFEPWR_HP;
+ 139:Core/Src/AD5940Main.c **** 	
+ 140:Core/Src/AD5940Main.c **** // 	/* Configure filters if necessary */
+ 141:Core/Src/AD5940Main.c **** // 	pImpedanceCfg->ADCSinc3Osr = ADCSINC3OSR_2;		/* Sample rate is 800kSPS/2 = 400kSPS */
+ 142:Core/Src/AD5940Main.c **** //   pImpedanceCfg->DftNum = DFTNUM_16384;
+ 143:Core/Src/AD5940Main.c **** //   pImpedanceCfg->DftSrc = DFTSRC_SINC3;
+ 144:Core/Src/AD5940Main.c **** // }
+ 145:Core/Src/AD5940Main.c **** 
+ 146:Core/Src/AD5940Main.c **** // void AD5940_Main(void)
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 4
+
+
+ 147:Core/Src/AD5940Main.c **** // {
+ 148:Core/Src/AD5940Main.c **** //   uint32_t temp;  
+ 149:Core/Src/AD5940Main.c **** //   AD5940PlatformCfg();
+ 150:Core/Src/AD5940Main.c **** //   AD5940ImpedanceStructInit();
+ 151:Core/Src/AD5940Main.c ****   
+ 152:Core/Src/AD5940Main.c **** //   AppIMPInit(AppBuff, APPBUFF_SIZE);    /* Initialize IMP application. Provide a buffer, which i
+ 153:Core/Src/AD5940Main.c **** //   AppIMPCtrl(IMPCTRL_START, 0);          /* Control IMP measurement to start. Second parameter h
+ 154:Core/Src/AD5940Main.c ****  
+ 155:Core/Src/AD5940Main.c **** //   while(1)
+ 156:Core/Src/AD5940Main.c **** //   {
+ 157:Core/Src/AD5940Main.c **** //     if(AD5940_GetMCUIntFlag())
+ 158:Core/Src/AD5940Main.c **** //     {
+ 159:Core/Src/AD5940Main.c **** //       AD5940_ClrMCUIntFlag();
+ 160:Core/Src/AD5940Main.c **** //       temp = APPBUFF_SIZE;
+ 161:Core/Src/AD5940Main.c **** //       AppIMPISR(AppBuff, &temp);
+ 162:Core/Src/AD5940Main.c **** //       ImpedanceShowResult(AppBuff, temp);
+ 163:Core/Src/AD5940Main.c **** //     }
+ 164:Core/Src/AD5940Main.c **** //   }
+ 165:Core/Src/AD5940Main.c **** // }
+ 166:Core/Src/AD5940Main.c **** 
+ 167:Core/Src/AD5940Main.c **** /*!
+ 168:Core/Src/AD5940Main.c ****  *****************************************************************************
+ 169:Core/Src/AD5940Main.c ****  @file:    AD5940Main.c
+ 170:Core/Src/AD5940Main.c ****  @author:  Neo Xu
+ 171:Core/Src/AD5940Main.c ****  @brief:   Standard 4-wire or 2-wire impedance measurement example.
+ 172:Core/Src/AD5940Main.c ****  -----------------------------------------------------------------------------
+ 173:Core/Src/AD5940Main.c **** 
+ 174:Core/Src/AD5940Main.c **** Copyright (c) 2017-2019 Analog Devices, Inc. All Rights Reserved.
+ 175:Core/Src/AD5940Main.c **** 
+ 176:Core/Src/AD5940Main.c **** This software is proprietary to Analog Devices, Inc. and its licensors.
+ 177:Core/Src/AD5940Main.c **** By using this software you agree to the terms of the associated
+ 178:Core/Src/AD5940Main.c **** Analog Devices Software License Agreement.
+ 179:Core/Src/AD5940Main.c ****  
+ 180:Core/Src/AD5940Main.c **** *****************************************************************************/
+ 181:Core/Src/AD5940Main.c **** #include "Impedance.h"
+ 182:Core/Src/AD5940Main.c **** #include "Amperometric.h"
+ 183:Core/Src/AD5940Main.c **** #include "voltage.h"
+ 184:Core/Src/AD5940Main.c **** //#include "ADuCM3029.h"
+ 185:Core/Src/AD5940Main.c **** 
+ 186:Core/Src/AD5940Main.c **** /**
+ 187:Core/Src/AD5940Main.c ****    User could configure following parameters
+ 188:Core/Src/AD5940Main.c **** **/
+ 189:Core/Src/AD5940Main.c **** 
+ 190:Core/Src/AD5940Main.c **** #define APPBUFF_SIZE 512
+ 191:Core/Src/AD5940Main.c **** uint32_t AppBuff[APPBUFF_SIZE];
+ 192:Core/Src/AD5940Main.c **** 
+ 193:Core/Src/AD5940Main.c **** float LFOSCFreq;
+ 194:Core/Src/AD5940Main.c **** uint32_t old_y = 0;
+ 195:Core/Src/AD5940Main.c **** int32_t vol_sum=0;
+ 196:Core/Src/AD5940Main.c **** int16_t vol_ave = 0;
+ 197:Core/Src/AD5940Main.c **** 
+ 198:Core/Src/AD5940Main.c **** int32_t VoltageShowResult(uint32_t *pData, uint32_t DataCount)
+ 199:Core/Src/AD5940Main.c **** {
+ 200:Core/Src/AD5940Main.c **** 	float freq;
+ 201:Core/Src/AD5940Main.c **** 	AppVOLCtrl(VOLCTRL_GETFREQ, &freq);
+ 202:Core/Src/AD5940Main.c **** 	char buf[5];
+ 203:Core/Src/AD5940Main.c **** 	for(int i=0;i<DataCount;i++)
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 5
+
+
+ 204:Core/Src/AD5940Main.c ****   {
+ 205:Core/Src/AD5940Main.c **** 		printf("%d\n", pData[i]);
+ 206:Core/Src/AD5940Main.c ****   }
+ 207:Core/Src/AD5940Main.c ****   return 0;
+ 208:Core/Src/AD5940Main.c **** }
+ 209:Core/Src/AD5940Main.c **** int32_t AMPShowResult(float *pData, uint32_t DataCount)
+ 210:Core/Src/AD5940Main.c **** {
+ 211:Core/Src/AD5940Main.c ****   /* Print data*/
+ 212:Core/Src/AD5940Main.c ****   for(int i=0;i<DataCount;i++)
+ 213:Core/Src/AD5940Main.c ****   {
+ 214:Core/Src/AD5940Main.c **** 		printf("%.1f\n", pData[i]*1000); //nA
+ 215:Core/Src/AD5940Main.c ****   }
+ 216:Core/Src/AD5940Main.c ****   return 0;
+ 217:Core/Src/AD5940Main.c **** }
+ 218:Core/Src/AD5940Main.c **** 
+ 219:Core/Src/AD5940Main.c **** 
+ 220:Core/Src/AD5940Main.c **** int32_t ImpedanceShowResult(uint32_t *pData, uint32_t DataCount)
+ 221:Core/Src/AD5940Main.c **** {
+ 222:Core/Src/AD5940Main.c ****   float freq;	
+ 223:Core/Src/AD5940Main.c **** 	float phase;
+ 224:Core/Src/AD5940Main.c **** 
+ 225:Core/Src/AD5940Main.c ****   fImpPol_Type *pImp = (fImpPol_Type*)pData;
+ 226:Core/Src/AD5940Main.c ****   AppIMPCtrl(IMPCTRL_GETFREQ, &freq);
+ 227:Core/Src/AD5940Main.c **** 
+ 228:Core/Src/AD5940Main.c ****   uint32_t intfreq = freq;
+ 229:Core/Src/AD5940Main.c **** 	printf("%d,", intfreq);
+ 230:Core/Src/AD5940Main.c **** 	
+ 231:Core/Src/AD5940Main.c ****   /*Process data*/
+ 232:Core/Src/AD5940Main.c ****   for(int i=0;i<DataCount;i++)
+ 233:Core/Src/AD5940Main.c ****   {
+ 234:Core/Src/AD5940Main.c **** 		if(pImp[i].Phase*180/MATH_PI > 180)
+ 235:Core/Src/AD5940Main.c **** 		{
+ 236:Core/Src/AD5940Main.c **** 			phase = pImp[i].Phase*180/MATH_PI - 360;
+ 237:Core/Src/AD5940Main.c **** 		}
+ 238:Core/Src/AD5940Main.c **** 		else
+ 239:Core/Src/AD5940Main.c **** 		{
+ 240:Core/Src/AD5940Main.c **** 			phase = pImp[i].Phase*180/MATH_PI;
+ 241:Core/Src/AD5940Main.c **** 		}
+ 242:Core/Src/AD5940Main.c **** 		int32_t intpase = phase;
+ 243:Core/Src/AD5940Main.c ****     uint32_t intmag = pImp[i].Magnitude;
+ 244:Core/Src/AD5940Main.c **** 		printf("%d, %d \n",intmag,intpase);
+ 245:Core/Src/AD5940Main.c ****   }
+ 246:Core/Src/AD5940Main.c ****   return 0;
+ 247:Core/Src/AD5940Main.c **** }
+ 248:Core/Src/AD5940Main.c **** 
+ 249:Core/Src/AD5940Main.c **** /* Initialize AD5940 basic blocks like clock for amperometric */
+ 250:Core/Src/AD5940Main.c **** static int32_t AD5940PlatformCfg_AMP(void)
+ 251:Core/Src/AD5940Main.c **** {
+ 252:Core/Src/AD5940Main.c ****   CLKCfg_Type clk_cfg;
+ 253:Core/Src/AD5940Main.c ****   FIFOCfg_Type fifo_cfg;
+ 254:Core/Src/AD5940Main.c **** 	SEQCfg_Type seq_cfg;
+ 255:Core/Src/AD5940Main.c ****   AGPIOCfg_Type gpio_cfg;
+ 256:Core/Src/AD5940Main.c **** 	LFOSCMeasure_Type LfoscMeasure;
+ 257:Core/Src/AD5940Main.c ****   /* Use hardware reset */
+ 258:Core/Src/AD5940Main.c ****   AD5940_HWReset();
+ 259:Core/Src/AD5940Main.c ****   /* Platform configuration */
+ 260:Core/Src/AD5940Main.c ****   AD5940_Initialize();
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 6
+
+
+ 261:Core/Src/AD5940Main.c ****   /* Step1. Configure clock */
+ 262:Core/Src/AD5940Main.c ****   clk_cfg.HFOSCEn = bTRUE;
+ 263:Core/Src/AD5940Main.c ****   clk_cfg.HFXTALEn = bFALSE;
+ 264:Core/Src/AD5940Main.c ****   clk_cfg.LFOSCEn = bTRUE;
+ 265:Core/Src/AD5940Main.c ****   clk_cfg.HfOSC32MHzMode = bFALSE;
+ 266:Core/Src/AD5940Main.c ****   clk_cfg.SysClkSrc = SYSCLKSRC_HFOSC;
+ 267:Core/Src/AD5940Main.c ****   clk_cfg.SysClkDiv = SYSCLKDIV_1;
+ 268:Core/Src/AD5940Main.c ****   clk_cfg.ADCCLkSrc = ADCCLKSRC_HFOSC;
+ 269:Core/Src/AD5940Main.c ****   clk_cfg.ADCClkDiv = ADCCLKDIV_1;
+ 270:Core/Src/AD5940Main.c ****   AD5940_CLKCfg(&clk_cfg);
+ 271:Core/Src/AD5940Main.c ****   /* Step2. Configure FIFO and Sequencer*/
+ 272:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOEn = bFALSE;
+ 273:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOMode = FIFOMODE_FIFO;
+ 274:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOSize = FIFOSIZE_4KB;                      /* 4kB for FIFO, The reset 2kB for sequenc
+ 275:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOSrc = FIFOSRC_DFT;
+ 276:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOThresh = 4;      
+ 277:Core/Src/AD5940Main.c ****   AD5940_FIFOCfg(&fifo_cfg);                             /* Disable to reset FIFO. */
+ 278:Core/Src/AD5940Main.c **** 	fifo_cfg.FIFOEn = bTRUE;  
+ 279:Core/Src/AD5940Main.c ****   AD5940_FIFOCfg(&fifo_cfg);                             /* Enable FIFO here */
+ 280:Core/Src/AD5940Main.c ****   /* Configure sequencer and stop it */
+ 281:Core/Src/AD5940Main.c ****   seq_cfg.SeqMemSize = SEQMEMSIZE_2KB;
+ 282:Core/Src/AD5940Main.c ****   seq_cfg.SeqBreakEn = bFALSE;
+ 283:Core/Src/AD5940Main.c ****   seq_cfg.SeqIgnoreEn = bFALSE;
+ 284:Core/Src/AD5940Main.c ****   seq_cfg.SeqCntCRCClr = bTRUE;
+ 285:Core/Src/AD5940Main.c ****   seq_cfg.SeqEnable = bFALSE;
+ 286:Core/Src/AD5940Main.c ****   seq_cfg.SeqWrTimer = 0;
+ 287:Core/Src/AD5940Main.c ****   AD5940_SEQCfg(&seq_cfg);
+ 288:Core/Src/AD5940Main.c **** 	
+ 289:Core/Src/AD5940Main.c ****   /* Step3. Interrupt controller */
+ 290:Core/Src/AD5940Main.c ****   AD5940_INTCCfg(AFEINTC_1, AFEINTSRC_ALLINT, bTRUE);           /* Enable all interrupt in Interrup
+ 291:Core/Src/AD5940Main.c ****   AD5940_INTCCfg(AFEINTC_0, AFEINTSRC_DATAFIFOTHRESH, bTRUE);   /* Interrupt Controller 0 will cont
+ 292:Core/Src/AD5940Main.c ****   AD5940_INTCClrFlag(AFEINTSRC_ALLINT);
+ 293:Core/Src/AD5940Main.c ****   /* Step4: Reconfigure GPIO */
+ 294:Core/Src/AD5940Main.c ****   gpio_cfg.FuncSet = GP6_SYNC|GP5_SYNC|GP4_SYNC|GP2_SYNC|GP1_SLEEP|GP0_INT;
+ 295:Core/Src/AD5940Main.c ****   gpio_cfg.InputEnSet = 0;
+ 296:Core/Src/AD5940Main.c ****   gpio_cfg.OutputEnSet = AGPIO_Pin0|AGPIO_Pin1|AGPIO_Pin4|AGPIO_Pin5|AGPIO_Pin6|AGPIO_Pin2;
+ 297:Core/Src/AD5940Main.c ****   gpio_cfg.OutVal = 0;
+ 298:Core/Src/AD5940Main.c ****   gpio_cfg.PullEnSet = 0;
+ 299:Core/Src/AD5940Main.c ****   AD5940_AGPIOCfg(&gpio_cfg);
+ 300:Core/Src/AD5940Main.c **** 	
+ 301:Core/Src/AD5940Main.c ****   AD5940_SleepKeyCtrlS(SLPKEY_UNLOCK);  /* Allow AFE to enter sleep mode. */
+ 302:Core/Src/AD5940Main.c ****   /* Measure LFOSC frequency */
+ 303:Core/Src/AD5940Main.c ****   LfoscMeasure.CalDuration = 1000.0;  /* 1000ms used for calibration. */
+ 304:Core/Src/AD5940Main.c ****   LfoscMeasure.CalSeqAddr = 0;
+ 305:Core/Src/AD5940Main.c ****   LfoscMeasure.SystemClkFreq = 16000000.0f; /* 16MHz in this firmware. */
+ 306:Core/Src/AD5940Main.c ****   AD5940_LFOSCMeasure(&LfoscMeasure, &LFOSCFreq);
+ 307:Core/Src/AD5940Main.c ****   printf("Freq:%f\n", LFOSCFreq); 
+ 308:Core/Src/AD5940Main.c ****   return 0;
+ 309:Core/Src/AD5940Main.c **** }
+ 310:Core/Src/AD5940Main.c **** 
+ 311:Core/Src/AD5940Main.c **** 
+ 312:Core/Src/AD5940Main.c **** 
+ 313:Core/Src/AD5940Main.c **** /* Initialize AD5940 basic blocks like clock for impedance measuring */
+ 314:Core/Src/AD5940Main.c **** static int32_t AD5940PlatformCfg_IMP(void)
+ 315:Core/Src/AD5940Main.c **** {
+  27              		.loc 1 315 1 view -0
+  28              		.cfi_startproc
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 7
+
+
+  29              		@ args = 0, pretend = 0, frame = 64
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 30B5     		push	{r4, r5, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 12
+  34              		.cfi_offset 4, -12
+  35              		.cfi_offset 5, -8
+  36              		.cfi_offset 14, -4
+  37 0002 91B0     		sub	sp, sp, #68
+  38              	.LCFI1:
+  39              		.cfi_def_cfa_offset 80
+ 316:Core/Src/AD5940Main.c ****   CLKCfg_Type clk_cfg;
+  40              		.loc 1 316 3 view .LVU1
+ 317:Core/Src/AD5940Main.c ****   FIFOCfg_Type fifo_cfg;
+  41              		.loc 1 317 3 view .LVU2
+ 318:Core/Src/AD5940Main.c ****   AGPIOCfg_Type gpio_cfg;
+  42              		.loc 1 318 3 view .LVU3
+ 319:Core/Src/AD5940Main.c **** 
+ 320:Core/Src/AD5940Main.c ****   /* Use hardware reset */
+ 321:Core/Src/AD5940Main.c ****   AD5940_HWReset();
+  43              		.loc 1 321 3 view .LVU4
+  44 0004 FFF7FEFF 		bl	AD5940_HWReset
+  45              	.LVL0:
+ 322:Core/Src/AD5940Main.c ****   /* Platform configuration */
+ 323:Core/Src/AD5940Main.c **** 	AD5940_Initialize();
+  46              		.loc 1 323 2 view .LVU5
+  47 0008 FFF7FEFF 		bl	AD5940_Initialize
+  48              	.LVL1:
+ 324:Core/Src/AD5940Main.c **** 	
+ 325:Core/Src/AD5940Main.c ****   /* Step1. Configure clock */
+ 326:Core/Src/AD5940Main.c ****   clk_cfg.ADCClkDiv = ADCCLKDIV_1;
+  49              		.loc 1 326 3 view .LVU6
+  50              		.loc 1 326 21 is_stmt 0 view .LVU7
+  51 000c 0125     		movs	r5, #1
+  52 000e 0E95     		str	r5, [sp, #56]
+ 327:Core/Src/AD5940Main.c ****   clk_cfg.ADCCLkSrc = ADCCLKSRC_HFOSC;
+  53              		.loc 1 327 3 is_stmt 1 view .LVU8
+  54              		.loc 1 327 21 is_stmt 0 view .LVU9
+  55 0010 0024     		movs	r4, #0
+  56 0012 0C94     		str	r4, [sp, #48]
+ 328:Core/Src/AD5940Main.c ****   clk_cfg.SysClkDiv = SYSCLKDIV_1;
+  57              		.loc 1 328 3 is_stmt 1 view .LVU10
+  58              		.loc 1 328 21 is_stmt 0 view .LVU11
+  59 0014 0D95     		str	r5, [sp, #52]
+ 329:Core/Src/AD5940Main.c ****   clk_cfg.SysClkSrc = SYSCLKSRC_HFOSC;
+  60              		.loc 1 329 3 is_stmt 1 view .LVU12
+  61              		.loc 1 329 21 is_stmt 0 view .LVU13
+  62 0016 0B94     		str	r4, [sp, #44]
+ 330:Core/Src/AD5940Main.c ****   clk_cfg.HfOSC32MHzMode = bFALSE;
+  63              		.loc 1 330 3 is_stmt 1 view .LVU14
+  64              		.loc 1 330 26 is_stmt 0 view .LVU15
+  65 0018 8DF83D40 		strb	r4, [sp, #61]
+ 331:Core/Src/AD5940Main.c ****   clk_cfg.HFOSCEn = bTRUE;
+  66              		.loc 1 331 3 is_stmt 1 view .LVU16
+  67              		.loc 1 331 19 is_stmt 0 view .LVU17
+  68 001c 8DF83C50 		strb	r5, [sp, #60]
+ 332:Core/Src/AD5940Main.c ****   clk_cfg.HFXTALEn = bFALSE;
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 8
+
+
+  69              		.loc 1 332 3 is_stmt 1 view .LVU18
+  70              		.loc 1 332 20 is_stmt 0 view .LVU19
+  71 0020 8DF83F40 		strb	r4, [sp, #63]
+ 333:Core/Src/AD5940Main.c ****   clk_cfg.LFOSCEn = bTRUE;
+  72              		.loc 1 333 3 is_stmt 1 view .LVU20
+  73              		.loc 1 333 19 is_stmt 0 view .LVU21
+  74 0024 8DF83E50 		strb	r5, [sp, #62]
+ 334:Core/Src/AD5940Main.c ****   AD5940_CLKCfg(&clk_cfg);
+  75              		.loc 1 334 3 is_stmt 1 view .LVU22
+  76 0028 0BA8     		add	r0, sp, #44
+  77 002a FFF7FEFF 		bl	AD5940_CLKCfg
+  78              	.LVL2:
+ 335:Core/Src/AD5940Main.c ****   /* Step2. Configure FIFO and Sequencer*/
+ 336:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOEn = bFALSE;
+  79              		.loc 1 336 3 view .LVU23
+  80              		.loc 1 336 19 is_stmt 0 view .LVU24
+  81 002e 8DF81840 		strb	r4, [sp, #24]
+ 337:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOMode = FIFOMODE_FIFO;
+  82              		.loc 1 337 3 is_stmt 1 view .LVU25
+  83              		.loc 1 337 21 is_stmt 0 view .LVU26
+  84 0032 0223     		movs	r3, #2
+  85 0034 0793     		str	r3, [sp, #28]
+ 338:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOSize = FIFOSIZE_4KB;                       /* 4kB for FIFO, The reset 2kB for sequen
+  86              		.loc 1 338 3 is_stmt 1 view .LVU27
+  87              		.loc 1 338 21 is_stmt 0 view .LVU28
+  88 0036 0893     		str	r3, [sp, #32]
+ 339:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOSrc = FIFOSRC_DFT;
+  89              		.loc 1 339 3 is_stmt 1 view .LVU29
+  90              		.loc 1 339 20 is_stmt 0 view .LVU30
+  91 0038 0993     		str	r3, [sp, #36]
+ 340:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOThresh = 4;//AppIMPCfg.FifoThresh;        /* DFT result. One pair for RCAL, another 
+  92              		.loc 1 340 3 is_stmt 1 view .LVU31
+  93              		.loc 1 340 23 is_stmt 0 view .LVU32
+  94 003a 0423     		movs	r3, #4
+  95 003c 0A93     		str	r3, [sp, #40]
+ 341:Core/Src/AD5940Main.c ****   AD5940_FIFOCfg(&fifo_cfg);
+  96              		.loc 1 341 3 is_stmt 1 view .LVU33
+  97 003e 06A8     		add	r0, sp, #24
+  98 0040 FFF7FEFF 		bl	AD5940_FIFOCfg
+  99              	.LVL3:
+ 342:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOEn = bTRUE;
+ 100              		.loc 1 342 3 view .LVU34
+ 101              		.loc 1 342 19 is_stmt 0 view .LVU35
+ 102 0044 8DF81850 		strb	r5, [sp, #24]
+ 343:Core/Src/AD5940Main.c ****   AD5940_FIFOCfg(&fifo_cfg);
+ 103              		.loc 1 343 3 is_stmt 1 view .LVU36
+ 104 0048 06A8     		add	r0, sp, #24
+ 105 004a FFF7FEFF 		bl	AD5940_FIFOCfg
+ 106              	.LVL4:
+ 344:Core/Src/AD5940Main.c ****   
+ 345:Core/Src/AD5940Main.c ****   /* Step3. Interrupt controller */
+ 346:Core/Src/AD5940Main.c ****   AD5940_INTCCfg(AFEINTC_1, AFEINTSRC_ALLINT, bTRUE);   /* Enable all interrupt in INTC1, so we can
+ 107              		.loc 1 346 3 view .LVU37
+ 108 004e 2A46     		mov	r2, r5
+ 109 0050 4FF0FF31 		mov	r1, #-1
+ 110 0054 2846     		mov	r0, r5
+ 111 0056 FFF7FEFF 		bl	AD5940_INTCCfg
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 9
+
+
+ 112              	.LVL5:
+ 347:Core/Src/AD5940Main.c ****   AD5940_INTCClrFlag(AFEINTSRC_ALLINT);
+ 113              		.loc 1 347 3 view .LVU38
+ 114 005a 4FF0FF30 		mov	r0, #-1
+ 115 005e FFF7FEFF 		bl	AD5940_INTCClrFlag
+ 116              	.LVL6:
+ 348:Core/Src/AD5940Main.c **** 	
+ 349:Core/Src/AD5940Main.c ****   AD5940_INTCCfg(AFEINTC_0, AFEINTSRC_DATAFIFOTHRESH, bTRUE); 
+ 117              		.loc 1 349 3 view .LVU39
+ 118 0062 2A46     		mov	r2, r5
+ 119 0064 4FF00071 		mov	r1, #33554432
+ 120 0068 2046     		mov	r0, r4
+ 121 006a FFF7FEFF 		bl	AD5940_INTCCfg
+ 122              	.LVL7:
+ 350:Core/Src/AD5940Main.c ****   AD5940_INTCClrFlag(AFEINTSRC_ALLINT);
+ 123              		.loc 1 350 3 view .LVU40
+ 124 006e 4FF0FF30 		mov	r0, #-1
+ 125 0072 FFF7FEFF 		bl	AD5940_INTCClrFlag
+ 126              	.LVL8:
+ 351:Core/Src/AD5940Main.c **** 	
+ 352:Core/Src/AD5940Main.c ****   /* Step4: Reconfigure GPIO */
+ 353:Core/Src/AD5940Main.c ****   gpio_cfg.FuncSet = GP0_INT|GP1_SLEEP|GP2_SYNC;
+ 127              		.loc 1 353 3 view .LVU41
+ 128              		.loc 1 353 20 is_stmt 0 view .LVU42
+ 129 0076 2C23     		movs	r3, #44
+ 130 0078 0193     		str	r3, [sp, #4]
+ 354:Core/Src/AD5940Main.c ****   gpio_cfg.InputEnSet = 0;
+ 131              		.loc 1 354 3 is_stmt 1 view .LVU43
+ 132              		.loc 1 354 23 is_stmt 0 view .LVU44
+ 133 007a 0394     		str	r4, [sp, #12]
+ 355:Core/Src/AD5940Main.c ****   gpio_cfg.OutputEnSet = AGPIO_Pin0|AGPIO_Pin1|AGPIO_Pin2;
+ 134              		.loc 1 355 3 is_stmt 1 view .LVU45
+ 135              		.loc 1 355 24 is_stmt 0 view .LVU46
+ 136 007c 0723     		movs	r3, #7
+ 137 007e 0293     		str	r3, [sp, #8]
+ 356:Core/Src/AD5940Main.c ****   gpio_cfg.OutVal = 0;
+ 138              		.loc 1 356 3 is_stmt 1 view .LVU47
+ 139              		.loc 1 356 19 is_stmt 0 view .LVU48
+ 140 0080 0594     		str	r4, [sp, #20]
+ 357:Core/Src/AD5940Main.c ****   gpio_cfg.PullEnSet = 0;
+ 141              		.loc 1 357 3 is_stmt 1 view .LVU49
+ 142              		.loc 1 357 22 is_stmt 0 view .LVU50
+ 143 0082 0494     		str	r4, [sp, #16]
+ 358:Core/Src/AD5940Main.c ****   AD5940_AGPIOCfg(&gpio_cfg);
+ 144              		.loc 1 358 3 is_stmt 1 view .LVU51
+ 145 0084 01A8     		add	r0, sp, #4
+ 146 0086 FFF7FEFF 		bl	AD5940_AGPIOCfg
+ 147              	.LVL9:
+ 359:Core/Src/AD5940Main.c ****   AD5940_SleepKeyCtrlS(SLPKEY_UNLOCK);  /* Allow AFE to enter sleep mode. */
+ 148              		.loc 1 359 3 view .LVU52
+ 149 008a 0348     		ldr	r0, .L3
+ 150 008c FFF7FEFF 		bl	AD5940_SleepKeyCtrlS
+ 151              	.LVL10:
+ 360:Core/Src/AD5940Main.c ****   return 0;
+ 152              		.loc 1 360 3 view .LVU53
+ 361:Core/Src/AD5940Main.c **** }
+ 153              		.loc 1 361 1 is_stmt 0 view .LVU54
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 10
+
+
+ 154 0090 2046     		mov	r0, r4
+ 155 0092 11B0     		add	sp, sp, #68
+ 156              	.LCFI2:
+ 157              		.cfi_def_cfa_offset 12
+ 158              		@ sp needed
+ 159 0094 30BD     		pop	{r4, r5, pc}
+ 160              	.L4:
+ 161 0096 00BF     		.align	2
+ 162              	.L3:
+ 163 0098 E5470A00 		.word	673765
+ 164              		.cfi_endproc
+ 165              	.LFE7:
+ 167              		.section	.text.AD5940PlatformCfg_VOL,"ax",%progbits
+ 168              		.align	1
+ 169              		.syntax unified
+ 170              		.thumb
+ 171              		.thumb_func
+ 172              		.fpu fpv5-d16
+ 174              	AD5940PlatformCfg_VOL:
+ 175              	.LFB8:
+ 362:Core/Src/AD5940Main.c **** 
+ 363:Core/Src/AD5940Main.c **** 
+ 364:Core/Src/AD5940Main.c **** /* Initialize AD5940 basic blocks like clock for volatge measuring */
+ 365:Core/Src/AD5940Main.c **** static int32_t AD5940PlatformCfg_VOL(void)
+ 366:Core/Src/AD5940Main.c **** {
+ 176              		.loc 1 366 1 is_stmt 1 view -0
+ 177              		.cfi_startproc
+ 178              		@ args = 0, pretend = 0, frame = 64
+ 179              		@ frame_needed = 0, uses_anonymous_args = 0
+ 180 0000 30B5     		push	{r4, r5, lr}
+ 181              	.LCFI3:
+ 182              		.cfi_def_cfa_offset 12
+ 183              		.cfi_offset 4, -12
+ 184              		.cfi_offset 5, -8
+ 185              		.cfi_offset 14, -4
+ 186 0002 91B0     		sub	sp, sp, #68
+ 187              	.LCFI4:
+ 188              		.cfi_def_cfa_offset 80
+ 367:Core/Src/AD5940Main.c ****   CLKCfg_Type clk_cfg;
+ 189              		.loc 1 367 3 view .LVU56
+ 368:Core/Src/AD5940Main.c ****   FIFOCfg_Type fifo_cfg;
+ 190              		.loc 1 368 3 view .LVU57
+ 369:Core/Src/AD5940Main.c ****   AGPIOCfg_Type gpio_cfg;
+ 191              		.loc 1 369 3 view .LVU58
+ 370:Core/Src/AD5940Main.c **** 
+ 371:Core/Src/AD5940Main.c ****   /* Use hardware reset */
+ 372:Core/Src/AD5940Main.c ****   AD5940_HWReset();
+ 192              		.loc 1 372 3 view .LVU59
+ 193 0004 FFF7FEFF 		bl	AD5940_HWReset
+ 194              	.LVL11:
+ 373:Core/Src/AD5940Main.c ****   /* Platform configuration */
+ 374:Core/Src/AD5940Main.c **** 	AD5940_Initialize();
+ 195              		.loc 1 374 2 view .LVU60
+ 196 0008 FFF7FEFF 		bl	AD5940_Initialize
+ 197              	.LVL12:
+ 375:Core/Src/AD5940Main.c **** 	
+ 376:Core/Src/AD5940Main.c ****   /* Step1. Configure clock */
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 11
+
+
+ 377:Core/Src/AD5940Main.c ****   clk_cfg.ADCClkDiv = ADCCLKDIV_1;
+ 198              		.loc 1 377 3 view .LVU61
+ 199              		.loc 1 377 21 is_stmt 0 view .LVU62
+ 200 000c 0125     		movs	r5, #1
+ 201 000e 0E95     		str	r5, [sp, #56]
+ 378:Core/Src/AD5940Main.c ****   clk_cfg.ADCCLkSrc = ADCCLKSRC_HFOSC;
+ 202              		.loc 1 378 3 is_stmt 1 view .LVU63
+ 203              		.loc 1 378 21 is_stmt 0 view .LVU64
+ 204 0010 0024     		movs	r4, #0
+ 205 0012 0C94     		str	r4, [sp, #48]
+ 379:Core/Src/AD5940Main.c ****   clk_cfg.SysClkDiv = SYSCLKDIV_1;
+ 206              		.loc 1 379 3 is_stmt 1 view .LVU65
+ 207              		.loc 1 379 21 is_stmt 0 view .LVU66
+ 208 0014 0D95     		str	r5, [sp, #52]
+ 380:Core/Src/AD5940Main.c ****   clk_cfg.SysClkSrc = SYSCLKSRC_HFOSC;
+ 209              		.loc 1 380 3 is_stmt 1 view .LVU67
+ 210              		.loc 1 380 21 is_stmt 0 view .LVU68
+ 211 0016 0B94     		str	r4, [sp, #44]
+ 381:Core/Src/AD5940Main.c ****   clk_cfg.HfOSC32MHzMode = bFALSE;
+ 212              		.loc 1 381 3 is_stmt 1 view .LVU69
+ 213              		.loc 1 381 26 is_stmt 0 view .LVU70
+ 214 0018 8DF83D40 		strb	r4, [sp, #61]
+ 382:Core/Src/AD5940Main.c ****   clk_cfg.HFOSCEn = bTRUE;
+ 215              		.loc 1 382 3 is_stmt 1 view .LVU71
+ 216              		.loc 1 382 19 is_stmt 0 view .LVU72
+ 217 001c 8DF83C50 		strb	r5, [sp, #60]
+ 383:Core/Src/AD5940Main.c ****   clk_cfg.HFXTALEn = bFALSE;
+ 218              		.loc 1 383 3 is_stmt 1 view .LVU73
+ 219              		.loc 1 383 20 is_stmt 0 view .LVU74
+ 220 0020 8DF83F40 		strb	r4, [sp, #63]
+ 384:Core/Src/AD5940Main.c ****   clk_cfg.LFOSCEn = bTRUE;
+ 221              		.loc 1 384 3 is_stmt 1 view .LVU75
+ 222              		.loc 1 384 19 is_stmt 0 view .LVU76
+ 223 0024 8DF83E50 		strb	r5, [sp, #62]
+ 385:Core/Src/AD5940Main.c ****   AD5940_CLKCfg(&clk_cfg);
+ 224              		.loc 1 385 3 is_stmt 1 view .LVU77
+ 225 0028 0BA8     		add	r0, sp, #44
+ 226 002a FFF7FEFF 		bl	AD5940_CLKCfg
+ 227              	.LVL13:
+ 386:Core/Src/AD5940Main.c ****   /* Step2. Configure FIFO and Sequencer*/
+ 387:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOEn = bFALSE;
+ 228              		.loc 1 387 3 view .LVU78
+ 229              		.loc 1 387 19 is_stmt 0 view .LVU79
+ 230 002e 8DF81840 		strb	r4, [sp, #24]
+ 388:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOMode = FIFOMODE_FIFO;
+ 231              		.loc 1 388 3 is_stmt 1 view .LVU80
+ 232              		.loc 1 388 21 is_stmt 0 view .LVU81
+ 233 0032 0223     		movs	r3, #2
+ 234 0034 0793     		str	r3, [sp, #28]
+ 389:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOSize = FIFOSIZE_4KB;                       /* 4kB for FIFO, The reset 2kB for sequen
+ 235              		.loc 1 389 3 is_stmt 1 view .LVU82
+ 236              		.loc 1 389 21 is_stmt 0 view .LVU83
+ 237 0036 0893     		str	r3, [sp, #32]
+ 390:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOSrc = FIFOSRC_DFT;
+ 238              		.loc 1 390 3 is_stmt 1 view .LVU84
+ 239              		.loc 1 390 20 is_stmt 0 view .LVU85
+ 240 0038 0993     		str	r3, [sp, #36]
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 12
+
+
+ 391:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOThresh = 4;//AppIMPCfg.FifoThresh;        /* DFT result. One pair for RCAL, another 
+ 241              		.loc 1 391 3 is_stmt 1 view .LVU86
+ 242              		.loc 1 391 23 is_stmt 0 view .LVU87
+ 243 003a 0423     		movs	r3, #4
+ 244 003c 0A93     		str	r3, [sp, #40]
+ 392:Core/Src/AD5940Main.c ****   AD5940_FIFOCfg(&fifo_cfg);
+ 245              		.loc 1 392 3 is_stmt 1 view .LVU88
+ 246 003e 06A8     		add	r0, sp, #24
+ 247 0040 FFF7FEFF 		bl	AD5940_FIFOCfg
+ 248              	.LVL14:
+ 393:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOEn = bTRUE;
+ 249              		.loc 1 393 3 view .LVU89
+ 250              		.loc 1 393 19 is_stmt 0 view .LVU90
+ 251 0044 8DF81850 		strb	r5, [sp, #24]
+ 394:Core/Src/AD5940Main.c ****   AD5940_FIFOCfg(&fifo_cfg);
+ 252              		.loc 1 394 3 is_stmt 1 view .LVU91
+ 253 0048 06A8     		add	r0, sp, #24
+ 254 004a FFF7FEFF 		bl	AD5940_FIFOCfg
+ 255              	.LVL15:
+ 395:Core/Src/AD5940Main.c ****   
+ 396:Core/Src/AD5940Main.c ****   /* Step3. Interrupt controller */
+ 397:Core/Src/AD5940Main.c ****   AD5940_INTCCfg(AFEINTC_1, AFEINTSRC_ALLINT, bTRUE);   /* Enable all interrupt in INTC1, so we can
+ 256              		.loc 1 397 3 view .LVU92
+ 257 004e 2A46     		mov	r2, r5
+ 258 0050 4FF0FF31 		mov	r1, #-1
+ 259 0054 2846     		mov	r0, r5
+ 260 0056 FFF7FEFF 		bl	AD5940_INTCCfg
+ 261              	.LVL16:
+ 398:Core/Src/AD5940Main.c ****   AD5940_INTCClrFlag(AFEINTSRC_ALLINT);
+ 262              		.loc 1 398 3 view .LVU93
+ 263 005a 4FF0FF30 		mov	r0, #-1
+ 264 005e FFF7FEFF 		bl	AD5940_INTCClrFlag
+ 265              	.LVL17:
+ 399:Core/Src/AD5940Main.c **** 	
+ 400:Core/Src/AD5940Main.c ****   AD5940_INTCCfg(AFEINTC_0, AFEINTSRC_DATAFIFOTHRESH, bTRUE); 
+ 266              		.loc 1 400 3 view .LVU94
+ 267 0062 2A46     		mov	r2, r5
+ 268 0064 4FF00071 		mov	r1, #33554432
+ 269 0068 2046     		mov	r0, r4
+ 270 006a FFF7FEFF 		bl	AD5940_INTCCfg
+ 271              	.LVL18:
+ 401:Core/Src/AD5940Main.c ****   AD5940_INTCClrFlag(AFEINTSRC_ALLINT);
+ 272              		.loc 1 401 3 view .LVU95
+ 273 006e 4FF0FF30 		mov	r0, #-1
+ 274 0072 FFF7FEFF 		bl	AD5940_INTCClrFlag
+ 275              	.LVL19:
+ 402:Core/Src/AD5940Main.c **** 	
+ 403:Core/Src/AD5940Main.c ****   /* Step4: Reconfigure GPIO */
+ 404:Core/Src/AD5940Main.c ****   gpio_cfg.FuncSet = GP0_INT|GP1_SLEEP|GP2_SYNC;
+ 276              		.loc 1 404 3 view .LVU96
+ 277              		.loc 1 404 20 is_stmt 0 view .LVU97
+ 278 0076 2C23     		movs	r3, #44
+ 279 0078 0193     		str	r3, [sp, #4]
+ 405:Core/Src/AD5940Main.c ****   gpio_cfg.InputEnSet = 0;
+ 280              		.loc 1 405 3 is_stmt 1 view .LVU98
+ 281              		.loc 1 405 23 is_stmt 0 view .LVU99
+ 282 007a 0394     		str	r4, [sp, #12]
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 13
+
+
+ 406:Core/Src/AD5940Main.c ****   gpio_cfg.OutputEnSet = AGPIO_Pin0|AGPIO_Pin1|AGPIO_Pin2;
+ 283              		.loc 1 406 3 is_stmt 1 view .LVU100
+ 284              		.loc 1 406 24 is_stmt 0 view .LVU101
+ 285 007c 0723     		movs	r3, #7
+ 286 007e 0293     		str	r3, [sp, #8]
+ 407:Core/Src/AD5940Main.c ****   gpio_cfg.OutVal = 0;
+ 287              		.loc 1 407 3 is_stmt 1 view .LVU102
+ 288              		.loc 1 407 19 is_stmt 0 view .LVU103
+ 289 0080 0594     		str	r4, [sp, #20]
+ 408:Core/Src/AD5940Main.c ****   gpio_cfg.PullEnSet = 0;
+ 290              		.loc 1 408 3 is_stmt 1 view .LVU104
+ 291              		.loc 1 408 22 is_stmt 0 view .LVU105
+ 292 0082 0494     		str	r4, [sp, #16]
+ 409:Core/Src/AD5940Main.c ****   AD5940_AGPIOCfg(&gpio_cfg);
+ 293              		.loc 1 409 3 is_stmt 1 view .LVU106
+ 294 0084 01A8     		add	r0, sp, #4
+ 295 0086 FFF7FEFF 		bl	AD5940_AGPIOCfg
+ 296              	.LVL20:
+ 410:Core/Src/AD5940Main.c ****   AD5940_SleepKeyCtrlS(SLPKEY_UNLOCK);  /* Allow AFE to enter sleep mode. */
+ 297              		.loc 1 410 3 view .LVU107
+ 298 008a 0348     		ldr	r0, .L7
+ 299 008c FFF7FEFF 		bl	AD5940_SleepKeyCtrlS
+ 300              	.LVL21:
+ 411:Core/Src/AD5940Main.c ****   return 0;
+ 301              		.loc 1 411 3 view .LVU108
+ 412:Core/Src/AD5940Main.c **** }
+ 302              		.loc 1 412 1 is_stmt 0 view .LVU109
+ 303 0090 2046     		mov	r0, r4
+ 304 0092 11B0     		add	sp, sp, #68
+ 305              	.LCFI5:
+ 306              		.cfi_def_cfa_offset 12
+ 307              		@ sp needed
+ 308 0094 30BD     		pop	{r4, r5, pc}
+ 309              	.L8:
+ 310 0096 00BF     		.align	2
+ 311              	.L7:
+ 312 0098 E5470A00 		.word	673765
+ 313              		.cfi_endproc
+ 314              	.LFE8:
+ 316              		.section	.rodata.AD5940PlatformCfg_AMP.str1.4,"aMS",%progbits,1
+ 317              		.align	2
+ 318              	.LC0:
+ 319 0000 46726571 		.ascii	"Freq:%f\012\000"
+ 319      3A25660A 
+ 319      00
+ 320              		.section	.text.AD5940PlatformCfg_AMP,"ax",%progbits
+ 321              		.align	1
+ 322              		.syntax unified
+ 323              		.thumb
+ 324              		.thumb_func
+ 325              		.fpu fpv5-d16
+ 327              	AD5940PlatformCfg_AMP:
+ 328              	.LFB6:
+ 251:Core/Src/AD5940Main.c ****   CLKCfg_Type clk_cfg;
+ 329              		.loc 1 251 1 is_stmt 1 view -0
+ 330              		.cfi_startproc
+ 331              		@ args = 0, pretend = 0, frame = 88
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 14
+
+
+ 332              		@ frame_needed = 0, uses_anonymous_args = 0
+ 333 0000 30B5     		push	{r4, r5, lr}
+ 334              	.LCFI6:
+ 335              		.cfi_def_cfa_offset 12
+ 336              		.cfi_offset 4, -12
+ 337              		.cfi_offset 5, -8
+ 338              		.cfi_offset 14, -4
+ 339 0002 97B0     		sub	sp, sp, #92
+ 340              	.LCFI7:
+ 341              		.cfi_def_cfa_offset 104
+ 252:Core/Src/AD5940Main.c ****   FIFOCfg_Type fifo_cfg;
+ 342              		.loc 1 252 3 view .LVU111
+ 253:Core/Src/AD5940Main.c **** 	SEQCfg_Type seq_cfg;
+ 343              		.loc 1 253 3 view .LVU112
+ 254:Core/Src/AD5940Main.c ****   AGPIOCfg_Type gpio_cfg;
+ 344              		.loc 1 254 2 view .LVU113
+ 255:Core/Src/AD5940Main.c **** 	LFOSCMeasure_Type LfoscMeasure;
+ 345              		.loc 1 255 3 view .LVU114
+ 256:Core/Src/AD5940Main.c ****   /* Use hardware reset */
+ 346              		.loc 1 256 2 view .LVU115
+ 258:Core/Src/AD5940Main.c ****   /* Platform configuration */
+ 347              		.loc 1 258 3 view .LVU116
+ 348 0004 FFF7FEFF 		bl	AD5940_HWReset
+ 349              	.LVL22:
+ 260:Core/Src/AD5940Main.c ****   /* Step1. Configure clock */
+ 350              		.loc 1 260 3 view .LVU117
+ 351 0008 FFF7FEFF 		bl	AD5940_Initialize
+ 352              	.LVL23:
+ 262:Core/Src/AD5940Main.c ****   clk_cfg.HFXTALEn = bFALSE;
+ 353              		.loc 1 262 3 view .LVU118
+ 262:Core/Src/AD5940Main.c ****   clk_cfg.HFXTALEn = bFALSE;
+ 354              		.loc 1 262 19 is_stmt 0 view .LVU119
+ 355 000c 0125     		movs	r5, #1
+ 356 000e 8DF85450 		strb	r5, [sp, #84]
+ 263:Core/Src/AD5940Main.c ****   clk_cfg.LFOSCEn = bTRUE;
+ 357              		.loc 1 263 3 is_stmt 1 view .LVU120
+ 263:Core/Src/AD5940Main.c ****   clk_cfg.LFOSCEn = bTRUE;
+ 358              		.loc 1 263 20 is_stmt 0 view .LVU121
+ 359 0012 0024     		movs	r4, #0
+ 360 0014 8DF85740 		strb	r4, [sp, #87]
+ 264:Core/Src/AD5940Main.c ****   clk_cfg.HfOSC32MHzMode = bFALSE;
+ 361              		.loc 1 264 3 is_stmt 1 view .LVU122
+ 264:Core/Src/AD5940Main.c ****   clk_cfg.HfOSC32MHzMode = bFALSE;
+ 362              		.loc 1 264 19 is_stmt 0 view .LVU123
+ 363 0018 8DF85650 		strb	r5, [sp, #86]
+ 265:Core/Src/AD5940Main.c ****   clk_cfg.SysClkSrc = SYSCLKSRC_HFOSC;
+ 364              		.loc 1 265 3 is_stmt 1 view .LVU124
+ 265:Core/Src/AD5940Main.c ****   clk_cfg.SysClkSrc = SYSCLKSRC_HFOSC;
+ 365              		.loc 1 265 26 is_stmt 0 view .LVU125
+ 366 001c 8DF85540 		strb	r4, [sp, #85]
+ 266:Core/Src/AD5940Main.c ****   clk_cfg.SysClkDiv = SYSCLKDIV_1;
+ 367              		.loc 1 266 3 is_stmt 1 view .LVU126
+ 266:Core/Src/AD5940Main.c ****   clk_cfg.SysClkDiv = SYSCLKDIV_1;
+ 368              		.loc 1 266 21 is_stmt 0 view .LVU127
+ 369 0020 1194     		str	r4, [sp, #68]
+ 267:Core/Src/AD5940Main.c ****   clk_cfg.ADCCLkSrc = ADCCLKSRC_HFOSC;
+ 370              		.loc 1 267 3 is_stmt 1 view .LVU128
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 15
+
+
+ 267:Core/Src/AD5940Main.c ****   clk_cfg.ADCCLkSrc = ADCCLKSRC_HFOSC;
+ 371              		.loc 1 267 21 is_stmt 0 view .LVU129
+ 372 0022 1395     		str	r5, [sp, #76]
+ 268:Core/Src/AD5940Main.c ****   clk_cfg.ADCClkDiv = ADCCLKDIV_1;
+ 373              		.loc 1 268 3 is_stmt 1 view .LVU130
+ 268:Core/Src/AD5940Main.c ****   clk_cfg.ADCClkDiv = ADCCLKDIV_1;
+ 374              		.loc 1 268 21 is_stmt 0 view .LVU131
+ 375 0024 1294     		str	r4, [sp, #72]
+ 269:Core/Src/AD5940Main.c ****   AD5940_CLKCfg(&clk_cfg);
+ 376              		.loc 1 269 3 is_stmt 1 view .LVU132
+ 269:Core/Src/AD5940Main.c ****   AD5940_CLKCfg(&clk_cfg);
+ 377              		.loc 1 269 21 is_stmt 0 view .LVU133
+ 378 0026 1495     		str	r5, [sp, #80]
+ 270:Core/Src/AD5940Main.c ****   /* Step2. Configure FIFO and Sequencer*/
+ 379              		.loc 1 270 3 is_stmt 1 view .LVU134
+ 380 0028 11A8     		add	r0, sp, #68
+ 381 002a FFF7FEFF 		bl	AD5940_CLKCfg
+ 382              	.LVL24:
+ 272:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOMode = FIFOMODE_FIFO;
+ 383              		.loc 1 272 3 view .LVU135
+ 272:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOMode = FIFOMODE_FIFO;
+ 384              		.loc 1 272 19 is_stmt 0 view .LVU136
+ 385 002e 8DF83040 		strb	r4, [sp, #48]
+ 273:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOSize = FIFOSIZE_4KB;                      /* 4kB for FIFO, The reset 2kB for sequenc
+ 386              		.loc 1 273 3 is_stmt 1 view .LVU137
+ 273:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOSize = FIFOSIZE_4KB;                      /* 4kB for FIFO, The reset 2kB for sequenc
+ 387              		.loc 1 273 21 is_stmt 0 view .LVU138
+ 388 0032 0223     		movs	r3, #2
+ 389 0034 0D93     		str	r3, [sp, #52]
+ 274:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOSrc = FIFOSRC_DFT;
+ 390              		.loc 1 274 3 is_stmt 1 view .LVU139
+ 274:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOSrc = FIFOSRC_DFT;
+ 391              		.loc 1 274 21 is_stmt 0 view .LVU140
+ 392 0036 0E93     		str	r3, [sp, #56]
+ 275:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOThresh = 4;      
+ 393              		.loc 1 275 3 is_stmt 1 view .LVU141
+ 275:Core/Src/AD5940Main.c ****   fifo_cfg.FIFOThresh = 4;      
+ 394              		.loc 1 275 20 is_stmt 0 view .LVU142
+ 395 0038 0F93     		str	r3, [sp, #60]
+ 276:Core/Src/AD5940Main.c ****   AD5940_FIFOCfg(&fifo_cfg);                             /* Disable to reset FIFO. */
+ 396              		.loc 1 276 3 is_stmt 1 view .LVU143
+ 276:Core/Src/AD5940Main.c ****   AD5940_FIFOCfg(&fifo_cfg);                             /* Disable to reset FIFO. */
+ 397              		.loc 1 276 23 is_stmt 0 view .LVU144
+ 398 003a 0423     		movs	r3, #4
+ 399 003c 1093     		str	r3, [sp, #64]
+ 277:Core/Src/AD5940Main.c **** 	fifo_cfg.FIFOEn = bTRUE;  
+ 400              		.loc 1 277 3 is_stmt 1 view .LVU145
+ 401 003e 0CA8     		add	r0, sp, #48
+ 402 0040 FFF7FEFF 		bl	AD5940_FIFOCfg
+ 403              	.LVL25:
+ 278:Core/Src/AD5940Main.c ****   AD5940_FIFOCfg(&fifo_cfg);                             /* Enable FIFO here */
+ 404              		.loc 1 278 2 view .LVU146
+ 278:Core/Src/AD5940Main.c ****   AD5940_FIFOCfg(&fifo_cfg);                             /* Enable FIFO here */
+ 405              		.loc 1 278 18 is_stmt 0 view .LVU147
+ 406 0044 8DF83050 		strb	r5, [sp, #48]
+ 279:Core/Src/AD5940Main.c ****   /* Configure sequencer and stop it */
+ 407              		.loc 1 279 3 is_stmt 1 view .LVU148
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 16
+
+
+ 408 0048 0CA8     		add	r0, sp, #48
+ 409 004a FFF7FEFF 		bl	AD5940_FIFOCfg
+ 410              	.LVL26:
+ 281:Core/Src/AD5940Main.c ****   seq_cfg.SeqBreakEn = bFALSE;
+ 411              		.loc 1 281 3 view .LVU149
+ 281:Core/Src/AD5940Main.c ****   seq_cfg.SeqBreakEn = bFALSE;
+ 412              		.loc 1 281 22 is_stmt 0 view .LVU150
+ 413 004e 0995     		str	r5, [sp, #36]
+ 282:Core/Src/AD5940Main.c ****   seq_cfg.SeqIgnoreEn = bFALSE;
+ 414              		.loc 1 282 3 is_stmt 1 view .LVU151
+ 282:Core/Src/AD5940Main.c ****   seq_cfg.SeqIgnoreEn = bFALSE;
+ 415              		.loc 1 282 22 is_stmt 0 view .LVU152
+ 416 0050 8DF82940 		strb	r4, [sp, #41]
+ 283:Core/Src/AD5940Main.c ****   seq_cfg.SeqCntCRCClr = bTRUE;
+ 417              		.loc 1 283 3 is_stmt 1 view .LVU153
+ 283:Core/Src/AD5940Main.c ****   seq_cfg.SeqCntCRCClr = bTRUE;
+ 418              		.loc 1 283 23 is_stmt 0 view .LVU154
+ 419 0054 8DF82A40 		strb	r4, [sp, #42]
+ 284:Core/Src/AD5940Main.c ****   seq_cfg.SeqEnable = bFALSE;
+ 420              		.loc 1 284 3 is_stmt 1 view .LVU155
+ 284:Core/Src/AD5940Main.c ****   seq_cfg.SeqEnable = bFALSE;
+ 421              		.loc 1 284 24 is_stmt 0 view .LVU156
+ 422 0058 8DF82B50 		strb	r5, [sp, #43]
+ 285:Core/Src/AD5940Main.c ****   seq_cfg.SeqWrTimer = 0;
+ 423              		.loc 1 285 3 is_stmt 1 view .LVU157
+ 285:Core/Src/AD5940Main.c ****   seq_cfg.SeqWrTimer = 0;
+ 424              		.loc 1 285 21 is_stmt 0 view .LVU158
+ 425 005c 8DF82840 		strb	r4, [sp, #40]
+ 286:Core/Src/AD5940Main.c ****   AD5940_SEQCfg(&seq_cfg);
+ 426              		.loc 1 286 3 is_stmt 1 view .LVU159
+ 286:Core/Src/AD5940Main.c ****   AD5940_SEQCfg(&seq_cfg);
+ 427              		.loc 1 286 22 is_stmt 0 view .LVU160
+ 428 0060 0B94     		str	r4, [sp, #44]
+ 287:Core/Src/AD5940Main.c **** 	
+ 429              		.loc 1 287 3 is_stmt 1 view .LVU161
+ 430 0062 09A8     		add	r0, sp, #36
+ 431 0064 FFF7FEFF 		bl	AD5940_SEQCfg
+ 432              	.LVL27:
+ 290:Core/Src/AD5940Main.c ****   AD5940_INTCCfg(AFEINTC_0, AFEINTSRC_DATAFIFOTHRESH, bTRUE);   /* Interrupt Controller 0 will cont
+ 433              		.loc 1 290 3 view .LVU162
+ 434 0068 2A46     		mov	r2, r5
+ 435 006a 4FF0FF31 		mov	r1, #-1
+ 436 006e 2846     		mov	r0, r5
+ 437 0070 FFF7FEFF 		bl	AD5940_INTCCfg
+ 438              	.LVL28:
+ 291:Core/Src/AD5940Main.c ****   AD5940_INTCClrFlag(AFEINTSRC_ALLINT);
+ 439              		.loc 1 291 3 view .LVU163
+ 440 0074 2A46     		mov	r2, r5
+ 441 0076 4FF00071 		mov	r1, #33554432
+ 442 007a 2046     		mov	r0, r4
+ 443 007c FFF7FEFF 		bl	AD5940_INTCCfg
+ 444              	.LVL29:
+ 292:Core/Src/AD5940Main.c ****   /* Step4: Reconfigure GPIO */
+ 445              		.loc 1 292 3 view .LVU164
+ 446 0080 4FF0FF30 		mov	r0, #-1
+ 447 0084 FFF7FEFF 		bl	AD5940_INTCClrFlag
+ 448              	.LVL30:
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 17
+
+
+ 294:Core/Src/AD5940Main.c ****   gpio_cfg.InputEnSet = 0;
+ 449              		.loc 1 294 3 view .LVU165
+ 294:Core/Src/AD5940Main.c ****   gpio_cfg.InputEnSet = 0;
+ 450              		.loc 1 294 20 is_stmt 0 view .LVU166
+ 451 0088 42F62C23 		movw	r3, #10796
+ 452 008c 0493     		str	r3, [sp, #16]
+ 295:Core/Src/AD5940Main.c ****   gpio_cfg.OutputEnSet = AGPIO_Pin0|AGPIO_Pin1|AGPIO_Pin4|AGPIO_Pin5|AGPIO_Pin6|AGPIO_Pin2;
+ 453              		.loc 1 295 3 is_stmt 1 view .LVU167
+ 295:Core/Src/AD5940Main.c ****   gpio_cfg.OutputEnSet = AGPIO_Pin0|AGPIO_Pin1|AGPIO_Pin4|AGPIO_Pin5|AGPIO_Pin6|AGPIO_Pin2;
+ 454              		.loc 1 295 23 is_stmt 0 view .LVU168
+ 455 008e 0694     		str	r4, [sp, #24]
+ 296:Core/Src/AD5940Main.c ****   gpio_cfg.OutVal = 0;
+ 456              		.loc 1 296 3 is_stmt 1 view .LVU169
+ 296:Core/Src/AD5940Main.c ****   gpio_cfg.OutVal = 0;
+ 457              		.loc 1 296 24 is_stmt 0 view .LVU170
+ 458 0090 7723     		movs	r3, #119
+ 459 0092 0593     		str	r3, [sp, #20]
+ 297:Core/Src/AD5940Main.c ****   gpio_cfg.PullEnSet = 0;
+ 460              		.loc 1 297 3 is_stmt 1 view .LVU171
+ 297:Core/Src/AD5940Main.c ****   gpio_cfg.PullEnSet = 0;
+ 461              		.loc 1 297 19 is_stmt 0 view .LVU172
+ 462 0094 0894     		str	r4, [sp, #32]
+ 298:Core/Src/AD5940Main.c ****   AD5940_AGPIOCfg(&gpio_cfg);
+ 463              		.loc 1 298 3 is_stmt 1 view .LVU173
+ 298:Core/Src/AD5940Main.c ****   AD5940_AGPIOCfg(&gpio_cfg);
+ 464              		.loc 1 298 22 is_stmt 0 view .LVU174
+ 465 0096 0794     		str	r4, [sp, #28]
+ 299:Core/Src/AD5940Main.c **** 	
+ 466              		.loc 1 299 3 is_stmt 1 view .LVU175
+ 467 0098 04A8     		add	r0, sp, #16
+ 468 009a FFF7FEFF 		bl	AD5940_AGPIOCfg
+ 469              	.LVL31:
+ 301:Core/Src/AD5940Main.c ****   /* Measure LFOSC frequency */
+ 470              		.loc 1 301 3 view .LVU176
+ 471 009e 0C48     		ldr	r0, .L11
+ 472 00a0 FFF7FEFF 		bl	AD5940_SleepKeyCtrlS
+ 473              	.LVL32:
+ 303:Core/Src/AD5940Main.c ****   LfoscMeasure.CalSeqAddr = 0;
+ 474              		.loc 1 303 3 view .LVU177
+ 303:Core/Src/AD5940Main.c ****   LfoscMeasure.CalSeqAddr = 0;
+ 475              		.loc 1 303 28 is_stmt 0 view .LVU178
+ 476 00a4 0B4B     		ldr	r3, .L11+4
+ 477 00a6 0293     		str	r3, [sp, #8]	@ float
+ 304:Core/Src/AD5940Main.c ****   LfoscMeasure.SystemClkFreq = 16000000.0f; /* 16MHz in this firmware. */
+ 478              		.loc 1 304 3 is_stmt 1 view .LVU179
+ 304:Core/Src/AD5940Main.c ****   LfoscMeasure.SystemClkFreq = 16000000.0f; /* 16MHz in this firmware. */
+ 479              		.loc 1 304 27 is_stmt 0 view .LVU180
+ 480 00a8 0194     		str	r4, [sp, #4]
+ 305:Core/Src/AD5940Main.c ****   AD5940_LFOSCMeasure(&LfoscMeasure, &LFOSCFreq);
+ 481              		.loc 1 305 3 is_stmt 1 view .LVU181
+ 305:Core/Src/AD5940Main.c ****   AD5940_LFOSCMeasure(&LfoscMeasure, &LFOSCFreq);
+ 482              		.loc 1 305 30 is_stmt 0 view .LVU182
+ 483 00aa 0B4B     		ldr	r3, .L11+8
+ 484 00ac 0393     		str	r3, [sp, #12]	@ float
+ 306:Core/Src/AD5940Main.c ****   printf("Freq:%f\n", LFOSCFreq); 
+ 485              		.loc 1 306 3 is_stmt 1 view .LVU183
+ 486 00ae 0B4D     		ldr	r5, .L11+12
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 18
+
+
+ 487 00b0 2946     		mov	r1, r5
+ 488 00b2 01A8     		add	r0, sp, #4
+ 489 00b4 FFF7FEFF 		bl	AD5940_LFOSCMeasure
+ 490              	.LVL33:
+ 307:Core/Src/AD5940Main.c ****   return 0;
+ 491              		.loc 1 307 3 view .LVU184
+ 492 00b8 D5ED007A 		vldr.32	s15, [r5]
+ 493 00bc B7EEE77A 		vcvt.f64.f32	d7, s15
+ 494 00c0 53EC172B 		vmov	r2, r3, d7
+ 495 00c4 0648     		ldr	r0, .L11+16
+ 496 00c6 FFF7FEFF 		bl	printf
+ 497              	.LVL34:
+ 308:Core/Src/AD5940Main.c **** }
+ 498              		.loc 1 308 3 view .LVU185
+ 309:Core/Src/AD5940Main.c **** 
+ 499              		.loc 1 309 1 is_stmt 0 view .LVU186
+ 500 00ca 2046     		mov	r0, r4
+ 501 00cc 17B0     		add	sp, sp, #92
+ 502              	.LCFI8:
+ 503              		.cfi_def_cfa_offset 12
+ 504              		@ sp needed
+ 505 00ce 30BD     		pop	{r4, r5, pc}
+ 506              	.L12:
+ 507              		.align	2
+ 508              	.L11:
+ 509 00d0 E5470A00 		.word	673765
+ 510 00d4 00007A44 		.word	1148846080
+ 511 00d8 0024744B 		.word	1265902592
+ 512 00dc 00000000 		.word	LFOSCFreq
+ 513 00e0 00000000 		.word	.LC0
+ 514              		.cfi_endproc
+ 515              	.LFE6:
+ 517              		.section	.rodata.VoltageShowResult.str1.4,"aMS",%progbits,1
+ 518              		.align	2
+ 519              	.LC1:
+ 520 0000 25640A00 		.ascii	"%d\012\000"
+ 521              		.section	.text.VoltageShowResult,"ax",%progbits
+ 522              		.align	1
+ 523              		.global	VoltageShowResult
+ 524              		.syntax unified
+ 525              		.thumb
+ 526              		.thumb_func
+ 527              		.fpu fpv5-d16
+ 529              	VoltageShowResult:
+ 530              	.LVL35:
+ 531              	.LFB3:
+ 199:Core/Src/AD5940Main.c **** 	float freq;
+ 532              		.loc 1 199 1 is_stmt 1 view -0
+ 533              		.cfi_startproc
+ 534              		@ args = 0, pretend = 0, frame = 8
+ 535              		@ frame_needed = 0, uses_anonymous_args = 0
+ 199:Core/Src/AD5940Main.c **** 	float freq;
+ 536              		.loc 1 199 1 is_stmt 0 view .LVU188
+ 537 0000 70B5     		push	{r4, r5, r6, lr}
+ 538              	.LCFI9:
+ 539              		.cfi_def_cfa_offset 16
+ 540              		.cfi_offset 4, -16
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 19
+
+
+ 541              		.cfi_offset 5, -12
+ 542              		.cfi_offset 6, -8
+ 543              		.cfi_offset 14, -4
+ 544 0002 82B0     		sub	sp, sp, #8
+ 545              	.LCFI10:
+ 546              		.cfi_def_cfa_offset 24
+ 547 0004 0646     		mov	r6, r0
+ 548 0006 0D46     		mov	r5, r1
+ 200:Core/Src/AD5940Main.c **** 	AppVOLCtrl(VOLCTRL_GETFREQ, &freq);
+ 549              		.loc 1 200 2 is_stmt 1 view .LVU189
+ 201:Core/Src/AD5940Main.c **** 	char buf[5];
+ 550              		.loc 1 201 2 view .LVU190
+ 551 0008 01A9     		add	r1, sp, #4
+ 552              	.LVL36:
+ 201:Core/Src/AD5940Main.c **** 	char buf[5];
+ 553              		.loc 1 201 2 is_stmt 0 view .LVU191
+ 554 000a 0320     		movs	r0, #3
+ 555              	.LVL37:
+ 201:Core/Src/AD5940Main.c **** 	char buf[5];
+ 556              		.loc 1 201 2 view .LVU192
+ 557 000c FFF7FEFF 		bl	AppVOLCtrl
+ 558              	.LVL38:
+ 202:Core/Src/AD5940Main.c **** 	for(int i=0;i<DataCount;i++)
+ 559              		.loc 1 202 2 is_stmt 1 view .LVU193
+ 203:Core/Src/AD5940Main.c ****   {
+ 560              		.loc 1 203 2 view .LVU194
+ 561              	.LBB2:
+ 203:Core/Src/AD5940Main.c ****   {
+ 562              		.loc 1 203 6 view .LVU195
+ 203:Core/Src/AD5940Main.c ****   {
+ 563              		.loc 1 203 10 is_stmt 0 view .LVU196
+ 564 0010 0024     		movs	r4, #0
+ 565              	.LVL39:
+ 566              	.L14:
+ 203:Core/Src/AD5940Main.c ****   {
+ 567              		.loc 1 203 14 is_stmt 1 discriminator 1 view .LVU197
+ 203:Core/Src/AD5940Main.c ****   {
+ 568              		.loc 1 203 2 is_stmt 0 discriminator 1 view .LVU198
+ 569 0012 AC42     		cmp	r4, r5
+ 570 0014 06D2     		bcs	.L17
+ 205:Core/Src/AD5940Main.c ****   }
+ 571              		.loc 1 205 3 is_stmt 1 discriminator 3 view .LVU199
+ 572 0016 56F82410 		ldr	r1, [r6, r4, lsl #2]
+ 573 001a 0448     		ldr	r0, .L18
+ 574 001c FFF7FEFF 		bl	printf
+ 575              	.LVL40:
+ 203:Core/Src/AD5940Main.c ****   {
+ 576              		.loc 1 203 26 discriminator 3 view .LVU200
+ 203:Core/Src/AD5940Main.c ****   {
+ 577              		.loc 1 203 27 is_stmt 0 discriminator 3 view .LVU201
+ 578 0020 0134     		adds	r4, r4, #1
+ 579              	.LVL41:
+ 203:Core/Src/AD5940Main.c ****   {
+ 580              		.loc 1 203 27 discriminator 3 view .LVU202
+ 581 0022 F6E7     		b	.L14
+ 582              	.L17:
+ 203:Core/Src/AD5940Main.c ****   {
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 20
+
+
+ 583              		.loc 1 203 27 discriminator 3 view .LVU203
+ 584              	.LBE2:
+ 207:Core/Src/AD5940Main.c **** }
+ 585              		.loc 1 207 3 is_stmt 1 view .LVU204
+ 208:Core/Src/AD5940Main.c **** int32_t AMPShowResult(float *pData, uint32_t DataCount)
+ 586              		.loc 1 208 1 is_stmt 0 view .LVU205
+ 587 0024 0020     		movs	r0, #0
+ 588 0026 02B0     		add	sp, sp, #8
+ 589              	.LCFI11:
+ 590              		.cfi_def_cfa_offset 16
+ 591              		@ sp needed
+ 592 0028 70BD     		pop	{r4, r5, r6, pc}
+ 593              	.LVL42:
+ 594              	.L19:
+ 208:Core/Src/AD5940Main.c **** int32_t AMPShowResult(float *pData, uint32_t DataCount)
+ 595              		.loc 1 208 1 view .LVU206
+ 596 002a 00BF     		.align	2
+ 597              	.L18:
+ 598 002c 00000000 		.word	.LC1
+ 599              		.cfi_endproc
+ 600              	.LFE3:
+ 602              		.section	.rodata.AMPShowResult.str1.4,"aMS",%progbits,1
+ 603              		.align	2
+ 604              	.LC2:
+ 605 0000 252E3166 		.ascii	"%.1f\012\000"
+ 605      0A00
+ 606              		.section	.text.AMPShowResult,"ax",%progbits
+ 607              		.align	1
+ 608              		.global	AMPShowResult
+ 609              		.syntax unified
+ 610              		.thumb
+ 611              		.thumb_func
+ 612              		.fpu fpv5-d16
+ 614              	AMPShowResult:
+ 615              	.LVL43:
+ 616              	.LFB4:
+ 210:Core/Src/AD5940Main.c ****   /* Print data*/
+ 617              		.loc 1 210 1 is_stmt 1 view -0
+ 618              		.cfi_startproc
+ 619              		@ args = 0, pretend = 0, frame = 0
+ 620              		@ frame_needed = 0, uses_anonymous_args = 0
+ 210:Core/Src/AD5940Main.c ****   /* Print data*/
+ 621              		.loc 1 210 1 is_stmt 0 view .LVU208
+ 622 0000 70B5     		push	{r4, r5, r6, lr}
+ 623              	.LCFI12:
+ 624              		.cfi_def_cfa_offset 16
+ 625              		.cfi_offset 4, -16
+ 626              		.cfi_offset 5, -12
+ 627              		.cfi_offset 6, -8
+ 628              		.cfi_offset 14, -4
+ 629 0002 0646     		mov	r6, r0
+ 630 0004 0D46     		mov	r5, r1
+ 212:Core/Src/AD5940Main.c ****   {
+ 631              		.loc 1 212 3 is_stmt 1 view .LVU209
+ 632              	.LBB3:
+ 212:Core/Src/AD5940Main.c ****   {
+ 633              		.loc 1 212 7 view .LVU210
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 21
+
+
+ 634              	.LVL44:
+ 212:Core/Src/AD5940Main.c ****   {
+ 635              		.loc 1 212 11 is_stmt 0 view .LVU211
+ 636 0006 0024     		movs	r4, #0
+ 637              	.LVL45:
+ 638              	.L21:
+ 212:Core/Src/AD5940Main.c ****   {
+ 639              		.loc 1 212 15 is_stmt 1 discriminator 1 view .LVU212
+ 212:Core/Src/AD5940Main.c ****   {
+ 640              		.loc 1 212 3 is_stmt 0 discriminator 1 view .LVU213
+ 641 0008 AC42     		cmp	r4, r5
+ 642 000a 10D2     		bcs	.L24
+ 214:Core/Src/AD5940Main.c ****   }
+ 643              		.loc 1 214 3 is_stmt 1 discriminator 3 view .LVU214
+ 214:Core/Src/AD5940Main.c ****   }
+ 644              		.loc 1 214 25 is_stmt 0 discriminator 3 view .LVU215
+ 645 000c 06EB8403 		add	r3, r6, r4, lsl #2
+ 646 0010 D3ED007A 		vldr.32	s15, [r3]
+ 214:Core/Src/AD5940Main.c ****   }
+ 647              		.loc 1 214 28 discriminator 3 view .LVU216
+ 648 0014 9FED077A 		vldr.32	s14, .L25
+ 649 0018 67EE877A 		vmul.f32	s15, s15, s14
+ 214:Core/Src/AD5940Main.c ****   }
+ 650              		.loc 1 214 3 discriminator 3 view .LVU217
+ 651 001c B7EEE77A 		vcvt.f64.f32	d7, s15
+ 652 0020 53EC172B 		vmov	r2, r3, d7
+ 653 0024 0448     		ldr	r0, .L25+4
+ 654 0026 FFF7FEFF 		bl	printf
+ 655              	.LVL46:
+ 212:Core/Src/AD5940Main.c ****   {
+ 656              		.loc 1 212 27 is_stmt 1 discriminator 3 view .LVU218
+ 212:Core/Src/AD5940Main.c ****   {
+ 657              		.loc 1 212 28 is_stmt 0 discriminator 3 view .LVU219
+ 658 002a 0134     		adds	r4, r4, #1
+ 659              	.LVL47:
+ 212:Core/Src/AD5940Main.c ****   {
+ 660              		.loc 1 212 28 discriminator 3 view .LVU220
+ 661 002c ECE7     		b	.L21
+ 662              	.L24:
+ 212:Core/Src/AD5940Main.c ****   {
+ 663              		.loc 1 212 28 discriminator 3 view .LVU221
+ 664              	.LBE3:
+ 216:Core/Src/AD5940Main.c **** }
+ 665              		.loc 1 216 3 is_stmt 1 view .LVU222
+ 217:Core/Src/AD5940Main.c **** 
+ 666              		.loc 1 217 1 is_stmt 0 view .LVU223
+ 667 002e 0020     		movs	r0, #0
+ 668 0030 70BD     		pop	{r4, r5, r6, pc}
+ 669              	.LVL48:
+ 670              	.L26:
+ 217:Core/Src/AD5940Main.c **** 
+ 671              		.loc 1 217 1 view .LVU224
+ 672 0032 00BF     		.align	2
+ 673              	.L25:
+ 674 0034 00007A44 		.word	1148846080
+ 675 0038 00000000 		.word	.LC2
+ 676              		.cfi_endproc
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 22
+
+
+ 677              	.LFE4:
+ 679              		.section	.rodata.ImpedanceShowResult.str1.4,"aMS",%progbits,1
+ 680              		.align	2
+ 681              	.LC3:
+ 682 0000 25642C00 		.ascii	"%d,\000"
+ 683              		.align	2
+ 684              	.LC4:
+ 685 0004 25642C20 		.ascii	"%d, %d \012\000"
+ 685      2564200A 
+ 685      00
+ 686              		.section	.text.ImpedanceShowResult,"ax",%progbits
+ 687              		.align	1
+ 688              		.global	ImpedanceShowResult
+ 689              		.syntax unified
+ 690              		.thumb
+ 691              		.thumb_func
+ 692              		.fpu fpv5-d16
+ 694              	ImpedanceShowResult:
+ 695              	.LVL49:
+ 696              	.LFB5:
+ 221:Core/Src/AD5940Main.c ****   float freq;	
+ 697              		.loc 1 221 1 is_stmt 1 view -0
+ 698              		.cfi_startproc
+ 699              		@ args = 0, pretend = 0, frame = 8
+ 700              		@ frame_needed = 0, uses_anonymous_args = 0
+ 221:Core/Src/AD5940Main.c ****   float freq;	
+ 701              		.loc 1 221 1 is_stmt 0 view .LVU226
+ 702 0000 70B5     		push	{r4, r5, r6, lr}
+ 703              	.LCFI13:
+ 704              		.cfi_def_cfa_offset 16
+ 705              		.cfi_offset 4, -16
+ 706              		.cfi_offset 5, -12
+ 707              		.cfi_offset 6, -8
+ 708              		.cfi_offset 14, -4
+ 709 0002 82B0     		sub	sp, sp, #8
+ 710              	.LCFI14:
+ 711              		.cfi_def_cfa_offset 24
+ 712 0004 0646     		mov	r6, r0
+ 713 0006 0D46     		mov	r5, r1
+ 222:Core/Src/AD5940Main.c **** 	float phase;
+ 714              		.loc 1 222 3 is_stmt 1 view .LVU227
+ 223:Core/Src/AD5940Main.c **** 
+ 715              		.loc 1 223 2 view .LVU228
+ 225:Core/Src/AD5940Main.c ****   AppIMPCtrl(IMPCTRL_GETFREQ, &freq);
+ 716              		.loc 1 225 3 view .LVU229
+ 717              	.LVL50:
+ 226:Core/Src/AD5940Main.c **** 
+ 718              		.loc 1 226 3 view .LVU230
+ 719 0008 01A9     		add	r1, sp, #4
+ 720              	.LVL51:
+ 226:Core/Src/AD5940Main.c **** 
+ 721              		.loc 1 226 3 is_stmt 0 view .LVU231
+ 722 000a 0320     		movs	r0, #3
+ 723              	.LVL52:
+ 226:Core/Src/AD5940Main.c **** 
+ 724              		.loc 1 226 3 view .LVU232
+ 725 000c FFF7FEFF 		bl	AppIMPCtrl
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 23
+
+
+ 726              	.LVL53:
+ 228:Core/Src/AD5940Main.c **** 	printf("%d,", intfreq);
+ 727              		.loc 1 228 3 is_stmt 1 view .LVU233
+ 229:Core/Src/AD5940Main.c **** 	
+ 728              		.loc 1 229 2 view .LVU234
+ 729 0010 DDED017A 		vldr.32	s15, [sp, #4]
+ 730 0014 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 731              	.LVL54:
+ 229:Core/Src/AD5940Main.c **** 	
+ 732              		.loc 1 229 2 is_stmt 0 view .LVU235
+ 733 0018 17EE901A 		vmov	r1, s15	@ int
+ 734 001c 1648     		ldr	r0, .L35
+ 735 001e FFF7FEFF 		bl	printf
+ 736              	.LVL55:
+ 232:Core/Src/AD5940Main.c ****   {
+ 737              		.loc 1 232 3 is_stmt 1 view .LVU236
+ 738              	.LBB4:
+ 232:Core/Src/AD5940Main.c ****   {
+ 739              		.loc 1 232 7 view .LVU237
+ 232:Core/Src/AD5940Main.c ****   {
+ 740              		.loc 1 232 11 is_stmt 0 view .LVU238
+ 741 0022 0024     		movs	r4, #0
+ 232:Core/Src/AD5940Main.c ****   {
+ 742              		.loc 1 232 3 view .LVU239
+ 743 0024 0DE0     		b	.L28
+ 744              	.LVL56:
+ 745              	.L29:
+ 746              	.LBB5:
+ 242:Core/Src/AD5940Main.c ****     uint32_t intmag = pImp[i].Magnitude;
+ 747              		.loc 1 242 3 is_stmt 1 discriminator 2 view .LVU240
+ 243:Core/Src/AD5940Main.c **** 		printf("%d, %d \n",intmag,intpase);
+ 748              		.loc 1 243 5 discriminator 2 view .LVU241
+ 243:Core/Src/AD5940Main.c **** 		printf("%d, %d \n",intmag,intpase);
+ 749              		.loc 1 243 30 is_stmt 0 discriminator 2 view .LVU242
+ 750 0026 93ED007A 		vldr.32	s14, [r3]
+ 751              	.LVL57:
+ 244:Core/Src/AD5940Main.c ****   }
+ 752              		.loc 1 244 3 is_stmt 1 discriminator 2 view .LVU243
+ 753 002a FDEEE77A 		vcvt.s32.f32	s15, s15
+ 754              	.LVL58:
+ 244:Core/Src/AD5940Main.c ****   }
+ 755              		.loc 1 244 3 is_stmt 0 discriminator 2 view .LVU244
+ 756 002e 17EE902A 		vmov	r2, s15	@ int
+ 757 0032 FCEEC77A 		vcvt.u32.f32	s15, s14
+ 758              	.LVL59:
+ 244:Core/Src/AD5940Main.c ****   }
+ 759              		.loc 1 244 3 discriminator 2 view .LVU245
+ 760 0036 17EE901A 		vmov	r1, s15	@ int
+ 761 003a 1048     		ldr	r0, .L35+4
+ 762 003c FFF7FEFF 		bl	printf
+ 763              	.LVL60:
+ 244:Core/Src/AD5940Main.c ****   }
+ 764              		.loc 1 244 3 discriminator 2 view .LVU246
+ 765              	.LBE5:
+ 232:Core/Src/AD5940Main.c ****   {
+ 766              		.loc 1 232 27 is_stmt 1 discriminator 2 view .LVU247
+ 232:Core/Src/AD5940Main.c ****   {
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 24
+
+
+ 767              		.loc 1 232 28 is_stmt 0 discriminator 2 view .LVU248
+ 768 0040 0134     		adds	r4, r4, #1
+ 769              	.LVL61:
+ 770              	.L28:
+ 232:Core/Src/AD5940Main.c ****   {
+ 771              		.loc 1 232 15 is_stmt 1 discriminator 1 view .LVU249
+ 232:Core/Src/AD5940Main.c ****   {
+ 772              		.loc 1 232 3 is_stmt 0 discriminator 1 view .LVU250
+ 773 0042 AC42     		cmp	r4, r5
+ 774 0044 15D2     		bcs	.L34
+ 775              	.LBB6:
+ 234:Core/Src/AD5940Main.c **** 		{
+ 776              		.loc 1 234 3 is_stmt 1 view .LVU251
+ 234:Core/Src/AD5940Main.c **** 		{
+ 777              		.loc 1 234 10 is_stmt 0 view .LVU252
+ 778 0046 06EBC403 		add	r3, r6, r4, lsl #3
+ 234:Core/Src/AD5940Main.c **** 		{
+ 779              		.loc 1 234 13 view .LVU253
+ 780 004a 93ED017A 		vldr.32	s14, [r3, #4]
+ 234:Core/Src/AD5940Main.c **** 		{
+ 781              		.loc 1 234 19 view .LVU254
+ 782 004e DFED0C6A 		vldr.32	s13, .L35+8
+ 783 0052 27EE267A 		vmul.f32	s14, s14, s13
+ 234:Core/Src/AD5940Main.c **** 		{
+ 784              		.loc 1 234 23 view .LVU255
+ 785 0056 9FED0B6A 		vldr.32	s12, .L35+12
+ 786 005a C7EE067A 		vdiv.f32	s15, s14, s12
+ 234:Core/Src/AD5940Main.c **** 		{
+ 787              		.loc 1 234 5 view .LVU256
+ 788 005e F4EEE67A 		vcmpe.f32	s15, s13
+ 789 0062 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 790 0066 DEDD     		ble	.L29
+ 236:Core/Src/AD5940Main.c **** 		}
+ 791              		.loc 1 236 4 is_stmt 1 view .LVU257
+ 236:Core/Src/AD5940Main.c **** 		}
+ 792              		.loc 1 236 10 is_stmt 0 view .LVU258
+ 793 0068 9FED077A 		vldr.32	s14, .L35+16
+ 794 006c 77EEC77A 		vsub.f32	s15, s15, s14
+ 795              	.LVL62:
+ 236:Core/Src/AD5940Main.c **** 		}
+ 796              		.loc 1 236 10 view .LVU259
+ 797 0070 D9E7     		b	.L29
+ 798              	.LVL63:
+ 799              	.L34:
+ 236:Core/Src/AD5940Main.c **** 		}
+ 800              		.loc 1 236 10 view .LVU260
+ 801              	.LBE6:
+ 802              	.LBE4:
+ 246:Core/Src/AD5940Main.c **** }
+ 803              		.loc 1 246 3 is_stmt 1 view .LVU261
+ 247:Core/Src/AD5940Main.c **** 
+ 804              		.loc 1 247 1 is_stmt 0 view .LVU262
+ 805 0072 0020     		movs	r0, #0
+ 806 0074 02B0     		add	sp, sp, #8
+ 807              	.LCFI15:
+ 808              		.cfi_def_cfa_offset 16
+ 809              		@ sp needed
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 25
+
+
+ 810 0076 70BD     		pop	{r4, r5, r6, pc}
+ 811              	.LVL64:
+ 812              	.L36:
+ 247:Core/Src/AD5940Main.c **** 
+ 813              		.loc 1 247 1 view .LVU263
+ 814              		.align	2
+ 815              	.L35:
+ 816 0078 00000000 		.word	.LC3
+ 817 007c 04000000 		.word	.LC4
+ 818 0080 00003443 		.word	1127481344
+ 819 0084 DA0F4940 		.word	1078530010
+ 820 0088 0000B443 		.word	1135869952
+ 821              		.cfi_endproc
+ 822              	.LFE5:
+ 824              		.section	.text.AD5940AMPStructInit,"ax",%progbits
+ 825              		.align	1
+ 826              		.global	AD5940AMPStructInit
+ 827              		.syntax unified
+ 828              		.thumb
+ 829              		.thumb_func
+ 830              		.fpu fpv5-d16
+ 832              	AD5940AMPStructInit:
+ 833              	.LFB9:
+ 413:Core/Src/AD5940Main.c **** 
+ 414:Core/Src/AD5940Main.c **** 
+ 415:Core/Src/AD5940Main.c **** 
+ 416:Core/Src/AD5940Main.c **** /* !!Change the application parameters here if you want to change it to none-default value */
+ 417:Core/Src/AD5940Main.c **** void AD5940AMPStructInit(void)
+ 418:Core/Src/AD5940Main.c **** {
+ 834              		.loc 1 418 1 is_stmt 1 view -0
+ 835              		.cfi_startproc
+ 836              		@ args = 0, pretend = 0, frame = 8
+ 837              		@ frame_needed = 0, uses_anonymous_args = 0
+ 838 0000 00B5     		push	{lr}
+ 839              	.LCFI16:
+ 840              		.cfi_def_cfa_offset 4
+ 841              		.cfi_offset 14, -4
+ 842 0002 83B0     		sub	sp, sp, #12
+ 843              	.LCFI17:
+ 844              		.cfi_def_cfa_offset 16
+ 419:Core/Src/AD5940Main.c ****   AppAMPCfg_Type *pAMPCfg;
+ 845              		.loc 1 419 3 view .LVU265
+ 420:Core/Src/AD5940Main.c ****   
+ 421:Core/Src/AD5940Main.c ****   AppAMPGetCfg(&pAMPCfg);
+ 846              		.loc 1 421 3 view .LVU266
+ 847 0004 01A8     		add	r0, sp, #4
+ 848 0006 FFF7FEFF 		bl	AppAMPGetCfg
+ 849              	.LVL65:
+ 422:Core/Src/AD5940Main.c **** 	pAMPCfg->WuptClkFreq = LFOSCFreq;
+ 850              		.loc 1 422 2 view .LVU267
+ 851              		.loc 1 422 9 is_stmt 0 view .LVU268
+ 852 000a 019B     		ldr	r3, [sp, #4]
+ 853              		.loc 1 422 23 view .LVU269
+ 854 000c 0E4A     		ldr	r2, .L39
+ 855 000e 1268     		ldr	r2, [r2]	@ float
+ 856 0010 DA61     		str	r2, [r3, #28]	@ float
+ 423:Core/Src/AD5940Main.c ****   /* Configure general parameters */
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 26
+
+
+ 424:Core/Src/AD5940Main.c ****   pAMPCfg->SeqStartAddr = 0;
+ 857              		.loc 1 424 3 is_stmt 1 view .LVU270
+ 858              		.loc 1 424 25 is_stmt 0 view .LVU271
+ 859 0012 0022     		movs	r2, #0
+ 860 0014 5A60     		str	r2, [r3, #4]
+ 425:Core/Src/AD5940Main.c ****   pAMPCfg->MaxSeqLen = 512;     /* @todo add checker in function */  
+ 861              		.loc 1 425 3 is_stmt 1 view .LVU272
+ 862              		.loc 1 425 22 is_stmt 0 view .LVU273
+ 863 0016 4FF40072 		mov	r2, #512
+ 864 001a 9A60     		str	r2, [r3, #8]
+ 426:Core/Src/AD5940Main.c ****   pAMPCfg->RcalVal = 10000.0;
+ 865              		.loc 1 426 3 is_stmt 1 view .LVU274
+ 866              		.loc 1 426 20 is_stmt 0 view .LVU275
+ 867 001c 0B4A     		ldr	r2, .L39+4
+ 868 001e 1A63     		str	r2, [r3, #48]	@ float
+ 427:Core/Src/AD5940Main.c ****   pAMPCfg->NumOfData = -1;      /* Never stop until you stop it manually by AppAMPCtrl() function *
+ 869              		.loc 1 427 3 is_stmt 1 view .LVU276
+ 870              		.loc 1 427 22 is_stmt 0 view .LVU277
+ 871 0020 4FF0FF32 		mov	r2, #-1
+ 872 0024 DA62     		str	r2, [r3, #44]
+ 428:Core/Src/AD5940Main.c **** 	
+ 429:Core/Src/AD5940Main.c **** 	
+ 430:Core/Src/AD5940Main.c **** 	/* Configure measurement parameters */
+ 431:Core/Src/AD5940Main.c ****   pAMPCfg->AmpODR = 0.01;          	/* Time between samples in seconds */
+ 873              		.loc 1 431 3 is_stmt 1 view .LVU278
+ 874              		.loc 1 431 19 is_stmt 0 view .LVU279
+ 875 0026 0A4A     		ldr	r2, .L39+8
+ 876 0028 9A62     		str	r2, [r3, #40]	@ float
+ 432:Core/Src/AD5940Main.c ****   pAMPCfg->FifoThresh = 4;      		/* Number of measurements before alerting host microcontroller */
+ 877              		.loc 1 432 3 is_stmt 1 view .LVU280
+ 878              		.loc 1 432 23 is_stmt 0 view .LVU281
+ 879 002a 0422     		movs	r2, #4
+ 880 002c 5A62     		str	r2, [r3, #36]
+ 433:Core/Src/AD5940Main.c **** 	
+ 434:Core/Src/AD5940Main.c ****   pAMPCfg->SensorBias = 1000;   			/* Sensor bias voltage between reference and sense electrodes*/
+ 881              		.loc 1 434 3 is_stmt 1 view .LVU282
+ 882              		.loc 1 434 23 is_stmt 0 view .LVU283
+ 883 002e 094A     		ldr	r2, .L39+12
+ 884 0030 1A66     		str	r2, [r3, #96]	@ float
+ 435:Core/Src/AD5940Main.c **** 	pAMPCfg->LptiaRtiaSel = LPTIARTIA_512K;
+ 885              		.loc 1 435 2 is_stmt 1 view .LVU284
+ 886              		.loc 1 435 24 is_stmt 0 view .LVU285
+ 887 0032 1A21     		movs	r1, #26
+ 888 0034 9964     		str	r1, [r3, #72]
+ 436:Core/Src/AD5940Main.c **** 	pAMPCfg->LpTiaRl = LPTIARLOAD_10R;
+ 889              		.loc 1 436 2 is_stmt 1 view .LVU286
+ 890              		.loc 1 436 19 is_stmt 0 view .LVU287
+ 891 0036 0121     		movs	r1, #1
+ 892 0038 1965     		str	r1, [r3, #80]
+ 437:Core/Src/AD5940Main.c **** 	
+ 438:Core/Src/AD5940Main.c **** 	pAMPCfg->Vzero = 1000;        		/* Vzero voltage. Voltage on Sense electrode. Unit is mV*/
+ 893              		.loc 1 438 2 is_stmt 1 view .LVU288
+ 894              		.loc 1 438 17 is_stmt 0 view .LVU289
+ 895 003a DA65     		str	r2, [r3, #92]	@ float
+ 439:Core/Src/AD5940Main.c **** 	pAMPCfg->ADCRefVolt = 1.82;		/* Measure voltage on Vref_1V8 pin */
+ 896              		.loc 1 439 2 is_stmt 1 view .LVU290
+ 897              		.loc 1 439 22 is_stmt 0 view .LVU291
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 27
+
+
+ 898 003c 064A     		ldr	r2, .L39+16
+ 899 003e 5A63     		str	r2, [r3, #52]	@ float
+ 440:Core/Src/AD5940Main.c **** 	
+ 441:Core/Src/AD5940Main.c **** }
+ 900              		.loc 1 441 1 view .LVU292
+ 901 0040 03B0     		add	sp, sp, #12
+ 902              	.LCFI18:
+ 903              		.cfi_def_cfa_offset 4
+ 904              		@ sp needed
+ 905 0042 5DF804FB 		ldr	pc, [sp], #4
+ 906              	.L40:
+ 907 0046 00BF     		.align	2
+ 908              	.L39:
+ 909 0048 00000000 		.word	LFOSCFreq
+ 910 004c 00401C46 		.word	1176256512
+ 911 0050 0AD7233C 		.word	1008981770
+ 912 0054 00007A44 		.word	1148846080
+ 913 0058 C3F5E83F 		.word	1072231875
+ 914              		.cfi_endproc
+ 915              	.LFE9:
+ 917              		.section	.text.AD5940ImpedanceStructInit,"ax",%progbits
+ 918              		.align	1
+ 919              		.global	AD5940ImpedanceStructInit
+ 920              		.syntax unified
+ 921              		.thumb
+ 922              		.thumb_func
+ 923              		.fpu fpv5-d16
+ 925              	AD5940ImpedanceStructInit:
+ 926              	.LFB10:
+ 442:Core/Src/AD5940Main.c **** 
+ 443:Core/Src/AD5940Main.c **** void AD5940ImpedanceStructInit(void)
+ 444:Core/Src/AD5940Main.c **** {
+ 927              		.loc 1 444 1 is_stmt 1 view -0
+ 928              		.cfi_startproc
+ 929              		@ args = 0, pretend = 0, frame = 8
+ 930              		@ frame_needed = 0, uses_anonymous_args = 0
+ 931 0000 00B5     		push	{lr}
+ 932              	.LCFI19:
+ 933              		.cfi_def_cfa_offset 4
+ 934              		.cfi_offset 14, -4
+ 935 0002 83B0     		sub	sp, sp, #12
+ 936              	.LCFI20:
+ 937              		.cfi_def_cfa_offset 16
+ 445:Core/Src/AD5940Main.c ****   AppIMPCfg_Type *pImpedanceCfg;
+ 938              		.loc 1 445 3 view .LVU294
+ 446:Core/Src/AD5940Main.c ****   
+ 447:Core/Src/AD5940Main.c ****   AppIMPGetCfg(&pImpedanceCfg);
+ 939              		.loc 1 447 3 view .LVU295
+ 940 0004 01A8     		add	r0, sp, #4
+ 941 0006 FFF7FEFF 		bl	AppIMPGetCfg
+ 942              	.LVL66:
+ 448:Core/Src/AD5940Main.c ****   /* Step1: configure initialization sequence Info */
+ 449:Core/Src/AD5940Main.c ****   pImpedanceCfg->SeqStartAddr = 0;
+ 943              		.loc 1 449 3 view .LVU296
+ 944              		.loc 1 449 16 is_stmt 0 view .LVU297
+ 945 000a 019B     		ldr	r3, [sp, #4]
+ 946              		.loc 1 449 31 view .LVU298
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 28
+
+
+ 947 000c 0022     		movs	r2, #0
+ 948 000e 5A60     		str	r2, [r3, #4]
+ 450:Core/Src/AD5940Main.c ****   pImpedanceCfg->MaxSeqLen = 512; /* @todo add checker in function */
+ 949              		.loc 1 450 3 is_stmt 1 view .LVU299
+ 950              		.loc 1 450 28 is_stmt 0 view .LVU300
+ 951 0010 4FF40071 		mov	r1, #512
+ 952 0014 9960     		str	r1, [r3, #8]
+ 451:Core/Src/AD5940Main.c **** 
+ 452:Core/Src/AD5940Main.c **** 	pImpedanceCfg->ImpODR = 10;
+ 953              		.loc 1 452 2 is_stmt 1 view .LVU301
+ 954              		.loc 1 452 24 is_stmt 0 view .LVU302
+ 955 0016 1349     		ldr	r1, .L43
+ 956 0018 5961     		str	r1, [r3, #20]	@ float
+ 453:Core/Src/AD5940Main.c ****   pImpedanceCfg->RcalVal = 10000.0;
+ 957              		.loc 1 453 3 is_stmt 1 view .LVU303
+ 958              		.loc 1 453 26 is_stmt 0 view .LVU304
+ 959 001a 1349     		ldr	r1, .L43+4
+ 960 001c 9962     		str	r1, [r3, #40]	@ float
+ 454:Core/Src/AD5940Main.c ****   pImpedanceCfg->SinFreq = 1000.0;
+ 961              		.loc 1 454 3 is_stmt 1 view .LVU305
+ 962              		.loc 1 454 26 is_stmt 0 view .LVU306
+ 963 001e 1349     		ldr	r1, .L43+8
+ 964 0020 9965     		str	r1, [r3, #88]	@ float
+ 455:Core/Src/AD5940Main.c ****   pImpedanceCfg->FifoThresh = 4;
+ 965              		.loc 1 455 3 is_stmt 1 view .LVU307
+ 966              		.loc 1 455 29 is_stmt 0 view .LVU308
+ 967 0022 0421     		movs	r1, #4
+ 968 0024 C3F88810 		str	r1, [r3, #136]
+ 456:Core/Src/AD5940Main.c **** 	
+ 457:Core/Src/AD5940Main.c **** 	/* Set switch matrix to onboard(EVAL-AD5940ELECZ) dummy sensor. */
+ 458:Core/Src/AD5940Main.c **** 	/* Note the RCAL0 resistor is 10kOhm. */
+ 459:Core/Src/AD5940Main.c **** 	pImpedanceCfg->DswitchSel = SWD_CE0;
+ 969              		.loc 1 459 2 is_stmt 1 view .LVU309
+ 970              		.loc 1 459 28 is_stmt 0 view .LVU310
+ 971 0028 1021     		movs	r1, #16
+ 972 002a D962     		str	r1, [r3, #44]
+ 460:Core/Src/AD5940Main.c **** 	
+ 461:Core/Src/AD5940Main.c **** 	//pImpedanceCfg->PswitchSel = SWP_RE0;	
+ 462:Core/Src/AD5940Main.c **** 	pImpedanceCfg->PswitchSel = SWP_CE0;
+ 973              		.loc 1 462 2 is_stmt 1 view .LVU311
+ 974              		.loc 1 462 28 is_stmt 0 view .LVU312
+ 975 002c 4FF48061 		mov	r1, #1024
+ 976 0030 1963     		str	r1, [r3, #48]
+ 463:Core/Src/AD5940Main.c **** 	
+ 464:Core/Src/AD5940Main.c **** 	//pImpedanceCfg->NswitchSel = SWN_SE0;
+ 465:Core/Src/AD5940Main.c **** 	pImpedanceCfg->NswitchSel = SWN_AIN1;
+ 977              		.loc 1 465 2 is_stmt 1 view .LVU313
+ 978              		.loc 1 465 28 is_stmt 0 view .LVU314
+ 979 0032 0221     		movs	r1, #2
+ 980 0034 5963     		str	r1, [r3, #52]
+ 466:Core/Src/AD5940Main.c **** 	
+ 467:Core/Src/AD5940Main.c **** 	//pImpedanceCfg->TswitchSel = SWT_SE0LOAD;
+ 468:Core/Src/AD5940Main.c **** 	pImpedanceCfg->TswitchSel = SWT_AIN1;
+ 981              		.loc 1 468 2 is_stmt 1 view .LVU315
+ 982              		.loc 1 468 28 is_stmt 0 view .LVU316
+ 983 0036 9963     		str	r1, [r3, #56]
+ 469:Core/Src/AD5940Main.c **** 	
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 29
+
+
+ 470:Core/Src/AD5940Main.c **** 	
+ 471:Core/Src/AD5940Main.c **** 	/* The dummy sensor is as low as 5kOhm. We need to make sure RTIA is small enough that HSTIA won't
+ 472:Core/Src/AD5940Main.c **** 	//pImpedanceCfg->HstiaRtiaSel = HSTIARTIA_5K;	
+ 473:Core/Src/AD5940Main.c **** 	
+ 474:Core/Src/AD5940Main.c **** 	pImpedanceCfg->HstiaRtiaSel = HSTIARTIA_200;
+ 984              		.loc 1 474 2 is_stmt 1 view .LVU317
+ 985              		.loc 1 474 30 is_stmt 0 view .LVU318
+ 986 0038 1A64     		str	r2, [r3, #64]
+ 475:Core/Src/AD5940Main.c **** 	
+ 476:Core/Src/AD5940Main.c **** 	/* Configure the sweep function. */
+ 477:Core/Src/AD5940Main.c **** 	pImpedanceCfg->SweepCfg.SweepEn = bTRUE;
+ 987              		.loc 1 477 2 is_stmt 1 view .LVU319
+ 988              		.loc 1 477 34 is_stmt 0 view .LVU320
+ 989 003a 0122     		movs	r2, #1
+ 990 003c 83F87020 		strb	r2, [r3, #112]
+ 478:Core/Src/AD5940Main.c **** 	pImpedanceCfg->SweepCfg.SweepStart = 100;	/* Start from 1kHz */
+ 991              		.loc 1 478 2 is_stmt 1 view .LVU321
+ 992              		.loc 1 478 37 is_stmt 0 view .LVU322
+ 993 0040 0B48     		ldr	r0, .L43+12
+ 994 0042 5867     		str	r0, [r3, #116]	@ float
+ 479:Core/Src/AD5940Main.c **** 	pImpedanceCfg->SweepCfg.SweepStop = 200e3f;		/* Stop at 100kHz */
+ 995              		.loc 1 479 2 is_stmt 1 view .LVU323
+ 996              		.loc 1 479 36 is_stmt 0 view .LVU324
+ 997 0044 0B48     		ldr	r0, .L43+16
+ 998 0046 9867     		str	r0, [r3, #120]	@ float
+ 480:Core/Src/AD5940Main.c **** 	pImpedanceCfg->SweepCfg.SweepPoints = 201;		/* Points is 101 */
+ 999              		.loc 1 480 2 is_stmt 1 view .LVU325
+ 1000              		.loc 1 480 38 is_stmt 0 view .LVU326
+ 1001 0048 C920     		movs	r0, #201
+ 1002 004a D867     		str	r0, [r3, #124]
+ 481:Core/Src/AD5940Main.c **** 	//pImpedanceCfg->SweepCfg.SweepLog = bTRUE;
+ 482:Core/Src/AD5940Main.c **** 	pImpedanceCfg->SweepCfg.SweepLog = bTRUE;
+ 1003              		.loc 1 482 2 is_stmt 1 view .LVU327
+ 1004              		.loc 1 482 35 is_stmt 0 view .LVU328
+ 1005 004c 83F88020 		strb	r2, [r3, #128]
+ 483:Core/Src/AD5940Main.c **** 	/* Configure Power Mode. Use HP mode if frequency is higher than 80kHz. */
+ 484:Core/Src/AD5940Main.c **** 	pImpedanceCfg->PwrMod = AFEPWR_HP;
+ 1006              		.loc 1 484 2 is_stmt 1 view .LVU329
+ 1007              		.loc 1 484 24 is_stmt 0 view .LVU330
+ 1008 0050 DA63     		str	r2, [r3, #60]
+ 485:Core/Src/AD5940Main.c **** 	
+ 486:Core/Src/AD5940Main.c **** 	/* Configure filters if necessary */
+ 487:Core/Src/AD5940Main.c **** 	pImpedanceCfg->ADCSinc3Osr = ADCSINC3OSR_2;		/* Sample rate is 800kSPS/2 = 400kSPS */
+ 1009              		.loc 1 487 2 is_stmt 1 view .LVU331
+ 1010              		.loc 1 487 29 is_stmt 0 view .LVU332
+ 1011 0052 83F86C10 		strb	r1, [r3, #108]
+ 488:Core/Src/AD5940Main.c ****   pImpedanceCfg->DftNum = DFTNUM_16384;
+ 1012              		.loc 1 488 3 is_stmt 1 view .LVU333
+ 1013              		.loc 1 488 25 is_stmt 0 view .LVU334
+ 1014 0056 0C21     		movs	r1, #12
+ 1015 0058 D965     		str	r1, [r3, #92]
+ 489:Core/Src/AD5940Main.c ****   pImpedanceCfg->DftSrc = DFTSRC_SINC3;
+ 1016              		.loc 1 489 3 is_stmt 1 view .LVU335
+ 1017              		.loc 1 489 25 is_stmt 0 view .LVU336
+ 1018 005a 1A66     		str	r2, [r3, #96]
+ 490:Core/Src/AD5940Main.c **** }
+ 1019              		.loc 1 490 1 view .LVU337
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 30
+
+
+ 1020 005c 03B0     		add	sp, sp, #12
+ 1021              	.LCFI21:
+ 1022              		.cfi_def_cfa_offset 4
+ 1023              		@ sp needed
+ 1024 005e 5DF804FB 		ldr	pc, [sp], #4
+ 1025              	.L44:
+ 1026 0062 00BF     		.align	2
+ 1027              	.L43:
+ 1028 0064 00002041 		.word	1092616192
+ 1029 0068 00401C46 		.word	1176256512
+ 1030 006c 00007A44 		.word	1148846080
+ 1031 0070 0000C842 		.word	1120403456
+ 1032 0074 00504348 		.word	1212370944
+ 1033              		.cfi_endproc
+ 1034              	.LFE10:
+ 1036              		.section	.text.AD5940VoltageStructInit,"ax",%progbits
+ 1037              		.align	1
+ 1038              		.global	AD5940VoltageStructInit
+ 1039              		.syntax unified
+ 1040              		.thumb
+ 1041              		.thumb_func
+ 1042              		.fpu fpv5-d16
+ 1044              	AD5940VoltageStructInit:
+ 1045              	.LFB11:
+ 491:Core/Src/AD5940Main.c **** 
+ 492:Core/Src/AD5940Main.c **** 
+ 493:Core/Src/AD5940Main.c **** void AD5940VoltageStructInit(void)
+ 494:Core/Src/AD5940Main.c **** {
+ 1046              		.loc 1 494 1 is_stmt 1 view -0
+ 1047              		.cfi_startproc
+ 1048              		@ args = 0, pretend = 0, frame = 8
+ 1049              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1050 0000 00B5     		push	{lr}
+ 1051              	.LCFI22:
+ 1052              		.cfi_def_cfa_offset 4
+ 1053              		.cfi_offset 14, -4
+ 1054 0002 83B0     		sub	sp, sp, #12
+ 1055              	.LCFI23:
+ 1056              		.cfi_def_cfa_offset 16
+ 495:Core/Src/AD5940Main.c ****   AppVOLCfg_Type *pVoltageCfg;
+ 1057              		.loc 1 495 3 view .LVU339
+ 496:Core/Src/AD5940Main.c ****   
+ 497:Core/Src/AD5940Main.c ****   get_APPVOLGetCfg(&pVoltageCfg);
+ 1058              		.loc 1 497 3 view .LVU340
+ 1059 0004 01A8     		add	r0, sp, #4
+ 1060 0006 FFF7FEFF 		bl	get_APPVOLGetCfg
+ 1061              	.LVL67:
+ 498:Core/Src/AD5940Main.c ****   /* Step1: configure initialization sequence Info */
+ 499:Core/Src/AD5940Main.c ****   pVoltageCfg->SeqStartAddr = 0;
+ 1062              		.loc 1 499 3 view .LVU341
+ 1063              		.loc 1 499 14 is_stmt 0 view .LVU342
+ 1064 000a 019B     		ldr	r3, [sp, #4]
+ 1065              		.loc 1 499 29 view .LVU343
+ 1066 000c 0022     		movs	r2, #0
+ 1067 000e 5A60     		str	r2, [r3, #4]
+ 500:Core/Src/AD5940Main.c ****   pVoltageCfg->MaxSeqLen = 512; /* @todo add checker in function */
+ 1068              		.loc 1 500 3 is_stmt 1 view .LVU344
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 31
+
+
+ 1069              		.loc 1 500 26 is_stmt 0 view .LVU345
+ 1070 0010 4FF40071 		mov	r1, #512
+ 1071 0014 9960     		str	r1, [r3, #8]
+ 501:Core/Src/AD5940Main.c **** 
+ 502:Core/Src/AD5940Main.c **** 	pVoltageCfg->VolODR = 100;
+ 1072              		.loc 1 502 2 is_stmt 1 view .LVU346
+ 1073              		.loc 1 502 22 is_stmt 0 view .LVU347
+ 1074 0016 1349     		ldr	r1, .L47
+ 1075 0018 5961     		str	r1, [r3, #20]	@ float
+ 503:Core/Src/AD5940Main.c ****   pVoltageCfg->RcalVal = 10000.0;
+ 1076              		.loc 1 503 3 is_stmt 1 view .LVU348
+ 1077              		.loc 1 503 24 is_stmt 0 view .LVU349
+ 1078 001a 1349     		ldr	r1, .L47+4
+ 1079 001c 9962     		str	r1, [r3, #40]	@ float
+ 504:Core/Src/AD5940Main.c ****   pVoltageCfg->SinFreq = 100000;
+ 1080              		.loc 1 504 3 is_stmt 1 view .LVU350
+ 1081              		.loc 1 504 24 is_stmt 0 view .LVU351
+ 1082 001e 1349     		ldr	r1, .L47+8
+ 1083 0020 9965     		str	r1, [r3, #88]	@ float
+ 505:Core/Src/AD5940Main.c ****   pVoltageCfg->FifoThresh = 4;
+ 1084              		.loc 1 505 3 is_stmt 1 view .LVU352
+ 1085              		.loc 1 505 27 is_stmt 0 view .LVU353
+ 1086 0022 0421     		movs	r1, #4
+ 1087 0024 C3F88810 		str	r1, [r3, #136]
+ 506:Core/Src/AD5940Main.c **** 	
+ 507:Core/Src/AD5940Main.c **** 	/* Set switch matrix to onboard(EVAL-AD5940ELECZ) dummy sensor. */
+ 508:Core/Src/AD5940Main.c **** 	/* Note the RCAL0 resistor is 10kOhm. */
+ 509:Core/Src/AD5940Main.c **** 	pVoltageCfg->DswitchSel = SWD_CE0;
+ 1088              		.loc 1 509 2 is_stmt 1 view .LVU354
+ 1089              		.loc 1 509 26 is_stmt 0 view .LVU355
+ 1090 0028 1021     		movs	r1, #16
+ 1091 002a D962     		str	r1, [r3, #44]
+ 510:Core/Src/AD5940Main.c **** 	//pImpedanceCfg->PswitchSel = SWP_RE0;
+ 511:Core/Src/AD5940Main.c **** 	
+ 512:Core/Src/AD5940Main.c **** 	pVoltageCfg->PswitchSel = SWP_CE0;
+ 1092              		.loc 1 512 2 is_stmt 1 view .LVU356
+ 1093              		.loc 1 512 26 is_stmt 0 view .LVU357
+ 1094 002c 4FF48061 		mov	r1, #1024
+ 1095 0030 1963     		str	r1, [r3, #48]
+ 513:Core/Src/AD5940Main.c **** 	//pImpedanceCfg->NswitchSel = SWN_SE0;
+ 514:Core/Src/AD5940Main.c **** 	
+ 515:Core/Src/AD5940Main.c **** 	pVoltageCfg->NswitchSel = SWN_AIN1;
+ 1096              		.loc 1 515 2 is_stmt 1 view .LVU358
+ 1097              		.loc 1 515 26 is_stmt 0 view .LVU359
+ 1098 0032 0221     		movs	r1, #2
+ 1099 0034 5963     		str	r1, [r3, #52]
+ 516:Core/Src/AD5940Main.c **** 	//pImpedanceCfg->TswitchSel = SWT_SE0LOAD;
+ 517:Core/Src/AD5940Main.c **** 	pVoltageCfg->TswitchSel = SWT_AIN1;
+ 1100              		.loc 1 517 2 is_stmt 1 view .LVU360
+ 1101              		.loc 1 517 26 is_stmt 0 view .LVU361
+ 1102 0036 9963     		str	r1, [r3, #56]
+ 518:Core/Src/AD5940Main.c **** 	
+ 519:Core/Src/AD5940Main.c **** 	/* The dummy sensor is as low as 5kOhm. We need to make sure RTIA is small enough that HSTIA won't
+ 520:Core/Src/AD5940Main.c **** 	//pImpedanceCfg->HstiaRtiaSel = HSTIARTIA_5K;	
+ 521:Core/Src/AD5940Main.c **** 	
+ 522:Core/Src/AD5940Main.c **** 	pVoltageCfg->HstiaRtiaSel = HSTIARTIA_200;
+ 1103              		.loc 1 522 2 is_stmt 1 view .LVU362
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 32
+
+
+ 1104              		.loc 1 522 28 is_stmt 0 view .LVU363
+ 1105 0038 1A64     		str	r2, [r3, #64]
+ 523:Core/Src/AD5940Main.c **** 	
+ 524:Core/Src/AD5940Main.c **** 	/* Configure the sweep function. */
+ 525:Core/Src/AD5940Main.c **** 	pVoltageCfg->SweepCfg.SweepEn = bFALSE;
+ 1106              		.loc 1 525 2 is_stmt 1 view .LVU364
+ 1107              		.loc 1 525 32 is_stmt 0 view .LVU365
+ 1108 003a 83F87020 		strb	r2, [r3, #112]
+ 526:Core/Src/AD5940Main.c **** 	pVoltageCfg->SweepCfg.SweepStart = 10;	/* Start from 1kHz */
+ 1109              		.loc 1 526 2 is_stmt 1 view .LVU366
+ 1110              		.loc 1 526 35 is_stmt 0 view .LVU367
+ 1111 003e 0C48     		ldr	r0, .L47+12
+ 1112 0040 5867     		str	r0, [r3, #116]	@ float
+ 527:Core/Src/AD5940Main.c **** 	pVoltageCfg->SweepCfg.SweepStop = 200e3f;		/* Stop at 100kHz */
+ 1113              		.loc 1 527 2 is_stmt 1 view .LVU368
+ 1114              		.loc 1 527 34 is_stmt 0 view .LVU369
+ 1115 0042 0C48     		ldr	r0, .L47+16
+ 1116 0044 9867     		str	r0, [r3, #120]	@ float
+ 528:Core/Src/AD5940Main.c **** 	pVoltageCfg->SweepCfg.SweepPoints = 201;		/* Points is 101 */
+ 1117              		.loc 1 528 2 is_stmt 1 view .LVU370
+ 1118              		.loc 1 528 36 is_stmt 0 view .LVU371
+ 1119 0046 C920     		movs	r0, #201
+ 1120 0048 D867     		str	r0, [r3, #124]
+ 529:Core/Src/AD5940Main.c **** 	//pImpedanceCfg->SweepCfg.SweepLog = bTRUE;
+ 530:Core/Src/AD5940Main.c **** 	pVoltageCfg->SweepCfg.SweepLog = bFALSE;
+ 1121              		.loc 1 530 2 is_stmt 1 view .LVU372
+ 1122              		.loc 1 530 33 is_stmt 0 view .LVU373
+ 1123 004a 83F88020 		strb	r2, [r3, #128]
+ 531:Core/Src/AD5940Main.c **** 	/* Configure Power Mode. Use HP mode if frequency is higher than 80kHz. */
+ 532:Core/Src/AD5940Main.c **** 	pVoltageCfg->PwrMod = AFEPWR_HP;
+ 1124              		.loc 1 532 2 is_stmt 1 view .LVU374
+ 1125              		.loc 1 532 22 is_stmt 0 view .LVU375
+ 1126 004e 0122     		movs	r2, #1
+ 1127 0050 DA63     		str	r2, [r3, #60]
+ 533:Core/Src/AD5940Main.c **** 	
+ 534:Core/Src/AD5940Main.c **** 	/* Configure filters if necessary */
+ 535:Core/Src/AD5940Main.c **** 	pVoltageCfg->ADCSinc3Osr = ADCSINC3OSR_2;		/* Sample rate is 800kSPS/2 = 400kSPS */
+ 1128              		.loc 1 535 2 is_stmt 1 view .LVU376
+ 1129              		.loc 1 535 27 is_stmt 0 view .LVU377
+ 1130 0052 83F86C10 		strb	r1, [r3, #108]
+ 536:Core/Src/AD5940Main.c ****   pVoltageCfg->DftNum = DFTNUM_16384;
+ 1131              		.loc 1 536 3 is_stmt 1 view .LVU378
+ 1132              		.loc 1 536 23 is_stmt 0 view .LVU379
+ 1133 0056 0C21     		movs	r1, #12
+ 1134 0058 D965     		str	r1, [r3, #92]
+ 537:Core/Src/AD5940Main.c ****   pVoltageCfg->DftSrc = DFTSRC_SINC3;
+ 1135              		.loc 1 537 3 is_stmt 1 view .LVU380
+ 1136              		.loc 1 537 23 is_stmt 0 view .LVU381
+ 1137 005a 1A66     		str	r2, [r3, #96]
+ 538:Core/Src/AD5940Main.c **** }
+ 1138              		.loc 1 538 1 view .LVU382
+ 1139 005c 03B0     		add	sp, sp, #12
+ 1140              	.LCFI24:
+ 1141              		.cfi_def_cfa_offset 4
+ 1142              		@ sp needed
+ 1143 005e 5DF804FB 		ldr	pc, [sp], #4
+ 1144              	.L48:
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 33
+
+
+ 1145 0062 00BF     		.align	2
+ 1146              	.L47:
+ 1147 0064 0000C842 		.word	1120403456
+ 1148 0068 00401C46 		.word	1176256512
+ 1149 006c 0050C347 		.word	1203982336
+ 1150 0070 00002041 		.word	1092616192
+ 1151 0074 00504348 		.word	1212370944
+ 1152              		.cfi_endproc
+ 1153              	.LFE11:
+ 1155              		.section	.text.AD5940_Main_IMP,"ax",%progbits
+ 1156              		.align	1
+ 1157              		.global	AD5940_Main_IMP
+ 1158              		.syntax unified
+ 1159              		.thumb
+ 1160              		.thumb_func
+ 1161              		.fpu fpv5-d16
+ 1163              	AD5940_Main_IMP:
+ 1164              	.LFB12:
+ 539:Core/Src/AD5940Main.c **** 
+ 540:Core/Src/AD5940Main.c **** 
+ 541:Core/Src/AD5940Main.c **** 
+ 542:Core/Src/AD5940Main.c **** void AD5940_Main_IMP(void)
+ 543:Core/Src/AD5940Main.c **** {
+ 1165              		.loc 1 543 1 is_stmt 1 view -0
+ 1166              		.cfi_startproc
+ 1167              		@ Volatile: function does not return.
+ 1168              		@ args = 0, pretend = 0, frame = 8
+ 1169              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1170 0000 00B5     		push	{lr}
+ 1171              	.LCFI25:
+ 1172              		.cfi_def_cfa_offset 4
+ 1173              		.cfi_offset 14, -4
+ 1174 0002 83B0     		sub	sp, sp, #12
+ 1175              	.LCFI26:
+ 1176              		.cfi_def_cfa_offset 16
+ 544:Core/Src/AD5940Main.c ****   uint32_t temp;  
+ 1177              		.loc 1 544 3 view .LVU384
+ 545:Core/Src/AD5940Main.c ****   AD5940PlatformCfg_IMP();
+ 1178              		.loc 1 545 3 view .LVU385
+ 1179 0004 FFF7FEFF 		bl	AD5940PlatformCfg_IMP
+ 1180              	.LVL68:
+ 546:Core/Src/AD5940Main.c ****   AD5940ImpedanceStructInit();
+ 1181              		.loc 1 546 3 view .LVU386
+ 1182 0008 FFF7FEFF 		bl	AD5940ImpedanceStructInit
+ 1183              	.LVL69:
+ 547:Core/Src/AD5940Main.c ****   AppIMPInit(AppBuff, APPBUFF_SIZE);    /* Initialize IMP application. Provide a buffer, which is u
+ 1184              		.loc 1 547 3 view .LVU387
+ 1185 000c 4FF40071 		mov	r1, #512
+ 1186 0010 0D48     		ldr	r0, .L54
+ 1187 0012 FFF7FEFF 		bl	AppIMPInit
+ 1188              	.LVL70:
+ 548:Core/Src/AD5940Main.c ****   AppIMPCtrl(IMPCTRL_START, 0);          /* Control IMP measurement to start. Second parameter has 
+ 1189              		.loc 1 548 3 view .LVU388
+ 1190 0016 0021     		movs	r1, #0
+ 1191 0018 0846     		mov	r0, r1
+ 1192 001a FFF7FEFF 		bl	AppIMPCtrl
+ 1193              	.LVL71:
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 34
+
+
+ 1194 001e 0DE0     		b	.L50
+ 1195              	.L53:
+ 549:Core/Src/AD5940Main.c ****  
+ 550:Core/Src/AD5940Main.c ****   while(1)
+ 551:Core/Src/AD5940Main.c ****   {
+ 552:Core/Src/AD5940Main.c ****     if(AD5940_GetMCUIntFlag())
+ 553:Core/Src/AD5940Main.c ****     {
+ 554:Core/Src/AD5940Main.c ****       AD5940_ClrMCUIntFlag();
+ 1196              		.loc 1 554 7 view .LVU389
+ 1197 0020 FFF7FEFF 		bl	AD5940_ClrMCUIntFlag
+ 1198              	.LVL72:
+ 555:Core/Src/AD5940Main.c ****       temp = APPBUFF_SIZE;
+ 1199              		.loc 1 555 7 view .LVU390
+ 1200              		.loc 1 555 12 is_stmt 0 view .LVU391
+ 1201 0024 4FF40073 		mov	r3, #512
+ 1202 0028 0193     		str	r3, [sp, #4]
+ 556:Core/Src/AD5940Main.c ****       AppIMPISR(AppBuff, &temp);
+ 1203              		.loc 1 556 7 is_stmt 1 view .LVU392
+ 1204 002a 074C     		ldr	r4, .L54
+ 1205 002c 01A9     		add	r1, sp, #4
+ 1206 002e 2046     		mov	r0, r4
+ 1207 0030 FFF7FEFF 		bl	AppIMPISR
+ 1208              	.LVL73:
+ 557:Core/Src/AD5940Main.c ****       ImpedanceShowResult(AppBuff, temp);
+ 1209              		.loc 1 557 7 view .LVU393
+ 1210 0034 0199     		ldr	r1, [sp, #4]
+ 1211 0036 2046     		mov	r0, r4
+ 1212 0038 FFF7FEFF 		bl	ImpedanceShowResult
+ 1213              	.LVL74:
+ 1214              	.L50:
+ 550:Core/Src/AD5940Main.c ****   {
+ 1215              		.loc 1 550 3 view .LVU394
+ 552:Core/Src/AD5940Main.c ****     {
+ 1216              		.loc 1 552 5 view .LVU395
+ 552:Core/Src/AD5940Main.c ****     {
+ 1217              		.loc 1 552 8 is_stmt 0 view .LVU396
+ 1218 003c FFF7FEFF 		bl	AD5940_GetMCUIntFlag
+ 1219              	.LVL75:
+ 552:Core/Src/AD5940Main.c ****     {
+ 1220              		.loc 1 552 7 view .LVU397
+ 1221 0040 0028     		cmp	r0, #0
+ 1222 0042 FBD0     		beq	.L50
+ 1223 0044 ECE7     		b	.L53
+ 1224              	.L55:
+ 1225 0046 00BF     		.align	2
+ 1226              	.L54:
+ 1227 0048 00000000 		.word	AppBuff
+ 1228              		.cfi_endproc
+ 1229              	.LFE12:
+ 1231              		.section	.text.AD5940_Main_VOL,"ax",%progbits
+ 1232              		.align	1
+ 1233              		.global	AD5940_Main_VOL
+ 1234              		.syntax unified
+ 1235              		.thumb
+ 1236              		.thumb_func
+ 1237              		.fpu fpv5-d16
+ 1239              	AD5940_Main_VOL:
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 35
+
+
+ 1240              	.LFB13:
+ 558:Core/Src/AD5940Main.c ****     }
+ 559:Core/Src/AD5940Main.c ****   }
+ 560:Core/Src/AD5940Main.c **** }
+ 561:Core/Src/AD5940Main.c **** 
+ 562:Core/Src/AD5940Main.c **** 
+ 563:Core/Src/AD5940Main.c **** void AD5940_Main_VOL(void)
+ 564:Core/Src/AD5940Main.c **** {
+ 1241              		.loc 1 564 1 is_stmt 1 view -0
+ 1242              		.cfi_startproc
+ 1243              		@ args = 0, pretend = 0, frame = 8
+ 1244              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1245 0000 10B5     		push	{r4, lr}
+ 1246              	.LCFI27:
+ 1247              		.cfi_def_cfa_offset 8
+ 1248              		.cfi_offset 4, -8
+ 1249              		.cfi_offset 14, -4
+ 1250 0002 82B0     		sub	sp, sp, #8
+ 1251              	.LCFI28:
+ 1252              		.cfi_def_cfa_offset 16
+ 565:Core/Src/AD5940Main.c **** 	uint32_t temp;
+ 1253              		.loc 1 565 2 view .LVU399
+ 566:Core/Src/AD5940Main.c **** 	AD5940PlatformCfg_VOL();
+ 1254              		.loc 1 566 2 view .LVU400
+ 1255 0004 FFF7FEFF 		bl	AD5940PlatformCfg_VOL
+ 1256              	.LVL76:
+ 567:Core/Src/AD5940Main.c **** 	AD5940VoltageStructInit();
+ 1257              		.loc 1 567 2 view .LVU401
+ 1258 0008 FFF7FEFF 		bl	AD5940VoltageStructInit
+ 1259              	.LVL77:
+ 568:Core/Src/AD5940Main.c **** 	AppVOLInit(AppBuff, APPBUFF_SIZE);    /* Initialize IMP application. Provide a buffer, which is us
+ 1260              		.loc 1 568 2 view .LVU402
+ 1261 000c 4FF40071 		mov	r1, #512
+ 1262 0010 0D48     		ldr	r0, .L61
+ 1263 0012 FFF7FEFF 		bl	AppVOLInit
+ 1264              	.LVL78:
+ 569:Core/Src/AD5940Main.c ****   AppVOLCtrl(IMPCTRL_START, 0);          /* Control IMP measurement to start. Second parameter has 
+ 1265              		.loc 1 569 3 view .LVU403
+ 1266 0016 0021     		movs	r1, #0
+ 1267 0018 0846     		mov	r0, r1
+ 1268 001a FFF7FEFF 		bl	AppVOLCtrl
+ 1269              	.LVL79:
+ 570:Core/Src/AD5940Main.c **** 	
+ 571:Core/Src/AD5940Main.c **** 	uint32_t cnt = 0;
+ 1270              		.loc 1 571 2 view .LVU404
+ 1271              		.loc 1 571 2 is_stmt 0 view .LVU405
+ 1272 001e 0DE0     		b	.L57
+ 1273              	.L60:
+ 572:Core/Src/AD5940Main.c **** 	while(1)
+ 573:Core/Src/AD5940Main.c ****   {
+ 574:Core/Src/AD5940Main.c ****     if(AD5940_GetMCUIntFlag())
+ 575:Core/Src/AD5940Main.c ****     {
+ 576:Core/Src/AD5940Main.c ****       AD5940_ClrMCUIntFlag();
+ 1274              		.loc 1 576 7 is_stmt 1 view .LVU406
+ 1275 0020 FFF7FEFF 		bl	AD5940_ClrMCUIntFlag
+ 1276              	.LVL80:
+ 577:Core/Src/AD5940Main.c ****       temp = APPBUFF_SIZE;
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 36
+
+
+ 1277              		.loc 1 577 7 view .LVU407
+ 1278              		.loc 1 577 12 is_stmt 0 view .LVU408
+ 1279 0024 4FF40073 		mov	r3, #512
+ 1280 0028 0193     		str	r3, [sp, #4]
+ 578:Core/Src/AD5940Main.c ****       AppVOLISR(AppBuff, &temp);
+ 1281              		.loc 1 578 7 is_stmt 1 view .LVU409
+ 1282 002a 074C     		ldr	r4, .L61
+ 1283 002c 01A9     		add	r1, sp, #4
+ 1284 002e 2046     		mov	r0, r4
+ 1285 0030 FFF7FEFF 		bl	AppVOLISR
+ 1286              	.LVL81:
+ 579:Core/Src/AD5940Main.c **** 			VoltageShowResult(AppBuff, temp);
+ 1287              		.loc 1 579 4 view .LVU410
+ 1288 0034 0199     		ldr	r1, [sp, #4]
+ 1289 0036 2046     		mov	r0, r4
+ 1290 0038 FFF7FEFF 		bl	VoltageShowResult
+ 1291              	.LVL82:
+ 1292              	.L57:
+ 572:Core/Src/AD5940Main.c ****   {
+ 1293              		.loc 1 572 2 view .LVU411
+ 574:Core/Src/AD5940Main.c ****     {
+ 1294              		.loc 1 574 5 view .LVU412
+ 574:Core/Src/AD5940Main.c ****     {
+ 1295              		.loc 1 574 8 is_stmt 0 view .LVU413
+ 1296 003c FFF7FEFF 		bl	AD5940_GetMCUIntFlag
+ 1297              	.LVL83:
+ 574:Core/Src/AD5940Main.c ****     {
+ 1298              		.loc 1 574 7 view .LVU414
+ 1299 0040 0028     		cmp	r0, #0
+ 1300 0042 FBD0     		beq	.L57
+ 1301 0044 ECE7     		b	.L60
+ 1302              	.L62:
+ 1303 0046 00BF     		.align	2
+ 1304              	.L61:
+ 1305 0048 00000000 		.word	AppBuff
+ 1306              		.cfi_endproc
+ 1307              	.LFE13:
+ 1309              		.section	.text.AD5940_Main_AMP,"ax",%progbits
+ 1310              		.align	1
+ 1311              		.global	AD5940_Main_AMP
+ 1312              		.syntax unified
+ 1313              		.thumb
+ 1314              		.thumb_func
+ 1315              		.fpu fpv5-d16
+ 1317              	AD5940_Main_AMP:
+ 1318              	.LFB14:
+ 580:Core/Src/AD5940Main.c ****       
+ 581:Core/Src/AD5940Main.c ****     }
+ 582:Core/Src/AD5940Main.c ****   }
+ 583:Core/Src/AD5940Main.c **** 	
+ 584:Core/Src/AD5940Main.c **** }
+ 585:Core/Src/AD5940Main.c **** 
+ 586:Core/Src/AD5940Main.c **** 
+ 587:Core/Src/AD5940Main.c **** void AD5940_Main_AMP(void)
+ 588:Core/Src/AD5940Main.c **** {
+ 1319              		.loc 1 588 1 is_stmt 1 view -0
+ 1320              		.cfi_startproc
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 37
+
+
+ 1321              		@ Volatile: function does not return.
+ 1322              		@ args = 0, pretend = 0, frame = 8
+ 1323              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1324 0000 00B5     		push	{lr}
+ 1325              	.LCFI29:
+ 1326              		.cfi_def_cfa_offset 4
+ 1327              		.cfi_offset 14, -4
+ 1328 0002 83B0     		sub	sp, sp, #12
+ 1329              	.LCFI30:
+ 1330              		.cfi_def_cfa_offset 16
+ 589:Core/Src/AD5940Main.c ****   uint32_t temp;
+ 1331              		.loc 1 589 3 view .LVU416
+ 590:Core/Src/AD5940Main.c ****   
+ 591:Core/Src/AD5940Main.c ****   AD5940PlatformCfg_AMP();
+ 1332              		.loc 1 591 3 view .LVU417
+ 1333 0004 FFF7FEFF 		bl	AD5940PlatformCfg_AMP
+ 1334              	.LVL84:
+ 592:Core/Src/AD5940Main.c ****   AD5940AMPStructInit(); /* Configure your parameters in this function */ 
+ 1335              		.loc 1 592 3 view .LVU418
+ 1336 0008 FFF7FEFF 		bl	AD5940AMPStructInit
+ 1337              	.LVL85:
+ 593:Core/Src/AD5940Main.c ****   AppAMPInit(AppBuff, APPBUFF_SIZE);    /* Initialize AMP application. Provide a buffer, which is u
+ 1338              		.loc 1 593 3 view .LVU419
+ 1339 000c 4FF40071 		mov	r1, #512
+ 1340 0010 0D48     		ldr	r0, .L68
+ 1341 0012 FFF7FEFF 		bl	AppAMPInit
+ 1342              	.LVL86:
+ 594:Core/Src/AD5940Main.c **** 	AppAMPCtrl(AMPCTRL_START, 0);         /* Control AMP measurement to start. Second parameter has no
+ 1343              		.loc 1 594 2 view .LVU420
+ 1344 0016 0021     		movs	r1, #0
+ 1345 0018 0846     		mov	r0, r1
+ 1346 001a FFF7FEFF 		bl	AppAMPCtrl
+ 1347              	.LVL87:
+ 1348 001e 0DE0     		b	.L64
+ 1349              	.L67:
+ 595:Core/Src/AD5940Main.c **** 	
+ 596:Core/Src/AD5940Main.c ****   while(1)
+ 597:Core/Src/AD5940Main.c ****   {
+ 598:Core/Src/AD5940Main.c ****     /* Check if interrupt flag which will be set when interrupt occurred. */
+ 599:Core/Src/AD5940Main.c ****     if(AD5940_GetMCUIntFlag())
+ 600:Core/Src/AD5940Main.c ****     {
+ 601:Core/Src/AD5940Main.c ****       AD5940_ClrMCUIntFlag(); /* Clear this flag */
+ 1350              		.loc 1 601 7 view .LVU421
+ 1351 0020 FFF7FEFF 		bl	AD5940_ClrMCUIntFlag
+ 1352              	.LVL88:
+ 602:Core/Src/AD5940Main.c ****       temp = APPBUFF_SIZE;
+ 1353              		.loc 1 602 7 view .LVU422
+ 1354              		.loc 1 602 12 is_stmt 0 view .LVU423
+ 1355 0024 4FF40073 		mov	r3, #512
+ 1356 0028 0193     		str	r3, [sp, #4]
+ 603:Core/Src/AD5940Main.c ****       AppAMPISR(AppBuff, &temp); /* Deal with it and provide a buffer to store data we got */
+ 1357              		.loc 1 603 7 is_stmt 1 view .LVU424
+ 1358 002a 074C     		ldr	r4, .L68
+ 1359 002c 01A9     		add	r1, sp, #4
+ 1360 002e 2046     		mov	r0, r4
+ 1361 0030 FFF7FEFF 		bl	AppAMPISR
+ 1362              	.LVL89:
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 38
+
+
+ 604:Core/Src/AD5940Main.c ****       AMPShowResult((float*)AppBuff, temp); /* Show the results to UART */
+ 1363              		.loc 1 604 7 view .LVU425
+ 1364 0034 0199     		ldr	r1, [sp, #4]
+ 1365 0036 2046     		mov	r0, r4
+ 1366 0038 FFF7FEFF 		bl	AMPShowResult
+ 1367              	.LVL90:
+ 1368              	.L64:
+ 596:Core/Src/AD5940Main.c ****   {
+ 1369              		.loc 1 596 3 view .LVU426
+ 599:Core/Src/AD5940Main.c ****     {
+ 1370              		.loc 1 599 5 view .LVU427
+ 599:Core/Src/AD5940Main.c ****     {
+ 1371              		.loc 1 599 8 is_stmt 0 view .LVU428
+ 1372 003c FFF7FEFF 		bl	AD5940_GetMCUIntFlag
+ 1373              	.LVL91:
+ 599:Core/Src/AD5940Main.c ****     {
+ 1374              		.loc 1 599 7 view .LVU429
+ 1375 0040 0028     		cmp	r0, #0
+ 1376 0042 FBD0     		beq	.L64
+ 1377 0044 ECE7     		b	.L67
+ 1378              	.L69:
+ 1379 0046 00BF     		.align	2
+ 1380              	.L68:
+ 1381 0048 00000000 		.word	AppBuff
+ 1382              		.cfi_endproc
+ 1383              	.LFE14:
+ 1385              		.global	vol_ave
+ 1386              		.global	vol_sum
+ 1387              		.global	old_y
+ 1388              		.comm	LFOSCFreq,4,4
+ 1389              		.comm	AppBuff,2048,4
+ 1390              		.section	.bss.old_y,"aw",%nobits
+ 1391              		.align	2
+ 1394              	old_y:
+ 1395 0000 00000000 		.space	4
+ 1396              		.section	.bss.vol_ave,"aw",%nobits
+ 1397              		.align	1
+ 1400              	vol_ave:
+ 1401 0000 0000     		.space	2
+ 1402              		.section	.bss.vol_sum,"aw",%nobits
+ 1403              		.align	2
+ 1406              	vol_sum:
+ 1407 0000 00000000 		.space	4
+ 1408              		.text
+ 1409              	.Letext0:
+ 1410              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\lib\\gcc\\arm-none
+ 1411              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1412              		.file 4 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1413              		.file 5 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1414              		.file 6 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1415              		.file 7 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1416              		.file 8 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\inc
+ 1417              		.file 9 "ad5940lib/ad5940.h"
+ 1418              		.file 10 "Core/Inc/Impedance.h"
+ 1419              		.file 11 "Core/Inc/Amperometric.h"
+ 1420              		.file 12 "Core/Inc/voltage.h"
+ 1421              		.file 13 "c:\\program files (x86)\\gnu arm embedded toolchain\\9 2020-q2-update\\arm-none-eabi\\in
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 39
+
+
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 40
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 AD5940Main.c
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:17     .text.AD5940PlatformCfg_IMP:00000000 $t
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:24     .text.AD5940PlatformCfg_IMP:00000000 AD5940PlatformCfg_IMP
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:163    .text.AD5940PlatformCfg_IMP:00000098 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:168    .text.AD5940PlatformCfg_VOL:00000000 $t
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:174    .text.AD5940PlatformCfg_VOL:00000000 AD5940PlatformCfg_VOL
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:312    .text.AD5940PlatformCfg_VOL:00000098 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:317    .rodata.AD5940PlatformCfg_AMP.str1.4:00000000 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:321    .text.AD5940PlatformCfg_AMP:00000000 $t
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:327    .text.AD5940PlatformCfg_AMP:00000000 AD5940PlatformCfg_AMP
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:509    .text.AD5940PlatformCfg_AMP:000000d0 $d
+                            *COM*:00000004 LFOSCFreq
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:518    .rodata.VoltageShowResult.str1.4:00000000 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:522    .text.VoltageShowResult:00000000 $t
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:529    .text.VoltageShowResult:00000000 VoltageShowResult
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:598    .text.VoltageShowResult:0000002c $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:603    .rodata.AMPShowResult.str1.4:00000000 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:607    .text.AMPShowResult:00000000 $t
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:614    .text.AMPShowResult:00000000 AMPShowResult
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:674    .text.AMPShowResult:00000034 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:680    .rodata.ImpedanceShowResult.str1.4:00000000 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:687    .text.ImpedanceShowResult:00000000 $t
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:694    .text.ImpedanceShowResult:00000000 ImpedanceShowResult
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:816    .text.ImpedanceShowResult:00000078 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:825    .text.AD5940AMPStructInit:00000000 $t
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:832    .text.AD5940AMPStructInit:00000000 AD5940AMPStructInit
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:909    .text.AD5940AMPStructInit:00000048 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:918    .text.AD5940ImpedanceStructInit:00000000 $t
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:925    .text.AD5940ImpedanceStructInit:00000000 AD5940ImpedanceStructInit
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1028   .text.AD5940ImpedanceStructInit:00000064 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1037   .text.AD5940VoltageStructInit:00000000 $t
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1044   .text.AD5940VoltageStructInit:00000000 AD5940VoltageStructInit
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1147   .text.AD5940VoltageStructInit:00000064 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1156   .text.AD5940_Main_IMP:00000000 $t
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1163   .text.AD5940_Main_IMP:00000000 AD5940_Main_IMP
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1227   .text.AD5940_Main_IMP:00000048 $d
+                            *COM*:00000800 AppBuff
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1232   .text.AD5940_Main_VOL:00000000 $t
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1239   .text.AD5940_Main_VOL:00000000 AD5940_Main_VOL
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1305   .text.AD5940_Main_VOL:00000048 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1310   .text.AD5940_Main_AMP:00000000 $t
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1317   .text.AD5940_Main_AMP:00000000 AD5940_Main_AMP
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1381   .text.AD5940_Main_AMP:00000048 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1400   .bss.vol_ave:00000000 vol_ave
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1406   .bss.vol_sum:00000000 vol_sum
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1394   .bss.old_y:00000000 old_y
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1391   .bss.old_y:00000000 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1397   .bss.vol_ave:00000000 $d
+C:\Users\root\AppData\Local\Temp\cc1wnowG.s:1403   .bss.vol_sum:00000000 $d
+
+UNDEFINED SYMBOLS
+AD5940_HWReset
+AD5940_Initialize
+AD5940_CLKCfg
+AD5940_FIFOCfg
+AD5940_INTCCfg
+ARM GAS  C:\Users\root\AppData\Local\Temp\cc1wnowG.s 			page 41
+
+
+AD5940_INTCClrFlag
+AD5940_AGPIOCfg
+AD5940_SleepKeyCtrlS
+AD5940_SEQCfg
+AD5940_LFOSCMeasure
+printf
+AppVOLCtrl
+AppIMPCtrl
+AppAMPGetCfg
+AppIMPGetCfg
+get_APPVOLGetCfg
+AppIMPInit
+AD5940_ClrMCUIntFlag
+AppIMPISR
+AD5940_GetMCUIntFlag
+AppVOLInit
+AppVOLISR
+AppAMPInit
+AppAMPCtrl
+AppAMPISR
