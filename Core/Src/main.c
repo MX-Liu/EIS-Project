@@ -46,10 +46,12 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-int choose=0;
+int function_choose=0;
 uint8_t aTxStartMessage[] = "ESP8266 WIFI control Terminal \n";
 uint8_t aRxBuffer1;
 uint8_t aRxBuffer3;
+uint8_t Commandbuff[128];
+uint8_t cmd_cnt=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -100,18 +102,6 @@ int main(void)
   HAL_UART_Receive_IT(&huart3, &aRxBuffer3, 1);
 	AD5940_MCUResourceInit(0);    /* Initialize resources that AD5940 use, like SPI/GPIO/Interrupt. */
   printf("Hello AD5940-Build Time:%s\n",__TIME__);
-	
-
-  switch(choose)
-  {
-     case 1: AD5940_Main_IMP(); break;
-     case 2: AD5940_Main_VOL(); break;
-     case 3: AD5940_Main_AMP(); break;
-     default: break;
-  }
-//  //AD5940_Main_IMP();
-//  //AD5940_Main_VOL();
-//  //AD5940_Main_AMP();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -119,7 +109,13 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+    switch(function_choose)
+    {
+      case 1: AD5940_Main_IMP(); break;
+      case 2: AD5940_Main_VOL(); break;
+      case 3: AD5940_Main_AMP(); break;
+      default: break;
+    }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -197,8 +193,31 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   if (huart == &huart1)
   {
     //choose = aRxBuffer1;
-    HAL_UART_Transmit(&huart1, &aRxBuffer1, 1, 100);
+    
+    
+    for(uint8_t i=0; i<7; i++)
+    {
+      Commandbuff[i] = Commandbuff[i+1];
+    }
+    Commandbuff[7] = aRxBuffer1;
+
+    if(Commandbuff[0] == 0xAA && Commandbuff[1] == 0xFF && Commandbuff[2] == 0xFF && Commandbuff[3] == 0xAA)
+    {
+      printf("read the right command frames \n");
+      function_choose = Commandbuff[4];
+      //decode command 
+
+    }
+
+    //HAL_UART_Transmit(&huart1, &aRxBuffer1, 1, 100);
+    //printf("\n");
+    //if(aRxBuffer1 == 0x08) printf("get it %d \n", cmd_cnt);
+    
+    
+    cmd_cnt ++;
+
     HAL_UART_Receive_IT(&huart1, &aRxBuffer1, 1);
+    
   }
 
   // if (huart == &huart3)
