@@ -19,17 +19,57 @@ using System.Text.RegularExpressions;
 
 
 
+
 namespace Comm
 {
 
+
+
     public partial class Form1 : Form
     {
+
+        //*********************************************//
+        //**************窗体数据传输******************//
+        //*******************************************//
+
+
+        //public abstract class NewOpenManager1
+        //{
+        //    public static void OpenWindow(ref string tDateTime)
+        //    {
+        //        DateTime frmDt = new DateTime();
+        //        tDateTime = frmDt.GetNewWindowDateTime();
+        //    }
+        //}
+
+
+        //private void bt_cal_Click(object sender, EventArgs e)
+        //{
+        //    string tDateTime = string.Empty;
+        //    NewOpenManager1.OpenWindow(ref tDateTime);//調用OpenWindow得到回傳的日期
+        //    if (tDateTime == null)
+        //    {
+
+        //    }
+        //    else
+        //    {
+        //        //this.tb_start_time.Text = tDateTime;
+        //    }
+        //}
+
+
+
+        //*********************************************//
+        //**************数据定义**********************//
+        //*******************************************//
+
+
         bool ACM = false;
 
         //串口数据定义
         static bool PortIsOpen = false;
         private static byte[] result = new byte[1024];
-        
+
         //图形数据定义
         private int time = 0;
         private float vol = 0;
@@ -49,17 +89,21 @@ namespace Comm
         Thread myThread = null;
 
 
+        //*********************************************//
+        //**************自编函数**********************//
+        //*******************************************//
 
-        private string fest_str(string s,int n)
+        //字符串定长
+        private string fest_str(string s, int n)
         {
             string feststr;
 
-                feststr = Convert.ToInt32(s).ToString().PadLeft(n, '0');
+            feststr = Convert.ToInt32(s).ToString().PadLeft(n, '0');
 
             return feststr;
         }
 
-
+        //字符串转16进制
         private string strToHex(string s)
         {
             if ((s.Length % 2) != 0)
@@ -70,27 +114,81 @@ namespace Comm
             return HexStr;
 
         }
+
+        //数字倒序排列
         private byte[] exchange(byte[] array)
-        { 
+        {
             byte n;
 
-                for (int i=0; i<array.Length/2; i++)
+            for (int i = 0; i < array.Length / 2; i++)
 
-                {
-                    n=array[i];
-                    array[i]=array[array.Length - i - 1];
-                    array[array.Length - i - 1]=n;
-                }
+            {
+                n = array[i];
+                array[i] = array[array.Length - i - 1];
+                array[array.Length - i - 1] = n;
+            }
             return array;
         }
 
+        private string TimeToSec(string tmp1)
+        {
+            tmp1 = tmp1.Replace(":", "");
+            //this.textBox1_test.Text = tmp1;
+            int tmp2 = Convert.ToInt32(tmp1);
+            int hh = tmp2 / 10000;
+            int tmp3 = tmp2 % 10000;
+            int mm = tmp3 / 100;
+            int ss = tmp3 % 100;
+            int sum = hh * 3600 + mm * 60 + ss;
+            string Zeit = sum.ToString();
+            return Zeit;
+        }
+
+
+        private string TimeDifference(string Zeit)
+        {
+            int cc = 0;
+            string z = Convert.ToString(cc);
+            //int n = Convert.ToInt32(days);
+            int tmp = Convert.ToInt32(TimeToSec(Zeit));
+            string dt1 = System.DateTime.Now.ToString("HH:mm:ss");
+            int tmp1 = Convert.ToInt32(TimeToSec(dt1));
+            int TD = tmp - tmp1;
+            if (TD < 0)
+            {
+                TD = TD + 86400;
+            }
+
+            string TD1 = z;
+            //try
+            //{
+            if (TD >= 60)
+            {
+                TD1 = TD.ToString();
+
+            }
+            else
+            {
+                MessageBox.Show("开始时间至少在一分钟之后");
+
+            }
+            ////}
+            ////catch
+            ////{
+            ////    MessageBox.Show("开始时间至少在一小时之后");
+            ////    TD1 = null;
+            ////}
+            return TD1;
+        }
+
+        //字符串转byte（不用）
         private byte[] strToByte(string s)
         {
             byte[] b = Encoding.ASCII.GetBytes(s);//按照指定编码将string编程字节数组
-            byte[] result = new byte[s.Length ];
+            byte[] result = new byte[s.Length];
             for (int i = 0; i < b.Length; i++)//逐字节变为16进制字符，以%隔开
             {
-                if ((b[i]=='A') || b[i] == 'B' || b[i] == 'C' || b[i] == 'D' || b[i] == 'E' || b[i] == 'F')
+                if ((b[i] == 'A') || b[i] == 'B' || b[i] == 'C' || b[i] == 'D' || b[i] == 'E' || b[i] == 'F')
                 {
                     result[i] = Convert.ToByte(Convert.ToInt32(b[i]) - 55);
                 }
@@ -105,17 +203,17 @@ namespace Comm
         }
 
 
-
+        //字符串转16进制字符串(不用)
         private string StringToHexString(string s)
 
         {
             //byte[] b = Encoding.ASCII.GetBytes(s);//按照指定编码将string编程字节数组
-            char[] c = s.ToCharArray() ;
+            char[] c = s.ToCharArray();
             string result = string.Empty;
             for (int i = 0; i < c.Length; i++)//逐字节变为16进制字符，以%隔开
             {
                 //result += Convert.ToString(int.Parse(c[i].ToString()));
-                result += Convert.ToString(Convert.ToInt32(c[i])-48);
+                result += Convert.ToString(Convert.ToInt32(c[i]) - 48);
                 //result += Convert.ToString(c[i], 16);
 
             }
@@ -123,7 +221,7 @@ namespace Comm
             return result;
         }
 
-        /// 16进制编码发送
+        /// 字符串转16进制byte[]编码发送
         //private void SendHexByte(string send_data)
         private byte[] strToHexByte(string Str)
         {
@@ -136,7 +234,7 @@ namespace Comm
             //string hexString = StringToHexString(Str);
             hexString = hexString.Replace(" ", "");
             if ((hexString.Length % 2) != 0)
-                hexString = "0"+  hexString;
+                hexString = "0" + hexString;
             test.AppendText(hexString);
             byte[] returnBytes = new byte[hexString.Length / 2];
             for (int i = 0; i < returnBytes.Length; i++)
@@ -166,14 +264,26 @@ namespace Comm
         //*******************************************//
         public Form1()
         {
-            
+
             InitializeComponent();
             COMChoose.Text = "COM3";
             CheckBitChoose.Text = "NONE";
             StopBitChoose.Text = "1";
             DataBitChoose.Text = "8";
             BaudrateChoose.Text = "9600";
+            tb_Sweep_f.Text = "10";
+            tb_Sweep_t.Text = "100";
+            tb_times_D1.Text = "0";
+            tb_times_D2.Text = "0";
+            tb_times_T1.Text = "0";
+            tb_times_T2.Text = "0";
+            cb_days.Text = "0";
             rb_Frequncy.Checked = true;
+            rb_rep.Checked = true;
+            rb_dur.Checked = true;
+            panel_sec.Visible = false;
+            checkBox_SEC.Checked = false;
+            //rb_Sawtooth.Checked = true;
             cb_freq.Text = "Hz";
             cb_freq_f.Text = "Hz";
             cb_freq_t.Text = "Hz";
@@ -185,14 +295,15 @@ namespace Comm
             SaveFilePath.Visible = true;
             ChooseFile.Visible = true;
             CheckForIllegalCrossThreadCalls = false;
-            enableButtons(true, true, true, true, false, false,true);
+            enableButtons(true, true, true, true, false, false, false, true);
+            //enablePanel(false, false, false, false, false, false, false);
             //SaveFilePath.Visible = false;
             //ChooseFile.Visible = false;
             //var chart = new LightningChartUltimate();
 
         }
 
- 
+
 
 
         //*********************************************//
@@ -274,7 +385,7 @@ namespace Comm
                 OpenPortButton.Text = "Open COM";
             }
         }
-        
+
         //发送数据
         private void button3_Click(object sender, EventArgs e)//对应Send（button）
         {
@@ -321,7 +432,7 @@ namespace Comm
         //定义串口接收事件
         private void Port_DataRecevied(object sender, SerialDataReceivedEventArgs e)
         {
-           
+
             if (!PutIntoFile.Checked)
             {
 
@@ -334,10 +445,10 @@ namespace Comm
                         //string strv = serialPort1.ReadLine();
                         ReceiveArea.AppendText(strv);
                         cnt_x++;
-                        this.chart4.Series[0].Points.AddXY(cnt_x, strv);                   
+                        this.chart4.Series[0].Points.AddXY(cnt_x, strv);
                     }
-                   else //非cfg界面   （暂时为频域）
-                    { 
+                    else //非cfg界面   （暂时为频域）
+                    {
                         string str = serialPort1.ReadExisting();
                         //string str = serialPort1.ReadLine();
                         ReceiveArea.AppendText(str);
@@ -388,7 +499,7 @@ namespace Comm
                         }
 
                     }
-                    
+
                 }
                 else
                 {
@@ -422,13 +533,13 @@ namespace Comm
         private void Form1_Load(object sender, EventArgs e)
         {
             serialPort1.DataReceived += new SerialDataReceivedEventHandler(Port_DataRecevied);
-            
+
         }
 
         //从文件发送
         private void SendFile_Click(object sender, EventArgs e)
         {
-            
+
             int SendBit = Convert.ToInt32(ByteNum.Text);
             int WaitTime = Convert.ToInt32(Time.Text);
             int i;
@@ -611,7 +722,7 @@ namespace Comm
             this.chart1.SaveImage(SaveFilePath.Text, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
             MessageBox.Show("you have stored this picture");
         }
-       
+
         //bode图相位保存
         private void SaveBode2_Click(object sender, EventArgs e)
         {
@@ -625,7 +736,7 @@ namespace Comm
             this.chart2.SaveImage(SaveFilePath.Text, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
             MessageBox.Show("you have stored this picture");
         }
-        
+
         //Nyquist图保存
         private void SaveNyq_Click(object sender, EventArgs e)
         {
@@ -640,18 +751,18 @@ namespace Comm
             MessageBox.Show("you have stored this picture");
         }
 
- 
+
         //*********************************************//
         //**************界面切换**********************//
         //*******************************************//
 
-       // 频域
+        // 频域
         private void btn_freq_Click(object sender, EventArgs e)
         {
             ACM = false;
             panel_switch.Height = btn_freq.Height;
             panel_switch.Top = btn_freq.Top;
-            enableButtons(false,true,true,false,true,true,false);
+            enableButtons(false, true, true, false, true, false, true, false);
             rb_Frequncy.Checked = false;
             rb_Sweep.Checked = true;
 
@@ -663,7 +774,7 @@ namespace Comm
             ACM = true;
             panel_switch.Height = btn_cfg.Height;
             panel_switch.Top = btn_cfg.Top;
-            enableButtons(true, true, true,true,false,false,true);
+            enableButtons(true, true, true, true, false, false, false, true);
         }
 
         // 时域
@@ -672,10 +783,12 @@ namespace Comm
             panel_switch.Height = btn_TD.Height;
             panel_switch.Top = btn_TD.Top;
             gb_ac.Text = "AC Control";
-            enableButtons(false, true, true, false, true,true,false);
+            enableButtons(false, true, true, false, true, false, true, false);
             rb_Frequncy.Checked = true;
             rb_Sweep.Checked = false;
-            
+
+
+
         }
 
         // 交流
@@ -684,7 +797,7 @@ namespace Comm
             panel_switch.Height = btn_AC.Height;
             panel_switch.Top = btn_AC.Top;
             gb_ac.Text = "AC Control";
-            enableButtons(false, true, true, false, true, true, false);
+            enableButtons(false, true, true, false, true, false, true, false);
             ACM = true;
         }
 
@@ -693,20 +806,41 @@ namespace Comm
         {
             panel_switch.Height = btn_DC.Height;
             panel_switch.Top = btn_DC.Top;
+            if (rb_Sweep1.Checked)
+            {
+
+                panel1.Visible = true;
+                tb_s_p1.Enabled = true;
+                tb_d_h1.Enabled = false;
+                tb_d_m1.Enabled = false;
+                tb_d_s1.Enabled = false;
+                tb_times.Enabled = false;
+            }
+            else
+            {
+                panel1.Visible = false;
+                tb_s_p1.Enabled = false;
+                tb_d_h1.Enabled = true;
+                tb_d_m1.Enabled = true;
+                tb_d_s1.Enabled = true;
+                tb_times.Enabled = true;
+            }
+
             gb_ac.Text = "DC Control";
-            enableButtons(false, true, true, false, true, true,false);
+            enableButtons(false, true, true, false, false, true, true, false);
         }
-       
-        
+
+
         // function to control buttons（groupBox控制函数）
         private void enableButtons(bool show_groupBox1, bool show_groupBox2, bool show_groupBox4,
-                                   bool show_gb1,bool show_gb_ac,bool show_gb_exp,bool show_tabControl1)
+                                   bool show_gb1, bool show_gb_ac, bool show_gb_dc, bool show_gb_exp, bool show_tabControl1)
         {
             groupBox1.Visible = show_groupBox1;
             groupBox2.Visible = show_groupBox2;
             groupBox4.Visible = show_groupBox4;
             gb1.Visible = show_gb1;
             gb_ac.Visible = show_gb_ac;
+            gb_dc.Visible = show_gb_dc;
             gb_exp.Visible = show_gb_exp;
             tabControl1.Visible = show_tabControl1;
         }
@@ -716,11 +850,11 @@ namespace Comm
         //****************定时器**********************//
         //*******************************************//
 
-       //时钟显示
+        //时钟显示
         private void timer1_Tick(object sender, EventArgs e)
         {
             //lab_day.Text = DateTime.Now.ToString("");
-            lab_date.Text = DateTime.Now.ToString("");
+            lab_date.Text = System.DateTime.Now.ToString("");
         }
 
         //wifi定时器
@@ -744,27 +878,17 @@ namespace Comm
         //关闭窗口后关闭后台进程
         private void CloseForm(object sender, FormClosedEventArgs e)
         {
-            System.Diagnostics.Process.GetCurrentProcess().Kill(); 
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
 
-  
+
         //*********************************************//
         //****************频域窗口********************//
         //*******************************************//
 
 
-        //输入指令
-        //标志位         频率(Hz/kHz)   AMP(mV)   DOR(sps)   RTIA       DFT  
-        //A(固定频率)       X            N          M         O          P
-        //B（扫频）        Y-Z           N          M         O          P
-        //例：A 1000 5 0 5 2
-        //    B 1 1000 5 0 5 2
-        //工作时间
-        //Repeat：最多7天 每天最多5次 每天包含小时与分钟，标志位a→1次，b→2次，...e→5次
-        //例：7 5 e 05 06 08 05 12 23 18 35 23 45
-        //Duration:只记持续时间，单位s
-        //例：2：5：25输出为7525
+
         private void btn_start_Click(object sender, EventArgs e)
         {
 
@@ -775,15 +899,20 @@ namespace Comm
                 //首先判断串口是否开启
                 if (serialPort1.IsOpen)
                 {
+                    //int num = 0;   //获取本次发送字节数
+                    //串口处于开启状态，将发送区文本发送test_var
+                    //string temp1 = 0;
                     int temp_h = 0;
                     int temp_m = 0;
                     int temp_s = 0;
                     int sum = 0;
+
+                    //bool flag_repeat = false;
                     byte[] flag = new byte[2];
                     flag[0] = 00;
                     flag[1] = 01;
                     byte[] flag1 = new byte[2];
-                    flag1[0] = 00;
+                    flag1[0] = 0x00;
                     flag1[1] = 6;
 
                     byte[] Fre = new byte[12];
@@ -792,19 +921,48 @@ namespace Comm
                         Fre[i] = 0x00;
 
                     }
+                    byte[] Start_send1 = new byte[4];
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Start_send1[i] = 0x00;
+                    }
+
+                    byte[] Start_send2 = new byte[4];
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Start_send2[i] = 0x00;
+                    }
+
+                    byte[] End_send1 = new byte[4];
+                    for (int i = 0; i < 4; i++)
+                    {
+                        End_send1[i] = 0x00;
+                    }
+
+                    byte[] End_send2 = new byte[4];
+                    for (int i = 0; i < 4; i++)
+                    {
+                        End_send2[i] = 0x00;
+                    }
+
                     byte[] Sum = new byte[4];
                     for (int i = 0; i < 4; i++)
                     {
                         Sum[i] = 0x00;
                     }
 
+                    byte[] Zeros = new byte[14];
+                    for (int i = 0; i < 14; i++)
+                    {
+                        Zeros[i] = 0x00;
+                    }
+
                     byte[] amp = new byte[] { 0x00, 0x00 };
+                    byte[] points = new byte[] { 0x00, 0x00 };
 
                     try
                     {
                         serialPort1.Write(strToHexByte(cb_dor.Text.Trim()), 0, 1);//dor
-
-
                         byte[] tmp2 = strToHexByte(tb_amp.Text);
                         byte[] tmp = exchange(tmp2);
                         for (int i = 0; i < tmp.Length; i++)
@@ -814,10 +972,7 @@ namespace Comm
 
                         serialPort1.Write(amp, 0, 2);//amp
 
-
                         serialPort1.Write(strToHexByte(cb_dft.Text.Trim()), 0, 1);//dft
-
-
 
                         //固定频率
                         if (rb_Frequncy.Checked)
@@ -828,22 +983,18 @@ namespace Comm
                             cb_freq_f.Enabled = false;
                             cb_freq_t.Enabled = false;
 
+
                             if (cb_freq.Text.Equals("kHz"))
                             {
-
-
                                 byte[] temp1 = strToHexByte((Convert.ToInt32(tb_freq.Text) * 1000).ToString());
                                 byte[] temp = exchange(temp1);
                                 for (int i = 0; i < temp.Length; i++)
                                 {
                                     Fre[3 - i] = temp[i];
                                 }
-
-
                             }
                             else
                             {
-
                                 byte[] temp2 = strToHexByte(tb_freq.Text);
                                 byte[] temp = exchange(temp2);
                                 for (int i = 0; i < temp.Length; i++)
@@ -851,14 +1002,12 @@ namespace Comm
                                     Fre[3 - i] = temp[i];
                                 }
                             }
-
                         }
                         else//扫频
                         {
                             serialPort1.Write(flag, 1, 1);
                             tb_freq.Enabled = false;
                             cb_freq.Enabled = false;
-                            //serialPort1.Write(" ");
                             if (cb_freq_f.Text.Equals("kHz"))
                             {
                                 byte[] temp1 = strToHexByte((Convert.ToInt32(tb_Sweep_f.Text) * 1000).ToString());
@@ -867,21 +1016,16 @@ namespace Comm
                                 {
                                     Fre[7 - i] = temp[i];
                                 }
-                                serialPort1.Write(temp1, 0, temp1.Length);
-
                             }
                             else
                             {
-                                
+
                                 byte[] temp2 = strToHexByte(tb_Sweep_f.Text);
                                 byte[] temp = exchange(temp2);
                                 for (int i = 0; i < temp.Length; i++)
                                 {
                                     Fre[7 - i] = temp[i];
                                 }
-                                serialPort1.Write(temp2, 0, temp2.Length);
-
-
                             }
                             if (cb_freq_t.Text.Equals("kHz"))
                             {
@@ -901,139 +1045,156 @@ namespace Comm
                                     Fre[11 - i] = temp[i];
                                 }
                             }
-
                         }
 
                         serialPort1.Write(Fre, 0, 12);
 
                         serialPort1.Write(flag1, 0, 1);//log  暂时没用
-                        //serialPort1.Write(strToByte(cb_tia.Text.Trim()), 0, cb_tia.Text.Length);//rtia
+
                         serialPort1.Write(strToHexByte(cb_tia.Text.Trim()), 0, 1);//rtia
+
+
+                        serialPort1.Write(strToHexByte(tb_s_p.Text.Trim()), 0, 1);//points
+
+
+
 
                         //repeat
                         if (rb_rep.Checked)
                         {
+
+
+                            //计算天数
+
+                            string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
+                            DTP_Start.Text = dt1;
+                            DateTime d1 = DateTime.Parse(DTP_Start.Text);
+                            DateTime d2 = DateTime.Parse(DTP_End.Text);
+                            System.TimeSpan ND = d2 - d1;
+                            int ts1 = ND.Days ;   //天数差
+                            int ts2 = 0;
+                            if ((ts1 > 0) && (ts1 < 8))
+                            {
+                                ts2 = ts1;
+                            }
+
+                            string ts = Convert.ToString(ts2);
+                            textBox1_test.Text = ts;
+                            cb_days.Text = ts;
+
                             serialPort1.Write(strToHexByte(cb_days.Text), 0, 1);
-                            serialPort1.Write(strToHexByte(cb_times.Text), 0, 1);
-                            //serialPort1.Write(cb_times.Text);
-                            if (cb_times.Text.Equals("1"))
-                            {
-                                enablePanel(true, false, false, false, false);
 
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_1.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_1.Text, 2)), 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
+                            //开始时间
 
-                                serialPort1.Write(Sum, 0, 4);
-                            }
-                            else if (cb_times.Text.Equals("2"))
+                            string start_time1 = dateTimePicker_f_1.Text;
+                            string start_send1 = TimeDifference(start_time1);
+
+                            byte[] temp_s1 = strToHexByte(start_send1);
+                            byte[] temp_se1 = exchange(temp_s1);
+                            for (int i = 0; i < temp_se1.Length; i++)
                             {
-                                enablePanel(true, true, false, false, false);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_1.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_1.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_2.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_2.Text, 2)), 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(Sum, 0, 4);
-                                //serialPort1.Write(strToHexByte(fest_str(Convert.ToString(sum), 8)), 0, 4);
+                                Start_send1[3 - i] = temp_se1[i];
                             }
-                            else if (cb_times.Text.Equals("3"))
+
+                            serialPort1.Write(Start_send1, 0, 4);//开始时间1发送
+
+                            string end_time1 = dateTimePicker_t_1.Text;
+                            string end_send1 = TimeDifference(end_time1);
+
+                            byte[] temp_e1 = strToHexByte(end_send1);
+                            byte[] temp_ee1 = exchange(temp_e1);
+                            for (int i = 0; i < temp_ee1.Length; i++)
                             {
-                                enablePanel(true, true, true, false, false);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_1.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_1.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_2.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_2.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_3.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_3.Text, 2)), 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(Sum, 0, 4);
-                                //serialPort1.Write(strToHexByte(fest_str(Convert.ToString(sum), 8)), 0, 4);
+                                End_send1[3 - i] = temp_ee1[i];
                             }
-                            else if (cb_times.Text.Equals("4"))
+
+                            serialPort1.Write(End_send1, 0, 4);//结束时间1发送
+
+                            serialPort1.Write(strToHexByte(tb_times_D1.Text.Trim()), 0, 1);//次数1/天发送
+                            serialPort1.Write(strToHexByte(tb_times_T1.Text.Trim()), 0, 1);//次数1/次发送
+
+                            if (checkBox_SEC.Checked)
                             {
-                                enablePanel(true, true, true, true, false);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_1.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_1.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_2.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_2.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_3.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_3.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_4.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_4.Text, 2)), 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(Sum, 0, 4);
-                                //serialPort1.Write(strToHexByte(fest_str(Convert.ToString(sum), 8)), 0, 4);
+                                string start_time2 = dateTimePicker_f_2.Text;
+                                string start_send2 = TimeDifference(start_time2);
+                                byte[] temp_s2 = strToHexByte(start_send2);
+                                byte[] temp_se2 = exchange(temp_s2);
+                                for (int i = 0; i < temp_se2.Length; i++)
+                                {
+                                    Start_send2[3 - i] = temp_se2[i];
+                                }
+
+                                serialPort1.Write(Start_send2, 0, 4);//开始时间2发送
+
+                                string end_time2 = dateTimePicker_t_2.Text;
+                                string end_send2 = TimeDifference(end_time2);
+
+                                byte[] temp_e2 = strToHexByte(end_send2);
+                                byte[] temp_ee2 = exchange(temp_e2);
+                                for (int i = 0; i < temp_ee1.Length; i++)
+                                {
+                                    End_send2[3 - i] = temp_ee2[i];
+                                }
+
+                                serialPort1.Write(End_send2, 0, 4);//结束时间2发送
+
+                                serialPort1.Write(strToHexByte(tb_times_D2.Text.Trim()), 0, 1);//次数2/天发送
+                                serialPort1.Write(strToHexByte(tb_times_T2.Text.Trim()), 0, 1);//次数2/次发送
+
+                                //this.textBox1_test.Text = end_send2;
+
+
                             }
                             else
                             {
-                                enablePanel(true, true, true, true, true);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_1.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_1.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_2.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_2.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_3.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_3.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_4.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_4.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_h_5.Text, 2)), 0, 1);
-                                serialPort1.Write(strToHexByte(fest_str(tb_f_m_5.Text, 2)), 0, 1);
-                                serialPort1.Write(Sum, 0, 4);
-                                //serialPort1.Write(strToHexByte(fest_str(Convert.ToString(sum), 8)), 0, 4);
+                                
+                                serialPort1.Write(Start_send2, 0, 4);//开始时间2发送
+                                serialPort1.Write(End_send2, 0, 4);//结束时间2发送
+                                serialPort1.Write(strToHexByte(tb_times_D2.Text.Trim()), 0, 1);//次数2/天发送
+                                serialPort1.Write(strToHexByte(tb_times_T2.Text.Trim()), 0, 1);//次数2/次发送
                             }
+                            
+                            serialPort1.Write(Sum, 0, 4);
                         }
                         else//duration
                         {
-                                serialPort1.Write(flag1, 1, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                serialPort1.Write(flag1, 0, 1);
-                                temp_h = Convert.ToInt16(tb_d_h.Text);
-                                temp_m = Convert.ToInt16(tb_d_m.Text);
-                                temp_s = Convert.ToInt16(tb_d_s.Text);
-                                sum = 3600 * temp_h + 60 * temp_m + temp_s;
 
-                                byte[] temp2 = strToHexByte(Convert.ToString(sum));
-                                byte[] temp = exchange(temp2);
-                                for (int i = 0; i < temp.Length; i++)
-                                {
-                                    Sum[3 - i] = temp[i];
-                                }
-                                //serialPort1.Write(strToHexByte(fest_str(Convert.ToString(sum), 8)), 0, 4);
-                                serialPort1.Write(Sum, 0, 4);
+                            serialPort1.Write(strToHexByte(cb_days.Text), 0, 1);//天数空值
+                            serialPort1.Write(Start_send2, 0, 4);//开始时间2发送
+                            serialPort1.Write(End_send2, 0, 4);//结束时间2发送
+                            serialPort1.Write(strToHexByte(tb_times_D1.Text.Trim()), 0, 1);//次数2/天发送
+                            serialPort1.Write(strToHexByte(tb_times_T1.Text.Trim()), 0, 1);//次数2/次发送
+                            serialPort1.Write(Start_send2, 0, 4);//开始时间2发送
+                            serialPort1.Write(End_send2, 0, 4);//结束时间2发送
+                            serialPort1.Write(strToHexByte(tb_times_D2.Text.Trim()), 0, 1);//次数2/天发送
+                            serialPort1.Write(strToHexByte(tb_times_T2.Text.Trim()), 0, 1);//次数2/次发送
+
+                            temp_h = Convert.ToInt16(tb_d_h.Text);
+                            temp_m = Convert.ToInt16(tb_d_m.Text);
+                            temp_s = Convert.ToInt16(tb_d_s.Text);
+                            sum = 3600 * temp_h + 60 * temp_m + temp_s;
+
+                            byte[] temp2 = strToHexByte(Convert.ToString(sum));
+                            byte[] temp = exchange(temp2);
+                            for (int i = 0; i < temp.Length; i++)
+                            {
+                                Sum[3 - i] = temp[i];
+                            }
+
+                            serialPort1.Write(Sum, 0, 4);
                         }
+
+                        serialPort1.Write(Zeros, 0, 14);
+
                     }
                     catch (Exception ee)
                     {
                         MessageBox.Show("请将参数填写完整");
-                    
+
                     }
                 }
             }
-            
+
 
             catch (Exception ex)
             {
@@ -1045,6 +1206,7 @@ namespace Comm
 
             }
         }
+
 
 
         //固定频率操作框
@@ -1076,98 +1238,233 @@ namespace Comm
         private void rb_rep_CheckedChanged(object sender, EventArgs e)
         {
             cb_days.Enabled = true;
-            cb_times.Enabled = true;
-            tb_f_h_1.Enabled = true;
-            tb_f_h_2.Enabled = true;
-            tb_f_h_3.Enabled = true;
-            tb_f_h_4.Enabled = true;
-            tb_f_h_5.Enabled = true;
-            tb_f_m_1.Enabled = true;
-            tb_f_m_2.Enabled = true;
-            tb_f_m_3.Enabled = true;
-            tb_f_m_4.Enabled = true;
-            tb_f_m_5.Enabled = true;
             tb_d_h.Enabled = false;
             tb_d_m.Enabled = false;
             tb_d_s.Enabled = false;
             tb_d_h.Text = null;
             tb_d_m.Text = null;
             tb_d_s.Text = null;
+            gb_mulitply.Visible = true;
+            gb_Single.Visible = false;
         }
 
         //duration 操作框
         private void rb_dur_CheckedChanged(object sender, EventArgs e)
         {
             cb_days.Enabled = false;
-            cb_times.Enabled = false;
-            tb_f_h_1.Enabled = false;
-            tb_f_h_2.Enabled = false;
-            tb_f_h_3.Enabled = false;
-            tb_f_h_4.Enabled = false;
-            tb_f_h_5.Enabled = false;
-            tb_f_m_1.Enabled = false;
-            tb_f_m_2.Enabled = false;
-            tb_f_m_3.Enabled = false;
-            tb_f_m_4.Enabled = false;
-            tb_f_m_5.Enabled = false;
-            tb_f_h_1.Text = null;
-            tb_f_h_2.Text = null;
-            tb_f_h_3.Text = null;
-            tb_f_h_4.Text = null;
-            tb_f_h_5.Text = null;
-            tb_f_m_1.Text = null;
-            tb_f_m_2.Text = null;
-            tb_f_m_3.Text = null;
-            tb_f_m_4.Text = null;
-            tb_f_m_5.Text = null;
-            cb_days.Text = null;
-            cb_times.Text = null;
             tb_d_h.Enabled = true;
             tb_d_m.Enabled = true;
             tb_d_s.Enabled = true;
+            gb_mulitply.Visible = false;
+            gb_Single.Visible = true;
         }
 
-        //天数控制函数
-        private void enablePanel(bool show_panel_fst, bool show_panel_sec, bool show_panel_thd,
-                                   bool show_panel_fourth, bool show_panel_fifth)
+        private void checkBox_SEC_CheckedChanged(object sender, EventArgs e)
         {
-            panel_fst.Visible = show_panel_fst;
-            panel_sec.Visible = show_panel_sec;
-            panel_thd.Visible = show_panel_thd;
-            panel_fourth.Visible = show_panel_fourth;
-            panel_fifth.Visible = show_panel_fifth;
-
-        }
-
-        //天数显示函数
-        private void cb_times_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cb_times.Text.Equals("1"))
+            if (checkBox_SEC.Checked)
             {
-                enablePanel(true, false, false, false, false);
-            }
-            else if (cb_times.Text.Equals("2"))
-            {
-                enablePanel(true, true, false, false, false);
-            }
-            else if (cb_times.Text.Equals("3"))
-            {
-                enablePanel(true, true, true, false, false);
-            }
-            else if (cb_times.Text.Equals("4"))
-            {
-                enablePanel(true, true, true, true, false);
+                panel_sec.Visible = true;
             }
             else
             {
-                enablePanel(true, true, true, true, true);
+                panel_sec.Visible = false;
+            }
+
+        }
+
+        //private void enablePanel(bool show_panel_fst, bool show_panel_sec, bool show_panel_thd,
+        //                          bool show_panel_fourth, bool show_panel_fifth,
+        //                          bool show_panel_sixth, bool show_panel_seventh)
+        //{
+        //    panel_fst.Visible = show_panel_fst;
+        //    panel_sec.Visible = show_panel_sec;
+        //    panel_thd.Visible = show_panel_thd;
+        //    panel_fourth.Visible = show_panel_fourth;
+        //    panel_fifth.Visible = show_panel_fifth;
+        //    panel_sixth.Visible = show_panel_sixth;
+        //    panel_seventh.Visible = show_panel_seventh;
+
+        //}
+
+        //天数显示函数
+        //private void cb_days_SelectedIndexChanged_1(object sender, EventArgs e)
+        //{
+        //    if (cb_days.Text.Equals("1"))
+        //    {
+        //        enablePanel(true, false, false, false, false, false, false);
+        //    }
+        //    else if (cb_days.Text.Equals("2"))
+        //    {
+        //        enablePanel(true, true, false, false, false, false, false);
+        //    }
+        //    else if (cb_days.Text.Equals("3"))
+        //    {
+        //        enablePanel(true, true, true, false, false, false, false);
+        //    }
+        //    else if (cb_days.Text.Equals("4"))
+        //    {
+        //        enablePanel(true, true, true, true, false, false, false);
+        //    }
+        //    else if (cb_days.Text.Equals("5"))
+        //    {
+        //        enablePanel(true, true, true, true, true, false, false);
+        //    }
+        //    else if (cb_days.Text.Equals("6"))
+        //    {
+        //        enablePanel(true, true, true, true, true, true, false);
+        //    }
+        //    else
+        //    {
+        //        enablePanel(true, true, true, true, true, true, true);
+        //    }
+        //}
+
+
+        //*********************************************//
+        //****************DC窗口**********************//
+        //*******************************************//
+
+        private void btn_start1_Click(object sender, EventArgs e)
+        {
+
+            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x03 }, 0, 5);
+
+            try
+            {
+                //首先判断串口是否开启
+                if (serialPort1.IsOpen)
+                {
+                    int temp_h1 = 0;
+                    int temp_m1 = 0;
+                    int temp_s1 = 0;
+                    int sum1 = 0;
+
+                    byte[] flag = new byte[2];
+                    flag[0] = 0x00;
+                    flag[1] = 0x01;
+
+                    byte[] Sum1 = new byte[4];
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Sum1[i] = 0x00;
+                    }
+
+
+                    byte[] Zeros = new byte[17];
+                    for (int i = 0; i < 17; i++)
+                    {
+                        Zeros[i] = 0x00;
+                    }
+
+                    byte[] amp1 = new byte[] { 0x00, 0x00 };
+                    //byte[] points1 = new byte[] { 0x00, 0x00 };
+                    try
+                    {
+                        byte[] tmp2 = strToHexByte(tb_amp1.Text);
+                        byte[] tmp = exchange(tmp2);
+                        for (int i = 0; i < tmp.Length; i++)
+                        {
+                            amp1[1 - i] = tmp[i];
+                        }
+
+                        serialPort1.Write(amp1, 0, 2);//amp
+
+
+                        if (rb_Sweep1.Checked)
+                        {
+                            serialPort1.Write(flag, 0, 1);//Sweep
+
+
+                            serialPort1.Write(strToHexByte(tb_s_p1.Text), 0, 1);//points
+
+                            if (rb_Sawtooth.Checked)
+                            {
+                                serialPort1.Write(flag, 0, 1);//Sawtooth
+                            }
+                            else
+                            {
+                                serialPort1.Write(flag, 1, 1);//Triangle
+                            }
+
+                            serialPort1.Write(Sum1, 0, 4);
+                            serialPort1.Write(strToHexByte(tb_times.Text.Trim()), 0, 1);//Times
+
+                        }
+                        else
+                        {
+
+                            serialPort1.Write(flag, 1, 1);//Duration 
+                            serialPort1.Write(flag, 0, 1);//points空值
+                            serialPort1.Write(flag, 0, 1);//波形空值
+
+                            temp_h1 = Convert.ToInt16(tb_d_h1.Text);
+                            temp_m1 = Convert.ToInt16(tb_d_m1.Text);
+                            temp_s1 = Convert.ToInt16(tb_d_s1.Text);
+                            sum1 = 3600 * temp_h1 + 60 * temp_m1 + temp_s1;
+
+                            byte[] temp_s = strToHexByte(Convert.ToString(sum1));
+                            byte[] temp_ss = exchange(temp_s);
+                            for (int i = 0; i < temp_ss.Length; i++)
+                            {
+                                Sum1[3 - i] = temp_ss[i];
+                            }
+
+                            serialPort1.Write(Sum1, 0, 4);
+                            serialPort1.Write(strToHexByte(tb_times.Text.Trim()), 0, 1);//Times
+                        }
+
+                        serialPort1.Write(Zeros, 0, 17);
+                    }
+                    
+                    catch
+                    {
+                        MessageBox.Show("请将参数填写完整");
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                serialPort1.Close();
+                //捕获到异常，创建一个新的对象，之前的不可以再用
+                serialPort1 = new System.IO.Ports.SerialPort();
+
+                MessageBox.Show(ex.Message);
+
             }
         }
+        private void rb_Sweep1_CheckedChanged(object sender, EventArgs e)
+        {
+            tb_s_p1.Enabled = true;
+            tb_d_h1.Enabled = false;
+            tb_d_m1.Enabled = false;
+            tb_d_s1.Enabled = false;
+            tb_times.Enabled = false;
+        }
+
+        private void rb_Duration1_CheckedChanged(object sender, EventArgs e)
+        {
+            tb_s_p1.Enabled = false;
+            tb_d_h1.Enabled = true;
+            tb_d_m1.Enabled = true;
+            tb_d_s1.Enabled = true;
+            tb_times.Enabled = true;
+        }
+
+
+
+
 
         //*********************************************//
         //****************未使用**********************//
         //*******************************************//
         private void panel_thd_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void cb_times_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
@@ -1336,6 +1633,64 @@ namespace Comm
 
         }
 
-       
+        private void gb_ac_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label35_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label36_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label37_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
+        {
+
+        }
+
+        
+
+        private void panel_fst_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker_f_1_ValueChanged(object sender, EventArgs e)
+        {
+            String tmp1 = dateTimePicker_f_1.Text;
+            string tmp3 = TimeDifference(tmp1);
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gb_Single_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox_SEC_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (checkBox_SEC.Checked)
+            {
+                panel_sec.Visible = true;
+            }
+            else
+            {
+                panel_sec.Visible = false;
+            }
+        }
     }
 }
