@@ -224,3 +224,103 @@ C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master9\CSharp-SerialPort
 C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master9\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.CopyComplete
 C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master9\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.exe
 C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master9\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.pdb
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csprojAssemblyReference.cache
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.Form1.resources
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.Properties.Resources.resources
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.GenerateResource.cache
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.CoreCompileInputs.cache
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.exe
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.pdb
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.exe.config
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.exe
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.pdb
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\EngineIoClientDotNet.dll
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Newtonsoft.Json.dll
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\SocketIoClientDotNet.dll
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\WebSocket4Net.dll
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Newtonsoft.Json.xml
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master10\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.CopyComplete
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.exe.config
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.exe
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.pdb
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\EngineIoClientDotNet.dll
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Newtonsoft.Json.dll
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\SocketIoClientDotNet.dll
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\WebSocket4Net.dll
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Newtonsoft.Json.xml
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csprojAssemblyReference.cache
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.Form1.resources
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.Properties.Resources.resources
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.GenerateResource.cache
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.CoreCompileInputs.cache
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.CopyComplete
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.exe
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.pdb
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.exe.config
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.exe
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.pdb
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\EngineIoClientDotNet.dll
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Newtonsoft.Json.dll
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\SocketIoClientDotNet.dll
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\WebSocket4Net.dll
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Newtonsoft.Json.xml
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csprojAssemblyReference.cache
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.Form1.resources
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.Properties.Resources.resources
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.GenerateResource.cache
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.CoreCompileInputs.cache
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.CopyComplete
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.exe
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.pdb
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master11\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.NewProject.resources
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.exe.config
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.exe
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.pdb
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\EngineIoClientDotNet.dll
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Newtonsoft.Json.dll
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\SocketIoClientDotNet.dll
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\WebSocket4Net.dll
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Newtonsoft.Json.xml
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csprojAssemblyReference.cache
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.Form1.resources
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.NewProject.resources
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.Properties.Resources.resources
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.GenerateResource.cache
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.CoreCompileInputs.cache
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.CopyComplete
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.exe
+C:\Users\YUANZHEN\Desktop\毕设\CSharp-SerialPort-Helper-master12\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.pdb
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.exe.config
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.exe
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.pdb
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\EngineIoClientDotNet.dll
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Newtonsoft.Json.dll
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\SocketIoClientDotNet.dll
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\WebSocket4Net.dll
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Newtonsoft.Json.xml
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csprojAssemblyReference.cache
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.Form1.resources
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.NewProject.resources
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.Properties.Resources.resources
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.GenerateResource.cache
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.CoreCompileInputs.cache
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.CopyComplete
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.exe
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.pdb
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.exe.config
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.exe
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Comm.pdb
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\EngineIoClientDotNet.dll
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Newtonsoft.Json.dll
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\SocketIoClientDotNet.dll
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\WebSocket4Net.dll
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\bin\x64\Debug\Newtonsoft.Json.xml
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csprojAssemblyReference.cache
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.Form1.resources
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.NewProject.resources
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.Properties.Resources.resources
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.GenerateResource.cache
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.CoreCompileInputs.cache
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.csproj.CopyComplete
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.exe
+C:\Users\52775\Desktop\毕设\CSharp-SerialPort-Helper-master13 - 副本\CSharp-SerialPort-Helper-master\Comm\obj\x64\Debug\Comm.pdb
