@@ -124,6 +124,19 @@ namespace Comm
             get { return this.U_I_R; }
         }
 
+        public string Combination_M;
+        public string combination_M
+        {
+            get { return this.Combination_M; }
+        }
+
+        public string ID_Num;
+        public string Id_num
+        {
+            get { return this.ID_Num; }
+        }
+
+
         private void button1_Click(object sender, EventArgs e)
         {
             name1 = this.tb_name.Text;
@@ -267,10 +280,10 @@ namespace Comm
 
 
             //*********************************************//
-            //*******************AC***********************//
+            //*******************Combination***********************//
             //*******************************************//
 
-            string filename4 = "AC";
+            string filename4 = "Combination";
             pathString4 = System.IO.Path.Combine(filename, filename4);
             if (!Directory.Exists(pathString4))
             {
@@ -288,6 +301,18 @@ namespace Comm
                 sw.Close();
             }
 
+            Combination_M = pathString4 + "/Combination_Measurement.txt";
+            if (!File.Exists(Multiple_m))
+            {
+                //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+
+                StreamWriter sw = new StreamWriter(Multiple_m);
+                sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
+                sw.Flush();
+                sw.Close();
+            }
+
+
 
 
             string Read_path = filename + "/ReadME.txt";
@@ -302,6 +327,47 @@ namespace Comm
             }
 
 
+
+
+
+
+            
+            Random rd = new Random();
+
+            int i = 0;
+            for (i = 0; i < 8; i++)
+            {
+                ID_Num += rd.Next(0, 10).ToString();
+            }
+
+            Directory.SetCurrentDirectory(Directory.GetParent(filename).FullName);
+
+            String ID_path = Directory.GetCurrentDirectory() + "/ID_Information.txt"; ;
+
+
+            if (!File.Exists(ID_path))
+            {
+                //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+
+                StreamWriter sw = new StreamWriter(ID_path);
+
+
+                sw.WriteLine("ID Number" + "\t" + "ProjectName" + "\t" + "Save as:" + "\t" + "Description");
+                sw.WriteLine(ID_Num + "\t" + tb_name.Text + "\t" + tb_save.Text + "\t" + tb_descrip.Text);
+
+                sw.Flush();
+                sw.Close();
+            }
+            else
+            {
+                FileStream fs = new FileStream(ID_path, FileMode.Append);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.WriteLine(ID_Num + "\t" + tb_name.Text + "\t" + tb_save.Text + "\t" + tb_descrip.Text);
+                sw.Flush();
+                sw.Close();
+                fs.Close();
+
+            }
 
         }
 
