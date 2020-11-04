@@ -58,8 +58,9 @@
             // tb_descrip
             // 
             this.tb_descrip.Location = new System.Drawing.Point(160, 110);
+            this.tb_descrip.Multiline = true;
             this.tb_descrip.Name = "tb_descrip";
-            this.tb_descrip.Size = new System.Drawing.Size(147, 21);
+            this.tb_descrip.Size = new System.Drawing.Size(187, 97);
             this.tb_descrip.TabIndex = 2;
             this.tb_descrip.Text = "This is a New Project for ..";
             // 
@@ -92,7 +93,7 @@
             // 
             // btn_OK
             // 
-            this.btn_OK.Location = new System.Drawing.Point(96, 137);
+            this.btn_OK.Location = new System.Drawing.Point(139, 228);
             this.btn_OK.Name = "btn_OK";
             this.btn_OK.Size = new System.Drawing.Size(75, 23);
             this.btn_OK.TabIndex = 6;
@@ -102,7 +103,7 @@
             // 
             // btn_Cal
             // 
-            this.btn_Cal.Location = new System.Drawing.Point(217, 137);
+            this.btn_Cal.Location = new System.Drawing.Point(260, 228);
             this.btn_Cal.Name = "btn_Cal";
             this.btn_Cal.Size = new System.Drawing.Size(75, 23);
             this.btn_Cal.TabIndex = 7;
@@ -123,7 +124,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(375, 190);
+            this.ClientSize = new System.Drawing.Size(418, 322);
             this.Controls.Add(this.btn_SaveFile);
             this.Controls.Add(this.btn_Cal);
             this.Controls.Add(this.btn_OK);
