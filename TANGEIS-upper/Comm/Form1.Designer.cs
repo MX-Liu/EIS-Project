@@ -52,9 +52,9 @@
             System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.HexSend = new System.Windows.Forms.CheckBox();
             this.ClearSendArea = new System.Windows.Forms.Button();
@@ -249,7 +249,6 @@
             this.btn_td_load = new System.Windows.Forms.Button();
             this.btn_fre_load = new System.Windows.Forms.Button();
             this.gb_comb = new System.Windows.Forms.GroupBox();
-            this.btn_comb_start = new Comm.RoundButton();
             this.btn_stop2 = new System.Windows.Forms.Button();
             this.gb_temperature = new System.Windows.Forms.GroupBox();
             this.label64 = new System.Windows.Forms.Label();
@@ -305,6 +304,7 @@
             this.cb_freq_t2 = new System.Windows.Forms.ComboBox();
             this.label48 = new System.Windows.Forms.Label();
             this.label49 = new System.Windows.Forms.Label();
+            this.btn_comb_start = new Comm.RoundButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -611,8 +611,9 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.tabControl2);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
             this.groupBox3.Location = new System.Drawing.Point(644, 0);
             this.groupBox3.Name = "groupBox3";
@@ -631,7 +632,7 @@
             this.tabControl2.Location = new System.Drawing.Point(6, 21);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(813, 497);
+            this.tabControl2.Size = new System.Drawing.Size(813, 556);
             this.tabControl2.TabIndex = 17;
             // 
             // tabPage3
@@ -643,7 +644,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 26);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(805, 467);
+            this.tabPage3.Size = new System.Drawing.Size(805, 526);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Bode Diagram";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -680,7 +681,7 @@
             this.chart2.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend2";
             this.chart2.Legends.Add(legend1);
-            this.chart2.Location = new System.Drawing.Point(5, 243);
+            this.chart2.Location = new System.Drawing.Point(3, 278);
             this.chart2.Name = "chart2";
             this.chart2.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Fire;
             series1.ChartArea = "ChartArea1";
@@ -778,9 +779,10 @@
             chartArea3.CursorY.IsUserSelectionEnabled = true;
             chartArea3.Name = "ChartArea1";
             this.chart3.ChartAreas.Add(chartArea3);
+            this.chart3.Dock = System.Windows.Forms.DockStyle.Fill;
             legend3.Name = "Legend1";
             this.chart3.Legends.Add(legend3);
-            this.chart3.Location = new System.Drawing.Point(6, 5);
+            this.chart3.Location = new System.Drawing.Point(3, 3);
             this.chart3.Name = "chart3";
             series3.ChartArea = "ChartArea1";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
@@ -788,7 +790,7 @@
             series3.Name = "Series_nqs";
             series3.ToolTip = "#VALX #VAL";
             this.chart3.Series.Add(series3);
-            this.chart3.Size = new System.Drawing.Size(793, 468);
+            this.chart3.Size = new System.Drawing.Size(799, 461);
             this.chart3.SuppressExceptions = true;
             this.chart3.TabIndex = 0;
             this.chart3.Text = "chart3";
@@ -2387,7 +2389,7 @@
             // 
             this.statusStrip1.Location = new System.Drawing.Point(0, 580);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(644, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1472, 22);
             this.statusStrip1.TabIndex = 87;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -2399,7 +2401,7 @@
             this.hlepHToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(644, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(1472, 25);
             this.menuStrip1.TabIndex = 88;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -2549,17 +2551,6 @@
             this.gb_comb.TabIndex = 90;
             this.gb_comb.TabStop = false;
             this.gb_comb.Text = "Combination";
-            // 
-            // btn_comb_start
-            // 
-            this.btn_comb_start.BackColor = System.Drawing.Color.ForestGreen;
-            this.btn_comb_start.Image = ((System.Drawing.Image)(resources.GetObject("btn_comb_start.Image")));
-            this.btn_comb_start.Location = new System.Drawing.Point(109, 481);
-            this.btn_comb_start.Name = "btn_comb_start";
-            this.btn_comb_start.Size = new System.Drawing.Size(52, 52);
-            this.btn_comb_start.TabIndex = 88;
-            this.btn_comb_start.UseVisualStyleBackColor = false;
-            this.btn_comb_start.Click += new System.EventHandler(this.btn_comb_start_Click);
             // 
             // btn_stop2
             // 
@@ -3170,6 +3161,17 @@
             this.label49.Size = new System.Drawing.Size(65, 12);
             this.label49.TabIndex = 5;
             this.label49.Text = "Sweep from";
+            // 
+            // btn_comb_start
+            // 
+            this.btn_comb_start.BackColor = System.Drawing.Color.ForestGreen;
+            this.btn_comb_start.Image = ((System.Drawing.Image)(resources.GetObject("btn_comb_start.Image")));
+            this.btn_comb_start.Location = new System.Drawing.Point(109, 481);
+            this.btn_comb_start.Name = "btn_comb_start";
+            this.btn_comb_start.Size = new System.Drawing.Size(52, 52);
+            this.btn_comb_start.TabIndex = 88;
+            this.btn_comb_start.UseVisualStyleBackColor = false;
+            this.btn_comb_start.Click += new System.EventHandler(this.btn_comb_start_Click);
             // 
             // Form1
             // 
