@@ -52,6 +52,9 @@
             System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.HexSend = new System.Windows.Forms.CheckBox();
             this.ClearSendArea = new System.Windows.Forms.Button();
@@ -222,8 +225,13 @@
             this.label12 = new System.Windows.Forms.Label();
             this.rb_Sweep1 = new System.Windows.Forms.RadioButton();
             this.btn_AC = new System.Windows.Forms.Button();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.tb_amp4 = new System.Windows.Forms.TextBox();
+            this.tb_d_s2 = new System.Windows.Forms.TextBox();
+            this.tb_Sweep_f2 = new System.Windows.Forms.TextBox();
+            this.tb_Sweep_t2 = new System.Windows.Forms.TextBox();
+            this.tb_amp2 = new System.Windows.Forms.TextBox();
+            this.tb_s_p2 = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -240,6 +248,63 @@
             this.btn_dc_load = new System.Windows.Forms.Button();
             this.btn_td_load = new System.Windows.Forms.Button();
             this.btn_fre_load = new System.Windows.Forms.Button();
+            this.gb_comb = new System.Windows.Forms.GroupBox();
+            this.btn_comb_start = new Comm.RoundButton();
+            this.btn_stop2 = new System.Windows.Forms.Button();
+            this.gb_temperature = new System.Windows.Forms.GroupBox();
+            this.label64 = new System.Windows.Forms.Label();
+            this.rb_temp_n = new System.Windows.Forms.RadioButton();
+            this.rb_temp_y = new System.Windows.Forms.RadioButton();
+            this.gb_dc2 = new System.Windows.Forms.GroupBox();
+            this.label63 = new System.Windows.Forms.Label();
+            this.label62 = new System.Windows.Forms.Label();
+            this.label70 = new System.Windows.Forms.Label();
+            this.label71 = new System.Windows.Forms.Label();
+            this.gb_rep2 = new System.Windows.Forms.GroupBox();
+            this.label40 = new System.Windows.Forms.Label();
+            this.checkBox_SEC2 = new System.Windows.Forms.CheckBox();
+            this.label50 = new System.Windows.Forms.Label();
+            this.DTP_End2 = new System.Windows.Forms.DateTimePicker();
+            this.DTP_Start2 = new System.Windows.Forms.DateTimePicker();
+            this.label51 = new System.Windows.Forms.Label();
+            this.label52 = new System.Windows.Forms.Label();
+            this.label53 = new System.Windows.Forms.Label();
+            this.label54 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label55 = new System.Windows.Forms.Label();
+            this.tb_times_T4 = new System.Windows.Forms.TextBox();
+            this.label56 = new System.Windows.Forms.Label();
+            this.dateTimePicker_t_4 = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker_f_4 = new System.Windows.Forms.DateTimePicker();
+            this.tb_times_D4 = new System.Windows.Forms.TextBox();
+            this.label57 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label58 = new System.Windows.Forms.Label();
+            this.label59 = new System.Windows.Forms.Label();
+            this.tb_times_T3 = new System.Windows.Forms.TextBox();
+            this.dateTimePicker_t_3 = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker_f_3 = new System.Windows.Forms.DateTimePicker();
+            this.tb_times_D3 = new System.Windows.Forms.TextBox();
+            this.label60 = new System.Windows.Forms.Label();
+            this.cb_days2 = new System.Windows.Forms.ComboBox();
+            this.label61 = new System.Windows.Forms.Label();
+            this.gb_ac2 = new System.Windows.Forms.GroupBox();
+            this.chart_temp = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tb_temp = new System.Windows.Forms.TextBox();
+            this.label41 = new System.Windows.Forms.Label();
+            this.cb_dft2 = new System.Windows.Forms.ComboBox();
+            this.label42 = new System.Windows.Forms.Label();
+            this.cb_tia2 = new System.Windows.Forms.ComboBox();
+            this.label43 = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
+            this.cb_dor2 = new System.Windows.Forms.ComboBox();
+            this.label45 = new System.Windows.Forms.Label();
+            this.label46 = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
+            this.cb_freq_f2 = new System.Windows.Forms.ComboBox();
+            this.cb_freq_t2 = new System.Windows.Forms.ComboBox();
+            this.label48 = new System.Windows.Forms.Label();
+            this.label49 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -272,6 +337,14 @@
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel_load.SuspendLayout();
+            this.gb_comb.SuspendLayout();
+            this.gb_temperature.SuspendLayout();
+            this.gb_dc2.SuspendLayout();
+            this.gb_rep2.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.gb_ac2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_temp)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -539,10 +612,11 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.tabControl2);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.groupBox3.Location = new System.Drawing.Point(582, 45);
+            this.groupBox3.Location = new System.Drawing.Point(644, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(828, 524);
+            this.groupBox3.Size = new System.Drawing.Size(828, 602);
             this.groupBox3.TabIndex = 16;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Plot Zone";
@@ -613,7 +687,7 @@
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             series1.Legend = "Legend2";
             series1.LegendText = "Phase";
-            series1.Name = "Series1";
+            series1.Name = "Series_pha";
             series1.ToolTip = "#VALX #VAL";
             this.chart2.Series.Add(series1);
             this.chart2.Size = new System.Drawing.Size(722, 209);
@@ -659,7 +733,7 @@
             series2.Legend = "Legend2";
             series2.LegendText = "Mag";
             series2.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series2.Name = "Series1";
+            series2.Name = "Series_s";
             series2.ToolTip = "#VALX #VAL";
             this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(722, 232);
@@ -711,7 +785,7 @@
             series3.ChartArea = "ChartArea1";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             series3.Legend = "Legend1";
-            series3.Name = "Series1";
+            series3.Name = "Series_nqs";
             series3.ToolTip = "#VALX #VAL";
             this.chart3.Series.Add(series3);
             this.chart3.Size = new System.Drawing.Size(793, 468);
@@ -769,7 +843,7 @@
             series4.LabelForeColor = System.Drawing.Color.Transparent;
             series4.Legend = "Legend1";
             series4.LegendText = "Impendence";
-            series4.Name = "Series1";
+            series4.Name = "Series_TD";
             series4.ToolTip = "#VALX #VAL";
             this.chart4.Series.Add(series4);
             this.chart4.Size = new System.Drawing.Size(747, 383);
@@ -816,7 +890,7 @@
             series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             series5.Legend = "Legend1";
             series5.LegendText = "Voltage";
-            series5.Name = "Series1";
+            series5.Name = "Series_ui";
             series5.ToolTip = "#VALX #VAL";
             series6.ChartArea = "ChartArea1";
             series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
@@ -918,6 +992,7 @@
             // 
             // btn_freq
             // 
+            this.btn_freq.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btn_freq.BackColor = System.Drawing.Color.LightSteelBlue;
             this.btn_freq.Location = new System.Drawing.Point(1, 158);
             this.btn_freq.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -940,6 +1015,7 @@
             // 
             // btn_cfg
             // 
+            this.btn_cfg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_cfg.BackColor = System.Drawing.Color.LightSteelBlue;
             this.btn_cfg.Location = new System.Drawing.Point(2, 487);
             this.btn_cfg.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -952,6 +1028,7 @@
             // 
             // btn_TD
             // 
+            this.btn_TD.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btn_TD.BackColor = System.Drawing.Color.LightSteelBlue;
             this.btn_TD.Location = new System.Drawing.Point(1, 237);
             this.btn_TD.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -964,6 +1041,7 @@
             // 
             // btn_DC
             // 
+            this.btn_DC.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btn_DC.BackColor = System.Drawing.Color.LightSteelBlue;
             this.btn_DC.Location = new System.Drawing.Point(1, 322);
             this.btn_DC.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -1694,7 +1772,7 @@
             this.groupBox_UI.Controls.Add(this.label30);
             this.groupBox_UI.Location = new System.Drawing.Point(163, 346);
             this.groupBox_UI.Name = "groupBox_UI";
-            this.groupBox_UI.Size = new System.Drawing.Size(417, 229);
+            this.groupBox_UI.Size = new System.Drawing.Size(417, 168);
             this.groupBox_UI.TabIndex = 86;
             this.groupBox_UI.TabStop = false;
             this.groupBox_UI.Text = "U-I-R ";
@@ -2237,21 +2315,79 @@
             // 
             // btn_AC
             // 
+            this.btn_AC.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btn_AC.BackColor = System.Drawing.Color.LightSteelBlue;
             this.btn_AC.Location = new System.Drawing.Point(1, 403);
             this.btn_AC.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_AC.Name = "btn_AC";
             this.btn_AC.Size = new System.Drawing.Size(152, 67);
             this.btn_AC.TabIndex = 23;
-            this.btn_AC.Text = "AC Measurement";
+            this.btn_AC.Text = "Combination";
             this.btn_AC.UseVisualStyleBackColor = false;
             this.btn_AC.Click += new System.EventHandler(this.btn_AC_Click);
+            // 
+            // tb_amp4
+            // 
+            this.tb_amp4.Location = new System.Drawing.Point(134, 19);
+            this.tb_amp4.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tb_amp4.Name = "tb_amp4";
+            this.tb_amp4.Size = new System.Drawing.Size(99, 21);
+            this.tb_amp4.TabIndex = 27;
+            this.tb_amp4.Text = "100";
+            this.toolTip1.SetToolTip(this.tb_amp4, "0~600mV");
+            // 
+            // tb_d_s2
+            // 
+            this.tb_d_s2.Location = new System.Drawing.Point(144, 46);
+            this.tb_d_s2.Name = "tb_d_s2";
+            this.tb_d_s2.Size = new System.Drawing.Size(51, 21);
+            this.tb_d_s2.TabIndex = 74;
+            this.tb_d_s2.Text = "0";
+            this.toolTip1.SetToolTip(this.tb_d_s2, "0~60");
+            // 
+            // tb_Sweep_f2
+            // 
+            this.tb_Sweep_f2.Location = new System.Drawing.Point(102, 14);
+            this.tb_Sweep_f2.Name = "tb_Sweep_f2";
+            this.tb_Sweep_f2.Size = new System.Drawing.Size(100, 21);
+            this.tb_Sweep_f2.TabIndex = 4;
+            this.tb_Sweep_f2.Text = "33";
+            this.toolTip1.SetToolTip(this.tb_Sweep_f2, "0~1000kHz");
+            // 
+            // tb_Sweep_t2
+            // 
+            this.tb_Sweep_t2.Location = new System.Drawing.Point(102, 38);
+            this.tb_Sweep_t2.Name = "tb_Sweep_t2";
+            this.tb_Sweep_t2.Size = new System.Drawing.Size(100, 21);
+            this.tb_Sweep_t2.TabIndex = 6;
+            this.tb_Sweep_t2.Text = "44";
+            this.toolTip1.SetToolTip(this.tb_Sweep_t2, "0~1000kHz");
+            // 
+            // tb_amp2
+            // 
+            this.tb_amp2.Location = new System.Drawing.Point(102, 62);
+            this.tb_amp2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tb_amp2.Name = "tb_amp2";
+            this.tb_amp2.Size = new System.Drawing.Size(99, 21);
+            this.tb_amp2.TabIndex = 26;
+            this.tb_amp2.Text = "1";
+            this.toolTip1.SetToolTip(this.tb_amp2, "0~600mV");
+            // 
+            // tb_s_p2
+            // 
+            this.tb_s_p2.Location = new System.Drawing.Point(101, 154);
+            this.tb_s_p2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.tb_s_p2.Name = "tb_s_p2";
+            this.tb_s_p2.Size = new System.Drawing.Size(99, 21);
+            this.tb_s_p2.TabIndex = 41;
+            this.tb_s_p2.Text = "1";
+            this.toolTip1.SetToolTip(this.tb_s_p2, "0~200");
             // 
             // statusStrip1
             // 
             this.statusStrip1.Location = new System.Drawing.Point(0, 580);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1472, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(644, 22);
             this.statusStrip1.TabIndex = 87;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -2263,7 +2399,7 @@
             this.hlepHToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1472, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(644, 25);
             this.menuStrip1.TabIndex = 88;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -2326,14 +2462,14 @@
             this.panel_load.Controls.Add(this.btn_dc_load);
             this.panel_load.Controls.Add(this.btn_td_load);
             this.panel_load.Controls.Add(this.btn_fre_load);
-            this.panel_load.Location = new System.Drawing.Point(157, 128);
+            this.panel_load.Location = new System.Drawing.Point(3, 136);
             this.panel_load.Name = "panel_load";
-            this.panel_load.Size = new System.Drawing.Size(204, 415);
+            this.panel_load.Size = new System.Drawing.Size(159, 415);
             this.panel_load.TabIndex = 89;
             // 
             // btn_m
             // 
-            this.btn_m.Location = new System.Drawing.Point(30, 56);
+            this.btn_m.Location = new System.Drawing.Point(15, 56);
             this.btn_m.Name = "btn_m";
             this.btn_m.Size = new System.Drawing.Size(128, 23);
             this.btn_m.TabIndex = 91;
@@ -2343,7 +2479,7 @@
             // 
             // btn_s
             // 
-            this.btn_s.Location = new System.Drawing.Point(30, 24);
+            this.btn_s.Location = new System.Drawing.Point(15, 24);
             this.btn_s.Name = "btn_s";
             this.btn_s.Size = new System.Drawing.Size(128, 23);
             this.btn_s.TabIndex = 90;
@@ -2354,18 +2490,19 @@
             // btn_ac_load
             // 
             this.btn_ac_load.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.btn_ac_load.Location = new System.Drawing.Point(21, 271);
+            this.btn_ac_load.Location = new System.Drawing.Point(6, 271);
             this.btn_ac_load.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_ac_load.Name = "btn_ac_load";
             this.btn_ac_load.Size = new System.Drawing.Size(152, 67);
             this.btn_ac_load.TabIndex = 90;
-            this.btn_ac_load.Text = "AC Measurement";
+            this.btn_ac_load.Text = "Combination";
             this.btn_ac_load.UseVisualStyleBackColor = false;
+            this.btn_ac_load.Click += new System.EventHandler(this.btn_ac_load_Click);
             // 
             // btn_dc_load
             // 
             this.btn_dc_load.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.btn_dc_load.Location = new System.Drawing.Point(18, 185);
+            this.btn_dc_load.Location = new System.Drawing.Point(3, 185);
             this.btn_dc_load.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_dc_load.Name = "btn_dc_load";
             this.btn_dc_load.Size = new System.Drawing.Size(152, 67);
@@ -2377,7 +2514,7 @@
             // btn_td_load
             // 
             this.btn_td_load.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.btn_td_load.Location = new System.Drawing.Point(18, 104);
+            this.btn_td_load.Location = new System.Drawing.Point(3, 104);
             this.btn_td_load.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_td_load.Name = "btn_td_load";
             this.btn_td_load.Size = new System.Drawing.Size(152, 67);
@@ -2389,7 +2526,7 @@
             // btn_fre_load
             // 
             this.btn_fre_load.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.btn_fre_load.Location = new System.Drawing.Point(21, 16);
+            this.btn_fre_load.Location = new System.Drawing.Point(6, 16);
             this.btn_fre_load.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btn_fre_load.Name = "btn_fre_load";
             this.btn_fre_load.Size = new System.Drawing.Size(146, 71);
@@ -2398,13 +2535,649 @@
             this.btn_fre_load.UseVisualStyleBackColor = false;
             this.btn_fre_load.Click += new System.EventHandler(this.btn_fre_load_Click);
             // 
+            // gb_comb
+            // 
+            this.gb_comb.Controls.Add(this.btn_comb_start);
+            this.gb_comb.Controls.Add(this.btn_stop2);
+            this.gb_comb.Controls.Add(this.gb_temperature);
+            this.gb_comb.Controls.Add(this.gb_dc2);
+            this.gb_comb.Controls.Add(this.gb_rep2);
+            this.gb_comb.Controls.Add(this.gb_ac2);
+            this.gb_comb.Location = new System.Drawing.Point(158, 39);
+            this.gb_comb.Name = "gb_comb";
+            this.gb_comb.Size = new System.Drawing.Size(421, 538);
+            this.gb_comb.TabIndex = 90;
+            this.gb_comb.TabStop = false;
+            this.gb_comb.Text = "Combination";
+            // 
+            // btn_comb_start
+            // 
+            this.btn_comb_start.BackColor = System.Drawing.Color.ForestGreen;
+            this.btn_comb_start.Image = ((System.Drawing.Image)(resources.GetObject("btn_comb_start.Image")));
+            this.btn_comb_start.Location = new System.Drawing.Point(109, 481);
+            this.btn_comb_start.Name = "btn_comb_start";
+            this.btn_comb_start.Size = new System.Drawing.Size(52, 52);
+            this.btn_comb_start.TabIndex = 88;
+            this.btn_comb_start.UseVisualStyleBackColor = false;
+            this.btn_comb_start.Click += new System.EventHandler(this.btn_comb_start_Click);
+            // 
+            // btn_stop2
+            // 
+            this.btn_stop2.BackColor = System.Drawing.Color.Red;
+            this.btn_stop2.Font = new System.Drawing.Font("UD Digi Kyokasho NK-B", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.btn_stop2.Image = ((System.Drawing.Image)(resources.GetObject("btn_stop2.Image")));
+            this.btn_stop2.Location = new System.Drawing.Point(229, 489);
+            this.btn_stop2.Name = "btn_stop2";
+            this.btn_stop2.Size = new System.Drawing.Size(53, 38);
+            this.btn_stop2.TabIndex = 91;
+            this.btn_stop2.UseVisualStyleBackColor = false;
+            this.btn_stop2.Click += new System.EventHandler(this.btn_stop2_Click);
+            // 
+            // gb_temperature
+            // 
+            this.gb_temperature.Controls.Add(this.label64);
+            this.gb_temperature.Controls.Add(this.rb_temp_n);
+            this.gb_temperature.Controls.Add(this.rb_temp_y);
+            this.gb_temperature.Location = new System.Drawing.Point(3, 429);
+            this.gb_temperature.Name = "gb_temperature";
+            this.gb_temperature.Size = new System.Drawing.Size(417, 49);
+            this.gb_temperature.TabIndex = 88;
+            this.gb_temperature.TabStop = false;
+            this.gb_temperature.Text = "step 3(Temperature Measurement)";
+            // 
+            // label64
+            // 
+            this.label64.AutoSize = true;
+            this.label64.Location = new System.Drawing.Point(48, 27);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(125, 12);
+            this.label64.TabIndex = 88;
+            this.label64.Text = "Temperature measure?";
+            // 
+            // rb_temp_n
+            // 
+            this.rb_temp_n.AutoSize = true;
+            this.rb_temp_n.Location = new System.Drawing.Point(319, 24);
+            this.rb_temp_n.Name = "rb_temp_n";
+            this.rb_temp_n.Size = new System.Drawing.Size(35, 16);
+            this.rb_temp_n.TabIndex = 1;
+            this.rb_temp_n.TabStop = true;
+            this.rb_temp_n.Text = "No";
+            this.rb_temp_n.UseVisualStyleBackColor = true;
+            // 
+            // rb_temp_y
+            // 
+            this.rb_temp_y.AutoSize = true;
+            this.rb_temp_y.Checked = true;
+            this.rb_temp_y.Location = new System.Drawing.Point(224, 24);
+            this.rb_temp_y.Name = "rb_temp_y";
+            this.rb_temp_y.Size = new System.Drawing.Size(41, 16);
+            this.rb_temp_y.TabIndex = 0;
+            this.rb_temp_y.TabStop = true;
+            this.rb_temp_y.Text = "Yes";
+            this.rb_temp_y.UseVisualStyleBackColor = true;
+            // 
+            // gb_dc2
+            // 
+            this.gb_dc2.Controls.Add(this.label63);
+            this.gb_dc2.Controls.Add(this.label62);
+            this.gb_dc2.Controls.Add(this.tb_d_s2);
+            this.gb_dc2.Controls.Add(this.label70);
+            this.gb_dc2.Controls.Add(this.tb_amp4);
+            this.gb_dc2.Controls.Add(this.label71);
+            this.gb_dc2.Location = new System.Drawing.Point(4, 351);
+            this.gb_dc2.Name = "gb_dc2";
+            this.gb_dc2.Size = new System.Drawing.Size(420, 74);
+            this.gb_dc2.TabIndex = 87;
+            this.gb_dc2.TabStop = false;
+            this.gb_dc2.Text = "Step 2(DC Control)";
+            // 
+            // label63
+            // 
+            this.label63.AutoSize = true;
+            this.label63.Location = new System.Drawing.Point(206, 52);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(11, 12);
+            this.label63.TabIndex = 87;
+            this.label63.Text = "s";
+            // 
+            // label62
+            // 
+            this.label62.AutoSize = true;
+            this.label62.Location = new System.Drawing.Point(26, 50);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(53, 12);
+            this.label62.TabIndex = 85;
+            this.label62.Text = "Duration";
+            // 
+            // label70
+            // 
+            this.label70.AutoSize = true;
+            this.label70.Location = new System.Drawing.Point(238, 23);
+            this.label70.Name = "label70";
+            this.label70.Size = new System.Drawing.Size(17, 12);
+            this.label70.TabIndex = 29;
+            this.label70.Text = "mV";
+            // 
+            // label71
+            // 
+            this.label71.AutoSize = true;
+            this.label71.Location = new System.Drawing.Point(27, 23);
+            this.label71.Name = "label71";
+            this.label71.Size = new System.Drawing.Size(59, 12);
+            this.label71.TabIndex = 15;
+            this.label71.Text = "Amplitude";
+            // 
+            // gb_rep2
+            // 
+            this.gb_rep2.Controls.Add(this.label40);
+            this.gb_rep2.Controls.Add(this.checkBox_SEC2);
+            this.gb_rep2.Controls.Add(this.label50);
+            this.gb_rep2.Controls.Add(this.DTP_End2);
+            this.gb_rep2.Controls.Add(this.DTP_Start2);
+            this.gb_rep2.Controls.Add(this.label51);
+            this.gb_rep2.Controls.Add(this.label52);
+            this.gb_rep2.Controls.Add(this.label53);
+            this.gb_rep2.Controls.Add(this.label54);
+            this.gb_rep2.Controls.Add(this.panel2);
+            this.gb_rep2.Controls.Add(this.panel3);
+            this.gb_rep2.Controls.Add(this.cb_days2);
+            this.gb_rep2.Controls.Add(this.label61);
+            this.gb_rep2.Location = new System.Drawing.Point(7, 199);
+            this.gb_rep2.Name = "gb_rep2";
+            this.gb_rep2.Size = new System.Drawing.Size(418, 153);
+            this.gb_rep2.TabIndex = 86;
+            this.gb_rep2.TabStop = false;
+            this.gb_rep2.Text = "Time Set";
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(352, 62);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(47, 12);
+            this.label40.TabIndex = 97;
+            this.label40.Text = "Times/T";
+            // 
+            // checkBox_SEC2
+            // 
+            this.checkBox_SEC2.AutoSize = true;
+            this.checkBox_SEC2.Location = new System.Drawing.Point(7, 121);
+            this.checkBox_SEC2.Name = "checkBox_SEC2";
+            this.checkBox_SEC2.Size = new System.Drawing.Size(15, 14);
+            this.checkBox_SEC2.TabIndex = 96;
+            this.checkBox_SEC2.UseVisualStyleBackColor = true;
+            this.checkBox_SEC2.CheckedChanged += new System.EventHandler(this.checkBox_SEC2_CheckedChanged);
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(27, 43);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(41, 12);
+            this.label50.TabIndex = 95;
+            this.label50.Text = "End at";
+            // 
+            // DTP_End2
+            // 
+            this.DTP_End2.CustomFormat = "HH:mm";
+            this.DTP_End2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.DTP_End2.Location = new System.Drawing.Point(92, 37);
+            this.DTP_End2.Name = "DTP_End2";
+            this.DTP_End2.Size = new System.Drawing.Size(89, 21);
+            this.DTP_End2.TabIndex = 94;
+            // 
+            // DTP_Start2
+            // 
+            this.DTP_Start2.CustomFormat = "HH:mm";
+            this.DTP_Start2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.DTP_Start2.Location = new System.Drawing.Point(92, 13);
+            this.DTP_Start2.Name = "DTP_Start2";
+            this.DTP_Start2.Size = new System.Drawing.Size(89, 21);
+            this.DTP_Start2.TabIndex = 93;
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(29, 17);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(53, 12);
+            this.label51.TabIndex = 92;
+            this.label51.Text = "Start at";
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(285, 63);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(47, 12);
+            this.label52.TabIndex = 91;
+            this.label52.Text = "Times/D";
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(211, 63);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(17, 12);
+            this.label53.TabIndex = 90;
+            this.label53.Text = "to";
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(108, 63);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(29, 12);
+            this.label54.TabIndex = 89;
+            this.label54.Text = "from";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label55);
+            this.panel2.Controls.Add(this.tb_times_T4);
+            this.panel2.Controls.Add(this.label56);
+            this.panel2.Controls.Add(this.dateTimePicker_t_4);
+            this.panel2.Controls.Add(this.dateTimePicker_f_4);
+            this.panel2.Controls.Add(this.tb_times_D4);
+            this.panel2.Controls.Add(this.label57);
+            this.panel2.Location = new System.Drawing.Point(29, 116);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(383, 24);
+            this.panel2.TabIndex = 88;
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label55.Location = new System.Drawing.Point(111, 7);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(11, 12);
+            this.label55.TabIndex = 81;
+            this.label55.Text = " ";
+            // 
+            // tb_times_T4
+            // 
+            this.tb_times_T4.Location = new System.Drawing.Point(317, 2);
+            this.tb_times_T4.Name = "tb_times_T4";
+            this.tb_times_T4.Size = new System.Drawing.Size(51, 21);
+            this.tb_times_T4.TabIndex = 74;
+            this.tb_times_T4.Text = "0";
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label56.Location = new System.Drawing.Point(212, 6);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(11, 12);
+            this.label56.TabIndex = 76;
+            this.label56.Text = " ";
+            // 
+            // dateTimePicker_t_4
+            // 
+            this.dateTimePicker_t_4.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePicker_t_4.Location = new System.Drawing.Point(153, 2);
+            this.dateTimePicker_t_4.Name = "dateTimePicker_t_4";
+            this.dateTimePicker_t_4.Size = new System.Drawing.Size(74, 21);
+            this.dateTimePicker_t_4.TabIndex = 80;
+            // 
+            // dateTimePicker_f_4
+            // 
+            this.dateTimePicker_f_4.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePicker_f_4.Location = new System.Drawing.Point(56, 2);
+            this.dateTimePicker_f_4.Name = "dateTimePicker_f_4";
+            this.dateTimePicker_f_4.Size = new System.Drawing.Size(71, 21);
+            this.dateTimePicker_f_4.TabIndex = 73;
+            // 
+            // tb_times_D4
+            // 
+            this.tb_times_D4.Location = new System.Drawing.Point(254, 3);
+            this.tb_times_D4.Name = "tb_times_D4";
+            this.tb_times_D4.Size = new System.Drawing.Size(51, 21);
+            this.tb_times_D4.TabIndex = 71;
+            this.tb_times_D4.Text = "0";
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(3, 5);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(41, 12);
+            this.label57.TabIndex = 58;
+            this.label57.Text = "second";
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.label58);
+            this.panel3.Controls.Add(this.label59);
+            this.panel3.Controls.Add(this.tb_times_T3);
+            this.panel3.Controls.Add(this.dateTimePicker_t_3);
+            this.panel3.Controls.Add(this.dateTimePicker_f_3);
+            this.panel3.Controls.Add(this.tb_times_D3);
+            this.panel3.Controls.Add(this.label60);
+            this.panel3.Location = new System.Drawing.Point(29, 81);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(383, 24);
+            this.panel3.TabIndex = 87;
+            // 
+            // label58
+            // 
+            this.label58.AutoSize = true;
+            this.label58.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label58.Location = new System.Drawing.Point(212, 6);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(11, 12);
+            this.label58.TabIndex = 75;
+            this.label58.Text = " ";
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label59.Location = new System.Drawing.Point(111, 6);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(11, 12);
+            this.label59.TabIndex = 74;
+            this.label59.Text = " ";
+            // 
+            // tb_times_T3
+            // 
+            this.tb_times_T3.Location = new System.Drawing.Point(318, 2);
+            this.tb_times_T3.Name = "tb_times_T3";
+            this.tb_times_T3.Size = new System.Drawing.Size(51, 21);
+            this.tb_times_T3.TabIndex = 73;
+            this.tb_times_T3.Text = "0";
+            // 
+            // dateTimePicker_t_3
+            // 
+            this.dateTimePicker_t_3.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePicker_t_3.Location = new System.Drawing.Point(152, 2);
+            this.dateTimePicker_t_3.Name = "dateTimePicker_t_3";
+            this.dateTimePicker_t_3.Size = new System.Drawing.Size(75, 21);
+            this.dateTimePicker_t_3.TabIndex = 72;
+            // 
+            // dateTimePicker_f_3
+            // 
+            this.dateTimePicker_f_3.CustomFormat = "HH:mm";
+            this.dateTimePicker_f_3.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePicker_f_3.Location = new System.Drawing.Point(56, 2);
+            this.dateTimePicker_f_3.Name = "dateTimePicker_f_3";
+            this.dateTimePicker_f_3.Size = new System.Drawing.Size(69, 21);
+            this.dateTimePicker_f_3.TabIndex = 71;
+            // 
+            // tb_times_D3
+            // 
+            this.tb_times_D3.Location = new System.Drawing.Point(254, 2);
+            this.tb_times_D3.Name = "tb_times_D3";
+            this.tb_times_D3.Size = new System.Drawing.Size(51, 21);
+            this.tb_times_D3.TabIndex = 70;
+            this.tb_times_D3.Text = "0";
+            // 
+            // label60
+            // 
+            this.label60.AutoSize = true;
+            this.label60.Location = new System.Drawing.Point(3, 5);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(35, 12);
+            this.label60.TabIndex = 58;
+            this.label60.Text = "first";
+            // 
+            // cb_days2
+            // 
+            this.cb_days2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_days2.Enabled = false;
+            this.cb_days2.FormattingEnabled = true;
+            this.cb_days2.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "0"});
+            this.cb_days2.Location = new System.Drawing.Point(210, 38);
+            this.cb_days2.Name = "cb_days2";
+            this.cb_days2.Size = new System.Drawing.Size(61, 20);
+            this.cb_days2.TabIndex = 86;
+            // 
+            // label61
+            // 
+            this.label61.AutoSize = true;
+            this.label61.Location = new System.Drawing.Point(277, 41);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(29, 12);
+            this.label61.TabIndex = 85;
+            this.label61.Text = "days";
+            // 
+            // gb_ac2
+            // 
+            this.gb_ac2.Controls.Add(this.chart_temp);
+            this.gb_ac2.Controls.Add(this.tb_temp);
+            this.gb_ac2.Controls.Add(this.tb_s_p2);
+            this.gb_ac2.Controls.Add(this.label41);
+            this.gb_ac2.Controls.Add(this.cb_dft2);
+            this.gb_ac2.Controls.Add(this.label42);
+            this.gb_ac2.Controls.Add(this.cb_tia2);
+            this.gb_ac2.Controls.Add(this.label43);
+            this.gb_ac2.Controls.Add(this.label44);
+            this.gb_ac2.Controls.Add(this.cb_dor2);
+            this.gb_ac2.Controls.Add(this.label45);
+            this.gb_ac2.Controls.Add(this.label46);
+            this.gb_ac2.Controls.Add(this.tb_amp2);
+            this.gb_ac2.Controls.Add(this.label47);
+            this.gb_ac2.Controls.Add(this.cb_freq_f2);
+            this.gb_ac2.Controls.Add(this.cb_freq_t2);
+            this.gb_ac2.Controls.Add(this.label48);
+            this.gb_ac2.Controls.Add(this.tb_Sweep_t2);
+            this.gb_ac2.Controls.Add(this.label49);
+            this.gb_ac2.Controls.Add(this.tb_Sweep_f2);
+            this.gb_ac2.Location = new System.Drawing.Point(8, 16);
+            this.gb_ac2.Name = "gb_ac2";
+            this.gb_ac2.Size = new System.Drawing.Size(414, 182);
+            this.gb_ac2.TabIndex = 15;
+            this.gb_ac2.TabStop = false;
+            this.gb_ac2.Text = "Step 1(AC Control)";
+            // 
+            // chart_temp
+            // 
+            this.chart_temp.BackColor = System.Drawing.SystemColors.Control;
+            this.chart_temp.BorderlineColor = System.Drawing.SystemColors.Control;
+            chartArea7.AxisX.Interval = 2D;
+            chartArea7.AxisY.Minimum = 20D;
+            chartArea7.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
+            chartArea7.Name = "ChartArea1";
+            this.chart_temp.ChartAreas.Add(chartArea7);
+            this.chart_temp.Location = new System.Drawing.Point(249, 92);
+            this.chart_temp.Name = "chart_temp";
+            series9.ChartArea = "ChartArea1";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series9.Name = "Series1";
+            this.chart_temp.Series.Add(series9);
+            this.chart_temp.Size = new System.Drawing.Size(160, 84);
+            this.chart_temp.TabIndex = 91;
+            this.chart_temp.Text = "chart5";
+            // 
+            // tb_temp
+            // 
+            this.tb_temp.BackColor = System.Drawing.SystemColors.Control;
+            this.tb_temp.Font = new System.Drawing.Font("微软雅黑", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tb_temp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tb_temp.Location = new System.Drawing.Point(274, 11);
+            this.tb_temp.Multiline = true;
+            this.tb_temp.Name = "tb_temp";
+            this.tb_temp.Size = new System.Drawing.Size(132, 77);
+            this.tb_temp.TabIndex = 42;
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(14, 158);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(41, 12);
+            this.label41.TabIndex = 40;
+            this.label41.Text = "Points";
+            // 
+            // cb_dft2
+            // 
+            this.cb_dft2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_dft2.FormattingEnabled = true;
+            this.cb_dft2.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"});
+            this.cb_dft2.Location = new System.Drawing.Point(102, 129);
+            this.cb_dft2.Name = "cb_dft2";
+            this.cb_dft2.Size = new System.Drawing.Size(98, 20);
+            this.cb_dft2.TabIndex = 39;
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(16, 135);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(23, 12);
+            this.label42.TabIndex = 38;
+            this.label42.Text = "DFT";
+            // 
+            // cb_tia2
+            // 
+            this.cb_tia2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_tia2.FormattingEnabled = true;
+            this.cb_tia2.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"});
+            this.cb_tia2.Location = new System.Drawing.Point(102, 107);
+            this.cb_tia2.Name = "cb_tia2";
+            this.cb_tia2.Size = new System.Drawing.Size(98, 20);
+            this.cb_tia2.TabIndex = 33;
+            // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(16, 113);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(29, 12);
+            this.label43.TabIndex = 32;
+            this.label43.Text = "RTIA";
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(223, 86);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(23, 12);
+            this.label44.TabIndex = 31;
+            this.label44.Text = "sps";
+            // 
+            // cb_dor2
+            // 
+            this.cb_dor2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_dor2.FormattingEnabled = true;
+            this.cb_dor2.Items.AddRange(new object[] {
+            "5",
+            "6",
+            "7",
+            "8"});
+            this.cb_dor2.Location = new System.Drawing.Point(102, 85);
+            this.cb_dor2.Name = "cb_dor2";
+            this.cb_dor2.Size = new System.Drawing.Size(98, 20);
+            this.cb_dor2.TabIndex = 30;
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(16, 89);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(23, 12);
+            this.label45.TabIndex = 29;
+            this.label45.Text = "ODR";
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(223, 66);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(17, 12);
+            this.label46.TabIndex = 28;
+            this.label46.Text = "mV";
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(16, 66);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(59, 12);
+            this.label47.TabIndex = 14;
+            this.label47.Text = "Amplitude";
+            // 
+            // cb_freq_f2
+            // 
+            this.cb_freq_f2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_freq_f2.FormattingEnabled = true;
+            this.cb_freq_f2.Items.AddRange(new object[] {
+            "Hz",
+            "kHz"});
+            this.cb_freq_f2.Location = new System.Drawing.Point(225, 13);
+            this.cb_freq_f2.Name = "cb_freq_f2";
+            this.cb_freq_f2.Size = new System.Drawing.Size(47, 20);
+            this.cb_freq_f2.TabIndex = 9;
+            // 
+            // cb_freq_t2
+            // 
+            this.cb_freq_t2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_freq_t2.FormattingEnabled = true;
+            this.cb_freq_t2.Items.AddRange(new object[] {
+            "Hz",
+            "kHz"});
+            this.cb_freq_t2.Location = new System.Drawing.Point(225, 38);
+            this.cb_freq_t2.Name = "cb_freq_t2";
+            this.cb_freq_t2.Size = new System.Drawing.Size(47, 20);
+            this.cb_freq_t2.TabIndex = 8;
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(65, 41);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(17, 12);
+            this.label48.TabIndex = 7;
+            this.label48.Text = "to";
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(20, 17);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(65, 12);
+            this.label49.TabIndex = 5;
+            this.label49.Text = "Sweep from";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1472, 602);
-            this.Controls.Add(this.panel_load);
+            this.Controls.Add(this.gb_comb);
             this.Controls.Add(this.gb_dc);
             this.Controls.Add(this.groupBox_UI);
             this.Controls.Add(this.gb_ac);
@@ -2424,6 +3197,7 @@
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.panel_load);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "TANGEIS Client V1.0.0";
@@ -2476,6 +3250,20 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel_load.ResumeLayout(false);
+            this.gb_comb.ResumeLayout(false);
+            this.gb_temperature.ResumeLayout(false);
+            this.gb_temperature.PerformLayout();
+            this.gb_dc2.ResumeLayout(false);
+            this.gb_dc2.PerformLayout();
+            this.gb_rep2.ResumeLayout(false);
+            this.gb_rep2.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.gb_ac2.ResumeLayout(false);
+            this.gb_ac2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_temp)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2626,7 +3414,6 @@
         private System.Windows.Forms.Label lab_first;
         private System.Windows.Forms.ComboBox cb_days;
         private System.Windows.Forms.Label label27;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox tb_times_T2;
         private System.Windows.Forms.TextBox tb_times_T1;
@@ -2670,6 +3457,69 @@
         private System.Windows.Forms.Button btn_m;
         private System.Windows.Forms.Button btn_s;
         private System.Windows.Forms.ToolStripMenuItem LoadProtoolStripMenuItem1;
+        private System.Windows.Forms.GroupBox gb_comb;
+        private System.Windows.Forms.GroupBox gb_dc2;
+        private System.Windows.Forms.Label label70;
+        private System.Windows.Forms.TextBox tb_amp4;
+        private System.Windows.Forms.Label label71;
+        private System.Windows.Forms.GroupBox gb_rep2;
+        private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.CheckBox checkBox_SEC2;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.DateTimePicker DTP_End2;
+        private System.Windows.Forms.DateTimePicker DTP_Start2;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.Label label53;
+        private System.Windows.Forms.Label label54;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.TextBox tb_times_T4;
+        private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.DateTimePicker dateTimePicker_t_4;
+        private System.Windows.Forms.DateTimePicker dateTimePicker_f_4;
+        private System.Windows.Forms.TextBox tb_times_D4;
+        private System.Windows.Forms.Label label57;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label58;
+        private System.Windows.Forms.Label label59;
+        private System.Windows.Forms.TextBox tb_times_T3;
+        private System.Windows.Forms.DateTimePicker dateTimePicker_t_3;
+        private System.Windows.Forms.DateTimePicker dateTimePicker_f_3;
+        private System.Windows.Forms.TextBox tb_times_D3;
+        private System.Windows.Forms.Label label60;
+        private System.Windows.Forms.ComboBox cb_days2;
+        private System.Windows.Forms.Label label61;
+        private System.Windows.Forms.Button btn_stop2;
+        private System.Windows.Forms.GroupBox gb_temperature;
+        private System.Windows.Forms.Label label64;
+        private System.Windows.Forms.RadioButton rb_temp_n;
+        private System.Windows.Forms.RadioButton rb_temp_y;
+        private System.Windows.Forms.Label label63;
+        private System.Windows.Forms.Label label62;
+        private System.Windows.Forms.TextBox tb_d_s2;
+        private System.Windows.Forms.GroupBox gb_ac2;
+        private System.Windows.Forms.TextBox tb_s_p2;
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.ComboBox cb_dft2;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.ComboBox cb_tia2;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.ComboBox cb_dor2;
+        private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.TextBox tb_amp2;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.ComboBox cb_freq_f2;
+        private System.Windows.Forms.ComboBox cb_freq_t2;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.TextBox tb_Sweep_t2;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.TextBox tb_Sweep_f2;
+        private System.Windows.Forms.TextBox tb_temp;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart_temp;
+        private RoundButton btn_comb_start;
     }
 }
 
