@@ -1,0 +1,66 @@
+1. 数据定义
+2. 数据初始化
+3. 自编函数
+4. 界面清空
+5. 串口传输+画图
+   5.1 打开串口
+   5.2 发送数据
+   5.3 定义串口接收事件
+   5.4 鼠标滚轮改变图像大小
+   5.5 chart init.
+   5.6 从文件发送
+6. 无线传输
+   6.1 建立连接
+   6.2 关闭连接
+   6.3 服务器数据传输
+   6.4 wifi定时器
+7. 文件存储
+   7.1 打开存储文件选项
+   7.2 打开文件
+   7.3 保存文件
+   7.4 bode图幅值保存
+   7.5 bode图相位保存
+   7.6 Nyquist图保存
+   7.7 时域曲线保存
+   7.8 U_I_R曲线保存 
+8. 界面切换
+   8.1 频域
+   8.2 初始化
+   8.3 时域
+   8.4 交流+直流
+   8.5 直流
+   8.6 function to control buttons（groupBox控制函数）
+9. 定时器
+   9.1 时钟显示
+   9.2 关闭窗口后关闭后台进程
+10. 频域窗口
+   10.1 FDA+TD send
+   10.2 FDA+TD stop
+   10.3 固定频率操作框
+   10.4 扫频操作框
+   10.5 repeat 操作框
+   10.6 duration 操作框
+   10.7 second choice in FDA
+11. DC窗口
+   11.1 DC send
+   11.2 DC Stop
+   11.3 Slider for choice of wave
+   11.4 wave choose
+   11.5 Model choose
+ 12. Combination window
+   12.1 Combination send
+   12.2 stop of Combination
+   12.3 second check in COMB
+13. New Project
+   13.1 Form 2(data send back)
+14. load  Project
+   14.1 ID Struct
+   14.2 open Project
+15 Data Analyser
+   15.1 open Dateset
+   15.2 painting of single measurement in FDA
+   15.3 paiting of multiple measurement in FDA
+   15.4 paiting of single measurement in TD
+   15.5 paiting in DC
+   15.6 paiting of Combination_Measurement in COMB
+16. 未使用

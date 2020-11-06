@@ -50,6 +50,14 @@ namespace Comm
         private float fre = 1;
         private float mag = 0;
         private float pha = 0;
+        private float X = 0;
+        private float Y = 0;
+        private float btn_X = 0;
+        private float btn_Y = 0;
+        private Int32 Num_FDA1 = 0;
+        private Int32 Num_FDA2 = 0;
+        private Int32 Num_COMB1 = 0;
+        private Int32 Num_COMB2 = 0;
         private Int64 cnt = 0;
         private Int64 cnt1 = 0;
         private Int64 cnt2 = 0;
@@ -58,6 +66,12 @@ namespace Comm
         private Int64 cnt5 = 0;
         private Int64 cnt6 = 0;
         private Int64 cnt7 = 0;
+        private Int64 cnt8 = 0;
+        private Int64 cnt9 = 0;
+        private Int64 cnt10 = 0;
+        private Int64 cnt11 = 0;
+        private Int64 cnt12 = 0;
+
         private Int64 cnt_comb = 0;
         private Int64 cnt_FDA1 = 0;
         private Int64 cnt_FDA2 = 0;
@@ -171,6 +185,17 @@ namespace Comm
             chart3.MouseWheel += new MouseEventHandler(chart_MouseWheelXY);
             chart4.MouseWheel += new MouseEventHandler(chart_MouseWheel);
             chart_u_i_r.MouseWheel += new MouseEventHandler(chart_MouseWheel);
+            this.Resize += new EventHandler(modular_calEchoPhaseFromSignal1_Resize);//窗体调整大小时引发事件
+
+            X = this.Width;//获取窗体的宽度
+
+            Y = this.Height;//获取窗体的高度
+
+            btn_X = btn_comb_start.Width;
+
+            btn_Y = btn_comb_start.Height;
+
+            setTag(this);//调用方法
 
         }
 
@@ -180,6 +205,93 @@ namespace Comm
         //*********************************************//
         //**************自编函数**********************//
         //*******************************************//
+
+
+
+        private void setTag(Control cons)
+
+        {
+
+            //遍历窗体中的控件
+
+            foreach (Control con in cons.Controls)
+
+            {
+
+                con.Tag = con.Width + ":" + con.Height + ":" + con.Left + ":" + con.Top + ":" + con.Font.Size + ":" + con.Name;
+
+                if (con.Controls.Count > 0)
+
+                    setTag(con);
+
+            }
+
+        }
+        private void setControls(float newx, float newy, Control cons)
+
+        {
+            //foreach (Control con in cons.Controls)
+
+            //{
+            //    con.Visible = false;
+
+            //}
+            //遍历窗体中的控件，重新设置控件的值
+
+            foreach (Control con in cons.Controls)
+
+            {
+
+                string[] mytag = con.Tag.ToString().Split(new char[] { ':' });//获取控件的Tag属性值，并分割后存储字符串数组
+
+                float a = Convert.ToSingle(mytag[0]) * newx;//根据窗体缩放比例确定控件的值，宽度
+
+                con.Width = (int)a;//宽度
+
+                a = Convert.ToSingle(mytag[1]) * newy;//高度
+
+                con.Height = (int)(a);
+
+                a = Convert.ToSingle(mytag[2]) * newx;//左边距离
+
+                con.Left = (int)(a);
+
+                a = Convert.ToSingle(mytag[3]) * newy;//上边缘距离
+
+                con.Top = (int)(a);
+
+                Single currentSize = Convert.ToSingle(mytag[4]) * newx;//字体大小
+
+                con.Font = new Font(con.Font.Name, currentSize, con.Font.Style, con.Font.Unit);
+
+                if (con.Controls.Count > 0)
+
+                {
+
+                    setControls(newx, newy, con);
+
+                }
+
+            }
+
+        }
+
+        void modular_calEchoPhaseFromSignal1_Resize(object sender, EventArgs e)
+
+        {
+
+
+            float newx = (this.Width) / X; //窗体宽度缩放比例
+
+            float newy = this.Height / Y;//窗体高度缩放比例
+
+            setControls(newx, newy, this);//随窗体改变控件大小
+
+            setControls(newx*X, newy*Y, btn_comb_start);//随窗体改变控件大小
+
+            setControls(newx * X, newy * Y, btn_stop);//随窗体改变控件大小
+
+        }
 
         //字符串定长
         private string fest_str(string s, int n)
@@ -500,7 +612,7 @@ namespace Comm
 
 
 
-
+            //ID send
             byte[] ID_N = new byte[4];
             for (int i = 0; i < 4; i++)
             {
@@ -517,12 +629,8 @@ namespace Comm
             {
                 serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);
                 // MessageBox.Show("COM is already!");
-
-
-                ReceiveArea.Text = ID_Num;
                 byte[] temp2 = strToHexByte(ID_Num);
                 byte[] temp = exchange(temp2);
-                ReceiveArea.Text = temp.Length.ToString();
                 for (int i = 0; i < temp.Length; i++)
                 {
                     ID_N[3 - i] = temp[i];
@@ -665,13 +773,25 @@ namespace Comm
 
 
 
-                        if (length == 3 && strArr[0] != "200000.00")
+                        if (length == 4 && strArr[0] != "200000.00")
                         {
                             try
                             {
                                 fre = Convert.ToSingle(strArr[0]);
                                 mag = Convert.ToSingle(strArr[1]);
                                 pha = Convert.ToSingle(strArr[2]);
+                                Num_FDA1 = Convert.ToInt32(strArr[3]);
+                                if (Num_FDA1 > Num_FDA2)
+                                {
+                                    cnt6++;
+                                    chart1.Series.Add((cnt6).ToString());//添加
+                                    chart2.Series.Add((cnt6).ToString());//添加
+                                    chart3.Series.Add((cnt6).ToString());//添加
+                                    this.chart1.Series[(cnt6).ToString()].ChartType = SeriesChartType.Point;
+                                    this.chart2.Series[(cnt6).ToString()].ChartType = SeriesChartType.Point;
+                                    this.chart3.Series[(cnt6).ToString()].ChartType = SeriesChartType.Point;
+                                }
+                                Num_FDA2 = Convert.ToInt32(strArr[3]);
 
                                 int fre_int = (int)(fre * 100);
                                 fre = fre_int / 100;
@@ -687,11 +807,11 @@ namespace Comm
                                 int img_int = (int)(img * 100);
                                 img = img_int / 100;
 
-                                this.chart1.Series[0].Points.AddXY(fre, mag);
-                                this.chart2.Series[0].Points.AddXY(fre, pha);
-                                this.chart3.Series[0].Points.AddXY(real, img);
-                                this.chart1.ChartAreas[0].AxisX.ScaleView.Scroll(ScrollType.Last);
-                                this.chart2.ChartAreas[0].AxisX.ScaleView.Scroll(ScrollType.Last);
+                                this.chart1.Series[cnt6.ToString()].Points.AddXY(fre, mag);
+                                this.chart2.Series[cnt6.ToString()].Points.AddXY(fre, pha);
+                                this.chart3.Series[cnt6.ToString()].Points.AddXY(real, img);
+                                //this.chart1.ChartAreas[cnt6.ToString()].AxisX.ScaleView.Scroll(ScrollType.Last);
+                                //this.chart2.ChartAreas[cnt6.ToString()].AxisX.ScaleView.Scroll(ScrollType.Last);
 
 
                                 data_queue.Enqueue(str + ":");
@@ -709,7 +829,7 @@ namespace Comm
                                 {
                                     FileStream fs = new FileStream(Multiple_m, FileMode.Append);
                                     StreamWriter sw = new StreamWriter(fs);
-                                    sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t");
+                                    sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + Num_FDA1.ToString());
                                     sw.Flush();
                                     sw.Close();
                                     fs.Close();
@@ -724,10 +844,77 @@ namespace Comm
                         }
                     }
 
+                    else if (ACM == true)
+                    {
+                        string strc = serialPort1.ReadLine();
+                        ReceiveArea.AppendText(strc);
+
+                        string[] strArr = strc.Split(',');
+                        int length = strArr.Length;
+
+
+
+                        if (length == 4 && strArr[0] != "200000.00")
+                        {
+                            try
+                            {
+                                fre = Convert.ToSingle(strArr[0]);
+                                mag = Convert.ToSingle(strArr[1]);
+                                pha = Convert.ToSingle(strArr[2]);
+                                Num_COMB1 = Convert.ToInt32(strArr[3]);
+                                if (Num_COMB1 > Num_COMB2)
+                                {
+                                    cnt11++;
+                                    chart1.Series.Add((cnt11).ToString());//添加
+                                    chart2.Series.Add((cnt11).ToString());//添加
+                                    chart3.Series.Add((cnt11).ToString());//添加
+                                    this.chart1.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
+                                    this.chart2.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
+                                    this.chart3.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
+                                }
+                                Num_COMB2 = Convert.ToInt32(strArr[3]);
+                                int fre_int = (int)(fre * 100);
+                                fre = fre_int / 100;
+
+
+
+                                double real = mag * Math.Cos(pha * Math.PI / 180);
+                                double img = mag * Math.Sin(-pha * Math.PI / 180);
+
+                                int real_int = (int)(real * 100);
+                                real = real_int / 100;
+
+                                int img_int = (int)(img * 100);
+                                img = img_int / 100;
+
+                                this.chart1.Series[(cnt11).ToString()].Points.AddXY(fre, mag);
+                                this.chart2.Series[(cnt11).ToString()].Points.AddXY(fre, pha);
+                                this.chart3.Series[(cnt11).ToString()].Points.AddXY(real, img);
+
+
+                                data_queue.Enqueue(strc + ":");
+
+
+                                FileStream fs = new FileStream(Combination_m, FileMode.Append);
+                                StreamWriter sw = new StreamWriter(fs);
+                                sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + cnt11.ToString());
+                                sw.Flush();
+                                sw.Close();
+                                fs.Close();
+
+                            }
+                            catch
+                            {
+                                MessageBox.Show("图表未工作");
+                                Console.WriteLine("error");
+
+                            }
+                        }
+                    }
                     else
                     {
-                        //string strvv = serialPort1.ReadExisting();
-                        string strvv = serialPort1.ReadLine();
+                        string strvv = serialPort1.ReadExisting();
+                        //string strvv = serialPort1.ReadLine();
                         ReceiveArea.AppendText(strvv);
                     }
 
@@ -855,14 +1042,14 @@ namespace Comm
         //chart init.
         private void Init_Chart()
         {
-            #region chart1  
+
             chart1.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             chart2.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             chart3.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             chart3.ChartAreas[0].AxisY.ScaleView.Size = 3000;
             chart4.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             chart_u_i_r.ChartAreas[0].AxisX.ScaleView.Size = 3000;
-            #endregion
+
 
 
         }
@@ -914,7 +1101,7 @@ namespace Comm
 
         }
 
-
+        //服务器数据传输
         private void socketIoManager(int send, string dataToSend)
         {
 
@@ -1017,28 +1204,65 @@ namespace Comm
         //bode图幅值保存
         private void button1_Click_2(object sender, EventArgs e)//button1 bode图幅值save
         {
-            string bode_amp = pathString1 + "/bode_amp" + cnt1 + ".png";
-            this.chart1.SaveImage(bode_amp, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
-            MessageBox.Show("you have stored this picture");
-            cnt1++;
+
+
+            if (FDA == true)
+            {
+                string bode_amp = pathString1 + "/bode_amp" + cnt1 + ".png";
+                this.chart1.SaveImage(bode_amp, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+                MessageBox.Show("you have stored this picture");
+                cnt1++;
+            }
+            else if (ACM == true)
+            {
+                string bode_amp = pathString4 + "/bode_amp" + cnt8 + ".png";
+                this.chart1.SaveImage(bode_amp, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+                MessageBox.Show("you have stored this picture");
+                cnt8++;
+            }
         }
+            
 
         //bode图相位保存
         private void SaveBode2_Click(object sender, EventArgs e)
         {
-            string bode_pha = pathString1 + "/bode_pha" + cnt2 + ".png";
-            this.chart2.SaveImage(bode_pha, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
-            MessageBox.Show("you have stored this picture");
-            cnt2++;
+            if (FDA == true)
+            {
+
+                string bode_pha = pathString1 + "/bode_pha" + cnt2 + ".png";
+                this.chart2.SaveImage(bode_pha, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+                MessageBox.Show("you have stored this picture");
+                cnt2++;
+            }
+            else if (ACM == true)
+            {
+                string bode_pha = pathString4 + "/bode_pha" + cnt9 + ".png";
+                this.chart2.SaveImage(bode_pha, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+                MessageBox.Show("you have stored this picture");
+                cnt9++;
+            }
+
         }
+
         //Nyquist图保存
         private void SaveNyq_Click(object sender, EventArgs e)
         {
-            string Nyqst = pathString1 + "/Nyqst" + cnt3 + ".png";
-            this.chart3.SaveImage(Nyqst, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
-            MessageBox.Show("you have stored this picture");
-            cnt3++;
+            if (FDA == true)
+            {
+                string Nyqst = pathString1 + "/Nyqst" + cnt3 + ".png";
+                this.chart3.SaveImage(Nyqst, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+                MessageBox.Show("you have stored this picture");
+                cnt3++;
+            }
+            else if (ACM == true)
+            {
+                string Nyqst = pathString4 + "/Nyqst" + cnt10 + ".png";
+                this.chart3.SaveImage(Nyqst, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+                MessageBox.Show("you have stored this picture");
+                cnt10++;
+            }
         }
+
         //时域曲线保存
         private void SaveTD_Click(object sender, EventArgs e)
         {
@@ -1047,6 +1271,7 @@ namespace Comm
             MessageBox.Show("you have stored this picture");
             cnt4++;
         }
+
         //U_I_R曲线保存
         private void button2_Click_1(object sender, EventArgs e)
         {
@@ -1068,6 +1293,7 @@ namespace Comm
             TD = false;
             ACM = false;
             DCM = false;
+            rb_rep.Enabled = true;
             panel_switch.Height = btn_freq.Height;
             panel_switch.Top = btn_freq.Top;
             enableButtons(false, true, false, false, true, false, true, false, false, false);
@@ -1098,6 +1324,8 @@ namespace Comm
             TD = true;
             ACM = false;
             DCM = false;
+            rb_dur.Enabled = true;
+            rb_rep.Enabled = false;
             panel_switch.Height = btn_TD.Height;
             panel_switch.Top = btn_TD.Top;
             gb_ac.Text = "AC Control";
@@ -1107,7 +1335,7 @@ namespace Comm
             //serialPort1.Write("Open COM");
         }
 
-        // 交流
+        // 交流+直流
         private void btn_AC_Click(object sender, EventArgs e)
         {
            
@@ -1227,7 +1455,7 @@ namespace Comm
         //*******************************************//
 
 
-
+        //FDA+TD send
         private void btn_start_Click(object sender, EventArgs e)
         {
             btn_start.Enabled = false;
@@ -1654,7 +1882,7 @@ namespace Comm
         }
 
 
-        //FDA and TD stop
+        //FDA+TD stop
         private void btn_stop_Click(object sender, EventArgs e)
         {
 
@@ -1734,31 +1962,52 @@ namespace Comm
         private void rb_Frequncy_CheckedChanged(object sender, EventArgs e)
         {
             tb_Sweep_f.Enabled = false;
+            tb_Sweep_f.Visible = false;
             tb_Sweep_f.Text = null;
             tb_Sweep_t.Enabled = false;
+            tb_Sweep_t.Visible = false;
             tb_Sweep_t.Text = null;
             cb_freq_f.Enabled = false;
             cb_freq_t.Enabled = false;
+            cb_freq_f.Visible = false;
+            cb_freq_t.Visible = false;
             tb_freq.Enabled = true;
             cb_freq.Enabled = true;
+            tb_freq.Visible= true;
+            cb_freq.Visible = true;
+            label13.Visible = false;
+            label11.Visible = false;
+
+            rb_Sweep.Visible = false;
+            rb_Frequncy.Visible = true;
         }
 
         //扫频操作框
         private void rb_Sweep_CheckedChanged(object sender, EventArgs e)
         {
             tb_freq.Enabled = false;
+            tb_freq.Visible = false;
             tb_freq.Text = null;
             cb_freq.Enabled = false;
+            cb_freq.Visible = false;
             tb_Sweep_f.Enabled = true;
             tb_Sweep_t.Enabled = true;
+            tb_Sweep_f.Visible = true;
+            tb_Sweep_t.Visible = true;
             cb_freq_f.Enabled = true;
             cb_freq_t.Enabled = true;
+            cb_freq_f.Visible = true;
+            cb_freq_t.Visible = true;
+            rb_Sweep.Visible = true;
+            rb_Frequncy.Visible = false;
+            label13.Visible = true;
+            label11.Visible = true;
         }
 
         //repeat 操作框
         private void rb_rep_CheckedChanged(object sender, EventArgs e)
         {
-            cb_days.Enabled = true;
+            cb_days.Enabled = false;
             tb_d_h.Enabled = false;
             tb_d_m.Enabled = false;
             tb_d_s.Enabled = false;
@@ -1780,6 +2029,7 @@ namespace Comm
             gb_Single.Visible = true;
         }
 
+        //second choice in FDA
         private void checkBox_SEC_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_SEC.Checked)
@@ -1818,6 +2068,7 @@ namespace Comm
         //****************DC窗口**********************//
         //*******************************************//
 
+         // DC send
         private void btn_start1_Click(object sender, EventArgs e)
         {
             btn_start1.Enabled = false;
@@ -1960,7 +2211,7 @@ namespace Comm
             }
         }
 
-        //DC _Stop
+        //DC Stop
         private void btn_stop1_Click(object sender, EventArgs e)
         {
             serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x08 }, 0, 5);
@@ -2051,9 +2302,10 @@ namespace Comm
 
 
         //*********************************************//
-        //****************Combination***************//
+        //****************Combination window**********//
         //*******************************************//
 
+        //Combination send
         private void btn_comb_start_Click(object sender, EventArgs e)
         {
             btn_comb_start.Enabled = false;
@@ -2072,6 +2324,8 @@ namespace Comm
             DialogResult dr = MessageBox.Show("Everything already?", "Combination Measurement", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (dr == DialogResult.OK)
             {
+
+
                 tb_temp.Text = Temperature;
                 for (int CNT_T = 0; CNT_T < 10; CNT_T++)
                 {
@@ -2083,6 +2337,8 @@ namespace Comm
                     //首先判断串口是否开启
                     if (serialPort1.IsOpen)
                     {
+                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x04 }, 0, 5);
+
                         byte[] flag = new byte[2];
                         flag[0] = 00;
                         flag[1] = 01;
@@ -2123,7 +2379,7 @@ namespace Comm
 
                         try
                         {
-                            serialPort1.Write(strToHexByte(cb_dor2.Text.Trim()), 0, 1);//dor
+                            serialPort1.Write(strToHexByte(cb_dor2.Text.Trim()), 0, 1);//odr
 
                             byte[] tmp2 = strToHexByte(tb_amp2.Text);
                             byte[] tmp = exchange(tmp2);
@@ -2488,6 +2744,7 @@ namespace Comm
         //****************load  Project***************//
         //*******************************************//
 
+         //ID Struct
         public struct ID
         {
             public string ID_NUM;
@@ -2496,7 +2753,7 @@ namespace Comm
             public string ID_DES;
         }
 
-
+        //open Project
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
@@ -2528,11 +2785,11 @@ namespace Comm
                 parameter3 = pathString3 + "/Parameter.txt";
                 parameter4 = pathString4 + "/Parameter.txt";
 
-                Single_m = pathString1 + "/Single_Measurement.txt";
-                Single_m1 = pathString2 + "/Single_Measurement.txt";
-                Multiple_m = pathString1 + "/Multiple_Measurement.txt";
-                U_I_R = pathString3 + "/U_I_R_data.txt";
-                Combination_m = pathString4 + "Combination_Measurement.txt";
+                Single_m = pathString1 + "/0Single_Measurement.txt";
+                Single_m1 = pathString2 + "/0Single_Measurement.txt";
+                Multiple_m = pathString1 + "/0Multiple_Measurement.txt";
+                U_I_R = pathString3 + "/0U_I_R_data.txt";
+                Combination_m = pathString4 + "/0Combination_Measurement.txt";
 
                 string filePathOnly = Path.GetDirectoryName(foldPath);
                 string file = Path.GetFileName(filePathOnly);
@@ -2576,7 +2833,8 @@ namespace Comm
         //*********************************************//
         //****************Data Analyser***************//
         //*******************************************//
-
+        
+         //open Dateset
         private void loadProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btn_freq.Visible = false;
@@ -2640,14 +2898,14 @@ namespace Comm
 
         }
 
-        //paiting of single measurement in FDA
+        //painting of single measurement in FDA
 
         private void btn_s_Click(object sender, EventArgs e)
         {
 
             string FDA = foldPath + "/FDA";
-            string FDA_S = FDA + "/Single_Measurement.txt";
-            string FDA_M = FDA + "/Multiple_Measurement.txt";
+            string FDA_S = FDA + "/0Single_Measurement.txt";
+            string FDA_M = FDA + "/0Multiple_Measurement.txt";
             string FDA_P1 = FDA + "/Parameter_s.txt";
             string[] lines = File.ReadAllLines(FDA_S);
             chart1.Series.Add((cnt7).ToString());//添加
@@ -2659,36 +2917,39 @@ namespace Comm
             // 点列表集合
             List<Point> points = new List<Point>();
             // 让过第一行，从第二行开始处理
-            for (int i = 1; i < lines.Length; i++)
+            if (lines.Length > 0)
             {
-                string line = lines[i];
-                // 拆分行
-                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                Point p;
-                // 获取Y（第一列）        
-                p.X = double.Parse(v[0]);
-                // 获取Y（第二列）        
-                p.Y = double.Parse(v[1]);
-                p.Z = double.Parse(v[2]);
-                points.Add(p);
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    string line = lines[i];
+                    // 拆分行
+                    string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    Point p;
+                    // 获取Y（第一列）        
+                    p.X = double.Parse(v[0]);
+                    // 获取Y（第二列）        
+                    p.Y = double.Parse(v[1]);
+                    p.Z = double.Parse(v[2]);
+                    points.Add(p);
 
-                int fre_int = (int)(p.X * 100);
-                p.X = fre_int / 100;
+                    int fre_int = (int)(p.X * 100);
+                    p.X = fre_int / 100;
 
-                double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
-                double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
+                    double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
+                    double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
 
-                int real_int = (int)(real * 100);
-                real = real_int / 100;
+                    int real_int = (int)(real * 100);
+                    real = real_int / 100;
 
-                int img_int = (int)(img * 100);
-                img = img_int / 100;
+                    int img_int = (int)(img * 100);
+                    img = img_int / 100;
 
 
-                this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
-                this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
+                    this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
+                    this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
+                    this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
 
+                }
             }
         }
 
@@ -2698,8 +2959,8 @@ namespace Comm
         {
 
             string FDA = foldPath + "/FDA";
-            string FDA_S = FDA + "/Single_Measurement.txt";
-            string FDA_M = FDA + "/Multiple_Measurement.txt";
+            string FDA_S = FDA + "/0Single_Measurement.txt";
+            string FDA_M = FDA + "/0Multiple_Measurement.txt";
             string FDA_P2 = FDA + "/Parameter_m.txt";
             string[] lines = File.ReadAllLines(FDA_M);
             chart1.Series.Add((cnt7).ToString());//添加
@@ -2712,35 +2973,39 @@ namespace Comm
             // 点列表集合
             List<Point> points = new List<Point>();
             // 让过第一行，从第二行开始处理
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                // 拆分行
-                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                Point p;
-                // 获取Y（第一列）        
-                p.X = double.Parse(v[0]);
-                // 获取Y（第二列）        
-                p.Y = double.Parse(v[1]);
-                p.Z = double.Parse(v[2]);
-                points.Add(p);
 
-                int fre_int = (int)(p.X * 100);
-                p.X = fre_int / 100;
+            if (lines.Length > 0)
+            { 
+                    for (int i = 1; i < lines.Length; i++)
+                {
+                    string line = lines[i];
+                    // 拆分行
+                    string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    Point p;
+                    // 获取Y（第一列）        
+                    p.X = double.Parse(v[0]);
+                    // 获取Y（第二列）        
+                    p.Y = double.Parse(v[1]);
+                    p.Z = double.Parse(v[2]);
+                    points.Add(p);
 
-                double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
-                double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
+                    int fre_int = (int)(p.X * 100);
+                    p.X = fre_int / 100;
 
-                int real_int = (int)(real * 100);
-                real = real_int / 100;
+                    double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
+                    double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
 
-                int img_int = (int)(img * 100);
-                img = img_int / 100;
+                    int real_int = (int)(real * 100);
+                    real = real_int / 100;
 
-                this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
-                this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
+                    int img_int = (int)(img * 100);
+                    img = img_int / 100;
 
+                    this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
+                    this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
+                    this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
+
+                }
             }
         }
 
@@ -2753,7 +3018,7 @@ namespace Comm
             btn_m.Visible = false;
 
             string TD = foldPath + "/TD";
-            string TD_S = TD + "/Single_Measurement.txt";
+            string TD_S = TD + "/0Single_Measurement.txt";
             //string FDA_M = FDA + "/Multiple_Measurement.txt";
             string TD_p = TD + "/Parameter.txt";
 
@@ -2761,20 +3026,23 @@ namespace Comm
             this.chart4.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
             List<Point_T> points = new List<Point_T>();
             string[] lines = File.ReadAllLines(TD_S);
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                // 拆分行
-                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                Point_T p;
-                // 获取Y（第一列）        
-                p.X = double.Parse(v[0]);
-                // 获取Y（第二列）        
-                p.Y = double.Parse(v[1]);
-                //p.Z = double.Parse(v[2]);
-                points.Add(p);
-                this.chart4.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                //this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
+            if(lines.Length>0)
+            { 
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    string line = lines[i];
+                    // 拆分行
+                    string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    Point_T p;
+                    // 获取Y（第一列）        
+                    p.X = double.Parse(v[0]);
+                    // 获取Y（第二列）        
+                    p.Y = double.Parse(v[1]);
+                    //p.Z = double.Parse(v[2]);
+                    points.Add(p);
+                    this.chart4.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
+                    //this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
+                }
             }
         }
 
@@ -2786,7 +3054,7 @@ namespace Comm
             btn_m.Visible = false;
 
             string DC = foldPath + "/DC";
-            string DC_U = DC + "/U_I_R_data.txt";
+            string DC_U = DC + "/0U_I_R_data.txt";
             //string FDA_M = FDA + "/Multiple_Measurement.txt";
             string TD_p = TD + "/Parameter.txt";
             chart_u_i_r.Series.Add((cnt7).ToString());//添加
@@ -2797,23 +3065,26 @@ namespace Comm
             this.chart_u_i_r.Series[(cnt7 + 2).ToString()].ChartType = SeriesChartType.Point;
             List<Point_U> points = new List<Point_U>();
             string[] lines = File.ReadAllLines(DC_U);
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                // 拆分行
-                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                Point_U p;
-                // 获取Y（第一列）        
-                p.X = double.Parse(v[0]);
-                // 获取Y（第二列）        
-                p.Y = double.Parse(v[1]);
-                p.Z = double.Parse(v[2]);
-                p.K = double.Parse(v[3]);
-                points.Add(p);
-                this.chart_u_i_r.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                this.chart_u_i_r.Series[(cnt7 + 1).ToString()].Points.AddXY(p.X, p.Z);
-                this.chart_u_i_r.Series[(cnt7 + 2).ToString()].Points.AddXY(p.X, p.K);
-                //this.chart_u_i_r.ChartAreas[0].AxisX.IsLogarithmic = true;
+            if (lines.Length > 0)
+            { 
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    string line = lines[i];
+                    // 拆分行
+                    string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    Point_U p;
+                    // 获取Y（第一列）        
+                    p.X = double.Parse(v[0]);
+                    // 获取Y（第二列）        
+                    p.Y = double.Parse(v[1]);
+                    p.Z = double.Parse(v[2]);
+                    p.K = double.Parse(v[3]);
+                    points.Add(p);
+                    this.chart_u_i_r.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
+                    this.chart_u_i_r.Series[(cnt7 + 1).ToString()].Points.AddXY(p.X, p.Z);
+                    this.chart_u_i_r.Series[(cnt7 + 2).ToString()].Points.AddXY(p.X, p.K);
+                    //this.chart_u_i_r.ChartAreas[0].AxisX.IsLogarithmic = true;
+                }
             }
         }
 
@@ -2833,35 +3104,39 @@ namespace Comm
             // 点列表集合
             List<Point> points = new List<Point>();
             // 让过第一行，从第二行开始处理
-            for (int i = 1; i < lines.Length; i++)
+            if (lines.Length > 0)
             {
-                string line = lines[i];
-                // 拆分行
-                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                Point p;
-                // 获取Y（第一列）        
-                p.X = double.Parse(v[0]);
-                // 获取Y（第二列）        
-                p.Y = double.Parse(v[1]);
-                p.Z = double.Parse(v[2]);
-                points.Add(p);
 
-                int fre_int = (int)(p.X * 100);
-                p.X = fre_int / 100;
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    string line = lines[i];
+                    // 拆分行
+                    string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    Point p;
+                    // 获取Y（第一列）        
+                    p.X = double.Parse(v[0]);
+                    // 获取Y（第二列）        
+                    p.Y = double.Parse(v[1]);
+                    p.Z = double.Parse(v[2]);
+                    points.Add(p);
 
-                double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
-                double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
+                    int fre_int = (int)(p.X * 100);
+                    p.X = fre_int / 100;
 
-                int real_int = (int)(real * 100);
-                real = real_int / 100;
+                    double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
+                    double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
 
-                int img_int = (int)(img * 100);
-                img = img_int / 100;
+                    int real_int = (int)(real * 100);
+                    real = real_int / 100;
 
-                this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
-                this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
+                    int img_int = (int)(img * 100);
+                    img = img_int / 100;
 
+                    this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
+                    this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
+                    this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
+
+                }
             }
         }
 
@@ -3115,6 +3390,846 @@ namespace Comm
         }       
 
         private void groupBox6_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void test_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SendArea_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chart3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TimeDomin_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox4_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ipaddress_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gb_time_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lab_date_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label38_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_s_p_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Sweep_Points_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_dft_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lab_dft_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_tia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lab_tia_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_dor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lab_dor_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lab_ampmV_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_amp_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lab_amp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_freq_f_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_freq_t_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_Sweep_t_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_Sweep_f_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_freq_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_freq_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gb_exp_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_test_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gb_mulitply_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DTP_End_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DTP_Start_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label34_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label37_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label36_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label35_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel_sec_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label28_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_times_T2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label24_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker_t_2_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker_f_2_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_times_D2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lab_second_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel_fst_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label23_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label22_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_times_T1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker_t_1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker_f_1_ValueChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_times_D1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lab_first_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_days_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label27_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label21_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_d_s_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_d_m_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label25_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_d_h_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox_UI_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_I_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_R_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_u_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label32_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label31_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gb1_Enter_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label39_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_cyc_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label33_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chart_v_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label26_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_start_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label29_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void rb_Square_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rb_Triangle_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_times_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label20_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label18_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_d_s1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_d_m1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label19_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_d_h1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
+
+        private void tb_amp4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_d_s2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_Sweep_f2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox5_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_amp2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_s_p2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_tia2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void hlepHToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel_load_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void gb_comb_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gb_temperature_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label64_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rb_temp_n_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rb_temp_y_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gb_dc2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label63_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label62_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label70_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label71_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gb_rep2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label40_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label50_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DTP_End2_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DTP_Start2_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label51_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label52_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label53_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label54_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label55_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_times_T4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label56_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker_t_4_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker_f_4_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_times_D4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label57_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label58_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label59_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_times_T3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker_t_3_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker_f_3_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_times_D3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label60_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_days2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label61_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gb_ac2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chart_temp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_temp_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label41_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_dft2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label42_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tb_Sweep_t2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label43_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label44_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_dor2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label45_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label46_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label47_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_freq_f2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_freq_t2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label48_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label49_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
         {
 
         }

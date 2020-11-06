@@ -29,32 +29,32 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title7 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title8 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend10 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea13 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series17 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea14 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.HexSend = new System.Windows.Forms.CheckBox();
             this.ClearSendArea = new System.Windows.Forms.Button();
@@ -65,7 +65,6 @@
             this.Hexshow = new System.Windows.Forms.CheckBox();
             this.socket = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.var_test = new System.Windows.Forms.Label();
             this.ReceiveArea = new System.Windows.Forms.TextBox();
             this.test = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -251,8 +250,6 @@
             this.btn_td_load = new System.Windows.Forms.Button();
             this.btn_fre_load = new System.Windows.Forms.Button();
             this.gb_comb = new System.Windows.Forms.GroupBox();
-            this.btn_stop2 = new Comm.RoundButton();
-            this.btn_comb_start = new Comm.RoundButton();
             this.gb_temperature = new System.Windows.Forms.GroupBox();
             this.label64 = new System.Windows.Forms.Label();
             this.rb_temp_n = new System.Windows.Forms.RadioButton();
@@ -309,6 +306,9 @@
             this.label49 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.btn_stop2 = new Comm.RoundButton();
+            this.btn_comb_start = new Comm.RoundButton();
+            this.panel6 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -353,6 +353,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart_temp)).BeginInit();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -464,39 +465,29 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.var_test);
             this.groupBox2.Controls.Add(this.ReceiveArea);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox2.Location = new System.Drawing.Point(-1, 4);
+            this.groupBox2.Location = new System.Drawing.Point(822, 41);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(174, 314);
+            this.groupBox2.Size = new System.Drawing.Size(185, 540);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Received Raw Data";
             this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
-            // 
-            // var_test
-            // 
-            this.var_test.AutoSize = true;
-            this.var_test.Location = new System.Drawing.Point(12, 327);
-            this.var_test.Name = "var_test";
-            this.var_test.Size = new System.Drawing.Size(53, 17);
-            this.var_test.TabIndex = 2;
-            this.var_test.Text = "testbox";
             // 
             // ReceiveArea
             // 
             this.ReceiveArea.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ReceiveArea.Location = new System.Drawing.Point(9, 20);
+            this.ReceiveArea.Location = new System.Drawing.Point(6, 25);
             this.ReceiveArea.Multiline = true;
             this.ReceiveArea.Name = "ReceiveArea";
             this.ReceiveArea.ReadOnly = true;
             this.ReceiveArea.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.ReceiveArea.Size = new System.Drawing.Size(165, 288);
+            this.ReceiveArea.Size = new System.Drawing.Size(173, 514);
             this.ReceiveArea.TabIndex = 0;
             this.ReceiveArea.TextChanged += new System.EventHandler(this.ReceiveArea_TextChanged);
             // 
@@ -506,6 +497,7 @@
             this.test.Name = "test";
             this.test.Size = new System.Drawing.Size(127, 21);
             this.test.TabIndex = 1;
+            this.test.TextChanged += new System.EventHandler(this.test_TextChanged);
             // 
             // tabControl1
             // 
@@ -518,6 +510,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(234, 133);
             this.tabControl1.TabIndex = 15;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -551,6 +544,7 @@
             this.SendArea.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.SendArea.Size = new System.Drawing.Size(223, 71);
             this.SendArea.TabIndex = 1;
+            this.SendArea.TextChanged += new System.EventHandler(this.SendArea_TextChanged);
             // 
             // tabPage2
             // 
@@ -588,6 +582,7 @@
             this.label6.Size = new System.Drawing.Size(99, 17);
             this.label6.TabIndex = 5;
             this.label6.Text = "Num of Byte：";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // Time
             // 
@@ -639,10 +634,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.tabControl2);
+            this.groupBox3.Controls.Add(this.groupBox2);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
             this.groupBox3.Location = new System.Drawing.Point(589, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(883, 602);
+            this.groupBox3.Size = new System.Drawing.Size(1011, 602);
             this.groupBox3.TabIndex = 16;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Plot Zone";
@@ -658,10 +654,12 @@
             this.tabControl2.Controls.Add(this.TimeDomin);
             this.tabControl2.Controls.Add(this.tabPage5);
             this.tabControl2.Location = new System.Drawing.Point(6, 21);
+            this.tabControl2.Multiline = true;
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(865, 556);
+            this.tabControl2.Size = new System.Drawing.Size(810, 556);
             this.tabControl2.TabIndex = 17;
+            this.tabControl2.SelectedIndexChanged += new System.EventHandler(this.tabControl2_SelectedIndexChanged);
             // 
             // tabPage3
             // 
@@ -670,7 +668,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 26);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(857, 526);
+            this.tabPage3.Size = new System.Drawing.Size(802, 526);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Bode Diagram";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -678,13 +676,11 @@
             // 
             // groupBox6
             // 
-            this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox6.Controls.Add(this.chart2);
             this.groupBox6.Controls.Add(this.SaveBode2);
             this.groupBox6.Location = new System.Drawing.Point(6, 254);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(850, 249);
+            this.groupBox6.Size = new System.Drawing.Size(787, 269);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Phase";
@@ -695,39 +691,41 @@
             this.chart2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.AxisX.Maximum = 100000D;
-            chartArea1.AxisX.Minimum = 10000D;
-            chartArea1.AxisX.Title = "Frequency(Hz)";
-            chartArea1.AxisY.Title = "Phase (Degree)";
-            chartArea1.CursorX.IsUserEnabled = true;
-            chartArea1.CursorX.IsUserSelectionEnabled = true;
-            chartArea1.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend2";
-            this.chart2.Legends.Add(legend1);
+            chartArea8.AxisX.Title = "Frequency(Hz)";
+            chartArea8.AxisY.Title = "Phase (Degree)";
+            chartArea8.CursorX.IsUserEnabled = true;
+            chartArea8.CursorX.IsUserSelectionEnabled = true;
+            chartArea8.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea8);
+            legend6.Alignment = System.Drawing.StringAlignment.Far;
+            legend6.DockedToChartArea = "ChartArea1";
+            legend6.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend6.IsDockedInsideChartArea = false;
+            legend6.Name = "Legend2";
+            this.chart2.Legends.Add(legend6);
             this.chart2.Location = new System.Drawing.Point(6, 22);
             this.chart2.Name = "chart2";
             this.chart2.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Fire;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series1.Legend = "Legend2";
-            series1.LegendText = "Phase";
-            series1.Name = "Series_pha";
-            series1.ToolTip = "#VALX #VAL";
-            this.chart2.Series.Add(series1);
-            this.chart2.Size = new System.Drawing.Size(760, 221);
+            series10.ChartArea = "ChartArea1";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series10.Legend = "Legend2";
+            series10.LegendText = "Phase";
+            series10.Name = "Series_pha";
+            series10.ToolTip = "#VALX #VAL";
+            this.chart2.Series.Add(series10);
+            this.chart2.Size = new System.Drawing.Size(697, 241);
             this.chart2.TabIndex = 2;
             this.chart2.Text = "chart2";
-            title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            title1.Name = "Title1";
-            title1.Text = "Phase-Frequency";
-            this.chart2.Titles.Add(title1);
+            title5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            title5.Name = "Title1";
+            title5.Text = "Phase-Frequency";
+            this.chart2.Titles.Add(title5);
             this.chart2.Click += new System.EventHandler(this.chart2_Click);
             // 
             // SaveBode2
             // 
             this.SaveBode2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveBode2.Location = new System.Drawing.Point(769, 207);
+            this.SaveBode2.Location = new System.Drawing.Point(706, 227);
             this.SaveBode2.Name = "SaveBode2";
             this.SaveBode2.Size = new System.Drawing.Size(75, 30);
             this.SaveBode2.TabIndex = 4;
@@ -744,15 +742,16 @@
             this.groupBox5.Controls.Add(this.chart1);
             this.groupBox5.Location = new System.Drawing.Point(6, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(847, 241);
+            this.groupBox5.Size = new System.Drawing.Size(790, 250);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Amplitude";
+            this.groupBox5.Enter += new System.EventHandler(this.groupBox5_Enter);
             // 
             // button1
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button1.Location = new System.Drawing.Point(769, 195);
+            this.button1.Location = new System.Drawing.Point(712, 200);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 31);
             this.button1.TabIndex = 3;
@@ -762,51 +761,53 @@
             // 
             // chart1
             // 
-            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chart1.BorderlineColor = System.Drawing.SystemColors.Window;
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-            chartArea2.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.Silver;
-            chartArea2.AxisX.Maximum = 100000D;
-            chartArea2.AxisX.Minimum = 10000D;
-            chartArea2.AxisX.ScaleView.SmallScrollMinSize = 5D;
-            chartArea2.AxisX.ScrollBar.BackColor = System.Drawing.Color.LightGray;
-            chartArea2.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.DarkGray;
-            chartArea2.AxisX.Title = "Frequency(Hz)";
-            chartArea2.AxisY.Title = "Amplitude (Ohm)";
-            chartArea2.CursorX.IsUserEnabled = true;
-            chartArea2.CursorX.IsUserSelectionEnabled = true;
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
+            chartArea9.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea9.AxisX.MajorGrid.LineColor = System.Drawing.Color.Silver;
+            chartArea9.AxisX.ScaleView.SmallScrollMinSize = 5D;
+            chartArea9.AxisX.ScrollBar.BackColor = System.Drawing.Color.LightGray;
+            chartArea9.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.DarkGray;
+            chartArea9.AxisX.Title = "Frequency(Hz)";
+            chartArea9.AxisY.Title = "Amplitude (Ohm)";
+            chartArea9.CursorX.IsUserEnabled = true;
+            chartArea9.CursorX.IsUserSelectionEnabled = true;
+            chartArea9.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea9);
             this.chart1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            legend2.BackColor = System.Drawing.Color.White;
-            legend2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.LeftRight;
-            legend2.BackHatchStyle = System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.BackwardDiagonal;
-            legend2.BorderColor = System.Drawing.Color.White;
-            legend2.Name = "Legend2";
-            legend2.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide;
-            this.chart1.Legends.Add(legend2);
+            legend7.Alignment = System.Drawing.StringAlignment.Far;
+            legend7.BackColor = System.Drawing.Color.White;
+            legend7.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.LeftRight;
+            legend7.BackHatchStyle = System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.BackwardDiagonal;
+            legend7.BorderColor = System.Drawing.Color.White;
+            legend7.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend7.IsDockedInsideChartArea = false;
+            legend7.Name = "Legend2";
+            legend7.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide;
+            this.chart1.Legends.Add(legend7);
             this.chart1.Location = new System.Drawing.Point(6, 17);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
             this.chart1.PaletteCustomColors = new System.Drawing.Color[] {
         System.Drawing.Color.Red};
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series2.Legend = "Legend2";
-            series2.LegendText = "Mag";
-            series2.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series2.Name = "Series_s";
-            series2.ToolTip = "#VALX #VAL";
-            this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(760, 199);
+            series11.ChartArea = "ChartArea1";
+            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series11.Legend = "Legend2";
+            series11.LegendText = "Mag";
+            series11.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series11.Name = "Series_s";
+            series11.ToolTip = "#VALX #VAL";
+            this.chart1.Series.Add(series11);
+            this.chart1.Size = new System.Drawing.Size(703, 215);
             this.chart1.TabIndex = 1;
             this.chart1.Text = "chart1";
-            title2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            title2.Name = "Title1";
-            title2.Text = "Amplitude-Frequency";
-            this.chart1.Titles.Add(title2);
+            title6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            title6.Name = "Title1";
+            title6.Text = "Amplitude-Frequency";
+            this.chart1.Titles.Add(title6);
             this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // tabPage4
@@ -816,15 +817,16 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 26);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(857, 526);
+            this.tabPage4.Size = new System.Drawing.Size(802, 526);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Nyquist Diagram";
             this.tabPage4.UseVisualStyleBackColor = true;
+            this.tabPage4.Click += new System.EventHandler(this.tabPage4_Click);
             // 
             // SaveNyq
             // 
             this.SaveNyq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveNyq.Location = new System.Drawing.Point(692, 21);
+            this.SaveNyq.Location = new System.Drawing.Point(704, 477);
             this.SaveNyq.Name = "SaveNyq";
             this.SaveNyq.Size = new System.Drawing.Size(75, 28);
             this.SaveNyq.TabIndex = 1;
@@ -837,34 +839,34 @@
             this.chart3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea3.AxisX.Maximum = 30D;
-            chartArea3.AxisX.ScrollBar.IsPositionedInside = false;
-            chartArea3.AxisY.Maximum = 50D;
-            chartArea3.AxisY.ScrollBar.IsPositionedInside = false;
-            chartArea3.CursorX.IsUserEnabled = true;
-            chartArea3.CursorX.IsUserSelectionEnabled = true;
-            chartArea3.CursorY.IsUserEnabled = true;
-            chartArea3.CursorY.IsUserSelectionEnabled = true;
-            chartArea3.Name = "ChartArea1";
-            this.chart3.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.chart3.Legends.Add(legend3);
+            chartArea10.AxisX.ScrollBar.IsPositionedInside = false;
+            chartArea10.AxisY.Maximum = 50D;
+            chartArea10.AxisY.ScrollBar.IsPositionedInside = false;
+            chartArea10.CursorX.IsUserEnabled = true;
+            chartArea10.CursorX.IsUserSelectionEnabled = true;
+            chartArea10.CursorY.IsUserEnabled = true;
+            chartArea10.CursorY.IsUserSelectionEnabled = true;
+            chartArea10.Name = "ChartArea1";
+            this.chart3.ChartAreas.Add(chartArea10);
+            legend8.Name = "Legend1";
+            this.chart3.Legends.Add(legend8);
             this.chart3.Location = new System.Drawing.Point(3, 3);
             this.chart3.Name = "chart3";
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series3.Legend = "Legend1";
-            series3.Name = "Series_nqs";
-            series3.ToolTip = "#VALX #VAL";
-            this.chart3.Series.Add(series3);
-            this.chart3.Size = new System.Drawing.Size(799, 461);
+            series12.ChartArea = "ChartArea1";
+            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series12.Legend = "Legend1";
+            series12.Name = "Series_nqs";
+            series12.ToolTip = "#VALX #VAL";
+            this.chart3.Series.Add(series12);
+            this.chart3.Size = new System.Drawing.Size(776, 461);
             this.chart3.SuppressExceptions = true;
             this.chart3.TabIndex = 0;
             this.chart3.Text = "chart3";
-            title3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            title3.Name = "Title1";
-            title3.Text = "Nyquist Diagram";
-            this.chart3.Titles.Add(title3);
+            title7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            title7.Name = "Title1";
+            title7.Text = "Nyquist Diagram";
+            this.chart3.Titles.Add(title7);
+            this.chart3.Click += new System.EventHandler(this.chart3_Click);
             // 
             // TimeDomin
             // 
@@ -874,15 +876,16 @@
             this.TimeDomin.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.TimeDomin.Name = "TimeDomin";
             this.TimeDomin.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.TimeDomin.Size = new System.Drawing.Size(857, 526);
+            this.TimeDomin.Size = new System.Drawing.Size(802, 526);
             this.TimeDomin.TabIndex = 2;
             this.TimeDomin.Text = "Time Domin";
             this.TimeDomin.UseVisualStyleBackColor = true;
+            this.TimeDomin.Click += new System.EventHandler(this.TimeDomin_Click);
             // 
             // SaveTD
             // 
             this.SaveTD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveTD.Location = new System.Drawing.Point(672, 403);
+            this.SaveTD.Location = new System.Drawing.Point(696, 472);
             this.SaveTD.Name = "SaveTD";
             this.SaveTD.Size = new System.Drawing.Size(75, 31);
             this.SaveTD.TabIndex = 4;
@@ -895,36 +898,36 @@
             this.chart4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea4.AxisX.ScrollBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            chartArea4.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            chartArea4.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
-            chartArea4.AxisX.ScrollBar.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            chartArea4.CursorX.IsUserEnabled = true;
-            chartArea4.CursorX.IsUserSelectionEnabled = true;
-            chartArea4.Name = "ChartArea1";
-            this.chart4.ChartAreas.Add(chartArea4);
-            legend4.Alignment = System.Drawing.StringAlignment.Far;
-            legend4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend4.Name = "Legend1";
-            this.chart4.Legends.Add(legend4);
+            chartArea11.AxisX.ScrollBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            chartArea11.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            chartArea11.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
+            chartArea11.AxisX.ScrollBar.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            chartArea11.CursorX.IsUserEnabled = true;
+            chartArea11.CursorX.IsUserSelectionEnabled = true;
+            chartArea11.Name = "ChartArea1";
+            this.chart4.ChartAreas.Add(chartArea11);
+            legend9.Alignment = System.Drawing.StringAlignment.Far;
+            legend9.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend9.Name = "Legend1";
+            this.chart4.Legends.Add(legend9);
             this.chart4.Location = new System.Drawing.Point(11, 11);
             this.chart4.Margin = new System.Windows.Forms.Padding(2);
             this.chart4.Name = "chart4";
             this.chart4.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series4.LabelForeColor = System.Drawing.Color.Transparent;
-            series4.Legend = "Legend1";
-            series4.LegendText = "Impendence";
-            series4.Name = "Series_TD";
-            series4.ToolTip = "#VALX #VAL";
-            this.chart4.Series.Add(series4);
-            this.chart4.Size = new System.Drawing.Size(747, 383);
+            series13.ChartArea = "ChartArea1";
+            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series13.LabelForeColor = System.Drawing.Color.Transparent;
+            series13.Legend = "Legend1";
+            series13.LegendText = "Impendence";
+            series13.Name = "Series_TD";
+            series13.ToolTip = "#VALX #VAL";
+            this.chart4.Series.Add(series13);
+            this.chart4.Size = new System.Drawing.Size(721, 383);
             this.chart4.TabIndex = 0;
             this.chart4.Text = "chart4";
-            title4.Name = "Time Domin";
-            title4.Text = "Time Domin";
-            this.chart4.Titles.Add(title4);
+            title8.Name = "Time Domin";
+            title8.Text = "Time Domin";
+            this.chart4.Titles.Add(title8);
             this.chart4.Click += new System.EventHandler(this.chart4_Click);
             // 
             // tabPage5
@@ -934,15 +937,16 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 26);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(857, 526);
+            this.tabPage5.Size = new System.Drawing.Size(802, 526);
             this.tabPage5.TabIndex = 3;
             this.tabPage5.Text = "U-I-R";
             this.tabPage5.UseVisualStyleBackColor = true;
+            this.tabPage5.Click += new System.EventHandler(this.tabPage5_Click);
             // 
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(691, 392);
+            this.button2.Location = new System.Drawing.Point(694, 450);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 31);
             this.button2.TabIndex = 5;
@@ -955,38 +959,38 @@
             this.chart_u_i_r.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea5.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
-            chartArea5.Name = "ChartArea1";
-            this.chart_u_i_r.ChartAreas.Add(chartArea5);
-            legend5.Name = "Legend1";
-            this.chart_u_i_r.Legends.Add(legend5);
-            this.chart_u_i_r.Location = new System.Drawing.Point(3, 3);
+            chartArea12.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
+            chartArea12.Name = "ChartArea1";
+            this.chart_u_i_r.ChartAreas.Add(chartArea12);
+            legend10.Name = "Legend1";
+            this.chart_u_i_r.Legends.Add(legend10);
+            this.chart_u_i_r.Location = new System.Drawing.Point(2, 34);
             this.chart_u_i_r.Name = "chart_u_i_r";
             this.chart_u_i_r.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series5.Legend = "Legend1";
-            series5.LegendText = "Voltage";
-            series5.Name = "Series_ui";
-            series5.ToolTip = "#VALX #VAL";
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series6.Legend = "Legend1";
-            series6.LegendText = "Current";
-            series6.Name = "Series2";
-            series6.ToolTip = "#VALX #VAL";
-            series7.BorderColor = System.Drawing.Color.White;
-            series7.ChartArea = "ChartArea1";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series7.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            series7.Legend = "Legend1";
-            series7.LegendText = "Resistance";
-            series7.Name = "Series3";
-            series7.ToolTip = "#VALX #VAL";
-            this.chart_u_i_r.Series.Add(series5);
-            this.chart_u_i_r.Series.Add(series6);
-            this.chart_u_i_r.Series.Add(series7);
-            this.chart_u_i_r.Size = new System.Drawing.Size(802, 466);
+            series14.ChartArea = "ChartArea1";
+            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series14.Legend = "Legend1";
+            series14.LegendText = "Voltage";
+            series14.Name = "Series_ui";
+            series14.ToolTip = "#VALX #VAL";
+            series15.ChartArea = "ChartArea1";
+            series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series15.Legend = "Legend1";
+            series15.LegendText = "Current";
+            series15.Name = "Series2";
+            series15.ToolTip = "#VALX #VAL";
+            series16.BorderColor = System.Drawing.Color.White;
+            series16.ChartArea = "ChartArea1";
+            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series16.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            series16.Legend = "Legend1";
+            series16.LegendText = "Resistance";
+            series16.Name = "Series3";
+            series16.ToolTip = "#VALX #VAL";
+            this.chart_u_i_r.Series.Add(series14);
+            this.chart_u_i_r.Series.Add(series15);
+            this.chart_u_i_r.Series.Add(series16);
+            this.chart_u_i_r.Size = new System.Drawing.Size(794, 466);
             this.chart_u_i_r.TabIndex = 0;
             this.chart_u_i_r.Text = "chart5";
             this.chart_u_i_r.Click += new System.EventHandler(this.chart_u_i_r_Click);
@@ -1015,6 +1019,7 @@
             this.label8.Size = new System.Drawing.Size(58, 13);
             this.label8.TabIndex = 17;
             this.label8.Text = "IP Address";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // groupBox4
             // 
@@ -1033,6 +1038,7 @@
             this.groupBox4.TabIndex = 17;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Server Configure";
+            this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
             // 
             // btnStop
             // 
@@ -1063,6 +1069,7 @@
             this.ipaddress.Size = new System.Drawing.Size(164, 20);
             this.ipaddress.TabIndex = 19;
             this.ipaddress.Text = "http://localhost";
+            this.ipaddress.TextChanged += new System.EventHandler(this.ipaddress_TextChanged);
             // 
             // label9
             // 
@@ -1073,6 +1080,7 @@
             this.label9.Size = new System.Drawing.Size(26, 13);
             this.label9.TabIndex = 18;
             this.label9.Text = "Port";
+            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // btn_freq
             // 
@@ -1148,6 +1156,7 @@
             this.gb_time.Size = new System.Drawing.Size(150, 80);
             this.gb_time.TabIndex = 24;
             this.gb_time.TabStop = false;
+            this.gb_time.Enter += new System.EventHandler(this.gb_time_Enter);
             // 
             // lab_date
             // 
@@ -1159,6 +1168,7 @@
             this.lab_date.Size = new System.Drawing.Size(146, 60);
             this.lab_date.TabIndex = 1;
             this.lab_date.Text = "2020/07/12 00:00:00";
+            this.lab_date.Click += new System.EventHandler(this.lab_date_Click);
             // 
             // gb_ac
             // 
@@ -1202,6 +1212,7 @@
             this.label38.Size = new System.Drawing.Size(47, 12);
             this.label38.TabIndex = 42;
             this.label38.Text = "label38";
+            this.label38.Click += new System.EventHandler(this.label38_Click);
             // 
             // tb_s_p
             // 
@@ -1213,6 +1224,7 @@
             this.tb_s_p.TabIndex = 41;
             this.tb_s_p.Text = "1";
             this.toolTip1.SetToolTip(this.tb_s_p, "0~200");
+            this.tb_s_p.TextChanged += new System.EventHandler(this.tb_s_p_TextChanged);
             // 
             // Sweep_Points
             // 
@@ -1223,6 +1235,7 @@
             this.Sweep_Points.Size = new System.Drawing.Size(41, 12);
             this.Sweep_Points.TabIndex = 40;
             this.Sweep_Points.Text = "Points";
+            this.Sweep_Points.Click += new System.EventHandler(this.Sweep_Points_Click);
             // 
             // cb_dft
             // 
@@ -1247,6 +1260,7 @@
             this.cb_dft.Name = "cb_dft";
             this.cb_dft.Size = new System.Drawing.Size(98, 20);
             this.cb_dft.TabIndex = 39;
+            this.cb_dft.SelectedIndexChanged += new System.EventHandler(this.cb_dft_SelectedIndexChanged);
             // 
             // lab_dft
             // 
@@ -1257,6 +1271,7 @@
             this.lab_dft.Size = new System.Drawing.Size(23, 12);
             this.lab_dft.TabIndex = 38;
             this.lab_dft.Text = "DFT";
+            this.lab_dft.Click += new System.EventHandler(this.lab_dft_Click);
             // 
             // cb_tia
             // 
@@ -1277,6 +1292,7 @@
             this.cb_tia.Name = "cb_tia";
             this.cb_tia.Size = new System.Drawing.Size(98, 20);
             this.cb_tia.TabIndex = 33;
+            this.cb_tia.SelectedIndexChanged += new System.EventHandler(this.cb_tia_SelectedIndexChanged);
             // 
             // lab_tia
             // 
@@ -1287,6 +1303,7 @@
             this.lab_tia.Size = new System.Drawing.Size(29, 12);
             this.lab_tia.TabIndex = 32;
             this.lab_tia.Text = "RTIA";
+            this.lab_tia.Click += new System.EventHandler(this.lab_tia_Click);
             // 
             // label10
             // 
@@ -1297,6 +1314,7 @@
             this.label10.Size = new System.Drawing.Size(23, 12);
             this.label10.TabIndex = 31;
             this.label10.Text = "sps";
+            this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
             // cb_dor
             // 
@@ -1312,6 +1330,7 @@
             this.cb_dor.Name = "cb_dor";
             this.cb_dor.Size = new System.Drawing.Size(98, 20);
             this.cb_dor.TabIndex = 30;
+            this.cb_dor.SelectedIndexChanged += new System.EventHandler(this.cb_dor_SelectedIndexChanged);
             // 
             // lab_dor
             // 
@@ -1322,6 +1341,7 @@
             this.lab_dor.Size = new System.Drawing.Size(23, 12);
             this.lab_dor.TabIndex = 29;
             this.lab_dor.Text = "DOR";
+            this.lab_dor.Click += new System.EventHandler(this.lab_dor_Click);
             // 
             // lab_ampmV
             // 
@@ -1332,6 +1352,7 @@
             this.lab_ampmV.Size = new System.Drawing.Size(17, 12);
             this.lab_ampmV.TabIndex = 28;
             this.lab_ampmV.Text = "mV";
+            this.lab_ampmV.Click += new System.EventHandler(this.lab_ampmV_Click);
             // 
             // tb_amp
             // 
@@ -1343,6 +1364,7 @@
             this.tb_amp.TabIndex = 26;
             this.tb_amp.Text = "1";
             this.toolTip1.SetToolTip(this.tb_amp, "0~600mV");
+            this.tb_amp.TextChanged += new System.EventHandler(this.tb_amp_TextChanged);
             // 
             // lab_amp
             // 
@@ -1353,6 +1375,7 @@
             this.lab_amp.Size = new System.Drawing.Size(59, 12);
             this.lab_amp.TabIndex = 14;
             this.lab_amp.Text = "Amplitude";
+            this.lab_amp.Click += new System.EventHandler(this.lab_amp_Click);
             // 
             // cb_freq_f
             // 
@@ -1362,10 +1385,11 @@
             this.cb_freq_f.Items.AddRange(new object[] {
             "Hz",
             "kHz"});
-            this.cb_freq_f.Location = new System.Drawing.Point(182, 49);
+            this.cb_freq_f.Location = new System.Drawing.Point(182, 41);
             this.cb_freq_f.Name = "cb_freq_f";
             this.cb_freq_f.Size = new System.Drawing.Size(47, 20);
             this.cb_freq_f.TabIndex = 9;
+            this.cb_freq_f.SelectedIndexChanged += new System.EventHandler(this.cb_freq_f_SelectedIndexChanged);
             // 
             // cb_freq_t
             // 
@@ -1375,57 +1399,62 @@
             this.cb_freq_t.Items.AddRange(new object[] {
             "Hz",
             "kHz"});
-            this.cb_freq_t.Location = new System.Drawing.Point(182, 74);
+            this.cb_freq_t.Location = new System.Drawing.Point(182, 66);
             this.cb_freq_t.Name = "cb_freq_t";
             this.cb_freq_t.Size = new System.Drawing.Size(47, 20);
             this.cb_freq_t.TabIndex = 8;
+            this.cb_freq_t.SelectedIndexChanged += new System.EventHandler(this.cb_freq_t_SelectedIndexChanged);
             // 
             // label11
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(52, 77);
+            this.label11.Location = new System.Drawing.Point(52, 69);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(17, 12);
             this.label11.TabIndex = 7;
             this.label11.Text = "to";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // tb_Sweep_t
             // 
             this.tb_Sweep_t.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.tb_Sweep_t.Location = new System.Drawing.Point(76, 74);
+            this.tb_Sweep_t.Location = new System.Drawing.Point(76, 66);
             this.tb_Sweep_t.Name = "tb_Sweep_t";
             this.tb_Sweep_t.Size = new System.Drawing.Size(100, 21);
             this.tb_Sweep_t.TabIndex = 6;
             this.tb_Sweep_t.Text = "44";
             this.toolTip1.SetToolTip(this.tb_Sweep_t, "0~1000kHz");
+            this.tb_Sweep_t.TextChanged += new System.EventHandler(this.tb_Sweep_t_TextChanged);
             // 
             // label13
             // 
             this.label13.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(46, 53);
+            this.label13.Location = new System.Drawing.Point(46, 45);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(29, 12);
             this.label13.TabIndex = 5;
             this.label13.Text = "from";
+            this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
             // tb_Sweep_f
             // 
             this.tb_Sweep_f.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.tb_Sweep_f.Location = new System.Drawing.Point(76, 50);
+            this.tb_Sweep_f.Location = new System.Drawing.Point(76, 42);
             this.tb_Sweep_f.Name = "tb_Sweep_f";
             this.tb_Sweep_f.Size = new System.Drawing.Size(100, 21);
             this.tb_Sweep_f.TabIndex = 4;
             this.tb_Sweep_f.Text = "33";
             this.toolTip1.SetToolTip(this.tb_Sweep_f, "0~1000kHz");
+            this.tb_Sweep_f.TextChanged += new System.EventHandler(this.tb_Sweep_f_TextChanged);
             // 
             // rb_Sweep
             // 
             this.rb_Sweep.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rb_Sweep.AutoSize = true;
             this.rb_Sweep.Enabled = false;
-            this.rb_Sweep.Location = new System.Drawing.Point(4, 38);
+            this.rb_Sweep.Location = new System.Drawing.Point(4, 30);
             this.rb_Sweep.Name = "rb_Sweep";
             this.rb_Sweep.Size = new System.Drawing.Size(53, 16);
             this.rb_Sweep.TabIndex = 3;
@@ -1441,26 +1470,28 @@
             this.cb_freq.Items.AddRange(new object[] {
             "Hz",
             "kHz"});
-            this.cb_freq.Location = new System.Drawing.Point(182, 19);
+            this.cb_freq.Location = new System.Drawing.Point(182, 29);
             this.cb_freq.Name = "cb_freq";
             this.cb_freq.Size = new System.Drawing.Size(47, 20);
             this.cb_freq.TabIndex = 2;
+            this.cb_freq.SelectedIndexChanged += new System.EventHandler(this.cb_freq_SelectedIndexChanged);
             // 
             // tb_freq
             // 
             this.tb_freq.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.tb_freq.Location = new System.Drawing.Point(76, 19);
+            this.tb_freq.Location = new System.Drawing.Point(76, 29);
             this.tb_freq.Name = "tb_freq";
             this.tb_freq.Size = new System.Drawing.Size(100, 21);
             this.tb_freq.TabIndex = 1;
             this.toolTip1.SetToolTip(this.tb_freq, "0~1000kHz");
+            this.tb_freq.TextChanged += new System.EventHandler(this.tb_freq_TextChanged);
             // 
             // rb_Frequncy
             // 
             this.rb_Frequncy.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rb_Frequncy.AutoSize = true;
             this.rb_Frequncy.Enabled = false;
-            this.rb_Frequncy.Location = new System.Drawing.Point(4, 21);
+            this.rb_Frequncy.Location = new System.Drawing.Point(4, 31);
             this.rb_Frequncy.Name = "rb_Frequncy";
             this.rb_Frequncy.Size = new System.Drawing.Size(71, 16);
             this.rb_Frequncy.TabIndex = 0;
@@ -1485,6 +1516,7 @@
             this.gb_exp.TabIndex = 25;
             this.gb_exp.TabStop = false;
             this.gb_exp.Text = "Experiment Control";
+            this.gb_exp.Enter += new System.EventHandler(this.gb_exp_Enter);
             // 
             // textBox1_test
             // 
@@ -1492,6 +1524,7 @@
             this.textBox1_test.Name = "textBox1_test";
             this.textBox1_test.Size = new System.Drawing.Size(91, 21);
             this.textBox1_test.TabIndex = 80;
+            this.textBox1_test.TextChanged += new System.EventHandler(this.textBox1_test_TextChanged);
             // 
             // btn_stop
             // 
@@ -1561,6 +1594,7 @@
             this.gb_mulitply.TabIndex = 85;
             this.gb_mulitply.TabStop = false;
             this.gb_mulitply.Text = "Repeat";
+            this.gb_mulitply.Enter += new System.EventHandler(this.gb_mulitply_Enter);
             // 
             // label16
             // 
@@ -1571,6 +1605,7 @@
             this.label16.Size = new System.Drawing.Size(47, 12);
             this.label16.TabIndex = 97;
             this.label16.Text = "Times/T";
+            this.label16.Click += new System.EventHandler(this.label16_Click);
             // 
             // checkBox_SEC
             // 
@@ -1592,6 +1627,7 @@
             this.label15.Size = new System.Drawing.Size(41, 12);
             this.label15.TabIndex = 95;
             this.label15.Text = "End at";
+            this.label15.Click += new System.EventHandler(this.label15_Click);
             // 
             // DTP_End
             // 
@@ -1602,6 +1638,7 @@
             this.DTP_End.Name = "DTP_End";
             this.DTP_End.Size = new System.Drawing.Size(89, 21);
             this.DTP_End.TabIndex = 94;
+            this.DTP_End.ValueChanged += new System.EventHandler(this.DTP_End_ValueChanged);
             // 
             // DTP_Start
             // 
@@ -1612,6 +1649,7 @@
             this.DTP_Start.Name = "DTP_Start";
             this.DTP_Start.Size = new System.Drawing.Size(89, 21);
             this.DTP_Start.TabIndex = 93;
+            this.DTP_Start.ValueChanged += new System.EventHandler(this.DTP_Start_ValueChanged);
             // 
             // label34
             // 
@@ -1622,6 +1660,7 @@
             this.label34.Size = new System.Drawing.Size(53, 12);
             this.label34.TabIndex = 92;
             this.label34.Text = "Start at";
+            this.label34.Click += new System.EventHandler(this.label34_Click);
             // 
             // label37
             // 
@@ -1632,6 +1671,7 @@
             this.label37.Size = new System.Drawing.Size(47, 12);
             this.label37.TabIndex = 91;
             this.label37.Text = "Times/D";
+            this.label37.Click += new System.EventHandler(this.label37_Click_1);
             // 
             // label36
             // 
@@ -1642,6 +1682,7 @@
             this.label36.Size = new System.Drawing.Size(17, 12);
             this.label36.TabIndex = 90;
             this.label36.Text = "to";
+            this.label36.Click += new System.EventHandler(this.label36_Click_1);
             // 
             // label35
             // 
@@ -1652,6 +1693,7 @@
             this.label35.Size = new System.Drawing.Size(29, 12);
             this.label35.TabIndex = 89;
             this.label35.Text = "from";
+            this.label35.Click += new System.EventHandler(this.label35_Click_1);
             // 
             // panel_sec
             // 
@@ -1667,6 +1709,7 @@
             this.panel_sec.Name = "panel_sec";
             this.panel_sec.Size = new System.Drawing.Size(383, 24);
             this.panel_sec.TabIndex = 88;
+            this.panel_sec.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_sec_Paint);
             // 
             // label28
             // 
@@ -1677,6 +1720,7 @@
             this.label28.Size = new System.Drawing.Size(11, 12);
             this.label28.TabIndex = 81;
             this.label28.Text = " ";
+            this.label28.Click += new System.EventHandler(this.label28_Click);
             // 
             // tb_times_T2
             // 
@@ -1684,6 +1728,7 @@
             this.tb_times_T2.Name = "tb_times_T2";
             this.tb_times_T2.Size = new System.Drawing.Size(51, 21);
             this.tb_times_T2.TabIndex = 74;
+            this.tb_times_T2.TextChanged += new System.EventHandler(this.tb_times_T2_TextChanged);
             // 
             // label24
             // 
@@ -1694,6 +1739,7 @@
             this.label24.Size = new System.Drawing.Size(11, 12);
             this.label24.TabIndex = 76;
             this.label24.Text = " ";
+            this.label24.Click += new System.EventHandler(this.label24_Click);
             // 
             // dateTimePicker_t_2
             // 
@@ -1702,6 +1748,7 @@
             this.dateTimePicker_t_2.Name = "dateTimePicker_t_2";
             this.dateTimePicker_t_2.Size = new System.Drawing.Size(74, 21);
             this.dateTimePicker_t_2.TabIndex = 80;
+            this.dateTimePicker_t_2.ValueChanged += new System.EventHandler(this.dateTimePicker_t_2_ValueChanged);
             // 
             // dateTimePicker_f_2
             // 
@@ -1710,6 +1757,7 @@
             this.dateTimePicker_f_2.Name = "dateTimePicker_f_2";
             this.dateTimePicker_f_2.Size = new System.Drawing.Size(71, 21);
             this.dateTimePicker_f_2.TabIndex = 73;
+            this.dateTimePicker_f_2.ValueChanged += new System.EventHandler(this.dateTimePicker_f_2_ValueChanged);
             // 
             // tb_times_D2
             // 
@@ -1717,6 +1765,7 @@
             this.tb_times_D2.Name = "tb_times_D2";
             this.tb_times_D2.Size = new System.Drawing.Size(51, 21);
             this.tb_times_D2.TabIndex = 71;
+            this.tb_times_D2.TextChanged += new System.EventHandler(this.tb_times_D2_TextChanged);
             // 
             // lab_second
             // 
@@ -1726,6 +1775,7 @@
             this.lab_second.Size = new System.Drawing.Size(41, 12);
             this.lab_second.TabIndex = 58;
             this.lab_second.Text = "second";
+            this.lab_second.Click += new System.EventHandler(this.lab_second_Click);
             // 
             // panel_fst
             // 
@@ -1741,6 +1791,7 @@
             this.panel_fst.Name = "panel_fst";
             this.panel_fst.Size = new System.Drawing.Size(383, 24);
             this.panel_fst.TabIndex = 87;
+            this.panel_fst.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_fst_Paint_1);
             // 
             // label23
             // 
@@ -1751,6 +1802,7 @@
             this.label23.Size = new System.Drawing.Size(11, 12);
             this.label23.TabIndex = 75;
             this.label23.Text = " ";
+            this.label23.Click += new System.EventHandler(this.label23_Click);
             // 
             // label22
             // 
@@ -1761,6 +1813,7 @@
             this.label22.Size = new System.Drawing.Size(11, 12);
             this.label22.TabIndex = 74;
             this.label22.Text = " ";
+            this.label22.Click += new System.EventHandler(this.label22_Click);
             // 
             // tb_times_T1
             // 
@@ -1768,6 +1821,7 @@
             this.tb_times_T1.Name = "tb_times_T1";
             this.tb_times_T1.Size = new System.Drawing.Size(51, 21);
             this.tb_times_T1.TabIndex = 73;
+            this.tb_times_T1.TextChanged += new System.EventHandler(this.tb_times_T1_TextChanged);
             // 
             // dateTimePicker_t_1
             // 
@@ -1776,6 +1830,7 @@
             this.dateTimePicker_t_1.Name = "dateTimePicker_t_1";
             this.dateTimePicker_t_1.Size = new System.Drawing.Size(75, 21);
             this.dateTimePicker_t_1.TabIndex = 72;
+            this.dateTimePicker_t_1.ValueChanged += new System.EventHandler(this.dateTimePicker_t_1_ValueChanged);
             // 
             // dateTimePicker_f_1
             // 
@@ -1785,6 +1840,7 @@
             this.dateTimePicker_f_1.Name = "dateTimePicker_f_1";
             this.dateTimePicker_f_1.Size = new System.Drawing.Size(69, 21);
             this.dateTimePicker_f_1.TabIndex = 71;
+            this.dateTimePicker_f_1.ValueChanged += new System.EventHandler(this.dateTimePicker_f_1_ValueChanged_1);
             // 
             // tb_times_D1
             // 
@@ -1792,6 +1848,7 @@
             this.tb_times_D1.Name = "tb_times_D1";
             this.tb_times_D1.Size = new System.Drawing.Size(51, 21);
             this.tb_times_D1.TabIndex = 70;
+            this.tb_times_D1.TextChanged += new System.EventHandler(this.tb_times_D1_TextChanged);
             // 
             // lab_first
             // 
@@ -1801,6 +1858,7 @@
             this.lab_first.Size = new System.Drawing.Size(35, 12);
             this.lab_first.TabIndex = 58;
             this.lab_first.Text = "first";
+            this.lab_first.Click += new System.EventHandler(this.lab_first_Click);
             // 
             // cb_days
             // 
@@ -1821,6 +1879,7 @@
             this.cb_days.Name = "cb_days";
             this.cb_days.Size = new System.Drawing.Size(61, 20);
             this.cb_days.TabIndex = 86;
+            this.cb_days.SelectedIndexChanged += new System.EventHandler(this.cb_days_SelectedIndexChanged);
             // 
             // label27
             // 
@@ -1831,6 +1890,7 @@
             this.label27.Size = new System.Drawing.Size(29, 12);
             this.label27.TabIndex = 85;
             this.label27.Text = "days";
+            this.label27.Click += new System.EventHandler(this.label27_Click);
             // 
             // gb_Single
             // 
@@ -1857,6 +1917,7 @@
             this.label21.Size = new System.Drawing.Size(11, 12);
             this.label21.TabIndex = 75;
             this.label21.Text = ":";
+            this.label21.Click += new System.EventHandler(this.label21_Click);
             // 
             // tb_d_s
             // 
@@ -1866,6 +1927,7 @@
             this.tb_d_s.Size = new System.Drawing.Size(51, 21);
             this.tb_d_s.TabIndex = 74;
             this.toolTip1.SetToolTip(this.tb_d_s, "0~60");
+            this.tb_d_s.TextChanged += new System.EventHandler(this.tb_d_s_TextChanged);
             // 
             // tb_d_m
             // 
@@ -1875,6 +1937,7 @@
             this.tb_d_m.Size = new System.Drawing.Size(51, 21);
             this.tb_d_m.TabIndex = 73;
             this.toolTip1.SetToolTip(this.tb_d_m, "0~60");
+            this.tb_d_m.TextChanged += new System.EventHandler(this.tb_d_m_TextChanged);
             // 
             // label25
             // 
@@ -1885,6 +1948,7 @@
             this.label25.Size = new System.Drawing.Size(11, 12);
             this.label25.TabIndex = 72;
             this.label25.Text = ":";
+            this.label25.Click += new System.EventHandler(this.label25_Click);
             // 
             // tb_d_h
             // 
@@ -1894,6 +1958,7 @@
             this.tb_d_h.Size = new System.Drawing.Size(51, 21);
             this.tb_d_h.TabIndex = 71;
             this.toolTip1.SetToolTip(this.tb_d_h, "0~24");
+            this.tb_d_h.TextChanged += new System.EventHandler(this.tb_d_h_TextChanged);
             // 
             // groupBox_UI
             // 
@@ -1910,6 +1975,7 @@
             this.groupBox_UI.TabIndex = 86;
             this.groupBox_UI.TabStop = false;
             this.groupBox_UI.Text = "U-I-R ";
+            this.groupBox_UI.Enter += new System.EventHandler(this.groupBox_UI_Enter);
             // 
             // tb_I
             // 
@@ -1921,6 +1987,7 @@
             this.tb_I.TabIndex = 87;
             this.tb_I.Text = "1";
             this.toolTip1.SetToolTip(this.tb_I, "0~600mV");
+            this.tb_I.TextChanged += new System.EventHandler(this.tb_I_TextChanged);
             // 
             // tb_R
             // 
@@ -1932,6 +1999,7 @@
             this.tb_R.TabIndex = 86;
             this.tb_R.Text = "1";
             this.toolTip1.SetToolTip(this.tb_R, "0~600mV");
+            this.tb_R.TextChanged += new System.EventHandler(this.tb_R_TextChanged);
             // 
             // tb_u
             // 
@@ -1943,6 +2011,7 @@
             this.tb_u.TabIndex = 85;
             this.tb_u.Text = "1";
             this.toolTip1.SetToolTip(this.tb_u, "0~600mV");
+            this.tb_u.TextChanged += new System.EventHandler(this.tb_u_TextChanged);
             // 
             // label32
             // 
@@ -1953,6 +2022,7 @@
             this.label32.Size = new System.Drawing.Size(65, 12);
             this.label32.TabIndex = 2;
             this.label32.Text = "Resistance";
+            this.label32.Click += new System.EventHandler(this.label32_Click);
             // 
             // label31
             // 
@@ -1963,6 +2033,7 @@
             this.label31.Size = new System.Drawing.Size(47, 12);
             this.label31.TabIndex = 1;
             this.label31.Text = "Current";
+            this.label31.Click += new System.EventHandler(this.label31_Click);
             // 
             // label30
             // 
@@ -2155,6 +2226,7 @@
             this.gb1.TabIndex = 12;
             this.gb1.TabStop = false;
             this.gb1.Text = "Serial COM ";
+            this.gb1.Enter += new System.EventHandler(this.gb1_Enter_1);
             // 
             // gb_dc
             // 
@@ -2184,7 +2256,7 @@
             this.gb_dc.Controls.Add(this.tb_amp1);
             this.gb_dc.Controls.Add(this.label12);
             this.gb_dc.Controls.Add(this.rb_Sweep1);
-            this.gb_dc.Location = new System.Drawing.Point(160, 33);
+            this.gb_dc.Location = new System.Drawing.Point(160, 29);
             this.gb_dc.Name = "gb_dc";
             this.gb_dc.Size = new System.Drawing.Size(420, 303);
             this.gb_dc.TabIndex = 43;
@@ -2201,6 +2273,7 @@
             this.label39.Size = new System.Drawing.Size(17, 12);
             this.label39.TabIndex = 87;
             this.label39.Text = "ms";
+            this.label39.Click += new System.EventHandler(this.label39_Click);
             // 
             // tb_cyc
             // 
@@ -2211,6 +2284,7 @@
             this.tb_cyc.Size = new System.Drawing.Size(97, 21);
             this.tb_cyc.TabIndex = 86;
             this.tb_cyc.Text = "0";
+            this.tb_cyc.TextChanged += new System.EventHandler(this.tb_cyc_TextChanged);
             // 
             // label33
             // 
@@ -2221,31 +2295,33 @@
             this.label33.Size = new System.Drawing.Size(35, 12);
             this.label33.TabIndex = 85;
             this.label33.Text = "Cycle";
+            this.label33.Click += new System.EventHandler(this.label33_Click);
             // 
             // chart_v
             // 
             this.chart_v.Anchor = System.Windows.Forms.AnchorStyles.None;
-            chartArea6.AxisX.MajorGrid.Enabled = false;
-            chartArea6.AxisX.ScrollBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            chartArea6.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            chartArea6.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
-            chartArea6.AxisX.ScrollBar.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            chartArea6.AxisY.MajorGrid.Enabled = false;
-            chartArea6.BorderWidth = 3;
-            chartArea6.Name = "ChartArea1";
-            this.chart_v.ChartAreas.Add(chartArea6);
+            chartArea13.AxisX.MajorGrid.Enabled = false;
+            chartArea13.AxisX.ScrollBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            chartArea13.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            chartArea13.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
+            chartArea13.AxisX.ScrollBar.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            chartArea13.AxisY.MajorGrid.Enabled = false;
+            chartArea13.BorderWidth = 3;
+            chartArea13.Name = "ChartArea1";
+            this.chart_v.ChartAreas.Add(chartArea13);
             this.chart_v.Location = new System.Drawing.Point(239, 69);
             this.chart_v.Margin = new System.Windows.Forms.Padding(2);
             this.chart_v.Name = "chart_v";
             this.chart_v.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
-            series8.ChartArea = "ChartArea1";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series8.LabelBorderWidth = 3;
-            series8.Name = "Series1";
-            this.chart_v.Series.Add(series8);
+            series17.ChartArea = "ChartArea1";
+            series17.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series17.LabelBorderWidth = 3;
+            series17.Name = "Series1";
+            this.chart_v.Series.Add(series17);
             this.chart_v.Size = new System.Drawing.Size(174, 147);
             this.chart_v.TabIndex = 1;
             this.chart_v.Text = "chart5";
+            this.chart_v.Click += new System.EventHandler(this.chart_v_Click);
             // 
             // label26
             // 
@@ -2256,6 +2332,7 @@
             this.label26.Size = new System.Drawing.Size(17, 12);
             this.label26.TabIndex = 84;
             this.label26.Text = "mV";
+            this.label26.Click += new System.EventHandler(this.label26_Click);
             // 
             // tb_start
             // 
@@ -2267,6 +2344,7 @@
             this.tb_start.TabIndex = 83;
             this.tb_start.Text = "1";
             this.toolTip1.SetToolTip(this.tb_start, "0~600mV");
+            this.tb_start.TextChanged += new System.EventHandler(this.tb_start_TextChanged);
             // 
             // label29
             // 
@@ -2277,6 +2355,7 @@
             this.label29.Size = new System.Drawing.Size(53, 12);
             this.label29.TabIndex = 82;
             this.label29.Text = "Start at";
+            this.label29.Click += new System.EventHandler(this.label29_Click);
             // 
             // trackBar1
             // 
@@ -2302,6 +2381,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 25);
             this.panel1.TabIndex = 80;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // rb_Square
             // 
@@ -2312,6 +2392,7 @@
             this.rb_Square.TabIndex = 43;
             this.rb_Square.Text = "Square";
             this.rb_Square.UseVisualStyleBackColor = true;
+            this.rb_Square.CheckedChanged += new System.EventHandler(this.rb_Square_CheckedChanged);
             // 
             // rb_Triangle
             // 
@@ -2322,6 +2403,7 @@
             this.rb_Triangle.TabIndex = 44;
             this.rb_Triangle.Text = "Triangle";
             this.rb_Triangle.UseVisualStyleBackColor = true;
+            this.rb_Triangle.CheckedChanged += new System.EventHandler(this.rb_Triangle_CheckedChanged);
             // 
             // btn_stop1
             // 
@@ -2354,6 +2436,7 @@
             this.tb_times.Size = new System.Drawing.Size(99, 21);
             this.tb_times.TabIndex = 77;
             this.tb_times.Text = "1";
+            this.tb_times.TextChanged += new System.EventHandler(this.tb_times_TextChanged);
             // 
             // label20
             // 
@@ -2364,6 +2447,7 @@
             this.label20.Size = new System.Drawing.Size(35, 12);
             this.label20.TabIndex = 76;
             this.label20.Text = "Times";
+            this.label20.Click += new System.EventHandler(this.label20_Click);
             // 
             // label18
             // 
@@ -2374,6 +2458,7 @@
             this.label18.Size = new System.Drawing.Size(11, 12);
             this.label18.TabIndex = 75;
             this.label18.Text = ":";
+            this.label18.Click += new System.EventHandler(this.label18_Click);
             // 
             // tb_d_s1
             // 
@@ -2383,6 +2468,7 @@
             this.tb_d_s1.Size = new System.Drawing.Size(51, 21);
             this.tb_d_s1.TabIndex = 74;
             this.toolTip1.SetToolTip(this.tb_d_s1, "0~60");
+            this.tb_d_s1.TextChanged += new System.EventHandler(this.tb_d_s1_TextChanged);
             // 
             // tb_d_m1
             // 
@@ -2392,6 +2478,7 @@
             this.tb_d_m1.Size = new System.Drawing.Size(51, 21);
             this.tb_d_m1.TabIndex = 73;
             this.toolTip1.SetToolTip(this.tb_d_m1, "0~60");
+            this.tb_d_m1.TextChanged += new System.EventHandler(this.tb_d_m1_TextChanged);
             // 
             // label19
             // 
@@ -2402,6 +2489,7 @@
             this.label19.Size = new System.Drawing.Size(11, 12);
             this.label19.TabIndex = 72;
             this.label19.Text = ":";
+            this.label19.Click += new System.EventHandler(this.label19_Click);
             // 
             // tb_d_h1
             // 
@@ -2411,6 +2499,7 @@
             this.tb_d_h1.Size = new System.Drawing.Size(51, 21);
             this.tb_d_h1.TabIndex = 71;
             this.toolTip1.SetToolTip(this.tb_d_h1, "0~24");
+            this.tb_d_h1.TextChanged += new System.EventHandler(this.tb_d_h1_TextChanged);
             // 
             // rb_Duration1
             // 
@@ -2445,6 +2534,7 @@
             this.label17.Size = new System.Drawing.Size(41, 12);
             this.label17.TabIndex = 41;
             this.label17.Text = "Points";
+            this.label17.Click += new System.EventHandler(this.label17_Click);
             // 
             // label14
             // 
@@ -2455,6 +2545,7 @@
             this.label14.Size = new System.Drawing.Size(17, 12);
             this.label14.TabIndex = 29;
             this.label14.Text = "mV";
+            this.label14.Click += new System.EventHandler(this.label14_Click);
             // 
             // tb_amp1
             // 
@@ -2477,6 +2568,7 @@
             this.label12.Size = new System.Drawing.Size(59, 12);
             this.label12.TabIndex = 15;
             this.label12.Text = "Amplitude";
+            this.label12.Click += new System.EventHandler(this.label12_Click);
             // 
             // rb_Sweep1
             // 
@@ -2505,6 +2597,10 @@
             this.btn_AC.UseVisualStyleBackColor = false;
             this.btn_AC.Click += new System.EventHandler(this.btn_AC_Click);
             // 
+            // toolTip1
+            // 
+            this.toolTip1.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
+            // 
             // tb_amp4
             // 
             this.tb_amp4.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -2515,6 +2611,7 @@
             this.tb_amp4.TabIndex = 27;
             this.tb_amp4.Text = "100";
             this.toolTip1.SetToolTip(this.tb_amp4, "0~600mV");
+            this.tb_amp4.TextChanged += new System.EventHandler(this.tb_amp4_TextChanged);
             // 
             // tb_d_s2
             // 
@@ -2525,6 +2622,7 @@
             this.tb_d_s2.TabIndex = 74;
             this.tb_d_s2.Text = "0";
             this.toolTip1.SetToolTip(this.tb_d_s2, "0~60");
+            this.tb_d_s2.TextChanged += new System.EventHandler(this.tb_d_s2_TextChanged);
             // 
             // tb_Sweep_f2
             // 
@@ -2535,6 +2633,7 @@
             this.tb_Sweep_f2.TabIndex = 4;
             this.tb_Sweep_f2.Text = "33";
             this.toolTip1.SetToolTip(this.tb_Sweep_f2, "0~1000kHz");
+            this.tb_Sweep_f2.TextChanged += new System.EventHandler(this.tb_Sweep_f2_TextChanged);
             // 
             // tb_Sweep_t2
             // 
@@ -2545,6 +2644,7 @@
             this.tb_Sweep_t2.TabIndex = 6;
             this.tb_Sweep_t2.Text = "44";
             this.toolTip1.SetToolTip(this.tb_Sweep_t2, "0~1000kHz");
+            this.tb_Sweep_t2.TextChanged += new System.EventHandler(this.tb_Sweep_t2_TextChanged);
             // 
             // tb_amp2
             // 
@@ -2556,6 +2656,7 @@
             this.tb_amp2.TabIndex = 26;
             this.tb_amp2.Text = "1";
             this.toolTip1.SetToolTip(this.tb_amp2, "0~600mV");
+            this.tb_amp2.TextChanged += new System.EventHandler(this.tb_amp2_TextChanged);
             // 
             // tb_s_p2
             // 
@@ -2567,14 +2668,16 @@
             this.tb_s_p2.TabIndex = 41;
             this.tb_s_p2.Text = "1";
             this.toolTip1.SetToolTip(this.tb_s_p2, "0~200");
+            this.tb_s_p2.TextChanged += new System.EventHandler(this.tb_s_p2_TextChanged);
             // 
             // statusStrip1
             // 
             this.statusStrip1.Location = new System.Drawing.Point(0, 580);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1472, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1600, 22);
             this.statusStrip1.TabIndex = 87;
             this.statusStrip1.Text = "statusStrip1";
+            this.statusStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.statusStrip1_ItemClicked);
             // 
             // menuStrip1
             // 
@@ -2584,9 +2687,10 @@
             this.hlepHToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1472, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(1600, 25);
             this.menuStrip1.TabIndex = 88;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // fileToolStripMenuItem
             // 
@@ -2599,6 +2703,7 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(53, 21);
             this.fileToolStripMenuItem.Text = "File(F)";
+            this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
             // 
             // newProjectToolStripMenuItem
             // 
@@ -2626,18 +2731,21 @@
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.saveToolStripMenuItem.Text = "Save(S)";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.exitToolStripMenuItem.Text = "Exit(C)";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // hlepHToolStripMenuItem
             // 
             this.hlepHToolStripMenuItem.Name = "hlepHToolStripMenuItem";
             this.hlepHToolStripMenuItem.Size = new System.Drawing.Size(64, 21);
             this.hlepHToolStripMenuItem.Text = "Help(H)";
+            this.hlepHToolStripMenuItem.Click += new System.EventHandler(this.hlepHToolStripMenuItem_Click);
             // 
             // panel_load
             // 
@@ -2650,8 +2758,9 @@
             this.panel_load.Controls.Add(this.btn_fre_load);
             this.panel_load.Location = new System.Drawing.Point(3, 136);
             this.panel_load.Name = "panel_load";
-            this.panel_load.Size = new System.Drawing.Size(159, 415);
+            this.panel_load.Size = new System.Drawing.Size(159, 428);
             this.panel_load.TabIndex = 89;
+            this.panel_load.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_load_Paint);
             // 
             // btn_m
             // 
@@ -2724,40 +2833,18 @@
             // gb_comb
             // 
             this.gb_comb.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.gb_comb.Controls.Add(this.btn_stop2);
-            this.gb_comb.Controls.Add(this.btn_comb_start);
+            this.gb_comb.Controls.Add(this.panel6);
             this.gb_comb.Controls.Add(this.gb_temperature);
             this.gb_comb.Controls.Add(this.gb_dc2);
             this.gb_comb.Controls.Add(this.gb_rep2);
             this.gb_comb.Controls.Add(this.gb_ac2);
-            this.gb_comb.Location = new System.Drawing.Point(154, 31);
+            this.gb_comb.Location = new System.Drawing.Point(162, 26);
             this.gb_comb.Name = "gb_comb";
-            this.gb_comb.Size = new System.Drawing.Size(426, 555);
+            this.gb_comb.Size = new System.Drawing.Size(426, 567);
             this.gb_comb.TabIndex = 90;
             this.gb_comb.TabStop = false;
             this.gb_comb.Text = "Combination";
-            // 
-            // btn_stop2
-            // 
-            this.btn_stop2.Image = ((System.Drawing.Image)(resources.GetObject("btn_stop2.Image")));
-            this.btn_stop2.Location = new System.Drawing.Point(229, 488);
-            this.btn_stop2.Name = "btn_stop2";
-            this.btn_stop2.Size = new System.Drawing.Size(50, 51);
-            this.btn_stop2.TabIndex = 92;
-            this.btn_stop2.UseVisualStyleBackColor = true;
-            this.btn_stop2.Click += new System.EventHandler(this.btn_stop2_Click_1);
-            // 
-            // btn_comb_start
-            // 
-            this.btn_comb_start.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_comb_start.BackColor = System.Drawing.Color.ForestGreen;
-            this.btn_comb_start.Image = ((System.Drawing.Image)(resources.GetObject("btn_comb_start.Image")));
-            this.btn_comb_start.Location = new System.Drawing.Point(112, 488);
-            this.btn_comb_start.Name = "btn_comb_start";
-            this.btn_comb_start.Size = new System.Drawing.Size(52, 52);
-            this.btn_comb_start.TabIndex = 88;
-            this.btn_comb_start.UseVisualStyleBackColor = false;
-            this.btn_comb_start.Click += new System.EventHandler(this.btn_comb_start_Click);
+            this.gb_comb.Enter += new System.EventHandler(this.gb_comb_Enter);
             // 
             // gb_temperature
             // 
@@ -2765,12 +2852,13 @@
             this.gb_temperature.Controls.Add(this.label64);
             this.gb_temperature.Controls.Add(this.rb_temp_n);
             this.gb_temperature.Controls.Add(this.rb_temp_y);
-            this.gb_temperature.Location = new System.Drawing.Point(3, 437);
+            this.gb_temperature.Location = new System.Drawing.Point(3, 443);
             this.gb_temperature.Name = "gb_temperature";
             this.gb_temperature.Size = new System.Drawing.Size(422, 49);
             this.gb_temperature.TabIndex = 88;
             this.gb_temperature.TabStop = false;
             this.gb_temperature.Text = "step 3(Temperature Measurement)";
+            this.gb_temperature.Enter += new System.EventHandler(this.gb_temperature_Enter);
             // 
             // label64
             // 
@@ -2781,6 +2869,7 @@
             this.label64.Size = new System.Drawing.Size(125, 12);
             this.label64.TabIndex = 88;
             this.label64.Text = "Temperature measure?";
+            this.label64.Click += new System.EventHandler(this.label64_Click);
             // 
             // rb_temp_n
             // 
@@ -2793,6 +2882,7 @@
             this.rb_temp_n.TabStop = true;
             this.rb_temp_n.Text = "No";
             this.rb_temp_n.UseVisualStyleBackColor = true;
+            this.rb_temp_n.CheckedChanged += new System.EventHandler(this.rb_temp_n_CheckedChanged);
             // 
             // rb_temp_y
             // 
@@ -2806,6 +2896,7 @@
             this.rb_temp_y.TabStop = true;
             this.rb_temp_y.Text = "Yes";
             this.rb_temp_y.UseVisualStyleBackColor = true;
+            this.rb_temp_y.CheckedChanged += new System.EventHandler(this.rb_temp_y_CheckedChanged);
             // 
             // gb_dc2
             // 
@@ -2816,12 +2907,13 @@
             this.gb_dc2.Controls.Add(this.label70);
             this.gb_dc2.Controls.Add(this.tb_amp4);
             this.gb_dc2.Controls.Add(this.label71);
-            this.gb_dc2.Location = new System.Drawing.Point(4, 359);
+            this.gb_dc2.Location = new System.Drawing.Point(4, 365);
             this.gb_dc2.Name = "gb_dc2";
             this.gb_dc2.Size = new System.Drawing.Size(425, 74);
             this.gb_dc2.TabIndex = 87;
             this.gb_dc2.TabStop = false;
             this.gb_dc2.Text = "Step 2(DC Control)";
+            this.gb_dc2.Enter += new System.EventHandler(this.gb_dc2_Enter);
             // 
             // label63
             // 
@@ -2832,6 +2924,7 @@
             this.label63.Size = new System.Drawing.Size(11, 12);
             this.label63.TabIndex = 87;
             this.label63.Text = "s";
+            this.label63.Click += new System.EventHandler(this.label63_Click);
             // 
             // label62
             // 
@@ -2842,6 +2935,7 @@
             this.label62.Size = new System.Drawing.Size(53, 12);
             this.label62.TabIndex = 85;
             this.label62.Text = "Duration";
+            this.label62.Click += new System.EventHandler(this.label62_Click);
             // 
             // label70
             // 
@@ -2852,6 +2946,7 @@
             this.label70.Size = new System.Drawing.Size(17, 12);
             this.label70.TabIndex = 29;
             this.label70.Text = "mV";
+            this.label70.Click += new System.EventHandler(this.label70_Click);
             // 
             // label71
             // 
@@ -2862,6 +2957,7 @@
             this.label71.Size = new System.Drawing.Size(59, 12);
             this.label71.TabIndex = 15;
             this.label71.Text = "Amplitude";
+            this.label71.Click += new System.EventHandler(this.label71_Click);
             // 
             // gb_rep2
             // 
@@ -2879,12 +2975,13 @@
             this.gb_rep2.Controls.Add(this.panel3);
             this.gb_rep2.Controls.Add(this.cb_days2);
             this.gb_rep2.Controls.Add(this.label61);
-            this.gb_rep2.Location = new System.Drawing.Point(7, 207);
+            this.gb_rep2.Location = new System.Drawing.Point(7, 213);
             this.gb_rep2.Name = "gb_rep2";
             this.gb_rep2.Size = new System.Drawing.Size(423, 153);
             this.gb_rep2.TabIndex = 86;
             this.gb_rep2.TabStop = false;
             this.gb_rep2.Text = "Time Set";
+            this.gb_rep2.Enter += new System.EventHandler(this.gb_rep2_Enter);
             // 
             // label40
             // 
@@ -2895,6 +2992,7 @@
             this.label40.Size = new System.Drawing.Size(47, 12);
             this.label40.TabIndex = 97;
             this.label40.Text = "Times/T";
+            this.label40.Click += new System.EventHandler(this.label40_Click);
             // 
             // checkBox_SEC2
             // 
@@ -2916,6 +3014,7 @@
             this.label50.Size = new System.Drawing.Size(41, 12);
             this.label50.TabIndex = 95;
             this.label50.Text = "End at";
+            this.label50.Click += new System.EventHandler(this.label50_Click);
             // 
             // DTP_End2
             // 
@@ -2926,6 +3025,7 @@
             this.DTP_End2.Name = "DTP_End2";
             this.DTP_End2.Size = new System.Drawing.Size(89, 21);
             this.DTP_End2.TabIndex = 94;
+            this.DTP_End2.ValueChanged += new System.EventHandler(this.DTP_End2_ValueChanged);
             // 
             // DTP_Start2
             // 
@@ -2936,6 +3036,7 @@
             this.DTP_Start2.Name = "DTP_Start2";
             this.DTP_Start2.Size = new System.Drawing.Size(89, 21);
             this.DTP_Start2.TabIndex = 93;
+            this.DTP_Start2.ValueChanged += new System.EventHandler(this.DTP_Start2_ValueChanged);
             // 
             // label51
             // 
@@ -2946,6 +3047,7 @@
             this.label51.Size = new System.Drawing.Size(53, 12);
             this.label51.TabIndex = 92;
             this.label51.Text = "Start at";
+            this.label51.Click += new System.EventHandler(this.label51_Click);
             // 
             // label52
             // 
@@ -2956,6 +3058,7 @@
             this.label52.Size = new System.Drawing.Size(47, 12);
             this.label52.TabIndex = 91;
             this.label52.Text = "Times/D";
+            this.label52.Click += new System.EventHandler(this.label52_Click);
             // 
             // label53
             // 
@@ -2966,6 +3069,7 @@
             this.label53.Size = new System.Drawing.Size(17, 12);
             this.label53.TabIndex = 90;
             this.label53.Text = "to";
+            this.label53.Click += new System.EventHandler(this.label53_Click);
             // 
             // label54
             // 
@@ -2976,6 +3080,7 @@
             this.label54.Size = new System.Drawing.Size(29, 12);
             this.label54.TabIndex = 89;
             this.label54.Text = "from";
+            this.label54.Click += new System.EventHandler(this.label54_Click);
             // 
             // panel2
             // 
@@ -2991,6 +3096,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(383, 24);
             this.panel2.TabIndex = 88;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // label55
             // 
@@ -3001,6 +3107,7 @@
             this.label55.Size = new System.Drawing.Size(11, 12);
             this.label55.TabIndex = 81;
             this.label55.Text = " ";
+            this.label55.Click += new System.EventHandler(this.label55_Click);
             // 
             // tb_times_T4
             // 
@@ -3009,6 +3116,7 @@
             this.tb_times_T4.Size = new System.Drawing.Size(51, 21);
             this.tb_times_T4.TabIndex = 74;
             this.tb_times_T4.Text = "0";
+            this.tb_times_T4.TextChanged += new System.EventHandler(this.tb_times_T4_TextChanged);
             // 
             // label56
             // 
@@ -3019,6 +3127,7 @@
             this.label56.Size = new System.Drawing.Size(11, 12);
             this.label56.TabIndex = 76;
             this.label56.Text = " ";
+            this.label56.Click += new System.EventHandler(this.label56_Click);
             // 
             // dateTimePicker_t_4
             // 
@@ -3027,6 +3136,7 @@
             this.dateTimePicker_t_4.Name = "dateTimePicker_t_4";
             this.dateTimePicker_t_4.Size = new System.Drawing.Size(74, 21);
             this.dateTimePicker_t_4.TabIndex = 80;
+            this.dateTimePicker_t_4.ValueChanged += new System.EventHandler(this.dateTimePicker_t_4_ValueChanged);
             // 
             // dateTimePicker_f_4
             // 
@@ -3035,6 +3145,7 @@
             this.dateTimePicker_f_4.Name = "dateTimePicker_f_4";
             this.dateTimePicker_f_4.Size = new System.Drawing.Size(71, 21);
             this.dateTimePicker_f_4.TabIndex = 73;
+            this.dateTimePicker_f_4.ValueChanged += new System.EventHandler(this.dateTimePicker_f_4_ValueChanged);
             // 
             // tb_times_D4
             // 
@@ -3043,6 +3154,7 @@
             this.tb_times_D4.Size = new System.Drawing.Size(51, 21);
             this.tb_times_D4.TabIndex = 71;
             this.tb_times_D4.Text = "0";
+            this.tb_times_D4.TextChanged += new System.EventHandler(this.tb_times_D4_TextChanged);
             // 
             // label57
             // 
@@ -3052,6 +3164,7 @@
             this.label57.Size = new System.Drawing.Size(41, 12);
             this.label57.TabIndex = 58;
             this.label57.Text = "second";
+            this.label57.Click += new System.EventHandler(this.label57_Click);
             // 
             // panel3
             // 
@@ -3067,6 +3180,7 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(383, 24);
             this.panel3.TabIndex = 87;
+            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
             // label58
             // 
@@ -3077,6 +3191,7 @@
             this.label58.Size = new System.Drawing.Size(11, 12);
             this.label58.TabIndex = 75;
             this.label58.Text = " ";
+            this.label58.Click += new System.EventHandler(this.label58_Click);
             // 
             // label59
             // 
@@ -3087,6 +3202,7 @@
             this.label59.Size = new System.Drawing.Size(11, 12);
             this.label59.TabIndex = 74;
             this.label59.Text = " ";
+            this.label59.Click += new System.EventHandler(this.label59_Click);
             // 
             // tb_times_T3
             // 
@@ -3095,6 +3211,7 @@
             this.tb_times_T3.Size = new System.Drawing.Size(51, 21);
             this.tb_times_T3.TabIndex = 73;
             this.tb_times_T3.Text = "0";
+            this.tb_times_T3.TextChanged += new System.EventHandler(this.tb_times_T3_TextChanged);
             // 
             // dateTimePicker_t_3
             // 
@@ -3103,6 +3220,7 @@
             this.dateTimePicker_t_3.Name = "dateTimePicker_t_3";
             this.dateTimePicker_t_3.Size = new System.Drawing.Size(75, 21);
             this.dateTimePicker_t_3.TabIndex = 72;
+            this.dateTimePicker_t_3.ValueChanged += new System.EventHandler(this.dateTimePicker_t_3_ValueChanged);
             // 
             // dateTimePicker_f_3
             // 
@@ -3112,6 +3230,7 @@
             this.dateTimePicker_f_3.Name = "dateTimePicker_f_3";
             this.dateTimePicker_f_3.Size = new System.Drawing.Size(69, 21);
             this.dateTimePicker_f_3.TabIndex = 71;
+            this.dateTimePicker_f_3.ValueChanged += new System.EventHandler(this.dateTimePicker_f_3_ValueChanged);
             // 
             // tb_times_D3
             // 
@@ -3120,6 +3239,7 @@
             this.tb_times_D3.Size = new System.Drawing.Size(51, 21);
             this.tb_times_D3.TabIndex = 70;
             this.tb_times_D3.Text = "0";
+            this.tb_times_D3.TextChanged += new System.EventHandler(this.tb_times_D3_TextChanged);
             // 
             // label60
             // 
@@ -3129,6 +3249,7 @@
             this.label60.Size = new System.Drawing.Size(35, 12);
             this.label60.TabIndex = 58;
             this.label60.Text = "first";
+            this.label60.Click += new System.EventHandler(this.label60_Click);
             // 
             // cb_days2
             // 
@@ -3149,6 +3270,7 @@
             this.cb_days2.Name = "cb_days2";
             this.cb_days2.Size = new System.Drawing.Size(61, 20);
             this.cb_days2.TabIndex = 86;
+            this.cb_days2.SelectedIndexChanged += new System.EventHandler(this.cb_days2_SelectedIndexChanged);
             // 
             // label61
             // 
@@ -3159,6 +3281,7 @@
             this.label61.Size = new System.Drawing.Size(29, 12);
             this.label61.TabIndex = 85;
             this.label61.Text = "days";
+            this.label61.Click += new System.EventHandler(this.label61_Click);
             // 
             // gb_ac2
             // 
@@ -3183,32 +3306,34 @@
             this.gb_ac2.Controls.Add(this.tb_Sweep_t2);
             this.gb_ac2.Controls.Add(this.label49);
             this.gb_ac2.Controls.Add(this.tb_Sweep_f2);
-            this.gb_ac2.Location = new System.Drawing.Point(8, 24);
+            this.gb_ac2.Location = new System.Drawing.Point(8, 30);
             this.gb_ac2.Name = "gb_ac2";
             this.gb_ac2.Size = new System.Drawing.Size(419, 182);
             this.gb_ac2.TabIndex = 15;
             this.gb_ac2.TabStop = false;
             this.gb_ac2.Text = "Step 1(AC Control)";
+            this.gb_ac2.Enter += new System.EventHandler(this.gb_ac2_Enter);
             // 
             // chart_temp
             // 
             this.chart_temp.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chart_temp.BackColor = System.Drawing.SystemColors.Control;
             this.chart_temp.BorderlineColor = System.Drawing.SystemColors.Control;
-            chartArea7.AxisX.Interval = 2D;
-            chartArea7.AxisY.Minimum = 20D;
-            chartArea7.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
-            chartArea7.Name = "ChartArea1";
-            this.chart_temp.ChartAreas.Add(chartArea7);
+            chartArea14.AxisX.Interval = 2D;
+            chartArea14.AxisY.Minimum = 20D;
+            chartArea14.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
+            chartArea14.Name = "ChartArea1";
+            this.chart_temp.ChartAreas.Add(chartArea14);
             this.chart_temp.Location = new System.Drawing.Point(251, 92);
             this.chart_temp.Name = "chart_temp";
-            series9.ChartArea = "ChartArea1";
-            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series9.Name = "Series1";
-            this.chart_temp.Series.Add(series9);
+            series18.ChartArea = "ChartArea1";
+            series18.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series18.Name = "Series1";
+            this.chart_temp.Series.Add(series18);
             this.chart_temp.Size = new System.Drawing.Size(160, 84);
             this.chart_temp.TabIndex = 91;
             this.chart_temp.Text = "chart5";
+            this.chart_temp.Click += new System.EventHandler(this.chart_temp_Click);
             // 
             // tb_temp
             // 
@@ -3221,6 +3346,7 @@
             this.tb_temp.Name = "tb_temp";
             this.tb_temp.Size = new System.Drawing.Size(132, 77);
             this.tb_temp.TabIndex = 42;
+            this.tb_temp.TextChanged += new System.EventHandler(this.tb_temp_TextChanged);
             // 
             // label41
             // 
@@ -3231,6 +3357,7 @@
             this.label41.Size = new System.Drawing.Size(41, 12);
             this.label41.TabIndex = 40;
             this.label41.Text = "Points";
+            this.label41.Click += new System.EventHandler(this.label41_Click);
             // 
             // cb_dft2
             // 
@@ -3255,6 +3382,7 @@
             this.cb_dft2.Name = "cb_dft2";
             this.cb_dft2.Size = new System.Drawing.Size(98, 20);
             this.cb_dft2.TabIndex = 39;
+            this.cb_dft2.SelectedIndexChanged += new System.EventHandler(this.cb_dft2_SelectedIndexChanged);
             // 
             // label42
             // 
@@ -3265,6 +3393,7 @@
             this.label42.Size = new System.Drawing.Size(23, 12);
             this.label42.TabIndex = 38;
             this.label42.Text = "DFT";
+            this.label42.Click += new System.EventHandler(this.label42_Click);
             // 
             // cb_tia2
             // 
@@ -3285,6 +3414,7 @@
             this.cb_tia2.Name = "cb_tia2";
             this.cb_tia2.Size = new System.Drawing.Size(98, 20);
             this.cb_tia2.TabIndex = 33;
+            this.cb_tia2.SelectedIndexChanged += new System.EventHandler(this.cb_tia2_SelectedIndexChanged);
             // 
             // label43
             // 
@@ -3295,6 +3425,7 @@
             this.label43.Size = new System.Drawing.Size(29, 12);
             this.label43.TabIndex = 32;
             this.label43.Text = "RTIA";
+            this.label43.Click += new System.EventHandler(this.label43_Click);
             // 
             // label44
             // 
@@ -3305,6 +3436,7 @@
             this.label44.Size = new System.Drawing.Size(23, 12);
             this.label44.TabIndex = 31;
             this.label44.Text = "sps";
+            this.label44.Click += new System.EventHandler(this.label44_Click);
             // 
             // cb_dor2
             // 
@@ -3320,6 +3452,7 @@
             this.cb_dor2.Name = "cb_dor2";
             this.cb_dor2.Size = new System.Drawing.Size(98, 20);
             this.cb_dor2.TabIndex = 30;
+            this.cb_dor2.SelectedIndexChanged += new System.EventHandler(this.cb_dor2_SelectedIndexChanged);
             // 
             // label45
             // 
@@ -3330,6 +3463,7 @@
             this.label45.Size = new System.Drawing.Size(23, 12);
             this.label45.TabIndex = 29;
             this.label45.Text = "ODR";
+            this.label45.Click += new System.EventHandler(this.label45_Click);
             // 
             // label46
             // 
@@ -3340,6 +3474,7 @@
             this.label46.Size = new System.Drawing.Size(17, 12);
             this.label46.TabIndex = 28;
             this.label46.Text = "mV";
+            this.label46.Click += new System.EventHandler(this.label46_Click);
             // 
             // label47
             // 
@@ -3350,6 +3485,7 @@
             this.label47.Size = new System.Drawing.Size(59, 12);
             this.label47.TabIndex = 14;
             this.label47.Text = "Amplitude";
+            this.label47.Click += new System.EventHandler(this.label47_Click);
             // 
             // cb_freq_f2
             // 
@@ -3363,6 +3499,7 @@
             this.cb_freq_f2.Name = "cb_freq_f2";
             this.cb_freq_f2.Size = new System.Drawing.Size(47, 20);
             this.cb_freq_f2.TabIndex = 9;
+            this.cb_freq_f2.SelectedIndexChanged += new System.EventHandler(this.cb_freq_f2_SelectedIndexChanged);
             // 
             // cb_freq_t2
             // 
@@ -3376,6 +3513,7 @@
             this.cb_freq_t2.Name = "cb_freq_t2";
             this.cb_freq_t2.Size = new System.Drawing.Size(47, 20);
             this.cb_freq_t2.TabIndex = 8;
+            this.cb_freq_t2.SelectedIndexChanged += new System.EventHandler(this.cb_freq_t2_SelectedIndexChanged);
             // 
             // label48
             // 
@@ -3386,6 +3524,7 @@
             this.label48.Size = new System.Drawing.Size(17, 12);
             this.label48.TabIndex = 7;
             this.label48.Text = "to";
+            this.label48.Click += new System.EventHandler(this.label48_Click);
             // 
             // label49
             // 
@@ -3396,16 +3535,17 @@
             this.label49.Size = new System.Drawing.Size(65, 12);
             this.label49.TabIndex = 5;
             this.label49.Text = "Sweep from";
+            this.label49.Click += new System.EventHandler(this.label49_Click);
             // 
             // panel4
             // 
             this.panel4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.panel4.Controls.Add(this.groupBox4);
-            this.panel4.Controls.Add(this.groupBox2);
             this.panel4.Location = new System.Drawing.Point(407, 31);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(176, 533);
             this.panel4.TabIndex = 3;
+            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
             // panel5
             // 
@@ -3417,6 +3557,43 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(242, 546);
             this.panel5.TabIndex = 90;
+            this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
+            // 
+            // btn_stop2
+            // 
+            this.btn_stop2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_stop2.BackgroundImage")));
+            this.btn_stop2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btn_stop2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_stop2.Location = new System.Drawing.Point(229, 4);
+            this.btn_stop2.Name = "btn_stop2";
+            this.btn_stop2.Size = new System.Drawing.Size(50, 51);
+            this.btn_stop2.TabIndex = 92;
+            this.btn_stop2.UseVisualStyleBackColor = true;
+            this.btn_stop2.Click += new System.EventHandler(this.btn_stop2_Click_1);
+            // 
+            // btn_comb_start
+            // 
+            this.btn_comb_start.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_comb_start.BackColor = System.Drawing.Color.ForestGreen;
+            this.btn_comb_start.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_comb_start.Image = ((System.Drawing.Image)(resources.GetObject("btn_comb_start.Image")));
+            this.btn_comb_start.Location = new System.Drawing.Point(118, 1);
+            this.btn_comb_start.Name = "btn_comb_start";
+            this.btn_comb_start.Size = new System.Drawing.Size(52, 52);
+            this.btn_comb_start.TabIndex = 88;
+            this.btn_comb_start.UseVisualStyleBackColor = false;
+            this.btn_comb_start.Click += new System.EventHandler(this.btn_comb_start_Click);
+            // 
+            // panel6
+            // 
+            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel6.Controls.Add(this.btn_stop2);
+            this.panel6.Controls.Add(this.btn_comb_start);
+            this.panel6.Location = new System.Drawing.Point(8, 504);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(413, 56);
+            this.panel6.TabIndex = 93;
             // 
             // Form1
             // 
@@ -3424,11 +3601,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1472, 602);
+            this.ClientSize = new System.Drawing.Size(1600, 602);
             this.Controls.Add(this.panel_load);
             this.Controls.Add(this.gb_comb);
-            this.Controls.Add(this.groupBox_UI);
             this.Controls.Add(this.gb_dc);
+            this.Controls.Add(this.groupBox_UI);
             this.Controls.Add(this.gb_ac);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -3513,6 +3690,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart_temp)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
+            this.panel6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3571,7 +3749,6 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart4;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.TextBox test;
-        private System.Windows.Forms.Label var_test;
         private System.Windows.Forms.GroupBox gb_ac;
         private System.Windows.Forms.ComboBox cb_dft;
         private System.Windows.Forms.Label lab_dft;
@@ -3773,6 +3950,7 @@
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
         private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Panel panel6;
     }
 }
 
