@@ -58,6 +58,11 @@ namespace Comm
         private Int64 cnt5 = 0;
         private Int64 cnt6 = 0;
         private Int64 cnt7 = 0;
+        private Int64 cnt_comb = 0;
+        private Int64 cnt_FDA1 = 0;
+        private Int64 cnt_FDA2 = 0;
+        private Int64 cnt_TD = 0;
+        private Int64 cnt_UIR = 0;
         private Queue chart_x = new Queue();
         private Queue chart_y = new Queue();
         private Queue data_queue = new Queue();
@@ -89,6 +94,89 @@ namespace Comm
         string Temperature = "℃";
 
         Int32 tempt = 37;
+
+
+        //*********************************************//
+        //**************数据初始化********************//
+        //*******************************************//
+        public Form1()
+        {
+
+            InitializeComponent();
+            COMChoose.Text = "COM3";
+            CheckBitChoose.Text = "NONE";
+            StopBitChoose.Text = "1";
+            DataBitChoose.Text = "8";
+            BaudrateChoose.Text = "9600";
+            tb_Sweep_f.Text = "10";
+            tb_Sweep_t.Text = "100";
+            tb_times_D1.Text = "0";
+            tb_times_D2.Text = "0";
+            tb_times_T1.Text = "0";
+            tb_times_T2.Text = "0";
+            cb_days.Text = "0";
+            rb_Frequncy.Checked = true;
+            rb_rep.Checked = true;
+            rb_dur.Checked = true;
+            rb_Square.Checked = true;
+            panel_sec.Visible = false;
+            checkBox_SEC.Checked = false;
+            btn_freq.Visible = false;
+            btn_TD.Visible = false;
+            btn_DC.Visible = false;
+            btn_AC.Visible = false;
+            btn_cfg.Visible = false;
+            panel_switch.Visible = false;
+            btn_s.Visible = false;
+            btn_m.Visible = false;
+            panel_switch.Visible = false;
+            btn_comb_start.Enabled = true;
+            btn_stop.Enabled = false;
+            btn_stop2.Enabled = false;
+            btn_stop1.Enabled = false;
+            //rb_Sawtooth.Checked = true;
+            cb_freq.Text = "Hz";
+            cb_freq_f.Text = "Hz";
+            cb_freq_t.Text = "Hz";
+            cb_dor.Text = "5";
+            cb_tia.Text = "0";
+            cb_dft.Text = "1";
+            cb_days.Text = "7";
+
+
+            cb_freq_f2.Text = "Hz";
+            cb_freq_t2.Text = "Hz";
+            cb_dor2.Text = "5";
+            cb_tia2.Text = "0";
+            cb_dft2.Text = "1";
+            cb_days2.Text = "7";
+
+            SaveFilePath.Visible = true;
+            ChooseFile.Visible = true;
+            CheckForIllegalCrossThreadCalls = false;
+            panel_load.Visible = false;
+            enableButtons(false, false, false, false, false, false, false, false, false, false);
+
+
+
+        }
+
+        //事件添加
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            serialPort1.DataReceived += new SerialDataReceivedEventHandler(Port_DataRecevied);
+            Init_Chart();
+            chart1.MouseWheel += new MouseEventHandler(chart_MouseWheel);
+            chart2.MouseWheel += new MouseEventHandler(chart_MouseWheel);
+            chart3.MouseWheel += new MouseEventHandler(chart_MouseWheelXY);
+            chart4.MouseWheel += new MouseEventHandler(chart_MouseWheel);
+            chart_u_i_r.MouseWheel += new MouseEventHandler(chart_MouseWheel);
+
+        }
+
+
+
+
         //*********************************************//
         //**************自编函数**********************//
         //*******************************************//
@@ -310,62 +398,6 @@ namespace Comm
         }
 
 
-        //*********************************************//
-        //**************数据初始化********************//
-        //*******************************************//
-        public Form1()
-        {
-
-            InitializeComponent();
-            COMChoose.Text = "COM3";
-            CheckBitChoose.Text = "NONE";
-            StopBitChoose.Text = "1";
-            DataBitChoose.Text = "8";
-            BaudrateChoose.Text = "9600";
-            tb_Sweep_f.Text = "10";
-            tb_Sweep_t.Text = "100";
-            tb_times_D1.Text = "0";
-            tb_times_D2.Text = "0";
-            tb_times_T1.Text = "0";
-            tb_times_T2.Text = "0";
-            cb_days.Text = "0";
-            rb_Frequncy.Checked = true;
-            rb_rep.Checked = true;
-            rb_dur.Checked = true;
-            rb_Square.Checked = true;
-            panel_sec.Visible = false;
-            checkBox_SEC.Checked = false;
-            btn_freq.Visible = false;
-            btn_TD.Visible = false;
-            btn_DC.Visible = false;
-            btn_AC.Visible = false;
-            btn_cfg.Visible = false;
-            panel_switch.Visible = false;
-            btn_s.Visible = false;
-            btn_m.Visible = false;
-            btn_comb_start.Enabled = true;
-            //rb_Sawtooth.Checked = true;
-            cb_freq.Text = "Hz";
-            cb_freq_f.Text = "Hz";
-            cb_freq_t.Text = "Hz";
-            cb_dor.Text = "5";
-            cb_tia.Text = "0";
-            cb_dft.Text = "1";
-            cb_days.Text = "7";
-
-            SaveFilePath.Visible = true;
-            ChooseFile.Visible = true;
-            CheckForIllegalCrossThreadCalls = false;
-            panel_load.Visible = false;
-            enableButtons(false, false, false, false, false, false, false, false, false, false);
-
-            //enablePanel(false, false, false, false, false, false, false);
-            //SaveFilePath.Visible = false;
-            //ChooseFile.Visible = false;
-            //var chart = new LightningChartUltimate();
-
-        }
-
 
 
 
@@ -412,7 +444,7 @@ namespace Comm
 
 
         //*********************************************//
-        //**************串口传输**********************//
+        //**************串口传输+画图*****************//
         //*******************************************//
 
         //打开串口
@@ -731,6 +763,110 @@ namespace Comm
         }
 
 
+        //鼠标滚轮改变图像大小
+        void chart_MouseWheel(object sender, MouseEventArgs e)
+        {
+            Chart chart = (Chart)(sender);
+            double zoomfactor = 2;   //设置缩放比例
+            double xstartpoint = chart.ChartAreas[0].AxisX.ScaleView.ViewMinimum;      //获取当前x轴最小坐标
+            double xendpoint = chart.ChartAreas[0].AxisX.ScaleView.ViewMaximum;      //获取当前x轴最大坐标
+            double xmouseponit = chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);    //获取鼠标在chart中x坐标
+            double xratio = (xendpoint - xmouseponit) / (xmouseponit - xstartpoint);      //计算当前鼠标基于坐标两侧的比值，后续放大缩小时保持比例不变
+
+            if (e.Delta > 0)    //滚轮上滑放大
+            {
+                if (chart.ChartAreas[0].AxisX.ScaleView.Size > 5)     //缩放视图不小于5
+                {
+                    if ((xmouseponit >= chart.ChartAreas[0].AxisX.ScaleView.ViewMinimum) && (xmouseponit <= chart.ChartAreas[0].AxisX.ScaleView.ViewMaximum)) //判断鼠标位置不在x轴两侧边沿
+                    {
+                        double xspmovepoints = Math.Round((xmouseponit - xstartpoint) * (zoomfactor - 1) / zoomfactor, 1);    //计算x轴起点需要右移距离,保留一位小数
+                        double xepmovepoints = Math.Round(xendpoint - xmouseponit - xratio * (xmouseponit - xstartpoint - xspmovepoints), 1);    //计算x轴末端左移距离，保留一位小数
+                        double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
+                        chart.ChartAreas[0].AxisX.ScaleView.Size -= viewsizechange;        //设置x轴缩放视图大小
+                        chart.ChartAreas[0].AxisX.ScaleView.Position += xspmovepoints;        //设置x轴缩放视图起点，右移保持鼠标中心点
+
+                    }
+                }
+            }
+            else     //滚轮下滑缩小
+            {
+
+                if (chart.ChartAreas[0].AxisX.ScaleView.Size < chart.ChartAreas[0].AxisX.Maximum)
+                {
+                    double xspmovepoints = Math.Round((zoomfactor - 1) * (xmouseponit - xstartpoint), 1);   //计算x轴起点需要左移距离
+                    double xepmovepoints = Math.Round((zoomfactor - 1) * (xendpoint - xmouseponit), 1);    //计算x轴末端右移距离
+                    if (chart.ChartAreas[0].AxisX.ScaleView.Size + xspmovepoints + xepmovepoints < chart.ChartAreas[0].AxisX.Maximum)  //判断缩放视图尺寸是否超过曲线尺寸
+                    {
+                        if ((xstartpoint - xspmovepoints <= 0) || (xepmovepoints + xendpoint >= chart.ChartAreas[0].AxisX.Maximum))  //判断缩放值是否达到曲线边界
+                        {
+                            if (xstartpoint - xspmovepoints <= 0)    //缩放视图起点小于等于0
+                            {
+                                xspmovepoints = xstartpoint;
+                                chart.ChartAreas[0].AxisX.ScaleView.Position = 0;    //缩放视图起点设为0
+                            }
+                            else
+                                chart.ChartAreas[0].AxisX.ScaleView.Position -= xspmovepoints;  //缩放视图起点大于0，按比例缩放
+                            if (xepmovepoints + xendpoint >= chart.ChartAreas[0].AxisX.Maximum)  //缩放视图终点大于曲线最大值
+                                chart.ChartAreas[0].AxisX.ScaleView.Size = chart.ChartAreas[0].AxisX.Maximum - chart.ChartAreas[0].AxisX.ScaleView.Position;  //设置缩放视图尺寸=曲线最大值-视图起点值
+                            else
+                            {
+                                double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
+                                chart.ChartAreas[0].AxisX.ScaleView.Size += viewsizechange;   //按比例缩放视图大小
+                            }
+                        }
+                        else
+                        {
+                            double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
+                            chart.ChartAreas[0].AxisX.ScaleView.Size += viewsizechange;   //按比例缩放视图大小
+                            chart.ChartAreas[0].AxisX.ScaleView.Position -= xspmovepoints;   //按比例缩放视图大小
+                        }
+                    }
+                    else
+                    {
+                        chart.ChartAreas[0].AxisX.ScaleView.Size = chart.ChartAreas[0].AxisX.Maximum;
+                        chart.ChartAreas[0].AxisX.ScaleView.Position = 0;
+                    }
+                }
+            }
+        }
+
+        void chart_MouseWheelXY(object sender, MouseEventArgs e)
+        {
+            Chart chart = (Chart)(sender);
+
+            if (e.Delta > 0)    //滚轮上滑放大
+            {
+                if (chart.ChartAreas[0].AxisX.ScaleView.Size > 5)     //缩放视图不小于5
+                {
+                    ((Chart)(sender)).ChartAreas[0].AxisX.ScaleView.Size = ((Chart)(sender)).ChartAreas[0].AxisX.ScaleView.Size * 0.8;
+                    ((Chart)(sender)).ChartAreas[0].AxisY.ScaleView.Size = ((Chart)(sender)).ChartAreas[0].AxisY.ScaleView.Size * 0.8;
+
+                }
+            }
+            else     //滚轮下滑缩小
+            {
+                ((Chart)(sender)).ChartAreas[0].AxisX.ScaleView.Size = ((Chart)(sender)).ChartAreas[0].AxisX.ScaleView.Size * 1.2;
+                ((Chart)(sender)).ChartAreas[0].AxisY.ScaleView.Size = ((Chart)(sender)).ChartAreas[0].AxisY.ScaleView.Size * 1.2;
+
+            }
+        }
+
+
+        //chart init.
+        private void Init_Chart()
+        {
+            #region chart1  
+            chart1.ChartAreas[0].AxisX.ScaleView.Size = 3000;
+            chart2.ChartAreas[0].AxisX.ScaleView.Size = 3000;
+            chart3.ChartAreas[0].AxisX.ScaleView.Size = 3000;
+            chart3.ChartAreas[0].AxisY.ScaleView.Size = 3000;
+            chart4.ChartAreas[0].AxisX.ScaleView.Size = 3000;
+            chart_u_i_r.ChartAreas[0].AxisX.ScaleView.Size = 3000;
+            #endregion
+
+
+        }
+
 
 
         //从文件发送
@@ -1006,7 +1142,7 @@ namespace Comm
             panel_switch.Height = btn_AC.Height;
             panel_switch.Top = btn_AC.Top;
             gb_ac.Text = "AC Control";
-            enableButtons(false, true, false, false, false, false, true, false, false, true);
+            enableButtons(false, true, false, false, false, false, false, false, false, true);
             //serialPort1.Write("Open COM");
 
         }
@@ -1043,7 +1179,7 @@ namespace Comm
             }
 
             gb_ac.Text = "DC Control";
-            enableButtons(false, false, false, false, false, true, true, false, true, false);
+            enableButtons(false, false, false, false, false, true, false, false, true, false);
             //serialPort1.Write("Open COM");
         }
 
@@ -1094,7 +1230,8 @@ namespace Comm
 
         private void btn_start_Click(object sender, EventArgs e)
         {
-
+            btn_start.Enabled = false;
+            btn_stop.Enabled = true;
             serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x01 }, 0, 5);
 
             try
@@ -1389,15 +1526,16 @@ namespace Comm
 
                         serialPort1.Write(Zeros, 0, 14);
 
-                        if (rb_Frequncy.Checked)
+                        if (rb_Sweep.Checked)
                         {
                             if (rb_dur.Checked)
                             {
-                                StreamWriter sw = new StreamWriter(parameter21);
+                                FileStream fs = new FileStream(parameter21, FileMode.Append);
+                                StreamWriter sw = new StreamWriter(fs);
                                 sw.WriteLine("Start at:   " + "\t" + System.DateTime.Now + "\t");
-                                sw.WriteLine("Frequency:  " + "\t" + tb_freq.Text + "\t" + "Hz");
-                                sw.WriteLine("Sweep from: " + "\t" + tb_Sweep_f.Text + "\t" + "Hz");
-                                sw.WriteLine("to:         " + "\t" + tb_Sweep_t.Text + "\t" + "Hz");
+                                sw.WriteLine("Frequency:  " + "\t" + tb_freq.Text + "\t" + cb_freq.Text);
+                                sw.WriteLine("Sweep from: " + "\t" + tb_Sweep_f.Text + "\t" + cb_freq_f.Text);
+                                sw.WriteLine("to:         " + "\t" + tb_Sweep_t.Text + "\t" + cb_freq_t.Text);
                                 sw.WriteLine("Amplitude:  " + "\t" + tb_amp.Text + "\t" + "mV");
                                 sw.WriteLine("ODR:        " + "\t" + cb_dor.Text + "\t" + "sps");
                                 sw.WriteLine("RTIA:       " + "\t" + cb_tia.Text + "\t");
@@ -1425,11 +1563,12 @@ namespace Comm
                             }
                             else
                             {
-                                StreamWriter sw = new StreamWriter(parameter22);
+                                FileStream fs = new FileStream(parameter22, FileMode.Append);
+                                StreamWriter sw = new StreamWriter(fs);
                                 sw.WriteLine("Start at:   " + "\t" + System.DateTime.Now + "\t");
-                                sw.WriteLine("Frequency:  " + "\t" + tb_freq.Text + "\t" + "Hz");
-                                sw.WriteLine("Sweep from: " + "\t" + tb_Sweep_f.Text + "\t" + "Hz");
-                                sw.WriteLine("to:         " + "\t" + tb_Sweep_t.Text + "\t" + "Hz");
+                                sw.WriteLine("Frequency:  " + "\t" + tb_freq.Text + "\t" + cb_freq.Text);
+                                sw.WriteLine("Sweep from: " + "\t" + tb_Sweep_f.Text + "\t" + cb_freq_f.Text);
+                                sw.WriteLine("to:         " + "\t" + tb_Sweep_t.Text + "\t" + cb_freq_t.Text);
                                 sw.WriteLine("Amplitude:  " + "\t" + tb_amp.Text + "\t" + "mV");
                                 sw.WriteLine("ODR:        " + "\t" + cb_dor.Text + "\t" + "sps");
                                 sw.WriteLine("RTIA:       " + "\t" + cb_tia.Text + "\t");
@@ -1457,13 +1596,15 @@ namespace Comm
 
                             }
                         }
-                        else if (rb_Sweep.Checked)
+                        else if (rb_Frequncy.Checked)
                         {
-                            StreamWriter sw = new StreamWriter(parameter1);
+                            FileStream fs = new FileStream(parameter1, FileMode.Append);
+                            StreamWriter sw = new StreamWriter(fs);
+
                             sw.WriteLine("Start at:   " + "\t" + System.DateTime.Now + "\t");
-                            sw.WriteLine("Frequency:  " + "\t" + tb_freq.Text + "\t" + "Hz");
-                            sw.WriteLine("Sweep from: " + "\t" + tb_Sweep_f.Text + "\t" + "Hz");
-                            sw.WriteLine("to:         " + "\t" + tb_Sweep_t.Text + "\t" + "Hz");
+                            sw.WriteLine("Frequency:  " + "\t" + tb_freq.Text + "\t" + cb_freq.Text);
+                            sw.WriteLine("Sweep from: " + "\t" + tb_Sweep_f.Text + "\t" + cb_freq_f.Text);
+                            sw.WriteLine("to:         " + "\t" + tb_Sweep_t.Text + "\t" + cb_freq_t.Text);
                             sw.WriteLine("Amplitude:  " + "\t" + tb_amp.Text + "\t" + "mV");
                             sw.WriteLine("ODR:        " + "\t" + cb_dor.Text + "\t" + "sps");
                             sw.WriteLine("RTIA:       " + "\t" + cb_tia.Text + "\t");
@@ -1494,7 +1635,7 @@ namespace Comm
                     }
                     catch (Exception ee)
                     {
-                        MessageBox.Show("请将参数填写完整");
+                        MessageBox.Show("Please fill in the parameters completely");
 
                     }
                 }
@@ -1513,6 +1654,81 @@ namespace Comm
         }
 
 
+        //FDA and TD stop
+        private void btn_stop_Click(object sender, EventArgs e)
+        {
+
+            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x09 }, 0, 5);
+            btn_start.Enabled = true;
+            btn_stop.Enabled = false;
+
+
+            if (rb_Frequncy.Checked)
+            {
+
+                FileStream fs = new FileStream(parameter1, FileMode.Append);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.WriteLine("Stop at:   " + "\t" + System.DateTime.Now + "\t");
+                sw.WriteLine("\n");
+                sw.Flush();
+                sw.Close();
+
+                cnt_TD++;
+
+                if (!File.Exists(pathString2 + "\\" + cnt_TD + "Single_Measurement1.txt"))
+                {
+
+                    StreamWriter sw1 = new StreamWriter(pathString2 + "\\" + cnt_TD + "Single_Measurement1.txt");
+                    sw1.WriteLine("Time" + "\t" + "Voltag" + "\t" + "Current" + "\t" + "Impedence");
+                    sw1.Flush();
+                    sw1.Close();
+                }
+            }
+            else
+            {
+                if (rb_dur.Checked)
+                {
+                    FileStream fs = new FileStream(parameter21, FileMode.Append);
+                    StreamWriter sw = new StreamWriter(fs);
+                    sw.WriteLine("Stop at:   " + "\t" + System.DateTime.Now + "\t");
+                    sw.WriteLine("\n");
+                    sw.Flush();
+                    sw.Close();
+
+                    cnt_FDA1++;
+
+                    if (!File.Exists(pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt"))
+                    {
+
+                        StreamWriter sw1 = new StreamWriter(pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt");
+                        sw1.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
+                        sw1.Flush();
+                        sw1.Close();
+                    }
+
+                }
+                else
+                {
+                    FileStream fs = new FileStream(parameter22, FileMode.Append);
+                    StreamWriter sw = new StreamWriter(fs);
+                    sw.WriteLine("Stop at:   " + "\t" + System.DateTime.Now + "\t");
+                    sw.WriteLine("\n");
+                    sw.Flush();
+                    sw.Close();
+
+                    cnt_FDA2++;
+
+                    if (!File.Exists(pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt"))
+                    {
+
+                        StreamWriter sw1 = new StreamWriter(pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt");
+                        sw1.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
+                        sw1.Flush();
+                        sw1.Close();
+                    }
+                }
+            }
+        }
 
         //固定频率操作框
         private void rb_Frequncy_CheckedChanged(object sender, EventArgs e)
@@ -1604,7 +1820,8 @@ namespace Comm
 
         private void btn_start1_Click(object sender, EventArgs e)
         {
-
+            btn_start1.Enabled = false;
+            btn_stop1.Enabled = true;
             serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x03 }, 0, 5);
 
             try
@@ -1706,12 +1923,13 @@ namespace Comm
 
                     catch
                     {
-                        MessageBox.Show("请将参数填写完整");
+                        MessageBox.Show("Please fill in the parameters completely!");
                     }
                 }
 
 
-                StreamWriter sw = new StreamWriter(parameter3);
+                FileStream fs = new FileStream(parameter3, FileMode.Append);
+                StreamWriter sw = new StreamWriter(fs);
                 sw.WriteLine("Start at:   " + "\t" + System.DateTime.Now + "\t");
                 sw.WriteLine("Strat at:   " + "\t" + tb_start.Text + "\t" + "mV");
                 sw.WriteLine("Amplitude:  " + "\t" + tb_amp1.Text + "\t" + "mV");
@@ -1742,13 +1960,41 @@ namespace Comm
             }
         }
 
+        //DC _Stop
+        private void btn_stop1_Click(object sender, EventArgs e)
+        {
+            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x08 }, 0, 5);
+            btn_start1.Enabled = true;
+            btn_stop1.Enabled = false;
+
+            FileStream fs = new FileStream(parameter3, FileMode.Append);
+            StreamWriter sw = new StreamWriter(fs);
+            sw.WriteLine("Stop at:   " + "\t" + System.DateTime.Now + "\t");
+            sw.WriteLine("\n");
+            sw.Flush();
+            sw.Close();
+
+            cnt_UIR++;
+
+            if (!File.Exists(pathString3 + "\\" + cnt_UIR + "U_I_R_data.txt"))
+            {
+
+                StreamWriter sw1 = new StreamWriter(pathString3 + "\\" + cnt_UIR + "U_I_R_data.txt");
+                sw1.WriteLine("Time" + "\t" + "Voltag" + "\t" + "Current" + "\t" + "Impedence");
+                sw1.Flush();
+                sw1.Close();
+            }
+        }
+
+
+        //Slider for choice of wave
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             tb_s_p1.Text = trackBar1.Value.ToString();
         }
 
 
-
+        //wave choose
         private void tb_s_p1_TextChanged(object sender, EventArgs e)
         {
             chart_v.Series[0].Points.Clear();
@@ -1783,6 +2029,8 @@ namespace Comm
 
         }
 
+        //Model choose
+
         private void rb_Sweep1_CheckedChanged(object sender, EventArgs e)
         {
             tb_s_p1.Enabled = true;
@@ -1802,788 +2050,21 @@ namespace Comm
         }
 
 
-
-
-
         //*********************************************//
-        //****************未使用**********************//
+        //****************Combination***************//
         //*******************************************//
-        private void chart5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel_thd_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void cb_times_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ReceiveArea_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void HexSend_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox3_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void timRead_Tick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void chart1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void gb1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox5_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void File_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void BaudrateChoose_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void DataBitChoose_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel_switch_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void chart2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Port_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void chart4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void gb_ac_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label35_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label36_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label37_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
-        {
-
-        }
-
-
-
-        private void panel_fst_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
-
-        private void textBox1_TextChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void gb_Single_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void chart_u_i_r_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChartClear();
-            NewProject f2 = new NewProject();
-            f2.ShowDialog();
-            if (f2.DialogResult == DialogResult.OK)
-            {
-                parameter1 = f2.Parameter1;
-                parameter21 = f2.Parameter21;
-                parameter22 = f2.Parameter22;
-                parameter3 = f2.Parameter3;
-                parameter4 = f2.Parameter4;
-                pathString1 = f2.pathString1;
-                pathString2 = f2.pathString2;
-                pathString3 = f2.pathString3;
-                pathString4 = f2.pathString4;
-                Single_m = f2.Single_m;
-                Single_m1 = f2.Single_m1;
-                Multiple_m = f2.Multiple_m;
-                U_I_R = f2.U_I_R;
-                ID_Num = f2.ID_Num;
-                Combination_m = f2.Combination_M;
-
-                enableButtons(true, true, true, true, false, false, false, true, false, false);
-                btn_freq.Visible = true;
-                btn_TD.Visible = true;
-                btn_DC.Visible = true;
-                btn_AC.Visible = true;
-                btn_cfg.Visible = true;
-                panel_switch.Visible = true;
-                panel_load.Visible = false;
-            }
-
-        }
-
-        private void label30_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void gb_dc_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void loadProjectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            btn_freq.Visible = false;
-            btn_TD.Visible = false;
-            btn_DC.Visible = false;
-            btn_AC.Visible = false;
-            btn_cfg.Visible = false;
-            panel_switch.Visible = false;
-
-            button1.Visible = false;
-            SaveBode2.Visible = false;
-            SaveNyq.Visible = false;
-            SaveTD.Visible = false;
-            button2.Visible = false;
-            panel_switch.Visible = false;
-            panel_load.Visible = true;
-            enableButtons(false, false, false, false, false, false, false, false, false, false);
-            newProjectToolStripMenuItem.Enabled = false;
-
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "请选择文件路径";
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                cnt7++;
-                foldPath = dialog.SelectedPath;
-                //DirectoryInfo theFolder = new DirectoryInfo(foldPath);
-                //FileInfo[] dirInfo = theFolder.GetFiles();
-
-
-            }
-        }
-
-        public struct Point
-        {
-            public double X;
-            public double Y;
-            public double Z;
-        }
-
-
-        public struct Point_T
-        {
-            public double X;
-            public double Y;
-        }
-
-        public struct Point_U
-        {
-            public double X;
-            public double Y;
-            public double Z;
-            public double K;
-        }
-
-        public struct ID
-        {
-            public string ID_NUM;
-            public string ID_NAME;
-            public string ID_FILE;
-            public string ID_DES;
-        }
-
-        private void btn_fre_load_Click(object sender, EventArgs e)
-        {
-            
-            btn_fre_load.Visible = false;
-            btn_s.Visible = true;
-            btn_m.Visible = true;
-
-        }
-
-        private void btn_s_Click(object sender, EventArgs e)
-        {
-            
-            string FDA = foldPath + "/FDA";
-            string FDA_S = FDA + "/Single_Measurement.txt";
-            string FDA_M = FDA + "/Multiple_Measurement.txt";
-            string FDA_P1 = FDA + "/Parameter_s.txt";
-            string[] lines = File.ReadAllLines(FDA_S);
-            chart1.Series.Add((cnt7).ToString());//添加
-            chart2.Series.Add((cnt7).ToString());//添加
-            chart3.Series.Add((cnt7).ToString());//添加
-            this.chart1.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            this.chart2.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            this.chart3.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            // 点列表集合
-            List<Point> points = new List<Point>();
-            // 让过第一行，从第二行开始处理
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                // 拆分行
-                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                Point p;
-                // 获取Y（第一列）        
-                p.X = double.Parse(v[0]);
-                // 获取Y（第二列）        
-                p.Y = double.Parse(v[1]);
-                p.Z = double.Parse(v[2]);
-                points.Add(p);
-
-                int fre_int = (int)(p.X * 100);
-                p.X = fre_int / 100;
-
-                double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
-                double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
-
-                int real_int = (int)(real * 100);
-                real = real_int / 100;
-
-                int img_int = (int)(img * 100);
-                img = img_int / 100;
-
-                //this.chart1.Series.Clear();
-                //this.chart2.Series.Clear();
-                //this.chart3.Series.Clear();
-                //Series series = new Series((cnt7 + 1).ToString());
-                
-                this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
-                this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
-
-            }
-        }
-
-        private void btn_m_Click(object sender, EventArgs e)
-        {
-            
-            string FDA = foldPath + "/FDA";
-            string FDA_S = FDA + "/Single_Measurement.txt";
-            string FDA_M = FDA + "/Multiple_Measurement.txt";
-            string FDA_P2 = FDA + "/Parameter_m.txt";
-            string[] lines = File.ReadAllLines(FDA_M);
-            chart1.Series.Add((cnt7).ToString());//添加
-            chart2.Series.Add((cnt7).ToString());//添加
-            chart3.Series.Add((cnt7).ToString());//添加
-            this.chart1.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            this.chart2.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            this.chart3.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-
-            // 点列表集合
-            List<Point> points = new List<Point>();
-            // 让过第一行，从第二行开始处理
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                // 拆分行
-                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                Point p;
-                // 获取Y（第一列）        
-                p.X = double.Parse(v[0]);
-                // 获取Y（第二列）        
-                p.Y = double.Parse(v[1]);
-                p.Z = double.Parse(v[2]);
-                points.Add(p);
-
-                int fre_int = (int)(p.X * 100);
-                p.X = fre_int / 100;
-
-                double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
-                double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
-
-                int real_int = (int)(real * 100);
-                real = real_int / 100;
-
-                int img_int = (int)(img * 100);
-                img = img_int / 100;
-
-                this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
-                this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
-
-            }
-        }
-
-        private void btn_td_load_Click(object sender, EventArgs e)
-        {
-            
-            btn_fre_load.Visible = true;
-            btn_s.Visible = false;
-            btn_m.Visible = false;
-
-            string TD = foldPath + "/TD";
-            string TD_S = TD + "/Single_Measurement.txt";
-            //string FDA_M = FDA + "/Multiple_Measurement.txt";
-            string TD_p = TD + "/Parameter.txt";
-
-            chart4.Series.Add((cnt7).ToString());//添加
-            this.chart4.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            List<Point_T> points = new List<Point_T>();
-            string[] lines = File.ReadAllLines(TD_S);
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                // 拆分行
-                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                Point_T p;
-                // 获取Y（第一列）        
-                p.X = double.Parse(v[0]);
-                // 获取Y（第二列）        
-                p.Y = double.Parse(v[1]);
-                //p.Z = double.Parse(v[2]);
-                points.Add(p);
-                this.chart4.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                //this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
-            }
-        }
-
-        private void btn_dc_load_Click(object sender, EventArgs e)
-        {
-
-            
-            btn_fre_load.Visible = true;
-            btn_s.Visible = false;
-            btn_m.Visible = false;
-
-            string DC = foldPath + "/DC";
-            string DC_U = DC + "/U_I_R_data.txt";
-            //string FDA_M = FDA + "/Multiple_Measurement.txt";
-            string TD_p = TD + "/Parameter.txt";
-            chart_u_i_r.Series.Add((cnt7).ToString());//添加
-            this.chart_u_i_r.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            chart_u_i_r.Series.Add((cnt7+1).ToString());//添加
-            this.chart_u_i_r.Series[(cnt7+1).ToString()].ChartType = SeriesChartType.Point;
-            chart_u_i_r.Series.Add((cnt7+2).ToString());//添加
-            this.chart_u_i_r.Series[(cnt7+2).ToString()].ChartType = SeriesChartType.Point;
-            List<Point_U> points = new List<Point_U>();
-            string[] lines = File.ReadAllLines(DC_U);
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string line = lines[i];
-                // 拆分行
-                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                Point_U p;
-                // 获取Y（第一列）        
-                p.X = double.Parse(v[0]);
-                // 获取Y（第二列）        
-                p.Y = double.Parse(v[1]);
-                p.Z = double.Parse(v[2]);
-                p.K = double.Parse(v[3]);
-                points.Add(p);
-                this.chart_u_i_r.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                this.chart_u_i_r.Series[(cnt7+1).ToString()].Points.AddXY(p.X, p.Z);
-                this.chart_u_i_r.Series[(cnt7+2).ToString()].Points.AddXY(p.X, p.K);
-                //this.chart_u_i_r.ChartAreas[0].AxisX.IsLogarithmic = true;
-            }
-        }
-
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "请选择文件路径";
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                
-                enableButtons(true, true, true, true, false, false, false, true, false, false);
-                btn_freq.Visible = true;
-                btn_TD.Visible = true;
-                btn_DC.Visible = true;
-                btn_AC.Visible = true;
-                btn_cfg.Visible = true;
-                panel_switch.Visible = true;
-                panel_load.Visible = false;
-
-
-                foldPath = dialog.SelectedPath;
-
-                pathString1 = foldPath + "/FDA";
-                pathString2 = foldPath + "/TD";
-                pathString3 = foldPath + "/DC"; ;
-                pathString4 = foldPath + "/Combination";
-
-                parameter1 = pathString1 + "/Parameter.txt"; ;
-                parameter21 = pathString2 + "/Parameter_s.txt";
-                parameter22 = pathString2 + "/Parameter_m.txt";
-                parameter3 = pathString3 + "/Parameter.txt";
-                parameter4 = pathString4 + "/Parameter.txt";
-
-                Single_m = pathString1 + "/Single_Measurement.txt";
-                Single_m1 = pathString2 + "/Single_Measurement.txt";
-                Multiple_m = pathString1 + "/Multiple_Measurement.txt";
-                U_I_R = pathString3 + "/U_I_R_data.txt";
-                Combination_m = pathString4 + "Combination_Measurement.txt";
-
-                string filePathOnly = Path.GetDirectoryName(foldPath);
-                string file = Path.GetFileName(filePathOnly);
-
-                Directory.SetCurrentDirectory(Directory.GetParent(foldPath).FullName);
-
-                String ID_path = Directory.GetCurrentDirectory() + "/ID_Information.txt";
-
-                string filePathOnly1 = Path.GetDirectoryName(pathString1);
-                string fold1 = Path.GetFileName(filePathOnly1);
-
-
-                List<ID> points = new List<ID>();
-                ID p;
-                string[] lines = File.ReadAllLines(ID_path);
-                for (int i = 1; i < lines.Length; i++)
-                {
-                    string line = lines[i];
-                    // 拆分行
-                    string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    // 获取Y（第一列）        
-                    p.ID_NUM = v[0];
-                    // 获取Y（第二列）        
-                    p.ID_NAME = v[1];
-                    p.ID_FILE = v[2];
-                    p.ID_DES = v[3];
-                    points.Add(p);
-                    if (fold1.Equals(p.ID_NAME))
-                    {
-                        ID_Num = p.ID_NUM;
-                    }
-
-                }
-
-            }
-        }
-
-        void chart_MouseWheel(object sender, MouseEventArgs e)
-        {
-            Chart chart = (Chart)(sender);
-            double zoomfactor = 2;   //设置缩放比例
-            double xstartpoint = chart.ChartAreas[0].AxisX.ScaleView.ViewMinimum;      //获取当前x轴最小坐标
-            double xendpoint = chart.ChartAreas[0].AxisX.ScaleView.ViewMaximum;      //获取当前x轴最大坐标
-            double xmouseponit = chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);    //获取鼠标在chart中x坐标
-            double xratio = (xendpoint - xmouseponit) / (xmouseponit - xstartpoint);      //计算当前鼠标基于坐标两侧的比值，后续放大缩小时保持比例不变
-
-            if (e.Delta > 0)    //滚轮上滑放大
-            {
-                if (chart.ChartAreas[0].AxisX.ScaleView.Size > 5)     //缩放视图不小于5
-                {
-                    if ((xmouseponit >= chart.ChartAreas[0].AxisX.ScaleView.ViewMinimum) && (xmouseponit <= chart.ChartAreas[0].AxisX.ScaleView.ViewMaximum)) //判断鼠标位置不在x轴两侧边沿
-                    {
-                        double xspmovepoints = Math.Round((xmouseponit - xstartpoint) * (zoomfactor - 1) / zoomfactor, 1);    //计算x轴起点需要右移距离,保留一位小数
-                        double xepmovepoints = Math.Round(xendpoint - xmouseponit - xratio * (xmouseponit - xstartpoint - xspmovepoints), 1);    //计算x轴末端左移距离，保留一位小数
-                        double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
-                        chart.ChartAreas[0].AxisX.ScaleView.Size -= viewsizechange;        //设置x轴缩放视图大小
-                        chart.ChartAreas[0].AxisX.ScaleView.Position += xspmovepoints;        //设置x轴缩放视图起点，右移保持鼠标中心点
-
-                    }
-                }
-            }
-            else     //滚轮下滑缩小
-            {
-
-                if (chart.ChartAreas[0].AxisX.ScaleView.Size < chart.ChartAreas[0].AxisX.Maximum)
-                {
-                    double xspmovepoints = Math.Round((zoomfactor - 1) * (xmouseponit - xstartpoint), 1);   //计算x轴起点需要左移距离
-                    double xepmovepoints = Math.Round((zoomfactor - 1) * (xendpoint - xmouseponit), 1);    //计算x轴末端右移距离
-                    if (chart.ChartAreas[0].AxisX.ScaleView.Size + xspmovepoints + xepmovepoints < chart.ChartAreas[0].AxisX.Maximum)  //判断缩放视图尺寸是否超过曲线尺寸
-                    {
-                        if ((xstartpoint - xspmovepoints <= 0) || (xepmovepoints + xendpoint >= chart.ChartAreas[0].AxisX.Maximum))  //判断缩放值是否达到曲线边界
-                        {
-                            if (xstartpoint - xspmovepoints <= 0)    //缩放视图起点小于等于0
-                            {
-                                xspmovepoints = xstartpoint;
-                                chart.ChartAreas[0].AxisX.ScaleView.Position = 0;    //缩放视图起点设为0
-                            }
-                            else
-                                chart.ChartAreas[0].AxisX.ScaleView.Position -= xspmovepoints;  //缩放视图起点大于0，按比例缩放
-                            if (xepmovepoints + xendpoint >= chart.ChartAreas[0].AxisX.Maximum)  //缩放视图终点大于曲线最大值
-                                chart.ChartAreas[0].AxisX.ScaleView.Size = chart.ChartAreas[0].AxisX.Maximum - chart.ChartAreas[0].AxisX.ScaleView.Position;  //设置缩放视图尺寸=曲线最大值-视图起点值
-                            else
-                            {
-                                double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
-                                chart.ChartAreas[0].AxisX.ScaleView.Size += viewsizechange;   //按比例缩放视图大小
-                            }
-                        }
-                        else
-                        {
-                            double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
-                            chart.ChartAreas[0].AxisX.ScaleView.Size += viewsizechange;   //按比例缩放视图大小
-                            chart.ChartAreas[0].AxisX.ScaleView.Position -= xspmovepoints;   //按比例缩放视图大小
-                        }
-                    }
-                    else
-                    {
-                        chart.ChartAreas[0].AxisX.ScaleView.Size = chart.ChartAreas[0].AxisX.Maximum;
-                        chart.ChartAreas[0].AxisX.ScaleView.Position = 0;
-                    }
-                }
-            }
-        }
-
-        void chart_MouseWheelXY(object sender, MouseEventArgs e)
-        {
-            Chart chart = (Chart)(sender);
-
-            if (e.Delta > 0)    //滚轮上滑放大
-            {
-                if (chart.ChartAreas[0].AxisX.ScaleView.Size > 5)     //缩放视图不小于5
-                {
-                    ((Chart)(sender)).ChartAreas[0].AxisX.ScaleView.Size = ((Chart)(sender)).ChartAreas[0].AxisX.ScaleView.Size * 0.8;
-                    ((Chart)(sender)).ChartAreas[0].AxisY.ScaleView.Size = ((Chart)(sender)).ChartAreas[0].AxisY.ScaleView.Size * 0.8;
-
-                }
-            }
-            else     //滚轮下滑缩小
-            {
-                ((Chart)(sender)).ChartAreas[0].AxisX.ScaleView.Size = ((Chart)(sender)).ChartAreas[0].AxisX.ScaleView.Size * 1.2;
-                ((Chart)(sender)).ChartAreas[0].AxisY.ScaleView.Size = ((Chart)(sender)).ChartAreas[0].AxisY.ScaleView.Size * 1.2;
-
-            }
-        }
-
-        private void Init_Chart()
-        {
-            #region chart1  
-            chart1.ChartAreas[0].AxisX.ScaleView.Size = 3000;
-            chart2.ChartAreas[0].AxisX.ScaleView.Size = 3000;
-            chart3.ChartAreas[0].AxisX.ScaleView.Size = 3000;
-            chart3.ChartAreas[0].AxisY.ScaleView.Size = 3000;
-            chart4.ChartAreas[0].AxisX.ScaleView.Size = 3000;
-            chart_u_i_r.ChartAreas[0].AxisX.ScaleView.Size = 3000;
-            #endregion
-
-
-        }
-
-        //接收事件委托
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            serialPort1.DataReceived += new SerialDataReceivedEventHandler(Port_DataRecevied);
-            Init_Chart();
-            chart1.MouseWheel += new MouseEventHandler(chart_MouseWheel);
-            chart2.MouseWheel += new MouseEventHandler(chart_MouseWheel);
-            chart3.MouseWheel += new MouseEventHandler(chart_MouseWheelXY);
-            chart4.MouseWheel += new MouseEventHandler(chart_MouseWheel);
-            chart_u_i_r.MouseWheel += new MouseEventHandler(chart_MouseWheel);
-            
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void btn_ac_load_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-
-        private void button4_Click_1(object sender, EventArgs e)
-        {
-           
-        }
-
-
-        private void btn_stop2_Click(object sender, EventArgs e)
-        {
-            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x07 }, 0, 5);
-            btn_comb_start.Enabled = true;
-
-
-            FileStream fs = new FileStream(parameter4, FileMode.Append);
-            StreamWriter sw = new StreamWriter(fs);
-            sw.WriteLine("Stop at:   " + "\t" + System.DateTime.Now + "\t" );
-            sw.Flush();
-            sw.Close();
-
-            FileStream fs1 = new FileStream(Combination_m, FileMode.Append);
-            StreamWriter sw1 = new StreamWriter(fs1);
-            sw.WriteLine("Stop at:   " + "\t" + System.DateTime.Now + "\t");
-            sw.Flush();
-            sw.Close();
-        }
-
-        private void checkBox_SEC2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_SEC2.Checked)
-            {
-                dateTimePicker_f_4.Enabled = true;
-                dateTimePicker_t_4.Enabled = true;
-                tb_times_D4.Enabled = true;
-                tb_times_T4.Enabled = true;
-            }
-
-            else
-            {
-                dateTimePicker_f_4.Enabled = false;
-                dateTimePicker_t_4.Enabled = false;
-                tb_times_D4.Enabled = false;
-                tb_times_T4.Enabled = false;
-            }
-        }
 
         private void btn_comb_start_Click(object sender, EventArgs e)
         {
             btn_comb_start.Enabled = false;
+            btn_stop2.Enabled = true;
 
 
             if (Temperature.Equals("℃"))
                 Temperature = tempt.ToString() + "℃";
             else
             {
-                Temperature = "℃";
+                Temperature = "37℃";
             }
 
 
@@ -2796,7 +2277,7 @@ namespace Comm
                         }
                         catch (Exception ee)
                         {
-                            MessageBox.Show("请将参数填写完整");
+                            MessageBox.Show("Please fill in the parameters completely!");
 
                         }
                     }
@@ -2812,7 +2293,6 @@ namespace Comm
                     MessageBox.Show(ex.Message);
 
                 }
-
 
                 try
                 {
@@ -2861,7 +2341,7 @@ namespace Comm
 
                         catch
                         {
-                            MessageBox.Show("请将参数填写完整");
+                            MessageBox.Show("Please fill in the parameters completely!");
                         }
 
 
@@ -2878,6 +2358,35 @@ namespace Comm
 
                 }
 
+                FileStream fs = new FileStream(parameter4, FileMode.Append);
+                StreamWriter sw = new StreamWriter(fs);
+
+                sw.WriteLine("Start at:   " + "\t" + System.DateTime.Now + "\t");
+                sw.WriteLine("Sweep from: " + "\t" + tb_Sweep_f.Text + "\t" + cb_freq_f.Text);
+                sw.WriteLine("to:         " + "\t" + tb_Sweep_t.Text + "\t" + cb_freq_t.Text);
+                sw.WriteLine("Amplitude:  " + "\t" + tb_amp2.Text + "\t" + "mV");
+                sw.WriteLine("ODR:        " + "\t" + cb_dor2.Text + "\t" + "sps");
+                sw.WriteLine("RTIA:       " + "\t" + cb_tia2.Text + "\t");
+                sw.WriteLine("DFT:        " + "\t" + cb_dft2.Text + "\t");
+                sw.WriteLine("Sweep:      " + "\t" + tb_s_p2.Text + "\t" + "Points");
+                sw.WriteLine("Start_Datum:" + "\t" + DTP_Start2.Text + "\t");
+                sw.WriteLine("End_Datum:  " + "\t" + DTP_End2.Text + "\t");
+                sw.WriteLine("Repeat:     " + "\t" + cb_days2.Text + "\t" + "days");
+                sw.WriteLine("From:       " + "\t" + dateTimePicker_f_3.Text + "\t");
+                sw.WriteLine("to:         " + "\t" + dateTimePicker_t_3.Text + "\t");
+                sw.WriteLine("repeat:     " + "\t" + tb_times_D3.Text + "\t" + "Times/day");
+                sw.WriteLine("repeat:     " + "\t" + tb_times_T3.Text + "\t" + "Times/Cycle");
+                sw.WriteLine("Second:    " + "\t" + checkBox_SEC2.Checked + "\t");
+                sw.WriteLine("From:       " + "\t" + dateTimePicker_f_4.Text + "\t");
+                sw.WriteLine("to:         " + "\t" + dateTimePicker_t_4.Text + "\t");
+                sw.WriteLine("repeat:     " + "\t" + tb_times_D4.Text + "\t" + "Times/day");
+                sw.WriteLine("repeat:     " + "\t" + tb_times_T4.Text + "\t" + "Times/Cycle");
+                sw.WriteLine("Amplitude:  " + "\t" + tb_amp4.Text + "\t" + "mV");
+                sw.WriteLine("Duration_s: " + "\t" + tb_d_s1.Text + "\t");
+                sw.WriteLine("Tempe/yes:   " + "\t" + rb_temp_y.Checked + "\t");
+                sw.WriteLine("Tempe/no:   " + "\t" + rb_temp_y.Checked + "\t");
+                sw.Flush();
+                sw.Close();
             }
             else
 
@@ -2885,38 +2394,729 @@ namespace Comm
                 btn_comb_start.Enabled = true;
 
             }
+        }
 
-
+        //stop of Combination
+        private void btn_stop2_Click_1(object sender, EventArgs e)
+        {
+            btn_stop2.Enabled = false;
+            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x07 }, 0, 5);
+            btn_comb_start.Enabled = true;
+            chart_temp.Series[0].Points.Clear();
 
             FileStream fs = new FileStream(parameter4, FileMode.Append);
             StreamWriter sw = new StreamWriter(fs);
-
-            sw.WriteLine("Start at:   " + "\t" + System.DateTime.Now + "\t");
-            sw.WriteLine("Sweep from: " + "\t" + tb_Sweep_f2.Text + "\t" + "Hz");
-            sw.WriteLine("to:         " + "\t" + tb_Sweep_t2.Text + "\t" + "Hz");
-            sw.WriteLine("Amplitude:  " + "\t" + tb_amp2.Text + "\t" + "mV");
-            sw.WriteLine("ODR:        " + "\t" + cb_dor2.Text + "\t" + "sps");
-            sw.WriteLine("RTIA:       " + "\t" + cb_tia2.Text + "\t");
-            sw.WriteLine("DFT:        " + "\t" + cb_dft2.Text + "\t");
-            sw.WriteLine("Sweep:      " + "\t" + tb_s_p2.Text + "\t" + "Points");
-            sw.WriteLine("Start_Datum:" + "\t" + DTP_Start2.Text + "\t");
-            sw.WriteLine("End_Datum:  " + "\t" + DTP_End2.Text + "\t");
-            sw.WriteLine("Repeat:     " + "\t" + cb_days2.Text + "\t" + "days");
-            sw.WriteLine("From:       " + "\t" + dateTimePicker_f_3.Text + "\t");
-            sw.WriteLine("to:         " + "\t" + dateTimePicker_t_3.Text + "\t");
-            sw.WriteLine("repeat:     " + "\t" + tb_times_D3.Text + "\t" + "Times/day");
-            sw.WriteLine("repeat:     " + "\t" + tb_times_T3.Text + "\t" + "Times/Cycle");
-            sw.WriteLine("Second:    " + "\t" + checkBox_SEC2.Checked + "\t");
-            sw.WriteLine("From:       " + "\t" + dateTimePicker_f_4.Text + "\t");
-            sw.WriteLine("to:         " + "\t" + dateTimePicker_t_4.Text + "\t");
-            sw.WriteLine("repeat:     " + "\t" + tb_times_D4.Text + "\t" + "Times/day");
-            sw.WriteLine("repeat:     " + "\t" + tb_times_T4.Text + "\t" + "Times/Cycle");
-            sw.WriteLine("Amplitude:  " + "\t" + tb_amp4.Text + "\t" + "mV");
-            sw.WriteLine("Duration_s: " + "\t" + tb_d_s1.Text + "\t");
-            sw.WriteLine("Tempe/yes:   " + "\t" + rb_temp_y.Checked + "\t");
-            sw.WriteLine("Tempe/no:   " + "\t" + rb_temp_y.Checked + "\t");
+            sw.WriteLine("Stop at:   " + "\t" + System.DateTime.Now + "\t");
+            sw.WriteLine("\n");
             sw.Flush();
             sw.Close();
+
+            cnt_comb++;
+
+            if (!File.Exists(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt"))
+            {
+
+                StreamWriter sw1 = new StreamWriter(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt");
+                sw1.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
+                sw1.Flush();
+                sw1.Close();
+            }
+
+        }
+
+        //second check in COMB
+        private void checkBox_SEC2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_SEC2.Checked)
+            {
+                dateTimePicker_f_4.Enabled = true;
+                dateTimePicker_t_4.Enabled = true;
+                tb_times_D4.Enabled = true;
+                tb_times_T4.Enabled = true;
+            }
+
+            else
+            {
+                dateTimePicker_f_4.Enabled = false;
+                dateTimePicker_t_4.Enabled = false;
+                tb_times_D4.Enabled = false;
+                tb_times_T4.Enabled = false;
+            }
+        }
+
+        //*********************************************//
+        //****************New Project*****************//
+        //*******************************************//
+
+        //Form 2(data send back)
+        private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChartClear();
+            NewProject f2 = new NewProject();
+            f2.ShowDialog();
+            if (f2.DialogResult == DialogResult.OK)
+            {
+                parameter1 = f2.Parameter1;
+                parameter21 = f2.Parameter21;
+                parameter22 = f2.Parameter22;
+                parameter3 = f2.Parameter3;
+                parameter4 = f2.Parameter4;
+                pathString1 = f2.pathString1;
+                pathString2 = f2.pathString2;
+                pathString3 = f2.pathString3;
+                pathString4 = f2.pathString4;
+                Single_m = f2.Single_m;
+                Single_m1 = f2.Single_m1;
+                Multiple_m = f2.Multiple_m;
+                U_I_R = f2.U_I_R;
+                ID_Num = f2.ID_Num;
+                Combination_m = f2.Combination_M;
+
+                enableButtons(true, true, true, true, false, false, false, true, false, false);
+                btn_freq.Visible = true;
+                btn_TD.Visible = true;
+                btn_DC.Visible = true;
+                btn_AC.Visible = true;
+                btn_cfg.Visible = true;
+                panel_switch.Visible = true;
+                panel_load.Visible = false;
+            }
+
+        }
+
+        //*********************************************//
+        //****************load  Project***************//
+        //*******************************************//
+
+        public struct ID
+        {
+            public string ID_NUM;
+            public string ID_NAME;
+            public string ID_FILE;
+            public string ID_DES;
+        }
+
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "请选择文件路径";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+
+                enableButtons(true, true, true, true, false, false, false, true, false, false);
+                btn_freq.Visible = true;
+                btn_TD.Visible = true;
+                btn_DC.Visible = true;
+                btn_AC.Visible = true;
+                btn_cfg.Visible = true;
+                panel_switch.Visible = true;
+                panel_load.Visible = false;
+
+
+                foldPath = dialog.SelectedPath;
+
+                pathString1 = foldPath + "/FDA";
+                pathString2 = foldPath + "/TD";
+                pathString3 = foldPath + "/DC"; ;
+                pathString4 = foldPath + "/Combination";
+
+                parameter1 = pathString2 + "/Parameter.txt"; ;
+                parameter21 = pathString1 + "/Parameter_s.txt";
+                parameter22 = pathString1 + "/Parameter_m.txt";
+                parameter3 = pathString3 + "/Parameter.txt";
+                parameter4 = pathString4 + "/Parameter.txt";
+
+                Single_m = pathString1 + "/Single_Measurement.txt";
+                Single_m1 = pathString2 + "/Single_Measurement.txt";
+                Multiple_m = pathString1 + "/Multiple_Measurement.txt";
+                U_I_R = pathString3 + "/U_I_R_data.txt";
+                Combination_m = pathString4 + "Combination_Measurement.txt";
+
+                string filePathOnly = Path.GetDirectoryName(foldPath);
+                string file = Path.GetFileName(filePathOnly);
+
+                Directory.SetCurrentDirectory(Directory.GetParent(foldPath).FullName);
+
+                String ID_path = Directory.GetCurrentDirectory() + "/ID_Information.txt";
+
+                string filePathOnly1 = Path.GetDirectoryName(pathString1);
+                string fold1 = Path.GetFileName(filePathOnly1);
+
+
+                //ID match
+
+                List<ID> points = new List<ID>();
+                ID p;
+                string[] lines = File.ReadAllLines(ID_path);
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    string line = lines[i];
+                    // 拆分行
+                    string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    // 获取Y（第一列）        
+                    p.ID_NUM = v[0];
+                    // 获取Y（第二列）        
+                    p.ID_NAME = v[1];
+                    p.ID_FILE = v[2];
+                    p.ID_DES = v[3];
+                    points.Add(p);
+                    if (fold1.Equals(p.ID_NAME))
+                    {
+                        ID_Num = p.ID_NUM;
+                    }
+
+                }
+
+            }
+        }
+
+        //*********************************************//
+        //****************Data Analyser***************//
+        //*******************************************//
+
+        private void loadProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btn_freq.Visible = false;
+            btn_TD.Visible = false;
+            btn_DC.Visible = false;
+            btn_AC.Visible = false;
+            btn_cfg.Visible = false;
+            panel_switch.Visible = false;
+
+            button1.Visible = false;
+            SaveBode2.Visible = false;
+            SaveNyq.Visible = false;
+            SaveTD.Visible = false;
+            button2.Visible = false;
+            panel_switch.Visible = false;
+            panel_load.Visible = true;
+            enableButtons(false, false, false, false, false, false, false, false, false, false);
+            newProjectToolStripMenuItem.Enabled = false;
+
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "请选择文件路径";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                cnt7++;
+                foldPath = dialog.SelectedPath;
+
+            }
+        }
+
+        public struct Point
+        {
+            public double X;
+            public double Y;
+            public double Z;
+        }
+
+
+        public struct Point_T
+        {
+            public double X;
+            public double Y;
+        }
+
+        public struct Point_U
+        {
+            public double X;
+            public double Y;
+            public double Z;
+            public double K;
+        }
+
+
+
+        private void btn_fre_load_Click(object sender, EventArgs e)
+        {
+
+            btn_fre_load.Visible = false;
+            btn_s.Visible = true;
+            btn_m.Visible = true;
+
+        }
+
+        //paiting of single measurement in FDA
+
+        private void btn_s_Click(object sender, EventArgs e)
+        {
+
+            string FDA = foldPath + "/FDA";
+            string FDA_S = FDA + "/Single_Measurement.txt";
+            string FDA_M = FDA + "/Multiple_Measurement.txt";
+            string FDA_P1 = FDA + "/Parameter_s.txt";
+            string[] lines = File.ReadAllLines(FDA_S);
+            chart1.Series.Add((cnt7).ToString());//添加
+            chart2.Series.Add((cnt7).ToString());//添加
+            chart3.Series.Add((cnt7).ToString());//添加
+            this.chart1.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
+            this.chart2.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
+            this.chart3.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
+            // 点列表集合
+            List<Point> points = new List<Point>();
+            // 让过第一行，从第二行开始处理
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                // 拆分行
+                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                Point p;
+                // 获取Y（第一列）        
+                p.X = double.Parse(v[0]);
+                // 获取Y（第二列）        
+                p.Y = double.Parse(v[1]);
+                p.Z = double.Parse(v[2]);
+                points.Add(p);
+
+                int fre_int = (int)(p.X * 100);
+                p.X = fre_int / 100;
+
+                double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
+                double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
+
+                int real_int = (int)(real * 100);
+                real = real_int / 100;
+
+                int img_int = (int)(img * 100);
+                img = img_int / 100;
+
+
+                this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
+                this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
+                this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
+
+            }
+        }
+
+
+        //paiting of multiple measurement in FDA
+        private void btn_m_Click(object sender, EventArgs e)
+        {
+
+            string FDA = foldPath + "/FDA";
+            string FDA_S = FDA + "/Single_Measurement.txt";
+            string FDA_M = FDA + "/Multiple_Measurement.txt";
+            string FDA_P2 = FDA + "/Parameter_m.txt";
+            string[] lines = File.ReadAllLines(FDA_M);
+            chart1.Series.Add((cnt7).ToString());//添加
+            chart2.Series.Add((cnt7).ToString());//添加
+            chart3.Series.Add((cnt7).ToString());//添加
+            this.chart1.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
+            this.chart2.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
+            this.chart3.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
+
+            // 点列表集合
+            List<Point> points = new List<Point>();
+            // 让过第一行，从第二行开始处理
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                // 拆分行
+                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                Point p;
+                // 获取Y（第一列）        
+                p.X = double.Parse(v[0]);
+                // 获取Y（第二列）        
+                p.Y = double.Parse(v[1]);
+                p.Z = double.Parse(v[2]);
+                points.Add(p);
+
+                int fre_int = (int)(p.X * 100);
+                p.X = fre_int / 100;
+
+                double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
+                double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
+
+                int real_int = (int)(real * 100);
+                real = real_int / 100;
+
+                int img_int = (int)(img * 100);
+                img = img_int / 100;
+
+                this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
+                this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
+                this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
+
+            }
+        }
+
+        // //paiting of single measurement in TD
+        private void btn_td_load_Click(object sender, EventArgs e)
+        {
+
+            btn_fre_load.Visible = true;
+            btn_s.Visible = false;
+            btn_m.Visible = false;
+
+            string TD = foldPath + "/TD";
+            string TD_S = TD + "/Single_Measurement.txt";
+            //string FDA_M = FDA + "/Multiple_Measurement.txt";
+            string TD_p = TD + "/Parameter.txt";
+
+            chart4.Series.Add((cnt7).ToString());//添加
+            this.chart4.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
+            List<Point_T> points = new List<Point_T>();
+            string[] lines = File.ReadAllLines(TD_S);
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                // 拆分行
+                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                Point_T p;
+                // 获取Y（第一列）        
+                p.X = double.Parse(v[0]);
+                // 获取Y（第二列）        
+                p.Y = double.Parse(v[1]);
+                //p.Z = double.Parse(v[2]);
+                points.Add(p);
+                this.chart4.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
+                //this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
+            }
+        }
+
+        //paiting in DC
+        private void btn_dc_load_Click(object sender, EventArgs e)
+        {
+            btn_fre_load.Visible = true;
+            btn_s.Visible = false;
+            btn_m.Visible = false;
+
+            string DC = foldPath + "/DC";
+            string DC_U = DC + "/U_I_R_data.txt";
+            //string FDA_M = FDA + "/Multiple_Measurement.txt";
+            string TD_p = TD + "/Parameter.txt";
+            chart_u_i_r.Series.Add((cnt7).ToString());//添加
+            this.chart_u_i_r.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
+            chart_u_i_r.Series.Add((cnt7 + 1).ToString());//添加
+            this.chart_u_i_r.Series[(cnt7 + 1).ToString()].ChartType = SeriesChartType.Point;
+            chart_u_i_r.Series.Add((cnt7 + 2).ToString());//添加
+            this.chart_u_i_r.Series[(cnt7 + 2).ToString()].ChartType = SeriesChartType.Point;
+            List<Point_U> points = new List<Point_U>();
+            string[] lines = File.ReadAllLines(DC_U);
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                // 拆分行
+                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                Point_U p;
+                // 获取Y（第一列）        
+                p.X = double.Parse(v[0]);
+                // 获取Y（第二列）        
+                p.Y = double.Parse(v[1]);
+                p.Z = double.Parse(v[2]);
+                p.K = double.Parse(v[3]);
+                points.Add(p);
+                this.chart_u_i_r.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
+                this.chart_u_i_r.Series[(cnt7 + 1).ToString()].Points.AddXY(p.X, p.Z);
+                this.chart_u_i_r.Series[(cnt7 + 2).ToString()].Points.AddXY(p.X, p.K);
+                //this.chart_u_i_r.ChartAreas[0].AxisX.IsLogarithmic = true;
+            }
+        }
+
+        //paiting of Combination_Measurement in COMB
+        private void btn_ac_load_Click(object sender, EventArgs e)
+        {
+            string COMB = foldPath + "/Combination";
+            string Comb = COMB + "/0Combination_Measurement.txt";
+
+            string[] lines = File.ReadAllLines(Comb);
+            chart1.Series.Add((cnt7).ToString());//添加
+            chart2.Series.Add((cnt7).ToString());//添加
+            chart3.Series.Add((cnt7).ToString());//添加
+            this.chart1.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
+            this.chart2.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
+            this.chart3.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
+            // 点列表集合
+            List<Point> points = new List<Point>();
+            // 让过第一行，从第二行开始处理
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                // 拆分行
+                string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                Point p;
+                // 获取Y（第一列）        
+                p.X = double.Parse(v[0]);
+                // 获取Y（第二列）        
+                p.Y = double.Parse(v[1]);
+                p.Z = double.Parse(v[2]);
+                points.Add(p);
+
+                int fre_int = (int)(p.X * 100);
+                p.X = fre_int / 100;
+
+                double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
+                double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
+
+                int real_int = (int)(real * 100);
+                real = real_int / 100;
+
+                int img_int = (int)(img * 100);
+                img = img_int / 100;
+
+                this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
+                this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
+                this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
+
+            }
+        }
+
+
+
+        //*********************************************//
+        //****************未使用**********************//
+        //*******************************************//
+        private void chart5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel_thd_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void cb_times_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ReceiveArea_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void HexSend_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timRead_Tick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chart1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gb1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void File_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BaudrateChoose_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DataBitChoose_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel_switch_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void chart2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Port_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chart4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gb_ac_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label35_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label36_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label37_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
+        {
+
+        }
+
+        private void panel_fst_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gb_Single_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chart_u_i_r_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label30_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gb_dc_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+           
+        }       
+
+        private void groupBox6_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
