@@ -158,19 +158,32 @@ namespace Comm
             {
                 Directory.CreateDirectory(pathString1);
             }
-            Parameter1 = pathString1 + "/Parameter.txt";
-            if (!File.Exists(Parameter1))
+ 
+
+
+            Parameter21 = pathString1 + "/Parameter_s.txt";
+            if (!File.Exists(Parameter21))
             {
                 //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
-                StreamWriter sw = new StreamWriter(Parameter1);
+                StreamWriter sw = new StreamWriter(Parameter21);
+                sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
+                sw.Flush();
+                sw.Close();
+            }
+            Parameter22 = pathString1 + "/Parameter_m.txt";
+            if (!File.Exists(Parameter22))
+            {
+                //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+
+                StreamWriter sw = new StreamWriter(Parameter22);
                 sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
                 sw.Flush();
                 sw.Close();
             }
 
 
-            Single_m = pathString1 + "/Single_Measurement.txt";
+            Single_m = pathString1 + "/0Single_Measurement.txt";
             if (!File.Exists(Single_m))
             {
                 //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
@@ -182,7 +195,7 @@ namespace Comm
             }
 
 
-            Multiple_m = pathString1 + "/Multiple_Measurement.txt";
+            Multiple_m = pathString1 + "/0Multiple_Measurement.txt";
             if (!File.Exists(Multiple_m))
             {
                 //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
@@ -208,28 +221,18 @@ namespace Comm
                 Directory.CreateDirectory(pathString2);
             }
 
-            Parameter21 = pathString2 + "/Parameter_s.txt";
-            if (!File.Exists(Parameter21))
+            Parameter1 = pathString2 + "/Parameter.txt";
+            if (!File.Exists(Parameter1))
             {
                 //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
-                StreamWriter sw = new StreamWriter(Parameter21);
-                sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
-                sw.Flush();
-                sw.Close();
-            }
-            Parameter22 = pathString2 + "/Parameter_m.txt";
-            if (!File.Exists(Parameter22))
-            {
-                //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-
-                StreamWriter sw = new StreamWriter(Parameter22);
+                StreamWriter sw = new StreamWriter(Parameter1);
                 sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
                 sw.Flush();
                 sw.Close();
             }
 
-            Single_m1 = pathString2 + "/Single_Measurement.txt";
+            Single_m1 = pathString2 + "/0Single_Measurement.txt";
             if (!File.Exists(Single_m1))
             {
                 //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
@@ -266,7 +269,7 @@ namespace Comm
                 sw.Close();
             } 
 
-            U_I_R = pathString3 + "/U_I_R_data.txt";
+            U_I_R = pathString3 + "/0U_I_R_data.txt";
             if (!File.Exists(U_I_R))
             {
                 //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
@@ -301,12 +304,12 @@ namespace Comm
                 sw.Close();
             }
 
-            Combination_M = pathString4 + "/Combination_Measurement.txt";
-            if (!File.Exists(Multiple_m))
+            Combination_M = pathString4 + "/0Combination_Measurement.txt";
+            if (!File.Exists(Combination_M))
             {
                 //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
-                StreamWriter sw = new StreamWriter(Multiple_m);
+                StreamWriter sw = new StreamWriter(Combination_M);
                 sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
                 sw.Flush();
                 sw.Close();
