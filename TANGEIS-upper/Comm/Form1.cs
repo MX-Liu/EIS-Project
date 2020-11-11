@@ -185,6 +185,11 @@ namespace Comm
             chart3.MouseWheel += new MouseEventHandler(chart_MouseWheelXY);
             chart4.MouseWheel += new MouseEventHandler(chart_MouseWheel);
             chart_u_i_r.MouseWheel += new MouseEventHandler(chart_MouseWheel);
+            chart1.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
+            chart2.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
+            chart3.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
+            chart4.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
+            chart_u_i_r.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
             this.Resize += new EventHandler(modular_calEchoPhaseFromSignal1_Resize);//窗体调整大小时引发事件
 
             X = this.Width;//获取窗体的宽度
@@ -206,6 +211,18 @@ namespace Comm
         //**************自编函数**********************//
         //*******************************************//
 
+
+        void chart_GetToolTipText(object sender, ToolTipEventArgs e)
+        {
+            if (e.HitTestResult.ChartElementType == ChartElementType.DataPoint)
+            {
+                int i = e.HitTestResult.PointIndex;
+                DataPoint dp = e.HitTestResult.Series.Points[i];
+                //分别显示x轴和y轴的数值，其中{1:F3},表示显示的是float类型，精确到小数点后3位。   
+                e.Text = string.Format("{0:F3},{1:F3} ", dp.XValue, dp.YValues[0]);
+            }
+
+        }
 
 
         private void setTag(Control cons)
@@ -600,6 +617,10 @@ namespace Comm
                     MessageBox.Show("Fail to open COM");
                     PortIsOpen = false;
                     OpenPortButton.Text = "Open COM";
+                    btn_freq.Enabled = false;
+                    btn_TD.Enabled = false;
+                    btn_DC.Enabled = false;
+                    btn_AC.Enabled = false;
                 }
             }
             else
@@ -638,6 +659,18 @@ namespace Comm
                 ReceiveArea.Text = ID_N.ToString();
                 serialPort1.Write(ID_N, 0, 4);
                 serialPort1.Write(Zeros, 0, 7);
+
+                btn_freq.Enabled = true;
+                btn_TD.Enabled = true;
+                btn_DC.Enabled = true;
+                btn_AC.Enabled = true;
+            }
+            else
+            {
+                btn_freq.Enabled = false;
+                btn_TD.Enabled = false;
+                btn_DC.Enabled = false;
+                btn_AC.Enabled = false;
             }
         }
 
@@ -837,7 +870,7 @@ namespace Comm
                             }
                             catch
                             {
-                                MessageBox.Show("图表未工作");
+                                //MessageBox.Show("图表未工作");
                                 Console.WriteLine("error");
 
                             }
@@ -905,7 +938,7 @@ namespace Comm
                             }
                             catch
                             {
-                                MessageBox.Show("图表未工作");
+                                //MessageBox.Show("图表未工作");
                                 Console.WriteLine("error");
 
                             }
@@ -1460,13 +1493,15 @@ namespace Comm
         {
             btn_start.Enabled = false;
             btn_stop.Enabled = true;
-            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x01 }, 0, 5);
 
             try
             {
                 //首先判断串口是否开启
                 if (serialPort1.IsOpen)
                 {
+
+
+                    serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x01 }, 0, 5);
                     //int num = 0;   //获取本次发送字节数
                     //串口处于开启状态，将发送区文本发送test_var
                     //string temp1 = 0;
@@ -1550,6 +1585,10 @@ namespace Comm
                             tb_Sweep_t.Enabled = false;
                             cb_freq_f.Enabled = false;
                             cb_freq_t.Enabled = false;
+                            //btn_freq.Enabled = false;
+                            btn_TD.Enabled = false;
+                            btn_DC.Enabled = false;
+                            btn_AC.Enabled = false;
 
 
                             if (cb_freq.Text.Equals("kHz"))
@@ -1576,6 +1615,11 @@ namespace Comm
                             serialPort1.Write(flag, 1, 1);
                             tb_freq.Enabled = false;
                             cb_freq.Enabled = false;
+                            btn_freq.Enabled = false;
+                            //btn_TD.Enabled = false;
+                            btn_DC.Enabled = false;
+                            btn_AC.Enabled = false;
+
                             if (cb_freq_f.Text.Equals("kHz"))
                             {
                                 byte[] temp1 = strToHexByte((Convert.ToInt32(tb_Sweep_f.Text) * 1000).ToString());
@@ -1864,19 +1908,29 @@ namespace Comm
                     catch (Exception ee)
                     {
                         MessageBox.Show("Please fill in the parameters completely");
+                        btn_start.Enabled = true;
+                        btn_stop.Enabled = false;
 
                     }
+                }
+                else
+                {
+                    btn_start.Enabled = true;
+                    btn_stop.Enabled = false;
+                    MessageBox.Show("Please open the serialport!");
                 }
             }
 
 
             catch (Exception ex)
             {
+                MessageBox.Show("Please open the serialport!");
                 serialPort1.Close();
                 //捕获到异常，创建一个新的对象，之前的不可以再用
                 serialPort1 = new System.IO.Ports.SerialPort();
-
-                MessageBox.Show(ex.Message);
+                btn_start.Enabled = true;
+                btn_stop.Enabled = false;
+               
 
             }
         }
@@ -1885,6 +1939,10 @@ namespace Comm
         //FDA+TD stop
         private void btn_stop_Click(object sender, EventArgs e)
         {
+            btn_freq.Enabled = true;
+            btn_TD.Enabled = true;
+            btn_DC.Enabled = true;
+            btn_AC.Enabled = true ;
 
             serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x09 }, 0, 5);
             btn_start.Enabled = true;
@@ -1982,6 +2040,30 @@ namespace Comm
             rb_Frequncy.Visible = true;
         }
 
+
+        private void DTP_End_ValueChanged(object sender, EventArgs e)
+        {
+            string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
+            DTP_Start.Text = dt1;
+            DateTime d1 = DateTime.Parse(DTP_Start.Text);
+            DateTime d2 = DateTime.Parse(DTP_End.Text);
+            System.TimeSpan ND = d2 - d1;
+            int ts1 = ND.Days;   //天数差
+            int ts2 = 0;
+            if ((ts1 > 0) && (ts1 < 8))
+            {
+                ts2 = ts1;
+            }
+            else
+            {
+                MessageBox.Show("The Days should between 1 and 7.");
+            }
+            string ts = Convert.ToString(ts2);
+            textBox1_test.Text = ts;
+            cb_days.Text = ts;
+        }
+
+
         //扫频操作框
         private void rb_Sweep_CheckedChanged(object sender, EventArgs e)
         {
@@ -2073,13 +2155,20 @@ namespace Comm
         {
             btn_start1.Enabled = false;
             btn_stop1.Enabled = true;
-            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x03 }, 0, 5);
+
+            btn_freq.Enabled = false;
+            btn_TD.Enabled = false;
+            //btn_DC.Enabled = false;
+            btn_AC.Enabled = false;
+
 
             try
             {
                 //首先判断串口是否开启
                 if (serialPort1.IsOpen)
                 {
+                    serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x03 }, 0, 5);
+
                     int temp_h1 = 0;
                     int temp_m1 = 0;
                     int temp_s1 = 0;
@@ -2175,7 +2264,15 @@ namespace Comm
                     catch
                     {
                         MessageBox.Show("Please fill in the parameters completely!");
+                        btn_start1.Enabled = true;
+                        btn_stop1.Enabled = false;
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Please open the serialport!");
+                    btn_start1.Enabled = true;
+                    btn_stop1.Enabled = false;
                 }
 
 
@@ -2206,8 +2303,9 @@ namespace Comm
                 //捕获到异常，创建一个新的对象，之前的不可以再用
                 serialPort1 = new System.IO.Ports.SerialPort();
 
-                MessageBox.Show(ex.Message);
-
+                MessageBox.Show("Please open the serialport!");
+                btn_start1.Enabled = true;
+                btn_stop1.Enabled = false;
             }
         }
 
@@ -2217,6 +2315,11 @@ namespace Comm
             serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x08 }, 0, 5);
             btn_start1.Enabled = true;
             btn_stop1.Enabled = false;
+
+            btn_freq.Enabled = true;
+            btn_TD.Enabled = true;
+            btn_DC.Enabled = true;
+            btn_AC.Enabled = true;
 
             FileStream fs = new FileStream(parameter3, FileMode.Append);
             StreamWriter sw = new StreamWriter(fs);
@@ -2308,6 +2411,12 @@ namespace Comm
         //Combination send
         private void btn_comb_start_Click(object sender, EventArgs e)
         {
+
+            btn_freq.Enabled = false;
+            btn_TD.Enabled = false;
+            btn_DC.Enabled = false;
+            //btn_AC.Enabled = false;
+
             btn_comb_start.Enabled = false;
             btn_stop2.Enabled = true;
 
@@ -2325,18 +2434,17 @@ namespace Comm
             if (dr == DialogResult.OK)
             {
 
-
-                tb_temp.Text = Temperature;
-                for (int CNT_T = 0; CNT_T < 10; CNT_T++)
-                {
-                    this.chart_temp.Series[0].Points.AddXY(CNT_T, tempt);
-                }
-
                 try
                 {
                     //首先判断串口是否开启
                     if (serialPort1.IsOpen)
                     {
+                        tb_temp.Text = Temperature;
+                        for (int CNT_T = 0; CNT_T < 10; CNT_T++)
+                        {
+                            this.chart_temp.Series[0].Points.AddXY(CNT_T, tempt);
+                        }
+
                         serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x04 }, 0, 5);
 
                         byte[] flag = new byte[2];
@@ -2537,6 +2645,13 @@ namespace Comm
 
                         }
                     }
+
+                    else
+                    {
+                        //MessageBox.Show("Please open the serialport!");
+                        //btn_comb_start.Enabled = true;
+                        //btn_stop2.Enabled = false;
+                    }
                 }
 
 
@@ -2545,8 +2660,8 @@ namespace Comm
                     serialPort1.Close();
                     //捕获到异常，创建一个新的对象，之前的不可以再用
                     serialPort1 = new System.IO.Ports.SerialPort();
-
-                    MessageBox.Show(ex.Message);
+                
+                    MessageBox.Show("Plesase open the serialport!");
 
                 }
 
@@ -2598,9 +2713,17 @@ namespace Comm
                         catch
                         {
                             MessageBox.Show("Please fill in the parameters completely!");
+                            btn_comb_start.Enabled = true;
+                            btn_stop2.Enabled = false;
                         }
 
 
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please open the serialport!");
+                        btn_comb_start.Enabled = true;
+                        btn_stop2.Enabled = false;
                     }
 
                 }
@@ -2610,7 +2733,9 @@ namespace Comm
                     //捕获到异常，创建一个新的对象，之前的不可以再用
                     serialPort1 = new System.IO.Ports.SerialPort();
 
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show("Plesase open the serialport!");
+                    btn_comb_start.Enabled = true;
+                    btn_stop2.Enabled = false;
 
                 }
 
@@ -2648,6 +2773,7 @@ namespace Comm
 
             {
                 btn_comb_start.Enabled = true;
+                btn_stop2.Enabled = false;
 
             }
         }
@@ -2655,6 +2781,12 @@ namespace Comm
         //stop of Combination
         private void btn_stop2_Click_1(object sender, EventArgs e)
         {
+            btn_freq.Enabled = true;
+            btn_TD.Enabled = true;
+            btn_DC.Enabled = true;
+            btn_AC.Enabled = true;
+
+            btn_comb_start.Enabled = true;
             btn_stop2.Enabled = false;
             serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x07 }, 0, 5);
             btn_comb_start.Enabled = true;
@@ -2700,6 +2832,28 @@ namespace Comm
             }
         }
 
+        private void DTP_End2_ValueChanged(object sender, EventArgs e)
+        {
+            string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
+            DTP_Start.Text = dt1;
+            DateTime d1 = DateTime.Parse(DTP_Start2.Text);
+            DateTime d2 = DateTime.Parse(DTP_End2.Text);
+            System.TimeSpan ND = d2 - d1;
+            int ts1 = ND.Days;   //天数差
+            int ts2 = 0;
+            if ((ts1 > 0) && (ts1 < 8))
+            {
+                ts2 = ts1;
+            }
+            else
+            {
+                MessageBox.Show("The Days should between 1 and 7.");
+            }
+
+            string ts = Convert.ToString(ts2);
+            cb_days2.Text = ts;
+        }
+
         //*********************************************//
         //****************New Project*****************//
         //*******************************************//
@@ -2708,8 +2862,12 @@ namespace Comm
         private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChartClear();
+            newProjectToolStripMenuItem.Enabled = true;
+            LoadProtoolStripMenuItem1.Enabled = false;
+            DataAnalyserToolStripMenuItem.Enabled = false;
+
             NewProject f2 = new NewProject();
-            f2.ShowDialog();
+            f2.ShowDialog();     
             if (f2.DialogResult == DialogResult.OK)
             {
                 parameter1 = f2.Parameter1;
@@ -2734,6 +2892,10 @@ namespace Comm
                 btn_DC.Visible = true;
                 btn_AC.Visible = true;
                 btn_cfg.Visible = true;
+                btn_freq.Enabled = false;
+                btn_TD.Enabled = false;
+                btn_DC.Enabled = false;
+                btn_AC.Enabled = false;
                 panel_switch.Visible = true;
                 panel_load.Visible = false;
             }
@@ -2756,6 +2918,12 @@ namespace Comm
         //open Project
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            ChartClear();
+            newProjectToolStripMenuItem.Enabled = false;
+            LoadProtoolStripMenuItem1.Enabled = true;
+            DataAnalyserToolStripMenuItem.Enabled = false;
+
+
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = "请选择文件路径";
 
@@ -2768,6 +2936,10 @@ namespace Comm
                 btn_DC.Visible = true;
                 btn_AC.Visible = true;
                 btn_cfg.Visible = true;
+                btn_freq.Enabled = false;
+                btn_TD.Enabled = false;
+                btn_DC.Enabled = false;
+                btn_AC.Enabled = false;
                 panel_switch.Visible = true;
                 panel_load.Visible = false;
 
@@ -2837,6 +3009,12 @@ namespace Comm
          //open Dateset
         private void loadProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ChartClear();
+            newProjectToolStripMenuItem.Enabled = false;
+            LoadProtoolStripMenuItem1.Enabled = false;
+            DataAnalyserToolStripMenuItem.Enabled = true;
+
+
             btn_freq.Visible = false;
             btn_TD.Visible = false;
             btn_DC.Visible = false;
@@ -3604,10 +3782,7 @@ namespace Comm
 
         }
 
-        private void DTP_End_ValueChanged(object sender, EventArgs e)
-        {
 
-        }
 
         private void DTP_Start_ValueChanged(object sender, EventArgs e)
         {
@@ -4019,10 +4194,7 @@ namespace Comm
 
         }
 
-        private void DTP_End2_ValueChanged(object sender, EventArgs e)
-        {
 
-        }
 
         private void DTP_Start2_ValueChanged(object sender, EventArgs e)
         {
