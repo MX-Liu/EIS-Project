@@ -109,6 +109,7 @@
             this.btn_Cal.TabIndex = 7;
             this.btn_Cal.Text = "Cancel";
             this.btn_Cal.UseVisualStyleBackColor = true;
+            this.btn_Cal.Click += new System.EventHandler(this.btn_Cal_Click);
             // 
             // btn_SaveFile
             // 
