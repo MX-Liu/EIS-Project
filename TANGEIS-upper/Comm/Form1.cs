@@ -72,6 +72,8 @@ namespace Comm
         private Int64 cnt11 = 0;
         private Int64 cnt12 = 0;
 
+        private bool Hands_shake = false; 
+
         private Int64 cnt_comb = 0;
         private Int64 cnt_FDA1 = 0;
         private Int64 cnt_FDA2 = 0;
@@ -81,12 +83,6 @@ namespace Comm
         private Queue chart_y = new Queue();
         private Queue data_queue = new Queue();
 
-        //无线数据定义
-        //private IPAddress serverIP;
-        //private IPEndPoint serverFullAddr;
-        //private Socket sock;
-        //private Socket newSocket;
-        //Thread myThread = null;
 
 
         string parameter1 = "";
@@ -148,6 +144,7 @@ namespace Comm
             btn_stop.Enabled = false;
             btn_stop2.Enabled = false;
             btn_stop1.Enabled = false;
+
             //rb_Sawtooth.Checked = true;
             cb_freq.Text = "Hz";
             cb_freq_f.Text = "Hz";
@@ -178,6 +175,15 @@ namespace Comm
         //事件添加
         private void Form1_Load(object sender, EventArgs e)
         {
+            string[] PortNames = SerialPort.GetPortNames();    //获取本机串口名称，存入PortNames数组中
+
+            for (int i = 0; i < PortNames.Count(); i++)
+
+            {
+                COMChoose.Items.Add(PortNames[i]);   //将数组内容加载到comboBox控件中
+
+            }
+
             serialPort1.DataReceived += new SerialDataReceivedEventHandler(Port_DataRecevied);
             Init_Chart();
             chart1.MouseWheel += new MouseEventHandler(chart_MouseWheel);
@@ -625,6 +631,7 @@ namespace Comm
             }
             else
             {
+                Hands_shake = false;
                 serialPort1.Close();
                 timer2.Enabled = false;
                 PortIsOpen = false;
@@ -641,37 +648,29 @@ namespace Comm
             }
 
             byte[] Zeros = new byte[7];
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 5; i++)
             {
                 Zeros[i] = 0x00;
             }
             if (serialPort1.IsOpen)
 
             {
+                //serialPort1.Write("1702552551700");
                 serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);
-                // MessageBox.Show("COM is already!");
+
                 byte[] temp2 = strToHexByte(ID_Num);
                 byte[] temp = exchange(temp2);
                 for (int i = 0; i < temp.Length; i++)
                 {
                     ID_N[3 - i] = temp[i];
                 }
-                ReceiveArea.Text = ID_N.ToString();
+                
                 serialPort1.Write(ID_N, 0, 4);
-                serialPort1.Write(Zeros, 0, 7);
+                serialPort1.Write(Zeros, 0, 5);
+                serialPort1.Write(new byte[] { 0x0d, 0x0a}, 0, 2);
 
-                btn_freq.Enabled = true;
-                btn_TD.Enabled = true;
-                btn_DC.Enabled = true;
-                btn_AC.Enabled = true;
             }
-            else
-            {
-                btn_freq.Enabled = false;
-                btn_TD.Enabled = false;
-                btn_DC.Enabled = false;
-                btn_AC.Enabled = false;
-            }
+
         }
 
         //发送数据
@@ -728,229 +727,276 @@ namespace Comm
                 if (!Hexshow.Checked)
                 {
 
-                    if (TD == true)//cfg界面
+
+                    if (Hands_shake == true)
                     {
 
-                        string strv = serialPort1.ReadLine();
-                        ReceiveArea.AppendText(strv);
-                        cnt++;
-                        this.chart4.Series[0].Points.AddXY(cnt, strv);
-                        this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
-                        FileStream fs = new FileStream(Single_m1, FileMode.Append);
-                        StreamWriter sw = new StreamWriter(fs);
-                        sw.WriteLine(cnt + "\t" + strv + "\t");
-                        sw.Flush();
-                        sw.Close();
-                        fs.Close();
-
-                    }
-                    else if (DCM == true) //非cfg界面   （暂时为频域）
-                    {
-                        //string stru = serialPort1.ReadExisting();
-                        string stru = serialPort1.ReadLine();
-                        ReceiveArea.AppendText(stru);
-                        string[] strArry = stru.Split(',');
-                        int length_u = strArry.Length;
-                        time++;
-                        string length1 = Convert.ToString(length_u);
-                        //test.AppendText(length1);
-
-                        if (length_u == 2 && strArry[0] != "200000.00")
+                        btn_freq.Enabled = true;
+                        btn_TD.Enabled = true;
+                        btn_DC.Enabled = true;
+                        btn_AC.Enabled = true;
+                        if (TD == true)//cfg界面
                         {
-                            try
-                            {
-                                vol = Convert.ToSingle(strArry[0]);
-                                cur = Convert.ToSingle(strArry[1]);
 
+                            string strv = serialPort1.ReadLine();
+                            ReceiveArea.AppendText(strv);
+                            cnt++;
+                            this.chart4.Series[0].Points.AddXY(cnt, strv);
+                            this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
+                            FileStream fs = new FileStream(Single_m1, FileMode.Append);
+                            StreamWriter sw = new StreamWriter(fs);
+                            sw.WriteLine(cnt + "\t" + strv + "\t");
+                            sw.Flush();
+                            sw.Close();
+                            fs.Close();
 
-                                double res = vol / cur;
-
-
-                                this.chart_u_i_r.Series[0].Points.AddXY(time, vol);
-                                this.chart_u_i_r.Series[1].Points.AddXY(time, cur);
-                                this.chart_u_i_r.Series[2].Points.AddXY(time, res);
-                                this.chart_u_i_r.ChartAreas[0].AxisX.IsLogarithmic = true;
-
-                                tb_u.Text = vol.ToString();
-                                tb_I.Text = cur.ToString();
-                                tb_R.Text = res.ToString();
-
-                                data_queue.Enqueue(stru + ":");
-
-                                FileStream fs = new FileStream(U_I_R, FileMode.Append);
-                                StreamWriter sw = new StreamWriter(fs);
-                                sw.WriteLine(time.ToString() + "\t" + tb_u.Text + "\t" + tb_I.Text + "\t" + tb_R.Text);
-                                sw.Flush();
-                                sw.Close();
-                                fs.Close();
-
-                            }
-
-                            catch
-                            {
-
-                                Console.WriteLine("error");
-
-                            }
                         }
-                    }
-
-                    else if (FDA == true)
-                    {
-                        //string str = serialPort1.ReadExisting();
-                        string str = serialPort1.ReadLine();
-                        ReceiveArea.AppendText(str);
-
-                        string[] strArr = str.Split(',');
-                        int length = strArr.Length;
-
-
-
-                        if (length == 4 && strArr[0] != "200000.00")
+                        else if (DCM == true) //非cfg界面   （暂时为频域）
                         {
-                            try
+                            //string stru = serialPort1.ReadExisting();
+                            string stru = serialPort1.ReadLine();
+                            ReceiveArea.AppendText(stru);
+                            string[] strArry = stru.Split(',');
+                            int length_u = strArry.Length;
+                            time++;
+                            string length1 = Convert.ToString(length_u);
+                            //test.AppendText(length1);
+
+                            if (length_u == 2 && strArry[0] != "200000.00")
                             {
-                                fre = Convert.ToSingle(strArr[0]);
-                                mag = Convert.ToSingle(strArr[1]);
-                                pha = Convert.ToSingle(strArr[2]);
-                                Num_FDA1 = Convert.ToInt32(strArr[3]);
-                                if (Num_FDA1 > Num_FDA2)
+                                try
                                 {
-                                    cnt6++;
-                                    chart1.Series.Add((cnt6).ToString());//添加
-                                    chart2.Series.Add((cnt6).ToString());//添加
-                                    chart3.Series.Add((cnt6).ToString());//添加
-                                    this.chart1.Series[(cnt6).ToString()].ChartType = SeriesChartType.Point;
-                                    this.chart2.Series[(cnt6).ToString()].ChartType = SeriesChartType.Point;
-                                    this.chart3.Series[(cnt6).ToString()].ChartType = SeriesChartType.Point;
-                                }
-                                Num_FDA2 = Convert.ToInt32(strArr[3]);
-
-                                int fre_int = (int)(fre * 100);
-                                fre = fre_int / 100;
+                                    vol = Convert.ToSingle(strArry[0]);
+                                    cur = Convert.ToSingle(strArry[1]);
 
 
-
-                                double real = mag * Math.Cos(pha * Math.PI / 180);
-                                double img = mag * Math.Sin(-pha * Math.PI / 180);
-
-                                int real_int = (int)(real * 100);
-                                real = real_int / 100;
-
-                                int img_int = (int)(img * 100);
-                                img = img_int / 100;
-
-                                this.chart1.Series[cnt6.ToString()].Points.AddXY(fre, mag);
-                                this.chart2.Series[cnt6.ToString()].Points.AddXY(fre, pha);
-                                this.chart3.Series[cnt6.ToString()].Points.AddXY(real, img);
-                                //this.chart1.ChartAreas[cnt6.ToString()].AxisX.ScaleView.Scroll(ScrollType.Last);
-                                //this.chart2.ChartAreas[cnt6.ToString()].AxisX.ScaleView.Scroll(ScrollType.Last);
+                                    double res = vol / cur;
 
 
-                                data_queue.Enqueue(str + ":");
+                                    this.chart_u_i_r.Series[0].Points.AddXY(time, vol);
+                                    this.chart_u_i_r.Series[1].Points.AddXY(time, cur);
+                                    this.chart_u_i_r.Series[2].Points.AddXY(time, res);
+                                    this.chart_u_i_r.ChartAreas[0].AxisX.IsLogarithmic = true;
 
-                                if (rb_dur.Checked)
-                                {
-                                    FileStream fs = new FileStream(Single_m, FileMode.Append);
+                                    tb_u.Text = vol.ToString();
+                                    tb_I.Text = cur.ToString();
+                                    tb_R.Text = res.ToString();
+
+                                    data_queue.Enqueue(stru + ":");
+
+                                    FileStream fs = new FileStream(U_I_R, FileMode.Append);
                                     StreamWriter sw = new StreamWriter(fs);
-                                    sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t");
+                                    sw.WriteLine(time.ToString() + "\t" + tb_u.Text + "\t" + tb_I.Text + "\t" + tb_R.Text);
                                     sw.Flush();
                                     sw.Close();
                                     fs.Close();
+
                                 }
-                                else if (rb_rep.Checked)
+
+                                catch
                                 {
-                                    FileStream fs = new FileStream(Multiple_m, FileMode.Append);
+
+                                    Console.WriteLine("error");
+
+                                }
+                            }
+                        }
+
+                        else if (FDA == true)
+                        {
+                            //string str = serialPort1.ReadExisting();
+                            string str = serialPort1.ReadLine();
+                            ReceiveArea.AppendText(str);
+
+                            string[] strArr = str.Split(',');
+                            int length = strArr.Length;
+
+
+
+                            if (length == 4 && strArr[0] != "200000.00")
+                            {
+                                try
+                                {
+                                    fre = Convert.ToSingle(strArr[0]);
+                                    mag = Convert.ToSingle(strArr[1]);
+                                    pha = Convert.ToSingle(strArr[2]);
+                                    Num_FDA1 = Convert.ToInt32(strArr[3]);
+                                    if (Num_FDA1 > Num_FDA2)
+                                    {
+                                        cnt6++;
+                                        chart1.Series.Add((cnt6).ToString());//添加
+                                        chart2.Series.Add((cnt6).ToString());//添加
+                                        chart3.Series.Add((cnt6).ToString());//添加
+                                        this.chart1.Series[(cnt6).ToString()].ChartType = SeriesChartType.Point;
+                                        this.chart2.Series[(cnt6).ToString()].ChartType = SeriesChartType.Point;
+                                        this.chart3.Series[(cnt6).ToString()].ChartType = SeriesChartType.Point;
+                                    }
+                                    Num_FDA2 = Convert.ToInt32(strArr[3]);
+
+                                    int fre_int = (int)(fre * 100);
+                                    fre = fre_int / 100;
+
+
+
+                                    double real = mag * Math.Cos(pha * Math.PI / 180);
+                                    double img = mag * Math.Sin(-pha * Math.PI / 180);
+
+                                    int real_int = (int)(real * 100);
+                                    real = real_int / 100;
+
+                                    int img_int = (int)(img * 100);
+                                    img = img_int / 100;
+
+                                    this.chart1.Series[cnt6.ToString()].Points.AddXY(fre, mag);
+                                    this.chart2.Series[cnt6.ToString()].Points.AddXY(fre, pha);
+                                    this.chart3.Series[cnt6.ToString()].Points.AddXY(real, img);
+                                    //this.chart1.ChartAreas[cnt6.ToString()].AxisX.ScaleView.Scroll(ScrollType.Last);
+                                    //this.chart2.ChartAreas[cnt6.ToString()].AxisX.ScaleView.Scroll(ScrollType.Last);
+
+
+                                    data_queue.Enqueue(str + ":");
+
+                                    if (rb_dur.Checked)
+                                    {
+                                        FileStream fs = new FileStream(Single_m, FileMode.Append);
+                                        StreamWriter sw = new StreamWriter(fs);
+                                        sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t");
+                                        sw.Flush();
+                                        sw.Close();
+                                        fs.Close();
+                                    }
+                                    else if (rb_rep.Checked)
+                                    {
+                                        FileStream fs = new FileStream(Multiple_m, FileMode.Append);
+                                        StreamWriter sw = new StreamWriter(fs);
+                                        sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + Num_FDA1.ToString());
+                                        sw.Flush();
+                                        sw.Close();
+                                        fs.Close();
+                                    }
+                                }
+                                catch
+                                {
+                                    //MessageBox.Show("图表未工作");
+                                    Console.WriteLine("error");
+
+                                }
+                            }
+                        }
+
+                        else if (ACM == true)
+                        {
+                            string strc = serialPort1.ReadLine();
+                            ReceiveArea.AppendText(strc);
+
+                            string[] strArr = strc.Split(',');
+                            int length = strArr.Length;
+
+
+
+                            if (length == 4 && strArr[0] != "200000.00")
+                            {
+                                try
+                                {
+                                    fre = Convert.ToSingle(strArr[0]);
+                                    mag = Convert.ToSingle(strArr[1]);
+                                    pha = Convert.ToSingle(strArr[2]);
+                                    Num_COMB1 = Convert.ToInt32(strArr[3]);
+                                    if (Num_COMB1 > Num_COMB2)
+                                    {
+                                        cnt11++;
+                                        chart1.Series.Add((cnt11).ToString());//添加
+                                        chart2.Series.Add((cnt11).ToString());//添加
+                                        chart3.Series.Add((cnt11).ToString());//添加
+                                        this.chart1.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
+                                        this.chart2.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
+                                        this.chart3.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
+                                    }
+                                    Num_COMB2 = Convert.ToInt32(strArr[3]);
+                                    int fre_int = (int)(fre * 100);
+                                    fre = fre_int / 100;
+
+
+
+                                    double real = mag * Math.Cos(pha * Math.PI / 180);
+                                    double img = mag * Math.Sin(-pha * Math.PI / 180);
+
+                                    int real_int = (int)(real * 100);
+                                    real = real_int / 100;
+
+                                    int img_int = (int)(img * 100);
+                                    img = img_int / 100;
+
+                                    this.chart1.Series[(cnt11).ToString()].Points.AddXY(fre, mag);
+                                    this.chart2.Series[(cnt11).ToString()].Points.AddXY(fre, pha);
+                                    this.chart3.Series[(cnt11).ToString()].Points.AddXY(real, img);
+
+
+                                    data_queue.Enqueue(strc + ":");
+
+
+                                    FileStream fs = new FileStream(Combination_m, FileMode.Append);
                                     StreamWriter sw = new StreamWriter(fs);
-                                    sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + Num_FDA1.ToString());
+                                    sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + cnt11.ToString());
                                     sw.Flush();
                                     sw.Close();
                                     fs.Close();
+
                                 }
-                            }
-                            catch
-                            {
-                                //MessageBox.Show("图表未工作");
-                                Console.WriteLine("error");
-
-                            }
-                        }
-                    }
-
-                    else if (ACM == true)
-                    {
-                        string strc = serialPort1.ReadLine();
-                        ReceiveArea.AppendText(strc);
-
-                        string[] strArr = strc.Split(',');
-                        int length = strArr.Length;
-
-
-
-                        if (length == 4 && strArr[0] != "200000.00")
-                        {
-                            try
-                            {
-                                fre = Convert.ToSingle(strArr[0]);
-                                mag = Convert.ToSingle(strArr[1]);
-                                pha = Convert.ToSingle(strArr[2]);
-                                Num_COMB1 = Convert.ToInt32(strArr[3]);
-                                if (Num_COMB1 > Num_COMB2)
+                                catch
                                 {
-                                    cnt11++;
-                                    chart1.Series.Add((cnt11).ToString());//添加
-                                    chart2.Series.Add((cnt11).ToString());//添加
-                                    chart3.Series.Add((cnt11).ToString());//添加
-                                    this.chart1.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
-                                    this.chart2.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
-                                    this.chart3.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
+                                    //MessageBox.Show("图表未工作");
+                                    Console.WriteLine("error");
+
                                 }
-                                Num_COMB2 = Convert.ToInt32(strArr[3]);
-                                int fre_int = (int)(fre * 100);
-                                fre = fre_int / 100;
-
-
-
-                                double real = mag * Math.Cos(pha * Math.PI / 180);
-                                double img = mag * Math.Sin(-pha * Math.PI / 180);
-
-                                int real_int = (int)(real * 100);
-                                real = real_int / 100;
-
-                                int img_int = (int)(img * 100);
-                                img = img_int / 100;
-
-                                this.chart1.Series[(cnt11).ToString()].Points.AddXY(fre, mag);
-                                this.chart2.Series[(cnt11).ToString()].Points.AddXY(fre, pha);
-                                this.chart3.Series[(cnt11).ToString()].Points.AddXY(real, img);
-
-
-                                data_queue.Enqueue(strc + ":");
-
-
-                                FileStream fs = new FileStream(Combination_m, FileMode.Append);
-                                StreamWriter sw = new StreamWriter(fs);
-                                sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + cnt11.ToString());
-                                sw.Flush();
-                                sw.Close();
-                                fs.Close();
-
-                            }
-                            catch
-                            {
-                                //MessageBox.Show("图表未工作");
-                                Console.WriteLine("error");
-
                             }
                         }
+                        else
+                        {
+                            string strvv = serialPort1.ReadExisting();
+                            //string strvv = serialPort1.ReadLine();
+                            ReceiveArea.AppendText(strvv);
+                        }
+
                     }
                     else
                     {
-                        string strvv = serialPort1.ReadExisting();
-                        //string strvv = serialPort1.ReadLine();
-                        ReceiveArea.AppendText(strvv);
-                    }
+                        btn_freq.Enabled = false;
+                        btn_TD.Enabled = false;
+                        btn_DC.Enabled = false;
+                        btn_AC.Enabled = false;
 
+                        string strh = serialPort1.ReadLine();
+                        ReceiveArea.AppendText(strh);
+
+                        string[] strArr = strh.Split(',');
+                        int length = strArr.Length;
+                        if (length == 2 && strArr[0] != "200000.00")
+                        {
+                            Int16 status = Convert.ToInt16(strArr[0]);
+                            Int16 endbit = Convert.ToInt16(strArr[1]);
+                            if ((status == 0) && (endbit == 4))
+                            {
+                                Hands_shake = true;
+                                MessageBox.Show("MCU is already!");
+                            }
+                            else if (((status == 1) || (status == 2)) && (endbit == 4))
+                            {
+                                MessageBox.Show("MCU is busy!");
+                                Hands_shake = false;
+                            }
+                            else
+                            {
+                                Hands_shake = false;
+                                MessageBox.Show("False COM!");
+                                serialPort1.Close();
+                                PortIsOpen = false;
+                                OpenPortButton.Text = "Port Open";
+                            }
+                        }
+
+                            
+                    }
                 }
 
 
@@ -1499,9 +1545,15 @@ namespace Comm
                 //首先判断串口是否开启
                 if (serialPort1.IsOpen)
                 {
+                    if (rb_Frequncy.Checked)
 
-
-                    serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x01 }, 0, 5);
+                    {
+                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x05 }, 0, 5);
+                    }
+                    else if(rb_Sweep.Checked)
+                    {
+                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x01 }, 0, 5);
+                    }
                     //int num = 0;   //获取本次发送字节数
                     //串口处于开启状态，将发送区文本发送test_var
                     //string temp1 = 0;
@@ -1796,7 +1848,9 @@ namespace Comm
                             serialPort1.Write(Sum, 0, 4);
                         }
 
-                        serialPort1.Write(Zeros, 0, 14);
+                        serialPort1.Write(Zeros, 0, 12);
+
+                        serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
 
                         if (rb_Sweep.Checked)
                         {
@@ -1945,6 +1999,7 @@ namespace Comm
             btn_AC.Enabled = true ;
 
             serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x09 }, 0, 5);
+            serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
             btn_start.Enabled = true;
             btn_stop.Enabled = false;
 
@@ -2258,7 +2313,8 @@ namespace Comm
                             serialPort1.Write(strToHexByte(tb_times.Text.Trim()), 0, 1);//Times
                         }
 
-                        serialPort1.Write(Zeros, 0, 15);
+                        serialPort1.Write(Zeros, 0, 13);
+                        serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
                     }
 
                     catch
@@ -2313,6 +2369,7 @@ namespace Comm
         private void btn_stop1_Click(object sender, EventArgs e)
         {
             serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x08 }, 0, 5);
+            serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
             btn_start1.Enabled = true;
             btn_stop1.Enabled = false;
 
@@ -2707,7 +2764,8 @@ namespace Comm
                                 serialPort1.Write(flag, 1, 1);
                             }
 
-                            serialPort1.Write(Zeros, 0, 20);
+                            serialPort1.Write(Zeros, 0, 18);
+                            serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
                         }
 
                         catch
@@ -2789,6 +2847,7 @@ namespace Comm
             btn_comb_start.Enabled = true;
             btn_stop2.Enabled = false;
             serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x07 }, 0, 5);
+            serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
             btn_comb_start.Enabled = true;
             chart_temp.Series[0].Points.Clear();
 
