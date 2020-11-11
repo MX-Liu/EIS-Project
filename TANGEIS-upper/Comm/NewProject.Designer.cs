@@ -136,6 +136,7 @@
             this.Controls.Add(this.tb_name);
             this.Name = "NewProject";
             this.Text = "NewProject";
+            this.Load += new System.EventHandler(this.NewProject_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

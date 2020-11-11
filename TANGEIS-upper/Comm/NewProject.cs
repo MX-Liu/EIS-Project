@@ -17,7 +17,7 @@ namespace Comm
         //定义变量
         string path = "";                                        //文件路径
         string filename = "";                                    //文件夹名
-
+        
 
 
 
@@ -139,6 +139,10 @@ namespace Comm
 
         private void button1_Click(object sender, EventArgs e)
         {
+
+
+
+
             name1 = this.tb_name.Text;
             save = this.tb_save.Text;
             desp = this.tb_descrip.Text;
@@ -382,6 +386,17 @@ namespace Comm
                 path = fdb.SelectedPath;  //获取文件路径
                 tb_save.Text = path;                         //.......
             }
+            else
+            {
+                path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                tb_save.Text = path;
+            }
+        }
+
+        private void NewProject_Load(object sender, EventArgs e)
+        {
+            path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            tb_save.Text = path;
         }
     }
 }
