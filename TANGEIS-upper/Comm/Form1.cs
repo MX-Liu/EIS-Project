@@ -17,6 +17,8 @@ using System.Windows.Forms.DataVisualization.Charting;
 using System.Net;
 //using System.Net.Sockets;
 using System.Text.RegularExpressions;
+using System.Runtime.InteropServices;
+
 
 
 
@@ -106,11 +108,13 @@ namespace Comm
         Int32 tempt = 37;
 
 
-        //*********************************************//
-        //**************数据初始化********************//
-        //*******************************************//
-        public Form1()
-        {
+
+       
+            //*********************************************//
+            //**************数据初始化********************//
+            //*******************************************//
+            public Form1()
+            {
 
             InitializeComponent();
             COMChoose.Text = "COM3";
@@ -176,14 +180,12 @@ namespace Comm
         private void Form1_Load(object sender, EventArgs e)
         {
             string[] PortNames = SerialPort.GetPortNames();    //获取本机串口名称，存入PortNames数组中
-
+            BackToolStripMenuItem.Enabled = true;
             for (int i = 0; i < PortNames.Count(); i++)
-
             {
                 COMChoose.Items.Add(PortNames[i]);   //将数组内容加载到comboBox控件中
 
             }
-
             serialPort1.DataReceived += new SerialDataReceivedEventHandler(Port_DataRecevied);
             Init_Chart();
             chart1.MouseWheel += new MouseEventHandler(chart_MouseWheel);
@@ -547,11 +549,35 @@ namespace Comm
             this.chart2.ChartAreas[0].AxisX.IsLogarithmic = false;
             this.chart4.ChartAreas[0].AxisX.IsLogarithmic = false;
             this.chart_u_i_r.ChartAreas[0].AxisX.IsLogarithmic = false;
-            chart1.Series[0].Points.Clear();
-            chart2.Series[0].Points.Clear();
-            chart3.Series[0].Points.Clear();
-            chart4.Series[0].Points.Clear();
-            chart_u_i_r.Series[0].Points.Clear();
+            foreach (var series in chart1.Series)
+            {
+                series.Points.Clear();
+            }
+            foreach (var series in chart1.Series)
+            {
+                series.Points.Clear();
+            }
+            foreach (var series in chart2.Series)
+            {
+                series.Points.Clear();
+            }
+            foreach (var series in chart3.Series)
+            {
+                series.Points.Clear();
+            }
+            foreach (var series in chart4.Series)
+            {
+                series.Points.Clear();
+            }
+            foreach (var series in chart_u_i_r.Series)
+            {
+                series.Points.Clear();
+            }
+            chart1.Series.Clear();
+            chart2.Series.Clear();
+            chart3.Series.Clear();
+            chart4.Series.Clear();
+            chart_u_i_r.Series.Clear();
             // chart5.Series[0].Points.Clear();
 
         }
@@ -1997,6 +2023,7 @@ namespace Comm
             btn_TD.Enabled = true;
             btn_DC.Enabled = true;
             btn_AC.Enabled = true ;
+            BackToolStripMenuItem.Enabled = true;
 
             serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x09 }, 0, 5);
             serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
@@ -2372,6 +2399,7 @@ namespace Comm
             serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
             btn_start1.Enabled = true;
             btn_stop1.Enabled = false;
+            BackToolStripMenuItem.Enabled = true;
 
             btn_freq.Enabled = true;
             btn_TD.Enabled = true;
@@ -2843,6 +2871,7 @@ namespace Comm
             btn_TD.Enabled = true;
             btn_DC.Enabled = true;
             btn_AC.Enabled = true;
+            BackToolStripMenuItem.Enabled = true;
 
             btn_comb_start.Enabled = true;
             btn_stop2.Enabled = false;
@@ -3072,7 +3101,7 @@ namespace Comm
             newProjectToolStripMenuItem.Enabled = false;
             LoadProtoolStripMenuItem1.Enabled = false;
             DataAnalyserToolStripMenuItem.Enabled = true;
-
+            BackToolStripMenuItem.Enabled = true;
 
             btn_freq.Visible = false;
             btn_TD.Visible = false;
@@ -3102,7 +3131,7 @@ namespace Comm
             }
         }
 
-        public struct Point
+        public struct Point1
         {
             public double X;
             public double Y;
@@ -3152,7 +3181,7 @@ namespace Comm
             this.chart2.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
             this.chart3.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
             // 点列表集合
-            List<Point> points = new List<Point>();
+            List<Point1> points = new List<Point1>();
             // 让过第一行，从第二行开始处理
             if (lines.Length > 0)
             {
@@ -3161,7 +3190,7 @@ namespace Comm
                     string line = lines[i];
                     // 拆分行
                     string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                    Point p;
+                    Point1 p;
                     // 获取Y（第一列）        
                     p.X = double.Parse(v[0]);
                     // 获取Y（第二列）        
@@ -3208,7 +3237,7 @@ namespace Comm
             this.chart3.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
 
             // 点列表集合
-            List<Point> points = new List<Point>();
+            List<Point1> points = new List<Point1>();
             // 让过第一行，从第二行开始处理
 
             if (lines.Length > 0)
@@ -3218,7 +3247,7 @@ namespace Comm
                     string line = lines[i];
                     // 拆分行
                     string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                    Point p;
+                    Point1 p;
                     // 获取Y（第一列）        
                     p.X = double.Parse(v[0]);
                     // 获取Y（第二列）        
@@ -3339,7 +3368,7 @@ namespace Comm
             this.chart2.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
             this.chart3.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
             // 点列表集合
-            List<Point> points = new List<Point>();
+            List<Point1> points = new List<Point1>();
             // 让过第一行，从第二行开始处理
             if (lines.Length > 0)
             {
@@ -3349,7 +3378,7 @@ namespace Comm
                     string line = lines[i];
                     // 拆分行
                     string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                    Point p;
+                    Point1 p;
                     // 获取Y（第一列）        
                     p.X = double.Parse(v[0]);
                     // 获取Y（第二列）        
@@ -3378,11 +3407,28 @@ namespace Comm
         }
 
 
+        //*********************************************//
+        //****************Windows Close***************//
+        //*******************************************//
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Environment.Exit(0);
+        }
+
+        //返回上级
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            newProjectToolStripMenuItem.Enabled = true;
+            LoadProtoolStripMenuItem1.Enabled = true;
+            DataAnalyserToolStripMenuItem.Enabled = true;
+            BackToolStripMenuItem.Enabled = false;
+            ChartClear();
+        }
 
         //*********************************************//
         //****************未使用**********************//
         //*******************************************//
-        private void chart5_Click(object sender, EventArgs e)
+            private void chart5_Click(object sender, EventArgs e)
         {
 
         }
@@ -4168,15 +4214,9 @@ namespace Comm
 
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-        }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void hlepHToolStripMenuItem_Click(object sender, EventArgs e)
         {

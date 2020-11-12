@@ -17,7 +17,7 @@ namespace Comm
         //定义变量
         string path = "";                                        //文件路径
         string filename = "";                                    //文件夹名
-        
+        private bool Project_exist = false;
 
 
 
@@ -154,248 +154,250 @@ namespace Comm
             //MessageBox.Show(save +'\\'+ name1);
 
             //获取子文件夹内的文件列表，递归遍历  
-            //foreach (DirectoryInfo dd in directs)
-            //{
-            //    for (int j = 0; j < directs.Length; j++)
-            //    {
-            //        if (directs[j].Equals(save + '\\' + name1))
-            //        {
-            //            MessageBox.Show("This Folder already exists!");
-            //            this.DialogResult = DialogResult.No;
-            //        }
-            //        else
-            //        {
-                        this.DialogResult = DialogResult.OK;
-                        filename = path + "\\" + this.tb_name.Text;    //组合路径
-                        Directory.CreateDirectory(filename);              //创建文件夹
+            foreach (DirectoryInfo dd in directs)
+            {
+                //MessageBox.Show(dd.FullName);
+                for (int j = 0; j < directs.Length; j++)
+                {
+                    if (dd.FullName.Equals(save + '\\' + name1))
+                    {                                               
+                        Project_exist = true;                        
+                    }
+
+                }
+            }
+
+            if (Project_exist == true)
+            {
+                MessageBox.Show("This Folder already exists!");
+                this.DialogResult = DialogResult.No;
+            }
+            else
+            {
+                this.DialogResult = DialogResult.OK;
+                filename = path + "\\" + this.tb_name.Text;    //组合路径
+                Directory.CreateDirectory(filename);              //创建文件夹
 
 
-                        //*********************************************//
-                        //*******************FDA**********************//
-                        //*******************************************//
+                //*********************************************//
+                //*******************FDA**********************//
+                //*******************************************//
 
-                        string filename1 = "FDA";
-                        pathString1 = System.IO.Path.Combine(filename, filename1);
-                        if (!Directory.Exists(pathString1))
-                        {
-                            Directory.CreateDirectory(pathString1);
-                        }
-
-
-
-                        Parameter21 = pathString1 + "/Parameter_s.txt";
-                        if (!File.Exists(Parameter21))
-                        {
-                            //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-
-                            StreamWriter sw = new StreamWriter(Parameter21);
-                            sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
-                            sw.Flush();
-                            sw.Close();
-                        }
-                        Parameter22 = pathString1 + "/Parameter_m.txt";
-                        if (!File.Exists(Parameter22))
-                        {
-                            //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-
-                            StreamWriter sw = new StreamWriter(Parameter22);
-                            sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
-                            sw.Flush();
-                            sw.Close();
-                        }
-
-
-                        Single_m = pathString1 + "/0Single_Measurement.txt";
-                        if (!File.Exists(Single_m))
-                        {
-                            //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-
-                            StreamWriter sw = new StreamWriter(Single_m);
-                            sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
-                            sw.Flush();
-                            sw.Close();
-                        }
-
-
-                        Multiple_m = pathString1 + "/0Multiple_Measurement.txt";
-                        if (!File.Exists(Multiple_m))
-                        {
-                            //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-
-                            StreamWriter sw = new StreamWriter(Multiple_m);
-                            sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
-                            sw.Flush();
-                            sw.Close();
-                        }
+                string filename1 = "FDA";
+                pathString1 = System.IO.Path.Combine(filename, filename1);
+                if (!Directory.Exists(pathString1))
+                {
+                    Directory.CreateDirectory(pathString1);
+                }
 
 
 
+                Parameter21 = pathString1 + "/Parameter_s.txt";
+                if (!File.Exists(Parameter21))
+                {
+                    //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+
+                    StreamWriter sw = new StreamWriter(Parameter21);
+                    sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
+                    sw.Flush();
+                    sw.Close();
+                }
+                Parameter22 = pathString1 + "/Parameter_m.txt";
+                if (!File.Exists(Parameter22))
+                {
+                    //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+
+                    StreamWriter sw = new StreamWriter(Parameter22);
+                    sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
+                    sw.Flush();
+                    sw.Close();
+                }
 
 
-                        //*********************************************//
-                        //*******************TD***********************//
-                        //*******************************************//
+                Single_m = pathString1 + "/0Single_Measurement.txt";
+                if (!File.Exists(Single_m))
+                {
+                    //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
-                        string filename2 = "TD";
-                        pathString2 = System.IO.Path.Combine(filename, filename2);
-                        if (!Directory.Exists(pathString2))
-                        {
-                            Directory.CreateDirectory(pathString2);
-                        }
+                    StreamWriter sw = new StreamWriter(Single_m);
+                    sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
+                    sw.Flush();
+                    sw.Close();
+                }
 
-                        Parameter1 = pathString2 + "/Parameter.txt";
-                        if (!File.Exists(Parameter1))
-                        {
-                            //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
-                            StreamWriter sw = new StreamWriter(Parameter1);
-                            sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
-                            sw.Flush();
-                            sw.Close();
-                        }
+                Multiple_m = pathString1 + "/0Multiple_Measurement.txt";
+                if (!File.Exists(Multiple_m))
+                {
+                    //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
-                        Single_m1 = pathString2 + "/0Single_Measurement.txt";
-                        if (!File.Exists(Single_m1))
-                        {
-                            //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-
-                            StreamWriter sw = new StreamWriter(Single_m1);
-                            sw.WriteLine("Time" + "\t" + "Impendence");
-                            sw.Flush();
-                            sw.Close();
-                        }
+                    StreamWriter sw = new StreamWriter(Multiple_m);
+                    sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
+                    sw.Flush();
+                    sw.Close();
+                }
 
 
 
 
-                        //*********************************************//
-                        //*******************DC***********************//
-                        //*******************************************//
 
+                //*********************************************//
+                //*******************TD***********************//
+                //*******************************************//
 
-                        string filename3 = "DC";
-                        pathString3 = System.IO.Path.Combine(filename, filename3);
-                        if (!Directory.Exists(pathString3))
-                        {
-                            Directory.CreateDirectory(pathString3);
-                        }
+                string filename2 = "TD";
+                pathString2 = System.IO.Path.Combine(filename, filename2);
+                if (!Directory.Exists(pathString2))
+                {
+                    Directory.CreateDirectory(pathString2);
+                }
 
-                        Parameter3 = pathString3 + "/Parameter.txt";
-                        if (!File.Exists(Parameter3))
-                        {
-                            //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+                Parameter1 = pathString2 + "/Parameter.txt";
+                if (!File.Exists(Parameter1))
+                {
+                    //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
-                            StreamWriter sw = new StreamWriter(Parameter3);
-                            sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
-                            sw.Flush();
-                            sw.Close();
-                        }
+                    StreamWriter sw = new StreamWriter(Parameter1);
+                    sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
+                    sw.Flush();
+                    sw.Close();
+                }
 
-                        U_I_R = pathString3 + "/0U_I_R_data.txt";
-                        if (!File.Exists(U_I_R))
-                        {
-                            //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+                Single_m1 = pathString2 + "/0Single_Measurement.txt";
+                if (!File.Exists(Single_m1))
+                {
+                    //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
-                            StreamWriter sw = new StreamWriter(U_I_R);
-                            sw.WriteLine("Time" + "\t" + "Voltage" + "\t" + "Current" + "\t" + "Resistance");
-                            sw.Flush();
-                            sw.Close();
-                        }
-
-
-
-                        //*********************************************//
-                        //*******************Combination***********************//
-                        //*******************************************//
-
-                        string filename4 = "Combination";
-                        pathString4 = System.IO.Path.Combine(filename, filename4);
-                        if (!Directory.Exists(pathString4))
-                        {
-                            Directory.CreateDirectory(pathString4);
-                        }
-
-                        Parameter4 = pathString4 + "/Parameter.txt";
-                        if (!File.Exists(Parameter4))
-                        {
-                            //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-
-                            StreamWriter sw = new StreamWriter(Parameter4);
-                            sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
-                            sw.Flush();
-                            sw.Close();
-                        }
-
-                        Combination_M = pathString4 + "/0Combination_Measurement.txt";
-                        if (!File.Exists(Combination_M))
-                        {
-                            //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-
-                            StreamWriter sw = new StreamWriter(Combination_M);
-                            sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
-                            sw.Flush();
-                            sw.Close();
-                        }
+                    StreamWriter sw = new StreamWriter(Single_m1);
+                    sw.WriteLine("Time" + "\t" + "Impendence");
+                    sw.Flush();
+                    sw.Close();
+                }
 
 
 
 
-                        string Read_path = filename + "/ReadME.txt";
-                        if (!File.Exists(Read_path))
-                        {
-                            //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-
-                            StreamWriter sw = new StreamWriter(Read_path);
-                            sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
-                            sw.Flush();
-                            sw.Close();
-                        }
+                //*********************************************//
+                //*******************DC***********************//
+                //*******************************************//
 
 
-                        Random rd = new Random();
+                string filename3 = "DC";
+                pathString3 = System.IO.Path.Combine(filename, filename3);
+                if (!Directory.Exists(pathString3))
+                {
+                    Directory.CreateDirectory(pathString3);
+                }
 
-                        int i = 0;
-                        for (i = 0; i < 8; i++)
-                        {
-                            ID_Num += rd.Next(0, 10).ToString();
-                        }
+                Parameter3 = pathString3 + "/Parameter.txt";
+                if (!File.Exists(Parameter3))
+                {
+                    //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
-                        Directory.SetCurrentDirectory(Directory.GetParent(filename).FullName);
+                    StreamWriter sw = new StreamWriter(Parameter3);
+                    sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
+                    sw.Flush();
+                    sw.Close();
+                }
 
-                        String ID_path = Directory.GetCurrentDirectory() + "/ID_Information.txt"; ;
+                U_I_R = pathString3 + "/0U_I_R_data.txt";
+                if (!File.Exists(U_I_R))
+                {
+                    //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
-
-                        if (!File.Exists(ID_path))
-                        {
-                            //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-
-                            StreamWriter sw = new StreamWriter(ID_path);
-
-
-                            sw.WriteLine("ID Number" + "\t" + "ProjectName" + "\t" + "Save as:" + "\t" + "Description");
-                            sw.WriteLine(ID_Num + "\t" + tb_name.Text + "\t" + tb_save.Text + "\t" + tb_descrip.Text);
-
-                            sw.Flush();
-                            sw.Close();
-                        }
-                        else
-                        {
-                            FileStream fs = new FileStream(ID_path, FileMode.Append);
-                            StreamWriter sw = new StreamWriter(fs);
-                            sw.WriteLine(ID_Num + "\t" + tb_name.Text + "\t" + tb_save.Text + "\t" + tb_descrip.Text);
-                            sw.Flush();
-                            sw.Close();
-                            fs.Close();
-
-                        }
-
-            //        }
-            //    }
-            //}
+                    StreamWriter sw = new StreamWriter(U_I_R);
+                    sw.WriteLine("Time" + "\t" + "Voltage" + "\t" + "Current" + "\t" + "Resistance");
+                    sw.Flush();
+                    sw.Close();
+                }
 
 
-           
 
+                //*********************************************//
+                //*******************Combination***********************//
+                //*******************************************//
+
+                string filename4 = "Combination";
+                pathString4 = System.IO.Path.Combine(filename, filename4);
+                if (!Directory.Exists(pathString4))
+                {
+                    Directory.CreateDirectory(pathString4);
+                }
+
+                Parameter4 = pathString4 + "/Parameter.txt";
+                if (!File.Exists(Parameter4))
+                {
+                    //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+
+                    StreamWriter sw = new StreamWriter(Parameter4);
+                    sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
+                    sw.Flush();
+                    sw.Close();
+                }
+
+                Combination_M = pathString4 + "/0Combination_Measurement.txt";
+                if (!File.Exists(Combination_M))
+                {
+                    //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+
+                    StreamWriter sw = new StreamWriter(Combination_M);
+                    sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
+                    sw.Flush();
+                    sw.Close();
+                }
+
+
+
+
+                string Read_path = filename + "/ReadME.txt";
+                if (!File.Exists(Read_path))
+                {
+                    //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+
+                    StreamWriter sw = new StreamWriter(Read_path);
+                    sw.WriteLine("ProjectName:" + tb_name.Text + "\n" + "Save as:" + tb_save.Text + "\n" + "Description:" + tb_descrip.Text);
+                    sw.Flush();
+                    sw.Close();
+                }
+
+
+                Random rd = new Random();
+
+                int i = 0;
+                for (i = 0; i < 8; i++)
+                {
+                    ID_Num += rd.Next(0, 10).ToString();
+                }
+
+                Directory.SetCurrentDirectory(Directory.GetParent(filename).FullName);
+
+                String ID_path = Directory.GetCurrentDirectory() + "/ID_Information.txt"; ;
+
+
+                if (!File.Exists(ID_path))
+                {
+                    //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+
+                    StreamWriter sw = new StreamWriter(ID_path);
+
+
+                    sw.WriteLine("ID Number" + "\t" + "ProjectName" + "\t" + "Save as:" + "\t" + "Description");
+                    sw.WriteLine(ID_Num + "\t" + tb_name.Text + "\t" + tb_save.Text + "\t" + tb_descrip.Text);
+
+                    sw.Flush();
+                    sw.Close();
+                }
+                else
+                {
+                    FileStream fs = new FileStream(ID_path, FileMode.Append);
+                    StreamWriter sw = new StreamWriter(fs);
+                    sw.WriteLine(ID_Num + "\t" + tb_name.Text + "\t" + tb_save.Text + "\t" + tb_descrip.Text);
+                    sw.Flush();
+                    sw.Close();
+                    fs.Close();
+
+                }
+            }
         }
 
         private void btn_SaveFile_Click(object sender, EventArgs e)
