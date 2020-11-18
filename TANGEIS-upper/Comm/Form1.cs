@@ -35,7 +35,7 @@ namespace Comm
         //**************数据定义**********************//
         //*******************************************//
 
-
+        // 界面标志位
         bool FDA = false;
         bool TD = false;
         bool ACM = false;
@@ -46,66 +46,66 @@ namespace Comm
         private static byte[] result = new byte[1024];
 
         //图形数据定义
-        private int time = 0;
-        private float vol = 0;
-        private float cur = 0;
-        private float fre = 1;
-        private float mag = 0;
-        private float pha = 0;
-        private float X = 0;
-        private float Y = 0;
-        private float btn_X = 0;
-        private float btn_Y = 0;
-        private Int32 Num_FDA1 = 0;
+        private int time = 0;//TD 计数器
+        private float vol = 0;//DC 电压值
+        private float cur = 0;//DC 电流值
+        private float fre = 1;//FDA 频率
+        private float mag = 0;//FDA 幅值
+        private float pha = 0;//FDA 相位
+        private float X = 0;  //Form 大小的x值
+        private float Y = 0;  //Form 大小的y值
+
+        private Int32 Num_FDA1 = 0; //Num_FDA1和Num_FDA2 用于FDA画多曲线的比较计数器
         private Int32 Num_FDA2 = 0;
-        private Int32 Num_COMB1 = 0;
+        private Int32 Num_COMB1 = 0;//Num_COMB1和Num_COMB2 用于COMB画多曲线的比较计数器
         private Int32 Num_COMB2 = 0;
-        private Int64 cnt = 0;
-        private Int64 cnt1 = 0;
-        private Int64 cnt2 = 0;
-        private Int64 cnt3 = 0;
-        private Int64 cnt4 = 0;
-        private Int64 cnt5 = 0;
-        private Int64 cnt6 = 0;
-        private Int64 cnt7 = 0;
-        private Int64 cnt8 = 0;
-        private Int64 cnt9 = 0;
-        private Int64 cnt10 = 0;
-        private Int64 cnt11 = 0;
-        private Int64 cnt12 = 0;
+        private Int64 cnt = 0; //TD计数器
+        private Int64 cnt1 = 0;//FDA 幅度图存
+        private Int64 cnt2 = 0;//FDA 相位图存
+        private Int64 cnt3 = 0;//FDA Nqst图存
+        private Int64 cnt4 = 0;//TD 图存
+        private Int64 cnt5 = 0;//DC图存
+        private Int64 cnt6 = 0;//FDA画多曲线计数器
+        private Int64 cnt7 = 0;//Data Analyzer 画多曲线计数器
+        private Int64 cnt8 = 0;//Comb幅度图存
+        private Int64 cnt9 = 0;//Comb相位图存
+        private Int64 cnt10 = 0;//Comb Nqst图存
+        private Int64 cnt11 = 0;//Comb画多曲线计数器
+        //private Int64 cnt12 = 0;
 
-        private bool Hands_shake = false; 
+        private bool Hands_shake = false; //握手标志位
 
-        private Int64 cnt_comb = 0;
-        private Int64 cnt_FDA1 = 0;
-        private Int64 cnt_FDA2 = 0;
-        private Int64 cnt_TD = 0;
-        private Int64 cnt_UIR = 0;
-        private Queue chart_x = new Queue();
+        private Int64 cnt_comb = 0;//comb 文件命名计数器
+        private Int64 cnt_FDA1 = 0;//FDA 单次测量命名计数器
+        private Int64 cnt_FDA2 = 0;////FDA 多次测量命名计数器
+        private Int64 cnt_TD = 0;//TD 文件命名计数器
+        private Int64 cnt_UIR = 0;//UIR 文件命名计数器
+
+        private Queue chart_x = new Queue();//  数据队列 用于无线传输
         private Queue chart_y = new Queue();
         private Queue data_queue = new Queue();
 
 
 
-        string parameter1 = "";
-        string parameter21 = "";
-        string parameter22 = "";
-        string parameter3 = "";
-        string parameter4 = "";
-        string pathString1 = "";
-        string pathString2 = "";
-        string pathString3 = "";
-        string pathString4 = "";
-        string Single_m = "";
-        string Single_m1 = "";
-        string Multiple_m = "";
-        string U_I_R = "";
-        string foldPath = "";
-        string ID_Num = "";
-        string Combination_m = "";
-        string Temperature = "℃";
+        string parameter1 = "";//TD 参数路径
+        string parameter21 = "";//FDA 单次测量 参数路径
+        string parameter22 = "";//FDA 多次测量 参数路径
+        string parameter3 = "";//DC 参数路径
+        string parameter4 = "";//Comb 参数路径
+        string pathString1 = "";//FDA 路径
+        string pathString2 = "";//TD 路径
+        string pathString3 = "";//CD 路径
+        string pathString4 = "";//COMB 路径
+        string Single_m = "";//FDA 单次 数据存储 路径
+        string Single_m1 = "";//TD 数据存储 路径
+        string Multiple_m = "";//FDA 多次 数据存储 路径
+        string U_I_R = "";//DC 数据存储 路径
+        string foldPath = "";//工程路径
+        string ID_Num = "";//工程ID
+        string Combination_m = "";//COMB 数据存储 路径
+        string Temperature = "℃";//温度单位
 
-        Int32 tempt = 37;
+        Int32 tempt = 37;//温度初值
 
 
 
@@ -129,6 +129,8 @@ namespace Comm
             tb_times_T1.Text = "0";
             tb_times_T2.Text = "0";
             cb_days.Text = "0";
+
+            //
             rb_Frequncy.Checked = true;
             rb_rep.Checked = true;
             rb_dur.Checked = true;
@@ -186,27 +188,33 @@ namespace Comm
                 COMChoose.Items.Add(PortNames[i]);   //将数组内容加载到comboBox控件中
 
             }
+
+            //添加串口接收时间
             serialPort1.DataReceived += new SerialDataReceivedEventHandler(Port_DataRecevied);
+
+            //chart 初始化
             Init_Chart();
+
+            //分别给chart添加鼠标滚轮缩放时间
             chart1.MouseWheel += new MouseEventHandler(chart_MouseWheel);
             chart2.MouseWheel += new MouseEventHandler(chart_MouseWheel);
             chart3.MouseWheel += new MouseEventHandler(chart_MouseWheelXY);
             chart4.MouseWheel += new MouseEventHandler(chart_MouseWheel);
             chart_u_i_r.MouseWheel += new MouseEventHandler(chart_MouseWheel);
+
+            //分别给chart添加悬停读数
             chart1.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
             chart2.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
             chart3.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
             chart4.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
             chart_u_i_r.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
-            this.Resize += new EventHandler(modular_calEchoPhaseFromSignal1_Resize);//窗体调整大小时引发事件
+
+            //窗体调整大小时引发事件  用于按比例修改Form内组件大小
+            this.Resize += new EventHandler(modular_calEchoPhaseFromSignal1_Resize);
 
             X = this.Width;//获取窗体的宽度
 
             Y = this.Height;//获取窗体的高度
-
-            btn_X = btn_comb_start.Width;
-
-            btn_Y = btn_comb_start.Height;
 
             setTag(this);//调用方法
 
@@ -219,7 +227,7 @@ namespace Comm
         //**************自编函数**********************//
         //*******************************************//
 
-
+        //鼠标悬停读数设置
         void chart_GetToolTipText(object sender, ToolTipEventArgs e)
         {
             if (e.HitTestResult.ChartElementType == ChartElementType.DataPoint)
@@ -233,6 +241,7 @@ namespace Comm
         }
 
 
+        //控制控件随窗体大小变化而变化
         private void setTag(Control cons)
 
         {
@@ -255,12 +264,7 @@ namespace Comm
         private void setControls(float newx, float newy, Control cons)
 
         {
-            //foreach (Control con in cons.Controls)
 
-            //{
-            //    con.Visible = false;
-
-            //}
             //遍历窗体中的控件，重新设置控件的值
 
             foreach (Control con in cons.Controls)
@@ -355,6 +359,7 @@ namespace Comm
             return array;
         }
 
+        //时间转秒
         private string TimeToSec(string tmp1)
         {
             tmp1 = tmp1.Replace(":", "");
@@ -369,7 +374,7 @@ namespace Comm
             return Zeit;
         }
 
-
+        //计算时间差
         private string TimeDifference(string Zeit)
         {
             int cc = 0;
@@ -397,12 +402,7 @@ namespace Comm
                 MessageBox.Show("开始时间至少在一分钟之后");
 
             }
-            ////}
-            ////catch
-            ////{
-            ////    MessageBox.Show("开始时间至少在一小时之后");
-            ////    TD1 = null;
-            ////}
+
             return TD1;
         }
 
@@ -442,7 +442,7 @@ namespace Comm
                 //result += Convert.ToString(c[i], 16);
 
             }
-            test.AppendText(Convert.ToString(c[0]));
+            //test.AppendText(Convert.ToString(c[0]));
             return result;
         }
 
@@ -460,7 +460,7 @@ namespace Comm
             hexString = hexString.Replace(" ", "");
             if ((hexString.Length % 2) != 0)
                 hexString = "0" + hexString;
-            test.AppendText(hexString);
+            //test.AppendText(hexString);
             byte[] returnBytes = new byte[hexString.Length / 2];
             for (int i = 0; i < returnBytes.Length; i++)
                 returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
@@ -468,6 +468,7 @@ namespace Comm
 
         }
 
+        //方波发生器
         private double trianglewav(double t, double p)
 
         {
@@ -501,6 +502,7 @@ namespace Comm
             return y;
         }
 
+        //方波发生器
         private double Squarewav(double t, double p)
 
         {
@@ -535,13 +537,11 @@ namespace Comm
         }
 
 
-
-
-
         //*********************************************//
         //**************界面清空**********************//
         //*******************************************//
 
+        //按钮清空
         private void ClearReceive_Click(object sender, EventArgs e)
         {
             ReceiveArea.Clear();
@@ -582,6 +582,7 @@ namespace Comm
 
         }
 
+        //函数清空
         private void ChartClear()
         {
             ReceiveArea.Clear();
@@ -597,7 +598,7 @@ namespace Comm
             // chart5.Series[0].Points.Clear();
         }
 
-
+        //发送位清空
         private void ClearSendArea_Click(object sender, EventArgs e)
         {
             SendArea.Clear();
@@ -681,9 +682,9 @@ namespace Comm
             if (serialPort1.IsOpen)
 
             {
-                //serialPort1.Write("1702552551700");
-                serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);
+                serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
 
+                //
                 byte[] temp2 = strToHexByte(ID_Num);
                 byte[] temp = exchange(temp2);
                 for (int i = 0; i < temp.Length; i++)
@@ -693,7 +694,7 @@ namespace Comm
                 
                 serialPort1.Write(ID_N, 0, 4);
                 serialPort1.Write(Zeros, 0, 5);
-                serialPort1.Write(new byte[] { 0x0d, 0x0a}, 0, 2);
+                serialPort1.Write(new byte[] { 0x0d, 0x0a}, 0, 2);//帧尾
 
             }
 
@@ -753,22 +754,28 @@ namespace Comm
                 if (!Hexshow.Checked)
                 {
 
-
-                    if (Hands_shake == true)
+                    if (Hands_shake == true)//握手成功
                     {
-
+                        //显示功能按钮
                         btn_freq.Enabled = true;
                         btn_TD.Enabled = true;
                         btn_DC.Enabled = true;
                         btn_AC.Enabled = true;
-                        if (TD == true)//cfg界面
+                        if (TD == true)//TD 数据接收
                         {
 
                             string strv = serialPort1.ReadLine();
                             ReceiveArea.AppendText(strv);
                             cnt++;
+
+                            //TD  画图
                             this.chart4.Series[0].Points.AddXY(cnt, strv);
                             this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
+
+                            //添加到无线传输队列
+                            data_queue.Enqueue(cnt + "," + strv + ":");
+
+                            //写入文件
                             FileStream fs = new FileStream(Single_m1, FileMode.Append);
                             StreamWriter sw = new StreamWriter(fs);
                             sw.WriteLine(cnt + "\t" + strv + "\t");
@@ -777,17 +784,17 @@ namespace Comm
                             fs.Close();
 
                         }
-                        else if (DCM == true) //非cfg界面   （暂时为频域）
+                        else if (DCM == true) // DC 数据接收
                         {
-                            //string stru = serialPort1.ReadExisting();
+                            
                             string stru = serialPort1.ReadLine();
                             ReceiveArea.AppendText(stru);
                             string[] strArry = stru.Split(',');
                             int length_u = strArry.Length;
                             time++;
                             string length1 = Convert.ToString(length_u);
-                            //test.AppendText(length1);
-
+      
+                            //DC 画图
                             if (length_u == 2 && strArry[0] != "200000.00")
                             {
                                 try
@@ -808,8 +815,10 @@ namespace Comm
                                     tb_I.Text = cur.ToString();
                                     tb_R.Text = res.ToString();
 
-                                    data_queue.Enqueue(stru + ":");
+                                    //DC  添加到无线队列
+                                    data_queue.Enqueue(time + "," + stru + ":");
 
+                                    //DC 写入文件
                                     FileStream fs = new FileStream(U_I_R, FileMode.Append);
                                     StreamWriter sw = new StreamWriter(fs);
                                     sw.WriteLine(time.ToString() + "\t" + tb_u.Text + "\t" + tb_I.Text + "\t" + tb_R.Text);
@@ -828,9 +837,10 @@ namespace Comm
                             }
                         }
 
+                        //FDA 数据接收
                         else if (FDA == true)
                         {
-                            //string str = serialPort1.ReadExisting();
+                            
                             string str = serialPort1.ReadLine();
                             ReceiveArea.AppendText(str);
 
@@ -838,7 +848,7 @@ namespace Comm
                             int length = strArr.Length;
 
 
-
+                            //FDA 画图
                             if (length == 4 && strArr[0] != "200000.00")
                             {
                                 try
@@ -846,6 +856,8 @@ namespace Comm
                                     fre = Convert.ToSingle(strArr[0]);
                                     mag = Convert.ToSingle(strArr[1]);
                                     pha = Convert.ToSingle(strArr[2]);
+
+                                    //比较上一个数的序号
                                     Num_FDA1 = Convert.ToInt32(strArr[3]);
                                     if (Num_FDA1 > Num_FDA2)
                                     {
@@ -879,10 +891,10 @@ namespace Comm
                                     //this.chart1.ChartAreas[cnt6.ToString()].AxisX.ScaleView.Scroll(ScrollType.Last);
                                     //this.chart2.ChartAreas[cnt6.ToString()].AxisX.ScaleView.Scroll(ScrollType.Last);
 
-
+                                    //FDA 添加到无线队列
                                     data_queue.Enqueue(str + ":");
 
-                                    if (rb_dur.Checked)
+                                    if (rb_dur.Checked)//单次测量文件写入
                                     {
                                         FileStream fs = new FileStream(Single_m, FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
@@ -891,7 +903,7 @@ namespace Comm
                                         sw.Close();
                                         fs.Close();
                                     }
-                                    else if (rb_rep.Checked)
+                                    else if (rb_rep.Checked)//多次测量文件写入
                                     {
                                         FileStream fs = new FileStream(Multiple_m, FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
@@ -910,7 +922,8 @@ namespace Comm
                             }
                         }
 
-                        else if (ACM == true)
+                        //Comb 数据接收
+                        else if (ACM == true) 
                         {
                             string strc = serialPort1.ReadLine();
                             ReceiveArea.AppendText(strc);
@@ -919,7 +932,7 @@ namespace Comm
                             int length = strArr.Length;
 
 
-
+                            //Comb 画图
                             if (length == 4 && strArr[0] != "200000.00")
                             {
                                 try
@@ -927,6 +940,8 @@ namespace Comm
                                     fre = Convert.ToSingle(strArr[0]);
                                     mag = Convert.ToSingle(strArr[1]);
                                     pha = Convert.ToSingle(strArr[2]);
+
+                                    //Comb 数据与前一个序号作比较
                                     Num_COMB1 = Convert.ToInt32(strArr[3]);
                                     if (Num_COMB1 > Num_COMB2)
                                     {
@@ -957,10 +972,10 @@ namespace Comm
                                     this.chart2.Series[(cnt11).ToString()].Points.AddXY(fre, pha);
                                     this.chart3.Series[(cnt11).ToString()].Points.AddXY(real, img);
 
-
+                                    //Comb 添加到无线队列
                                     data_queue.Enqueue(strc + ":");
 
-
+                                    //Comb 写入文件
                                     FileStream fs = new FileStream(Combination_m, FileMode.Append);
                                     StreamWriter sw = new StreamWriter(fs);
                                     sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + cnt11.ToString());
@@ -979,6 +994,7 @@ namespace Comm
                         }
                         else
                         {
+                            //其他数据
                             string strvv = serialPort1.ReadExisting();
                             //string strvv = serialPort1.ReadLine();
                             ReceiveArea.AppendText(strvv);
@@ -987,6 +1003,7 @@ namespace Comm
                     }
                     else
                     {
+                        //握手不成功  按钮无法使用
                         btn_freq.Enabled = false;
                         btn_TD.Enabled = false;
                         btn_DC.Enabled = false;
@@ -999,18 +1016,22 @@ namespace Comm
                         int length = strArr.Length;
                         if (length == 2 && strArr[0] != "200000.00")
                         {
-                            Int16 status = Convert.ToInt16(strArr[0]);
-                            Int16 endbit = Convert.ToInt16(strArr[1]);
-                            if ((status == 0) && (endbit == 4))
+                            //Int16 status = Convert.ToInt16(strArr[0]);
+                            //Int16 endbit = Convert.ToInt16(strArr[1]);
+
+                            //收到0，4时，正常工作
+                            if ((strArr[0].Equals("0")) && (strArr[1].Equals("4")))
                             {
                                 Hands_shake = true;
                                 MessageBox.Show("MCU is already!");
                             }
-                            else if (((status == 1) || (status == 2)) && (endbit == 4))
+                            // 收到1/2，4时，正常工作
+                            else if (((strArr[0].Equals("1")) || (strArr[0].Equals("2")) && (strArr[1].Equals("4"))))
                             {
                                 MessageBox.Show("MCU is busy!");
                                 Hands_shake = false;
                             }
+                            // 其他为错误串口
                             else
                             {
                                 Hands_shake = false;
@@ -1019,13 +1040,9 @@ namespace Comm
                                 PortIsOpen = false;
                                 OpenPortButton.Text = "Port Open";
                             }
-                        }
-
-                            
+                        }   
                     }
                 }
-
-
                 else
                 {
                     byte data;
@@ -1055,7 +1072,7 @@ namespace Comm
         }
 
 
-        //鼠标滚轮改变图像大小
+        //鼠标滚轮改变图像大小，单X轴
         void chart_MouseWheel(object sender, MouseEventArgs e)
         {
             Chart chart = (Chart)(sender);
@@ -1122,6 +1139,7 @@ namespace Comm
             }
         }
 
+        //鼠标滚轮改变图像大小，XY轴
         void chart_MouseWheelXY(object sender, MouseEventArgs e)
         {
             Chart chart = (Chart)(sender);
@@ -1147,16 +1165,13 @@ namespace Comm
         //chart init.
         private void Init_Chart()
         {
-
+            //定义图像轴的初始值
             chart1.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             chart2.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             chart3.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             chart3.ChartAreas[0].AxisY.ScaleView.Size = 3000;
             chart4.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             chart_u_i_r.ChartAreas[0].AxisX.ScaleView.Size = 3000;
-
-
-
         }
 
 
@@ -1214,7 +1229,6 @@ namespace Comm
             string serveraddress = ipaddress.Text;
             string serverport = Port.Text;
 
-
             var socket = IO.Socket(serveraddress + ":" + serverport);
             //Upon a connection event, update our status
 
@@ -1223,10 +1237,7 @@ namespace Comm
                 timer2.Enabled = true;
                 socket.On(Socket.EVENT_CONNECT, () =>
                 {
-
                     MessageBox.Show("connect server successfully");
-
-
                 });
 
                 socket.On("result", (data) =>
@@ -1238,7 +1249,6 @@ namespace Comm
             else
             {
                 socket.Emit("result", dataToSend);
-
             }
 
         }
@@ -1254,10 +1264,8 @@ namespace Comm
                     data += (string)data_queue.Dequeue();
                 }
 
-                socketIoManager(1, data);
+                socketIoManager(1, data);//发送 数据队列
             }
-
-
         }
 
 
@@ -1394,10 +1402,13 @@ namespace Comm
         // 频域
         private void btn_freq_Click(object sender, EventArgs e)
         {
+            //标志位初始化
             FDA = true;
             TD = false;
             ACM = false;
             DCM = false;
+
+            //界面初始化
             rb_rep.Enabled = true;
             panel_switch.Height = btn_freq.Height;
             panel_switch.Top = btn_freq.Top;
@@ -1411,24 +1422,29 @@ namespace Comm
         // 初始化
         private void btn_cfg_Click_1(object sender, EventArgs e)
         {
+            //标志位初始化
             FDA = false;
             TD = false;
             ACM = false;
             DCM = false;
+
+            //界面初始化
             panel_switch.Height = btn_cfg.Height;
             panel_switch.Top = btn_cfg.Top;
             enableButtons(true, true, true, true, false, false, false, true, false, false);
-            //string length2 = Convert.ToString(FDA);
-            //test.AppendText(length2);
+
         }
 
         // 时域
         private void btn_TD_Click_1(object sender, EventArgs e)
         {
+            //标志位初始化
             FDA = false;
             TD = true;
             ACM = false;
             DCM = false;
+
+            //界面初始化
             rb_dur.Enabled = true;
             rb_rep.Enabled = false;
             panel_switch.Height = btn_TD.Height;
@@ -1437,14 +1453,23 @@ namespace Comm
             enableButtons(false, true, false, false, true, false, true, false, false, false);
             rb_Frequncy.Checked = true;
             rb_Sweep.Checked = false;
-            //serialPort1.Write("Open COM");
+
         }
 
         // 交流+直流
         private void btn_AC_Click(object sender, EventArgs e)
         {
-           
+            //标志位初始化   
+            FDA = false;
+            TD = false;
+            ACM = true;
+            DCM = false;
 
+            //界面初始化
+            panel_switch.Height = btn_AC.Height;
+            panel_switch.Top = btn_AC.Top;
+            gb_ac.Text = "AC Control";
+            enableButtons(false, true, false, false, false, false, false, false, false, true);
             gb_ac2.Visible = true;
             gb_rep2.Visible = true;
             gb_dc2.Visible = true;
@@ -1468,29 +1493,21 @@ namespace Comm
                 tb_times_D4.Enabled = false;
                 tb_times_T4.Enabled = false;
             }
-            FDA = false;
-            TD = false;
-            ACM = true;
-            DCM = false;
-            panel_switch.Height = btn_AC.Height;
-            panel_switch.Top = btn_AC.Top;
-            gb_ac.Text = "AC Control";
-            enableButtons(false, true, false, false, false, false, false, false, false, true);
-            //serialPort1.Write("Open COM");
 
         }
 
         // 直流
         private void btn_DC_Click(object sender, EventArgs e)
         {
-            panel_switch.Height = btn_DC.Height;
-            panel_switch.Top = btn_DC.Top;
+            //标志位初始化
             FDA = false;
             TD = false;
             DCM = true;
             ACM = false;
-            string length2 = Convert.ToString(FDA);
-            test.AppendText(length2);
+
+            //界面初始化
+            panel_switch.Height = btn_DC.Height;
+            panel_switch.Top = btn_DC.Top;
             if (rb_Sweep1.Checked)
             {
 
@@ -1541,10 +1558,8 @@ namespace Comm
         //时钟显示
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //lab_day.Text = DateTime.Now.ToString("");
             lab_date.Text = System.DateTime.Now.ToString("");
         }
-
 
 
         //关闭窗口后关闭后台进程
@@ -1571,24 +1586,23 @@ namespace Comm
                 //首先判断串口是否开启
                 if (serialPort1.IsOpen)
                 {
-                    if (rb_Frequncy.Checked)
+                    if (rb_Frequncy.Checked)//TD选择
 
                     {
-                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x05 }, 0, 5);
+                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x05 }, 0, 5);//TD帧头
                     }
-                    else if(rb_Sweep.Checked)
+                    else if(rb_Sweep.Checked)//FDA选择
                     {
-                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x01 }, 0, 5);
+                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x01 }, 0, 5);//FDA帧头
                     }
-                    //int num = 0;   //获取本次发送字节数
-                    //串口处于开启状态，将发送区文本发送test_var
-                    //string temp1 = 0;
+
+                    //duration 时间初始化
                     int temp_h = 0;
                     int temp_m = 0;
                     int temp_s = 0;
                     int sum = 0;
 
-                    //bool flag_repeat = false;
+                    //flag 定义
                     byte[] flag = new byte[2];
                     flag[0] = 00;
                     flag[1] = 01;
@@ -1596,6 +1610,7 @@ namespace Comm
                     flag1[0] = 0x00;
                     flag1[1] = 6;
 
+                    //各类较长的数组初始化
                     byte[] Fre = new byte[12];
                     for (int i = 0; i < 12; i++)
                     {
@@ -1655,7 +1670,7 @@ namespace Comm
 
                         serialPort1.Write(strToHexByte(cb_dft.Text.Trim()), 0, 1);//dft
 
-                        //固定频率
+                        //TD
                         if (rb_Frequncy.Checked)
                         {
                             serialPort1.Write(flag, 0, 1);
@@ -1668,7 +1683,7 @@ namespace Comm
                             btn_DC.Enabled = false;
                             btn_AC.Enabled = false;
 
-
+                            //固定频率
                             if (cb_freq.Text.Equals("kHz"))
                             {
                                 byte[] temp1 = strToHexByte((Convert.ToInt32(tb_freq.Text) * 1000).ToString());
@@ -1737,12 +1752,11 @@ namespace Comm
                             }
                         }
 
-                        serialPort1.Write(Fre, 0, 12);
+                        serialPort1.Write(Fre, 0, 12);//频率发送
 
                         serialPort1.Write(flag1, 0, 1);//log  暂时没用
 
                         serialPort1.Write(strToHexByte(cb_tia.Text.Trim()), 0, 1);//rtia
-
 
                         serialPort1.Write(strToHexByte(tb_s_p.Text.Trim()), 0, 1);//points
 
@@ -1752,8 +1766,6 @@ namespace Comm
                         //repeat
                         if (rb_rep.Checked)
                         {
-
-
                             //计算天数
 
                             string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
@@ -1769,15 +1781,15 @@ namespace Comm
                             }
 
                             string ts = Convert.ToString(ts2);
-                            textBox1_test.Text = ts;
-                            cb_days.Text = ts;
 
-                            serialPort1.Write(strToHexByte(cb_days.Text), 0, 1);
+                            cb_days.Text = ts;//天数显示
+
+                            serialPort1.Write(strToHexByte(cb_days.Text), 0, 1);//天数 发送
 
                             //开始时间
 
-                            string start_time1 = dateTimePicker_f_1.Text;
-                            string start_send1 = TimeDifference(start_time1);
+                            string start_time1 = dateTimePicker_f_1.Text;//获取开始时间
+                            string start_send1 = TimeDifference(start_time1);//计算与当前时间差
 
                             byte[] temp_s1 = strToHexByte(start_send1);
                             byte[] temp_se1 = exchange(temp_s1);
@@ -1788,8 +1800,8 @@ namespace Comm
 
                             serialPort1.Write(Start_send1, 0, 4);//开始时间1发送
 
-                            string end_time1 = dateTimePicker_t_1.Text;
-                            string end_send1 = TimeDifference(end_time1);
+                            string end_time1 = dateTimePicker_t_1.Text;//获取结束时间
+                            string end_send1 = TimeDifference(end_time1);//计算与当前时间差
 
                             byte[] temp_e1 = strToHexByte(end_send1);
                             byte[] temp_ee1 = exchange(temp_e1);
@@ -1805,8 +1817,8 @@ namespace Comm
 
                             if (checkBox_SEC.Checked)
                             {
-                                string start_time2 = dateTimePicker_f_2.Text;
-                                string start_send2 = TimeDifference(start_time2);
+                                string start_time2 = dateTimePicker_f_2.Text;//获取第二次开始时间
+                                string start_send2 = TimeDifference(start_time2);//计算与当前时间差
                                 byte[] temp_s2 = strToHexByte(start_send2);
                                 byte[] temp_se2 = exchange(temp_s2);
                                 for (int i = 0; i < temp_se2.Length; i++)
@@ -1816,8 +1828,8 @@ namespace Comm
 
                                 serialPort1.Write(Start_send2, 0, 4);//开始时间2发送
 
-                                string end_time2 = dateTimePicker_t_2.Text;
-                                string end_send2 = TimeDifference(end_time2);
+                                string end_time2 = dateTimePicker_t_2.Text;//获取第二次结束时间
+                                string end_send2 = TimeDifference(end_time2);//计算与当前时间差
 
                                 byte[] temp_e2 = strToHexByte(end_send2);
                                 byte[] temp_ee2 = exchange(temp_e2);
@@ -1830,10 +1842,6 @@ namespace Comm
 
                                 serialPort1.Write(strToHexByte(tb_times_D2.Text.Trim()), 0, 1);//次数2/天发送
                                 serialPort1.Write(strToHexByte(tb_times_T2.Text.Trim()), 0, 1);//次数2/次发送
-
-                                //this.textBox1_test.Text = end_send2;
-
-
                             }
                             else
                             {
@@ -1859,10 +1867,10 @@ namespace Comm
                             serialPort1.Write(strToHexByte(tb_times_D2.Text.Trim()), 0, 1);//次数2/天发送
                             serialPort1.Write(strToHexByte(tb_times_T2.Text.Trim()), 0, 1);//次数2/次发送
 
-                            temp_h = Convert.ToInt16(tb_d_h.Text);
-                            temp_m = Convert.ToInt16(tb_d_m.Text);
-                            temp_s = Convert.ToInt16(tb_d_s.Text);
-                            sum = 3600 * temp_h + 60 * temp_m + temp_s;
+                            temp_h = Convert.ToInt16(tb_d_h.Text);//获取时
+                            temp_m = Convert.ToInt16(tb_d_m.Text);//获取分
+                            temp_s = Convert.ToInt16(tb_d_s.Text);//获取秒
+                            sum = 3600 * temp_h + 60 * temp_m + temp_s;//总时间
 
                             byte[] temp2 = strToHexByte(Convert.ToString(sum));
                             byte[] temp = exchange(temp2);
@@ -1871,16 +1879,16 @@ namespace Comm
                                 Sum[3 - i] = temp[i];
                             }
 
-                            serialPort1.Write(Sum, 0, 4);
+                            serialPort1.Write(Sum, 0, 4);//发送总时间
                         }
 
-                        serialPort1.Write(Zeros, 0, 12);
+                        serialPort1.Write(Zeros, 0, 12);//发送空闲位，0
 
-                        serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
+                        serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
 
                         if (rb_Sweep.Checked)
                         {
-                            if (rb_dur.Checked)
+                            if (rb_dur.Checked)//单次测量参数写入
                             {
                                 FileStream fs = new FileStream(parameter21, FileMode.Append);
                                 StreamWriter sw = new StreamWriter(fs);
@@ -1913,7 +1921,7 @@ namespace Comm
                                 sw.Flush();
                                 sw.Close();
                             }
-                            else
+                            else //多次测量参数写入
                             {
                                 FileStream fs = new FileStream(parameter22, FileMode.Append);
                                 StreamWriter sw = new StreamWriter(fs);
@@ -1948,7 +1956,7 @@ namespace Comm
 
                             }
                         }
-                        else if (rb_Frequncy.Checked)
+                        else if (rb_Frequncy.Checked)//TD参数写入
                         {
                             FileStream fs = new FileStream(parameter1, FileMode.Append);
                             StreamWriter sw = new StreamWriter(fs);
@@ -2019,19 +2027,21 @@ namespace Comm
         //FDA+TD stop
         private void btn_stop_Click(object sender, EventArgs e)
         {
+            //界面初始化
             btn_freq.Enabled = true;
             btn_TD.Enabled = true;
             btn_DC.Enabled = true;
             btn_AC.Enabled = true ;
             BackToolStripMenuItem.Enabled = true;
 
-            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x09 }, 0, 5);
-            serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
+            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x09 }, 0, 5);//停止帧头
+            serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
+
             btn_start.Enabled = true;
             btn_stop.Enabled = false;
 
 
-            if (rb_Frequncy.Checked)
+            if (rb_Frequncy.Checked)//TD 停止时间写入
             {
 
                 FileStream fs = new FileStream(parameter1, FileMode.Append);
@@ -2054,7 +2064,7 @@ namespace Comm
             }
             else
             {
-                if (rb_dur.Checked)
+                if (rb_dur.Checked)//FDA 单次停止时间写入
                 {
                     FileStream fs = new FileStream(parameter21, FileMode.Append);
                     StreamWriter sw = new StreamWriter(fs);
@@ -2075,7 +2085,7 @@ namespace Comm
                     }
 
                 }
-                else
+                else//FDA 多次停止时间写入
                 {
                     FileStream fs = new FileStream(parameter22, FileMode.Append);
                     StreamWriter sw = new StreamWriter(fs);
@@ -2098,7 +2108,7 @@ namespace Comm
             }
         }
 
-        //固定频率操作框
+        //TD操作框
         private void rb_Frequncy_CheckedChanged(object sender, EventArgs e)
         {
             tb_Sweep_f.Enabled = false;
@@ -2122,7 +2132,7 @@ namespace Comm
             rb_Frequncy.Visible = true;
         }
 
-
+        //天数选择判断
         private void DTP_End_ValueChanged(object sender, EventArgs e)
         {
             string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
@@ -2141,7 +2151,7 @@ namespace Comm
                 MessageBox.Show("The Days should between 1 and 7.");
             }
             string ts = Convert.ToString(ts2);
-            textBox1_test.Text = ts;
+            //textBox1_test.Text = ts;
             cb_days.Text = ts;
         }
 
@@ -2207,13 +2217,14 @@ namespace Comm
 
         }
 
+        // 时间输入判断
         private void dateTimePicker_f_1_ValueChanged(object sender, EventArgs e)
         {
             String tmp1 = dateTimePicker_f_1.Text;
             string tmp3 = TimeDifference(tmp1);
         }
 
-
+        //二次测量界面
         private void checkBox_SEC_CheckedChanged_1(object sender, EventArgs e)
         {
             if (checkBox_SEC.Checked)
@@ -2235,12 +2246,11 @@ namespace Comm
          // DC send
         private void btn_start1_Click(object sender, EventArgs e)
         {
+            //部分按钮使能不可用
             btn_start1.Enabled = false;
             btn_stop1.Enabled = true;
-
             btn_freq.Enabled = false;
             btn_TD.Enabled = false;
-            //btn_DC.Enabled = false;
             btn_AC.Enabled = false;
 
 
@@ -2249,13 +2259,15 @@ namespace Comm
                 //首先判断串口是否开启
                 if (serialPort1.IsOpen)
                 {
-                    serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x03 }, 0, 5);
+                    serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x03 }, 0, 5);//帧头
 
+                    //DC 持续时间输入
                     int temp_h1 = 0;
                     int temp_m1 = 0;
                     int temp_s1 = 0;
                     int sum1 = 0;
 
+                    //数组初始化
                     byte[] flag = new byte[2];
                     flag[0] = 0x00;
                     flag[1] = 0x01;
@@ -2275,6 +2287,7 @@ namespace Comm
 
                     byte[] amp1 = new byte[] { 0x00, 0x00 };
                     byte[] Start_v = new byte[] { 0x00, 0x00 };
+
                     try
                     {
                         byte[] tmp_sv = strToHexByte(tb_start.Text);
@@ -2313,7 +2326,7 @@ namespace Comm
                                 serialPort1.Write(flag, 1, 1);//Triangle
                             }
 
-                            serialPort1.Write(Sum1, 0, 4);
+                            serialPort1.Write(Sum1, 0, 4);//时间空值发送
                             serialPort1.Write(strToHexByte(tb_times.Text.Trim()), 0, 1);//Times
 
                         }
@@ -2336,12 +2349,12 @@ namespace Comm
                                 Sum1[3 - i] = temp_ss[i];
                             }
 
-                            serialPort1.Write(Sum1, 0, 4);
+                            serialPort1.Write(Sum1, 0, 4);//总时间发送
                             serialPort1.Write(strToHexByte(tb_times.Text.Trim()), 0, 1);//Times
                         }
 
-                        serialPort1.Write(Zeros, 0, 13);
-                        serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
+                        serialPort1.Write(Zeros, 0, 13);//补零
+                        serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
                     }
 
                     catch
@@ -2358,7 +2371,7 @@ namespace Comm
                     btn_stop1.Enabled = false;
                 }
 
-
+                //DC 参数写入
                 FileStream fs = new FileStream(parameter3, FileMode.Append);
                 StreamWriter sw = new StreamWriter(fs);
                 sw.WriteLine("Start at:   " + "\t" + System.DateTime.Now + "\t");
@@ -2395,8 +2408,8 @@ namespace Comm
         //DC Stop
         private void btn_stop1_Click(object sender, EventArgs e)
         {
-            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x08 }, 0, 5);
-            serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
+            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x08 }, 0, 5);//DC 停止帧头
+            serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
             btn_start1.Enabled = true;
             btn_stop1.Enabled = false;
             BackToolStripMenuItem.Enabled = true;
@@ -2405,7 +2418,8 @@ namespace Comm
             btn_TD.Enabled = true;
             btn_DC.Enabled = true;
             btn_AC.Enabled = true;
-
+            
+            //DC 停止时间写入
             FileStream fs = new FileStream(parameter3, FileMode.Append);
             StreamWriter sw = new StreamWriter(fs);
             sw.WriteLine("Stop at:   " + "\t" + System.DateTime.Now + "\t");
@@ -2415,6 +2429,7 @@ namespace Comm
 
             cnt_UIR++;
 
+            //添加新的数据文件
             if (!File.Exists(pathString3 + "\\" + cnt_UIR + "U_I_R_data.txt"))
             {
 
@@ -2505,7 +2520,7 @@ namespace Comm
             btn_comb_start.Enabled = false;
             btn_stop2.Enabled = true;
 
-
+            //温度显示判断
             if (Temperature.Equals("℃"))
                 Temperature = tempt.ToString() + "℃";
             else
@@ -2514,24 +2529,25 @@ namespace Comm
             }
 
 
-
+            //弹出框确认实验是否开始
             DialogResult dr = MessageBox.Show("Everything already?", "Combination Measurement", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (dr == DialogResult.OK)
             {
-
+                
                 try
                 {
                     //首先判断串口是否开启
                     if (serialPort1.IsOpen)
                     {
-                        tb_temp.Text = Temperature;
+                        tb_temp.Text = Temperature;//显示温度
                         for (int CNT_T = 0; CNT_T < 10; CNT_T++)
                         {
                             this.chart_temp.Series[0].Points.AddXY(CNT_T, tempt);
                         }
 
-                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x04 }, 0, 5);
+                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x04 }, 0, 5);//Comb 帧头
 
+                        //长数组定义
                         byte[] flag = new byte[2];
                         flag[0] = 00;
                         flag[1] = 01;
@@ -2570,6 +2586,7 @@ namespace Comm
                         byte[] amp2 = new byte[] { 0x00, 0x00 };
                         byte[] points2 = new byte[] { 0x00, 0x00 };
 
+                        //AC 部分
                         try
                         {
                             serialPort1.Write(strToHexByte(cb_dor2.Text.Trim()), 0, 1);//odr
@@ -2627,7 +2644,7 @@ namespace Comm
                             }
 
 
-                            serialPort1.Write(Fre2, 0, 8);
+                            serialPort1.Write(Fre2, 0, 8);//频率发送
 
                             serialPort1.Write(flag, 0, 1);//log  暂时没用
 
@@ -2652,14 +2669,14 @@ namespace Comm
                             }
 
                             string ts = Convert.ToString(ts2);
-                            cb_days2.Text = ts;
+                            cb_days2.Text = ts;//显示天数
 
-                            serialPort1.Write(strToHexByte(cb_days2.Text), 0, 1);
+                            serialPort1.Write(strToHexByte(cb_days2.Text), 0, 1);//发送天书
 
                             //开始时间
 
-                            string start_time1 = dateTimePicker_f_3.Text;
-                            string start_send1 = TimeDifference(start_time1);
+                            string start_time1 = dateTimePicker_f_3.Text;//获取时间
+                            string start_send1 = TimeDifference(start_time1);//计算开始时间差
 
                             byte[] temp_s1 = strToHexByte(start_send1);
                             byte[] temp_se1 = exchange(temp_s1);
@@ -2670,8 +2687,8 @@ namespace Comm
 
                             serialPort1.Write(Start_send12, 0, 4);//开始时间1发送
 
-                            string end_time1 = dateTimePicker_t_3.Text;
-                            string end_send1 = TimeDifference(end_time1);
+                            string end_time1 = dateTimePicker_t_3.Text;//获取第一次截止时间
+                            string end_send1 = TimeDifference(end_time1);//计算结束时间差
 
                             byte[] temp_e1 = strToHexByte(end_send1);
                             byte[] temp_ee1 = exchange(temp_e1);
@@ -2687,8 +2704,8 @@ namespace Comm
 
                             if (checkBox_SEC2.Checked)
                             {
-                                string start_time2 = dateTimePicker_f_4.Text;
-                                string start_send2 = TimeDifference(start_time2);
+                                string start_time2 = dateTimePicker_f_4.Text;//获取第二次开始时间
+                                string start_send2 = TimeDifference(start_time2);//计算第二次开始时间差
                                 byte[] temp_s2 = strToHexByte(start_send2);
                                 byte[] temp_se2 = exchange(temp_s2);
                                 for (int i = 0; i < temp_se2.Length; i++)
@@ -2698,8 +2715,8 @@ namespace Comm
 
                                 serialPort1.Write(Start_send22, 0, 4);//开始时间2发送
 
-                                string end_time2 = dateTimePicker_t_4.Text;
-                                string end_send2 = TimeDifference(end_time2);
+                                string end_time2 = dateTimePicker_t_4.Text;//获取第二次结束时间
+                                string end_send2 = TimeDifference(end_time2);//计算第二次结束时间差
 
                                 byte[] temp_e2 = strToHexByte(end_send2);
                                 byte[] temp_ee2 = exchange(temp_e2);
@@ -2756,7 +2773,7 @@ namespace Comm
                     if (serialPort1.IsOpen)
                     {
 
-
+                        //数组定义
                         byte[] flag = new byte[2];
                         flag[0] = 0x00;
                         flag[1] = 0x01;
@@ -2769,6 +2786,8 @@ namespace Comm
                         }
 
                         byte[] amp4 = new byte[] { 0x00, 0x00 };
+
+                        //DC部分
                         try
                         {
 
@@ -2792,8 +2811,8 @@ namespace Comm
                                 serialPort1.Write(flag, 1, 1);
                             }
 
-                            serialPort1.Write(Zeros, 0, 18);
-                            serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
+                            serialPort1.Write(Zeros, 0, 18);//补零
+                            serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
                         }
 
                         catch
@@ -2825,6 +2844,7 @@ namespace Comm
 
                 }
 
+                //Comb 参数写入
                 FileStream fs = new FileStream(parameter4, FileMode.Append);
                 StreamWriter sw = new StreamWriter(fs);
 
@@ -2872,14 +2892,15 @@ namespace Comm
             btn_DC.Enabled = true;
             btn_AC.Enabled = true;
             BackToolStripMenuItem.Enabled = true;
-
             btn_comb_start.Enabled = true;
             btn_stop2.Enabled = false;
-            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x07 }, 0, 5);
-            serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);
+
+            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x07 }, 0, 5);//comb 停止帧头
+            serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
             btn_comb_start.Enabled = true;
             chart_temp.Series[0].Points.Clear();
-
+            
+            //Comb 停止时间写入
             FileStream fs = new FileStream(parameter4, FileMode.Append);
             StreamWriter sw = new StreamWriter(fs);
             sw.WriteLine("Stop at:   " + "\t" + System.DateTime.Now + "\t");
@@ -2889,6 +2910,7 @@ namespace Comm
 
             cnt_comb++;
 
+            //新建参数文件
             if (!File.Exists(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt"))
             {
 
@@ -2920,6 +2942,7 @@ namespace Comm
             }
         }
 
+        //Days Difference
         private void DTP_End2_ValueChanged(object sender, EventArgs e)
         {
             string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
@@ -2958,6 +2981,7 @@ namespace Comm
             f2.ShowDialog();     
             if (f2.DialogResult == DialogResult.OK)
             {
+                //从新建文件窗口获取传输参数
                 parameter1 = f2.Parameter1;
                 parameter21 = f2.Parameter21;
                 parameter22 = f2.Parameter22;
@@ -2974,6 +2998,7 @@ namespace Comm
                 ID_Num = f2.ID_Num;
                 Combination_m = f2.Combination_M;
 
+                //新建文件后文件界面初始化
                 enableButtons(true, true, true, true, false, false, false, true, false, false);
                 btn_freq.Visible = true;
                 btn_TD.Visible = true;
@@ -3011,13 +3036,13 @@ namespace Comm
             LoadProtoolStripMenuItem1.Enabled = true;
             DataAnalyserToolStripMenuItem.Enabled = false;
 
-
+            //选择已存在工程
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = "请选择文件路径";
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-
+                //界面初始化
                 enableButtons(true, true, true, true, false, false, false, true, false, false);
                 btn_freq.Visible = true;
                 btn_TD.Visible = true;
@@ -3031,7 +3056,7 @@ namespace Comm
                 panel_switch.Visible = true;
                 panel_load.Visible = false;
 
-
+                //路径及参数赋值
                 foldPath = dialog.SelectedPath;
 
                 pathString1 = foldPath + "/FDA";
@@ -3051,6 +3076,7 @@ namespace Comm
                 U_I_R = pathString3 + "/0U_I_R_data.txt";
                 Combination_m = pathString4 + "/0Combination_Measurement.txt";
 
+                //在工程目录建立ID_Information.txt，保存工程信息
                 string filePathOnly = Path.GetDirectoryName(foldPath);
                 string file = Path.GetFileName(filePathOnly);
 
@@ -3097,6 +3123,7 @@ namespace Comm
          //open Dateset
         private void loadProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //界面初始化  关闭New Project和Load Project功能
             ChartClear();
             newProjectToolStripMenuItem.Enabled = false;
             LoadProtoolStripMenuItem1.Enabled = false;
@@ -3120,17 +3147,19 @@ namespace Comm
             enableButtons(false, false, false, false, false, false, false, false, false, false);
             newProjectToolStripMenuItem.Enabled = false;
 
+            //选择已存在的工程文件
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = "请选择文件路径";
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                cnt7++;
+                cnt7++;//每打开一个工程文件  计数器加一
                 foldPath = dialog.SelectedPath;
 
             }
         }
 
+        //FDA 结构体
         public struct Point1
         {
             public double X;
@@ -3138,13 +3167,14 @@ namespace Comm
             public double Z;
         }
 
-
+        //TD 结构体
         public struct Point_T
         {
             public double X;
             public double Y;
         }
 
+        //DC 结构体
         public struct Point_U
         {
             public double X;
@@ -3154,7 +3184,7 @@ namespace Comm
         }
 
 
-
+        //FDA 选择进入
         private void btn_fre_load_Click(object sender, EventArgs e)
         {
 
@@ -3168,12 +3198,14 @@ namespace Comm
 
         private void btn_s_Click(object sender, EventArgs e)
         {
-
+            //路径添加
             string FDA = foldPath + "/FDA";
             string FDA_S = FDA + "/0Single_Measurement.txt";
             string FDA_M = FDA + "/0Multiple_Measurement.txt";
             string FDA_P1 = FDA + "/Parameter_s.txt";
             string[] lines = File.ReadAllLines(FDA_S);
+
+            //线条添加
             chart1.Series.Add((cnt7).ToString());//添加
             chart2.Series.Add((cnt7).ToString());//添加
             chart3.Series.Add((cnt7).ToString());//添加
@@ -3210,7 +3242,7 @@ namespace Comm
                     int img_int = (int)(img * 100);
                     img = img_int / 100;
 
-
+                    //画图
                     this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
                     this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
                     this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
@@ -3223,12 +3255,13 @@ namespace Comm
         //paiting of multiple measurement in FDA
         private void btn_m_Click(object sender, EventArgs e)
         {
-
+            //路径添加
             string FDA = foldPath + "/FDA";
             string FDA_S = FDA + "/0Single_Measurement.txt";
             string FDA_M = FDA + "/0Multiple_Measurement.txt";
             string FDA_P2 = FDA + "/Parameter_m.txt";
             string[] lines = File.ReadAllLines(FDA_M);
+            //线条添加
             chart1.Series.Add((cnt7).ToString());//添加
             chart2.Series.Add((cnt7).ToString());//添加
             chart3.Series.Add((cnt7).ToString());//添加
@@ -3267,6 +3300,7 @@ namespace Comm
                     int img_int = (int)(img * 100);
                     img = img_int / 100;
 
+                    //画图
                     this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
                     this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
                     this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
@@ -3283,11 +3317,13 @@ namespace Comm
             btn_s.Visible = false;
             btn_m.Visible = false;
 
+            //路径添加
             string TD = foldPath + "/TD";
             string TD_S = TD + "/0Single_Measurement.txt";
             //string FDA_M = FDA + "/Multiple_Measurement.txt";
             string TD_p = TD + "/Parameter.txt";
 
+            //线条添加
             chart4.Series.Add((cnt7).ToString());//添加
             this.chart4.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
             List<Point_T> points = new List<Point_T>();
@@ -3306,6 +3342,8 @@ namespace Comm
                     p.Y = double.Parse(v[1]);
                     //p.Z = double.Parse(v[2]);
                     points.Add(p);
+
+                    //画图
                     this.chart4.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
                     //this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
                 }
@@ -3319,10 +3357,13 @@ namespace Comm
             btn_s.Visible = false;
             btn_m.Visible = false;
 
+            //路径添加
             string DC = foldPath + "/DC";
             string DC_U = DC + "/0U_I_R_data.txt";
             //string FDA_M = FDA + "/Multiple_Measurement.txt";
             string TD_p = TD + "/Parameter.txt";
+
+            //线条添加
             chart_u_i_r.Series.Add((cnt7).ToString());//添加
             this.chart_u_i_r.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
             chart_u_i_r.Series.Add((cnt7 + 1).ToString());//添加
@@ -3346,6 +3387,8 @@ namespace Comm
                     p.Z = double.Parse(v[2]);
                     p.K = double.Parse(v[3]);
                     points.Add(p);
+
+                    //画图
                     this.chart_u_i_r.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
                     this.chart_u_i_r.Series[(cnt7 + 1).ToString()].Points.AddXY(p.X, p.Z);
                     this.chart_u_i_r.Series[(cnt7 + 2).ToString()].Points.AddXY(p.X, p.K);
@@ -3357,10 +3400,12 @@ namespace Comm
         //paiting of Combination_Measurement in COMB
         private void btn_ac_load_Click(object sender, EventArgs e)
         {
+            //路径添加
             string COMB = foldPath + "/Combination";
             string Comb = COMB + "/0Combination_Measurement.txt";
-
             string[] lines = File.ReadAllLines(Comb);
+
+            //线条添加
             chart1.Series.Add((cnt7).ToString());//添加
             chart2.Series.Add((cnt7).ToString());//添加
             chart3.Series.Add((cnt7).ToString());//添加
@@ -3398,6 +3443,7 @@ namespace Comm
                     int img_int = (int)(img * 100);
                     img = img_int / 100;
 
+                    //画图
                     this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
                     this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
                     this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
@@ -3410,12 +3456,13 @@ namespace Comm
         //*********************************************//
         //****************Windows Close***************//
         //*******************************************//
+        //shut down
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Environment.Exit(0);
         }
 
-        //返回上级
+        //back
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             newProjectToolStripMenuItem.Enabled = true;
