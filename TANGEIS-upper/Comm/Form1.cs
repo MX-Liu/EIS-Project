@@ -109,12 +109,12 @@ namespace Comm
 
 
 
-       
-            //*********************************************//
-            //**************数据初始化********************//
-            //*******************************************//
-            public Form1()
-            {
+
+        //*********************************************//
+        //**************数据初始化********************//
+        //*******************************************//
+        public Form1()
+        {
 
             InitializeComponent();
             COMChoose.Text = "COM3";
@@ -181,6 +181,7 @@ namespace Comm
         //事件添加
         private void Form1_Load(object sender, EventArgs e)
         {
+            ipaddress.Text ="http://" + IP_get();
             string[] PortNames = SerialPort.GetPortNames();    //获取本机串口名称，存入PortNames数组中
             BackToolStripMenuItem.Enabled = true;
             for (int i = 0; i < PortNames.Count(); i++)
@@ -316,7 +317,7 @@ namespace Comm
 
             setControls(newx, newy, this);//随窗体改变控件大小
 
-            setControls(newx*X, newy*Y, btn_comb_start);//随窗体改变控件大小
+            setControls(newx * X, newy * Y, btn_comb_start);//随窗体改变控件大小
 
             setControls(newx * X, newy * Y, btn_stop);//随窗体改变控件大小
 
@@ -590,12 +591,37 @@ namespace Comm
             this.chart2.ChartAreas[0].AxisX.IsLogarithmic = false;
             this.chart4.ChartAreas[0].AxisX.IsLogarithmic = false;
             this.chart_u_i_r.ChartAreas[0].AxisX.IsLogarithmic = false;
-            chart1.Series[0].Points.Clear();
-            chart2.Series[0].Points.Clear();
-            chart3.Series[0].Points.Clear();
-            chart4.Series[0].Points.Clear();
-            chart_u_i_r.Series[0].Points.Clear();
+            foreach (var series in chart1.Series)
+            {
+                series.Points.Clear();
+            }
+            foreach (var series in chart1.Series)
+            {
+                series.Points.Clear();
+            }
+            foreach (var series in chart2.Series)
+            {
+                series.Points.Clear();
+            }
+            foreach (var series in chart3.Series)
+            {
+                series.Points.Clear();
+            }
+            foreach (var series in chart4.Series)
+            {
+                series.Points.Clear();
+            }
+            foreach (var series in chart_u_i_r.Series)
+            {
+                series.Points.Clear();
+            }
+            chart1.Series.Clear();
+            chart2.Series.Clear();
+            chart3.Series.Clear();
+            chart4.Series.Clear();
+            chart_u_i_r.Series.Clear();
             // chart5.Series[0].Points.Clear();
+
         }
 
         //发送位清空
@@ -691,10 +717,10 @@ namespace Comm
                 {
                     ID_N[3 - i] = temp[i];
                 }
-                
+
                 serialPort1.Write(ID_N, 0, 4);
                 serialPort1.Write(Zeros, 0, 5);
-                serialPort1.Write(new byte[] { 0x0d, 0x0a}, 0, 2);//帧尾
+                serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
 
             }
 
@@ -766,34 +792,44 @@ namespace Comm
 
                             string strv = serialPort1.ReadLine();
                             ReceiveArea.AppendText(strv);
-                            cnt++;
+                            string[] strArry = strv.Split(',');
+                            int length_v = strArry.Length;
+                            time++;
+                            string length2 = Convert.ToString(length_v);
 
-                            //TD  画图
-                            this.chart4.Series[0].Points.AddXY(cnt, strv);
-                            this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
+                            //DC 画图
+                            if (length_v == 1 && strArry[0] != "200000.00")
+                            {
 
-                            //添加到无线传输队列
-                            data_queue.Enqueue(cnt + "," + strv + ":");
+                                cnt++;
+                                //TD  画图
+                                this.chart4.Series[0].Points.AddXY(cnt, strv);
+                                this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
 
-                            //写入文件
-                            FileStream fs = new FileStream(Single_m1, FileMode.Append);
-                            StreamWriter sw = new StreamWriter(fs);
-                            sw.WriteLine(cnt + "\t" + strv + "\t");
-                            sw.Flush();
-                            sw.Close();
-                            fs.Close();
+                                //添加到无线传输队列
+                                data_queue.Enqueue(cnt + "," + strv + ":");
+
+                                //写入文件
+                                FileStream fs = new FileStream(Single_m1, FileMode.Append);
+                                StreamWriter sw = new StreamWriter(fs);
+                                sw.WriteLine(cnt + "\t" + strv + "\t");
+                                sw.Flush();
+                                sw.Close();
+                                fs.Close();
+                            }
+
 
                         }
                         else if (DCM == true) // DC 数据接收
                         {
-                            
+
                             string stru = serialPort1.ReadLine();
                             ReceiveArea.AppendText(stru);
                             string[] strArry = stru.Split(',');
                             int length_u = strArry.Length;
                             time++;
                             string length1 = Convert.ToString(length_u);
-      
+
                             //DC 画图
                             if (length_u == 2 && strArry[0] != "200000.00")
                             {
@@ -840,13 +876,13 @@ namespace Comm
                         //FDA 数据接收
                         else if (FDA == true)
                         {
-                            
+
                             string str = serialPort1.ReadLine();
                             ReceiveArea.AppendText(str);
 
                             string[] strArr = str.Split(',');
                             int length = strArr.Length;
-
+                            ReceiveArea.AppendText(length.ToString());
 
                             //FDA 画图
                             if (length == 4 && strArr[0] != "200000.00")
@@ -912,18 +948,19 @@ namespace Comm
                                         sw.Close();
                                         fs.Close();
                                     }
-                                }
+                            }
                                 catch
-                                {
+                            {
+                                    cnt6++;
                                     //MessageBox.Show("图表未工作");
                                     Console.WriteLine("error");
 
-                                }
                             }
+                        }
                         }
 
                         //Comb 数据接收
-                        else if (ACM == true) 
+                        else if (ACM == true)
                         {
                             string strc = serialPort1.ReadLine();
                             ReceiveArea.AppendText(strc);
@@ -995,9 +1032,14 @@ namespace Comm
                         else
                         {
                             //其他数据
-                            string strvv = serialPort1.ReadExisting();
-                            //string strvv = serialPort1.ReadLine();
-                            ReceiveArea.AppendText(strvv);
+                            //string strvv = serialPort1.ReadExisting();
+                            string strvv = serialPort1.ReadLine();
+                            string[] strArr = strvv.Split(',');
+                            int length = strArr.Length;
+
+
+                            data_queue.Enqueue(strvv + ':');
+                            ReceiveArea.AppendText(length.ToString());
                         }
 
                     }
@@ -1029,6 +1071,8 @@ namespace Comm
                             else if (((strArr[0].Equals("1")) || (strArr[0].Equals("2")) && (strArr[1].Equals("4"))))
                             {
                                 MessageBox.Show("MCU is busy!");
+                                serialPort1.Close();
+                                PortIsOpen = false;
                                 Hands_shake = false;
                             }
                             // 其他为错误串口
@@ -1040,7 +1084,7 @@ namespace Comm
                                 PortIsOpen = false;
                                 OpenPortButton.Text = "Port Open";
                             }
-                        }   
+                        }
                     }
                 }
                 else
@@ -1171,6 +1215,12 @@ namespace Comm
             chart3.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             chart3.ChartAreas[0].AxisY.ScaleView.Size = 3000;
             chart4.ChartAreas[0].AxisX.ScaleView.Size = 3000;
+            chart1.Series.Add((0).ToString());//添加
+            chart2.Series.Add((0).ToString());//添加
+            chart3.Series.Add((0).ToString());//添加
+            this.chart1.Series[(0).ToString()].ChartType = SeriesChartType.Point;
+            this.chart2.Series[(0).ToString()].ChartType = SeriesChartType.Point;
+            this.chart3.Series[(0).ToString()].ChartType = SeriesChartType.Point;
             chart_u_i_r.ChartAreas[0].AxisX.ScaleView.Size = 3000;
         }
 
@@ -1213,6 +1263,7 @@ namespace Comm
         {
             string data = null;
             socketIoManager(0, data);
+            socketIoManager(1, ID_Num + ":");
         }
 
         //关闭连接
@@ -1252,20 +1303,64 @@ namespace Comm
             }
 
         }
-        //wifi定时器
-        private void timer2_Tick(object sender, EventArgs e)
+
+        public static string IP_get()
+        {
+            {
+                try
+                {
+                    string HostName = Dns.GetHostName(); //得到主机名
+                    IPHostEntry IpEntry = Dns.GetHostEntry(HostName);
+                    for (int i = 0; i < IpEntry.AddressList.Length; i++)
+                    {
+                        //从IP地址列表中筛选出IPv4类型的IP地址
+                        //AddressFamily.InterNetwork表示此IP为IPv4,
+                        //AddressFamily.InterNetworkV6表示此地址为IPv6类型
+                        if (IpEntry.AddressList[i].AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        {
+                            return IpEntry.AddressList[i].ToString();
+                        }
+                    }
+                    return "";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("获取本机IP出错:" + ex.Message);
+                    return "";
+                }
+            }
+
+        }
+
+    //wifi定时器
+    private void timer2_Tick(object sender, EventArgs e)
         {
             if (data_queue.Count != 0)
             {
                 string data;
                 data = (string)data_queue.Dequeue();
-                for (int i = 0; i < 7; i++)
+                try
                 {
-                    data += (string)data_queue.Dequeue();
+                    for (int i = 0; i < 7; i++)
+                {
+                    if (((string)data_queue.Dequeue()).Equals(null))
+                    {
+                        //data += '0';
+                        data_queue.Enqueue('0');
+                    }
+                    
+                  
+                       data += (string)data_queue.Dequeue();
+                    
                 }
+               
+                    socketIoManager(1, data);//发送 数据队列
+                }
+                catch
+                {
 
-                socketIoManager(1, data);//发送 数据队列
-            }
+                }
+                }
         }
 
 
@@ -2972,7 +3067,7 @@ namespace Comm
         //Form 2(data send back)
         private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ChartClear();
+            //ChartClear();
             newProjectToolStripMenuItem.Enabled = true;
             LoadProtoolStripMenuItem1.Enabled = false;
             DataAnalyserToolStripMenuItem.Enabled = false;
@@ -3031,7 +3126,7 @@ namespace Comm
         //open Project
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            ChartClear();
+            //ChartClear();
             newProjectToolStripMenuItem.Enabled = false;
             LoadProtoolStripMenuItem1.Enabled = true;
             DataAnalyserToolStripMenuItem.Enabled = false;
@@ -3198,6 +3293,8 @@ namespace Comm
 
         private void btn_s_Click(object sender, EventArgs e)
         {
+            ChartClear();
+            cnt7 = 0;
             //路径添加
             string FDA = foldPath + "/FDA";
             string FDA_S = FDA + "/0Single_Measurement.txt";
@@ -3255,6 +3352,8 @@ namespace Comm
         //paiting of multiple measurement in FDA
         private void btn_m_Click(object sender, EventArgs e)
         {
+            ChartClear();
+            cnt7 = 0;
             //路径添加
             string FDA = foldPath + "/FDA";
             string FDA_S = FDA + "/0Single_Measurement.txt";
@@ -3312,7 +3411,9 @@ namespace Comm
         // //paiting of single measurement in TD
         private void btn_td_load_Click(object sender, EventArgs e)
         {
-
+            ChartClear();
+            cnt7 = 0;
+            
             btn_fre_load.Visible = true;
             btn_s.Visible = false;
             btn_m.Visible = false;
@@ -3353,6 +3454,8 @@ namespace Comm
         //paiting in DC
         private void btn_dc_load_Click(object sender, EventArgs e)
         {
+            ChartClear();
+            cnt7 = 0;
             btn_fre_load.Visible = true;
             btn_s.Visible = false;
             btn_m.Visible = false;
@@ -3400,6 +3503,9 @@ namespace Comm
         //paiting of Combination_Measurement in COMB
         private void btn_ac_load_Click(object sender, EventArgs e)
         {
+
+            ChartClear();
+            cnt7 = 0;
             //路径添加
             string COMB = foldPath + "/Combination";
             string Comb = COMB + "/0Combination_Measurement.txt";

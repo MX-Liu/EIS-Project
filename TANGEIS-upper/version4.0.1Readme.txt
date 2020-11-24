@@ -1,0 +1,50 @@
+此版本为
+1添加模块备注
+2修改了wifi客户端程序
+3各个模块简单排序
+4添加频域窗口
+
+        //输入指令
+        //标志位         频率(Hz/kHz)   AMP(mV)   DOR(sps)   RTIA       DFT  
+        //A(固定频率)       X            N          M         O          P
+        //B（扫频）        Y-Z           N          M         O          P
+        //例：A 1000 5 0 5 2
+        //    B 1 1000 5 0 5 2
+        //工作时间
+        //Repeat：最多7天 每天最多5次 每天包含小时与分钟，标志位a→1次，b→2次，...e→5次
+        //例：7 5 e 05 06 08 05 12 23 18 35 23 45
+        //Duration:只记持续时间，单位s
+        //例：2：5：25输出为7525
+5添加固定频率操作框/扫频操作框/repeat 操作框/duration 操作框/天数控制函数/天数显示函数
+6修改了时域数据读取部分内容，采用Readline编写，取消了链表的使用
+
+7重新修改发送模式  可十进制 十六进制发送
+8完成TM和FM的分割，完善十六进制发送
+9解决参数不足报错问题
+
+10 完成/repeat的进一步编写   可实现一天内一次中断实验操作  实现24小时闭环
+11 初步完成 DC measurement 的编写
+12 TM和FM 数据总长64Byte
+13 DC 数据总长32Byte
+
+
+14 Combination 基本编写完成
+15 Combination 数据总长64Byte
+16 文件系统建立完毕，包括New Project/Load Project/Data Analyser三部分，Exit暂未编写
+17 新建工程目录有四个文件夹FDA/TD/DC/Combination和README.Txt
+18 工程所在目录有ID.txt文件，里面包含工程ID，工程名，存储路径，描述
+19 FDA文件夹包含Parmeter_s.txt/Parmeter_m.txt/Single measurement.txt/Multiple measurement.txt，且图像也保存此处
+20 TD文件夹包含Parmeter.txt/Single measurement.txt，且图像也保存此处
+21 DC文件夹包含Parmeter.txt/Data_U_I_R.TXT,且图像也保存此处
+22 Combination文件夹包含19 FDA文件夹包含Parmeter.txt/Multiple measurement.txt，且图像也保存此处
+23 Load Project 可通过匹配ID找到已存在的工程
+24 Data Analyser可对实验数据进行再绘制
+25 添加了图像滚轮缩放功能
+26 添加了系统控件自适应功能
+
+27 添加握手判断，0,4--成功，1/2,4--单片机正忙，其他--连接不成功
+28 完成鼠标拖拽放大缩小功能
+29 添加程序大部分功能注释
+30 添加数据传输帧wei 0x0d,0x0a
+31 修复程序部分小bug
+32 解决工程名重名问题
