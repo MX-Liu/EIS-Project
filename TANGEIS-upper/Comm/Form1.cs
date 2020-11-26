@@ -105,6 +105,10 @@ namespace Comm
         string ID_Num = "";//工程ID
         string Combination_m = "";//COMB 数据存储 路径
         string Temperature = "℃";//温度单位
+        string dft = "";
+        string dft2 = "";
+        string tia = "";
+        string tia2 = "";
 
         Int32 tempt = 37;//温度初值
 
@@ -220,6 +224,19 @@ namespace Comm
             cb_tia.Items.Add("80K");
             cb_tia.Items.Add("160K");
             cb_tia.Items.Add("OPEN");
+
+            cb_dor.Items.Clear();
+            cb_dor.Items.Add("0");
+            cb_dor.Items.Add("1");
+            cb_dor.Items.Add("2");
+            cb_dor.Items.Add("3");
+            cb_dor.Items.Add("4");
+            cb_dor.Items.Add("5");
+            cb_dor.Items.Add("6");
+            cb_dor.Items.Add("7");
+            cb_dor.Items.Add("8");
+            cb_dor.Items.Add("9");
+            cb_dor.Items.Add("10");
 
 
             //添加串口接收时间
@@ -1802,7 +1819,7 @@ namespace Comm
                         serialPort1.Write(amp, 0, 2);//amp
 
                         //serialPort1.Write(strToHexByte(cb_dft.Text.Trim()), 0, 1);//dft
-                        string dft = "";
+                        
 
                         if (cb_dft.Text.Equals("4"))
                         {
@@ -1947,7 +1964,7 @@ namespace Comm
                         serialPort1.Write(flag1, 0, 1);//log  暂时没用
 
 
-                        string tia = "";
+                        //string tia = "";
 
                         if (cb_tia.Text.Equals("200"))
                         {
@@ -2942,7 +2959,7 @@ namespace Comm
 
                             serialPort1.Write(flag, 0, 1);//log  暂时没用
 
-                            string tia2 = "";
+                            //string tia2 = "";
 
                             if (cb_tia2.Text.Equals("200"))
                             {
