@@ -105,6 +105,10 @@ namespace Comm
         string ID_Num = "";//工程ID
         string Combination_m = "";//COMB 数据存储 路径
         string Temperature = "℃";//温度单位
+        string dft = "";
+        string dft2 = "";
+        string tia = "";
+        string tia2 = "";
 
         Int32 tempt = 37;//温度初值
 
@@ -220,6 +224,19 @@ namespace Comm
             cb_tia.Items.Add("80K");
             cb_tia.Items.Add("160K");
             cb_tia.Items.Add("OPEN");
+
+            cb_dor.Items.Clear();
+            cb_dor.Items.Add("0");
+            cb_dor.Items.Add("1");
+            cb_dor.Items.Add("2");
+            cb_dor.Items.Add("3");
+            cb_dor.Items.Add("4");
+            cb_dor.Items.Add("5");
+            cb_dor.Items.Add("6");
+            cb_dor.Items.Add("7");
+            cb_dor.Items.Add("8");
+            cb_dor.Items.Add("9");
+            cb_dor.Items.Add("10");
 
 
             //添加串口接收时间
@@ -370,7 +387,7 @@ namespace Comm
         {
             if ((s.Length % 2) != 0)
                 s = fest_str(s, s.Length + 1);
-                int b = Convert.ToInt32(s);
+                Int64 b = Convert.ToInt64(s);
 
                 string HexStr = b.ToString("X");
                 return HexStr;
@@ -1073,7 +1090,7 @@ namespace Comm
 
 
                             data_queue.Enqueue(strvv + ':');
-                            //ReceiveArea.AppendText(length.ToString());
+                            ReceiveArea.AppendText(strvv);
                         }
 
                     }
@@ -1713,6 +1730,9 @@ namespace Comm
         {
             btn_start.Enabled = false;
             btn_stop.Enabled = true;
+            btn_TD.Enabled = false;
+            btn_AC.Enabled = false;
+            btn_freq.Enabled = true;
 
             try
             {
@@ -1722,10 +1742,16 @@ namespace Comm
                     if (rb_Frequncy.Checked)//TD选择
 
                     {
+                        btn_TD.Enabled = true;
+                        btn_AC.Enabled = false;
+                        btn_freq.Enabled = false;
                         serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x05 }, 0, 5);//TD帧头
                     }
                     else if(rb_Sweep.Checked)//FDA选择
                     {
+                        btn_TD.Enabled = false;
+                        btn_AC.Enabled = false;
+                        btn_freq.Enabled = true;
                         serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x01 }, 0, 5);//FDA帧头
                     }
 
@@ -1802,7 +1828,7 @@ namespace Comm
                         serialPort1.Write(amp, 0, 2);//amp
 
                         //serialPort1.Write(strToHexByte(cb_dft.Text.Trim()), 0, 1);//dft
-                        string dft = "";
+                        
 
                         if (cb_dft.Text.Equals("4"))
                         {
@@ -1947,7 +1973,7 @@ namespace Comm
                         serialPort1.Write(flag1, 0, 1);//log  暂时没用
 
 
-                        string tia = "";
+                        //string tia = "";
 
                         if (cb_tia.Text.Equals("200"))
                         {
@@ -2225,20 +2251,20 @@ namespace Comm
 
                     }
                     catch (Exception ee)
-                    {
-                        MessageBox.Show("Please fill in the parameters completely");
-                        btn_start.Enabled = true;
-                        btn_stop.Enabled = false;
+            {
+                MessageBox.Show("Please fill in the parameters completely");
+                btn_start.Enabled = true;
+                btn_stop.Enabled = false;
 
-                    }
-                }
+            }
+        }
                 else
                 {
                     btn_start.Enabled = true;
                     btn_stop.Enabled = false;
                     MessageBox.Show("Please open the serialport!");
                 }
-            }
+}
 
 
             catch (Exception ex)
@@ -2249,7 +2275,7 @@ namespace Comm
                 serialPort1 = new System.IO.Ports.SerialPort();
                 btn_start.Enabled = true;
                 btn_stop.Enabled = false;
-               
+
 
             }
         }
@@ -2942,7 +2968,7 @@ namespace Comm
 
                             serialPort1.Write(flag, 0, 1);//log  暂时没用
 
-                            string tia2 = "";
+                            //string tia2 = "";
 
                             if (cb_tia2.Text.Equals("200"))
                             {
