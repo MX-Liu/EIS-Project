@@ -74,6 +74,7 @@ namespace Comm
         //private Int64 cnt12 = 0;
 
         private bool Hands_shake = false; //握手标志位
+        private bool Hands_shake1 = false; //握手标志位
 
         private Int64 cnt_comb = 0;//comb 文件命名计数器
         private Int64 cnt_FDA1 = 0;//FDA 单次测量命名计数器
@@ -181,7 +182,11 @@ namespace Comm
         //事件添加
         private void Form1_Load(object sender, EventArgs e)
         {
-            ipaddress.Text ="http://" + IP_get();
+
+            ipaddress.Text = "http://192.168.191.1";
+            //ipaddress.Text ="http://" + IP_get();
+            Port.Text = "8080";
+
             string[] PortNames = SerialPort.GetPortNames();    //获取本机串口名称，存入PortNames数组中
             BackToolStripMenuItem.Enabled = true;
             for (int i = 0; i < PortNames.Count(); i++)
@@ -189,6 +194,33 @@ namespace Comm
                 COMChoose.Items.Add(PortNames[i]);   //将数组内容加载到comboBox控件中
 
             }
+
+            cb_dft.Items.Clear();
+            cb_dft.Items.Add("4");
+            cb_dft.Items.Add("8");
+            cb_dft.Items.Add("16");
+            cb_dft.Items.Add("32");
+            cb_dft.Items.Add("64");
+            cb_dft.Items.Add("128");
+            cb_dft.Items.Add("256");
+            cb_dft.Items.Add("512");
+            cb_dft.Items.Add("1024");
+            cb_dft.Items.Add("2048");
+            cb_dft.Items.Add("4096");
+            cb_dft.Items.Add("8192");
+            cb_dft.Items.Add("16384");
+
+            cb_tia.Items.Clear();
+            cb_tia.Items.Add("200");
+            cb_tia.Items.Add("1K");
+            cb_tia.Items.Add("5K");
+            cb_tia.Items.Add("10K");
+            cb_tia.Items.Add("20K");
+            cb_tia.Items.Add("40K");
+            cb_tia.Items.Add("80K");
+            cb_tia.Items.Add("160K");
+            cb_tia.Items.Add("OPEN");
+
 
             //添加串口接收时间
             serialPort1.DataReceived += new SerialDataReceivedEventHandler(Port_DataRecevied);
@@ -338,10 +370,10 @@ namespace Comm
         {
             if ((s.Length % 2) != 0)
                 s = fest_str(s, s.Length + 1);
-            int b = Convert.ToInt32(s);
+                int b = Convert.ToInt32(s);
 
-            string HexStr = b.ToString("X");
-            return HexStr;
+                string HexStr = b.ToString("X");
+                return HexStr;
 
         }
 
@@ -364,7 +396,7 @@ namespace Comm
         private string TimeToSec(string tmp1)
         {
             tmp1 = tmp1.Replace(":", "");
-            //this.textBox1_test.Text = tmp1;
+
             int tmp2 = Convert.ToInt32(tmp1);
             int hh = tmp2 / 10000;
             int tmp3 = tmp2 % 10000;
@@ -579,6 +611,7 @@ namespace Comm
             chart3.Series.Clear();
             chart4.Series.Clear();
             chart_u_i_r.Series.Clear();
+            Init_Chart();
             // chart5.Series[0].Points.Clear();
 
         }
@@ -621,6 +654,7 @@ namespace Comm
             chart4.Series.Clear();
             chart_u_i_r.Series.Clear();
             // chart5.Series[0].Points.Clear();
+            Init_Chart();
 
         }
 
@@ -882,7 +916,7 @@ namespace Comm
 
                             string[] strArr = str.Split(',');
                             int length = strArr.Length;
-                            ReceiveArea.AppendText(length.ToString());
+                            //ReceiveArea.AppendText(length.ToString());
 
                             //FDA 画图
                             if (length == 4 && strArr[0] != "200000.00")
@@ -950,13 +984,13 @@ namespace Comm
                                     }
                             }
                                 catch
-                            {
+                                {
                                     cnt6++;
                                     //MessageBox.Show("图表未工作");
                                     Console.WriteLine("error");
 
+                                }
                             }
-                        }
                         }
 
                         //Comb 数据接收
@@ -1039,7 +1073,7 @@ namespace Comm
 
 
                             data_queue.Enqueue(strvv + ':');
-                            ReceiveArea.AppendText(length.ToString());
+                            //ReceiveArea.AppendText(length.ToString());
                         }
 
                     }
@@ -1222,6 +1256,8 @@ namespace Comm
             this.chart2.Series[(0).ToString()].ChartType = SeriesChartType.Point;
             this.chart3.Series[(0).ToString()].ChartType = SeriesChartType.Point;
             chart_u_i_r.ChartAreas[0].AxisX.ScaleView.Size = 3000;
+            cnt6 = 0;//FDA线条数目初始化
+            cnt11 = 0;//Comb线条数目初始化
         }
 
 
@@ -1263,7 +1299,9 @@ namespace Comm
         {
             string data = null;
             socketIoManager(0, data);
-            socketIoManager(1, ID_Num + ":");
+            //socketIoManager(1, ID_Num + ":");
+            Hands_shake1 = true;
+       
         }
 
         //关闭连接
@@ -1343,16 +1381,16 @@ namespace Comm
                 {
                     for (int i = 0; i < 7; i++)
                 {
-                    if (((string)data_queue.Dequeue()).Equals(null))
-                    {
-                        //data += '0';
-                        data_queue.Enqueue('0');
+                        if (Hands_shake1 == true)
+                        {
+                            data += ID_Num + ":";
+                            Hands_shake1 = false;
+                        }
+                        else
+                        {
+                            data += (string)data_queue.Dequeue();
+                        }
                     }
-                    
-                  
-                       data += (string)data_queue.Dequeue();
-                    
-                }
                
                     socketIoManager(1, data);//发送 数据队列
                 }
@@ -1763,7 +1801,64 @@ namespace Comm
 
                         serialPort1.Write(amp, 0, 2);//amp
 
-                        serialPort1.Write(strToHexByte(cb_dft.Text.Trim()), 0, 1);//dft
+                        //serialPort1.Write(strToHexByte(cb_dft.Text.Trim()), 0, 1);//dft
+                        string dft = "";
+
+                        if (cb_dft.Text.Equals("4"))
+                        {
+                            dft = "0";
+                        }
+                        if (cb_dft.Text.Equals("8"))
+                        {
+                            dft = "1";
+                        }
+                        if (cb_dft.Text.Equals("16"))
+                        {
+                            dft = "2";
+                        }
+                        if (cb_dft.Text.Equals("32"))
+                        {
+                            dft = "3";
+                        }
+                        if (cb_dft.Text.Equals("64"))
+                        {
+                            dft = "4";
+                        }
+                        if (cb_dft.Text.Equals("128"))
+                        {
+                            dft = "5";
+                        }
+                        if (cb_dft.Text.Equals("256"))
+                        {
+                            dft = "6";
+                        }
+                        if (cb_dft.Text.Equals("512"))
+                        {
+                            dft = "7";
+                        }
+                        if (cb_dft.Text.Equals("1024"))
+                        {
+                            dft = "8";
+                        }
+                        if (cb_dft.Text.Equals("2048"))
+                        {
+                            dft = "9";
+                        }
+                        if (cb_dft.Text.Equals("4096"))
+                        {
+                            dft = "10";
+                        }
+                        if (cb_dft.Text.Equals("8192"))
+                        {
+                            dft = "11";
+                        }
+                        if (cb_dft.Text.Equals("16384"))
+                        {
+                            dft = "12";
+                        }
+
+
+                        serialPort1.Write(strToHexByte(dft), 0, 1);//dft
 
                         //TD
                         if (rb_Frequncy.Checked)
@@ -1851,7 +1946,48 @@ namespace Comm
 
                         serialPort1.Write(flag1, 0, 1);//log  暂时没用
 
-                        serialPort1.Write(strToHexByte(cb_tia.Text.Trim()), 0, 1);//rtia
+
+                        string tia = "";
+
+                        if (cb_tia.Text.Equals("200"))
+                        {
+                            tia = "0";
+                        }
+                        if (cb_tia.Text.Equals("1K"))
+                        {
+                            tia = "1";
+                        }
+                        if (cb_tia2.Text.Equals("5K"))
+                        {
+                            tia = "2";
+                        }
+                        if (cb_tia.Text.Equals("10K"))
+                        {
+                            tia = "3";
+                        }
+                        if (cb_tia.Text.Equals("20K"))
+                        {
+                            tia = "4";
+                        }
+                        if (cb_tia.Text.Equals("40K"))
+                        {
+                            tia = "5";
+                        }
+                        if (cb_tia.Text.Equals("80K"))
+                        {
+                            tia = "6";
+                        }
+                        if (cb_tia.Text.Equals("160K"))
+                        {
+                            tia = "7";
+                        }
+                        if (cb_tia.Text.Equals("OPEN"))
+                        {
+                            tia = "8";
+                        }
+
+                        serialPort1.Write(strToHexByte(tia), 0, 1);//rtia
+                        //serialPort1.Write(strToHexByte(cb_tia.Text.Trim()), 0, 1);//rtia
 
                         serialPort1.Write(strToHexByte(tb_s_p.Text.Trim()), 0, 1);//points
 
@@ -2684,7 +2820,11 @@ namespace Comm
                         //AC 部分
                         try
                         {
-                            serialPort1.Write(strToHexByte(cb_dor2.Text.Trim()), 0, 1);//odr
+
+                           
+                            //dor2 = Convert.ToDouble();
+                            //dor2 = Math.Log(dor2) / Math.Log(4);
+                            serialPort1.Write(strToHexByte(cb_dor2.Text), 0, 1);//odr
 
                             byte[] tmp2 = strToHexByte(tb_amp2.Text);
                             byte[] tmp = exchange(tmp2);
@@ -2695,7 +2835,66 @@ namespace Comm
 
                             serialPort1.Write(amp2, 0, 2);//amp
 
-                            serialPort1.Write(strToHexByte(cb_dft2.Text.Trim()), 0, 1);//dft
+
+                            string dft2 = "";
+
+                            if (cb_dft2.Text.Equals("4"))
+                            {
+                                dft2 = "0";
+                            }
+                            if (cb_dft2.Text.Equals("8"))
+                            {
+                                dft2 = "1";
+                            }
+                            if (cb_dft2.Text.Equals("16"))
+                            {
+                                dft2 = "2";
+                            }
+                            if (cb_dft2.Text.Equals("32"))
+                            {
+                                dft2 = "3";
+                            }
+                            if (cb_dft2.Text.Equals("64"))
+                            {
+                                dft2 = "4";
+                            }
+                            if (cb_dft2.Text.Equals("128"))
+                            {
+                                dft2 = "5";
+                            }
+                            if (cb_dft2.Text.Equals("256"))
+                            {
+                                dft2 = "6";
+                            }
+                            if (cb_dft2.Text.Equals("512"))
+                            {
+                                dft2 = "7";
+                            }
+                            if (cb_dft2.Text.Equals("1024"))
+                            {
+                                dft2 = "8";
+                            }
+                            if (cb_dft2.Text.Equals("2048"))
+                            {
+                                dft2 = "9";
+                            }
+                            if (cb_dft2.Text.Equals("4096"))
+                            {
+                                dft2 = "10";
+                            }
+                            if (cb_dft2.Text.Equals("8192"))
+                            {
+                                dft2 = "11";
+                            }
+                            if (cb_dft2.Text.Equals("16384"))
+                            {
+                                dft2 = "12";
+                            }
+
+
+                            serialPort1.Write(strToHexByte(dft2), 0, 1);//dft
+
+
 
 
                             //频率
@@ -2743,7 +2942,46 @@ namespace Comm
 
                             serialPort1.Write(flag, 0, 1);//log  暂时没用
 
-                            serialPort1.Write(strToHexByte(cb_tia2.Text.Trim()), 0, 1);//rtia
+                            string tia2 = "";
+
+                            if (cb_tia2.Text.Equals("200"))
+                            {
+                                tia2 = "0";
+                            }
+                            if (cb_tia2.Text.Equals("1K"))
+                            {
+                                tia2 = "1";
+                            }
+                            if (cb_tia2.Text.Equals("5K"))
+                            {
+                                tia2 = "2";
+                            }
+                            if (cb_tia2.Text.Equals("10K"))
+                            {
+                                tia2 = "3";
+                            }
+                            if (cb_tia2.Text.Equals("20K"))
+                            {
+                                tia2 = "4";
+                            }
+                            if (cb_tia2.Text.Equals("40K"))
+                            {
+                                tia2 = "5";
+                            }
+                            if (cb_tia2.Text.Equals("80K"))
+                            {
+                                tia2 = "6";
+                            }
+                            if (cb_tia2.Text.Equals("160K"))
+                            {
+                                tia2 = "7";
+                            }
+                            if (cb_tia2.Text.Equals("OPEN"))
+                            {
+                                tia2 = "8";
+                            }
+
+                            serialPort1.Write(strToHexByte(tia2), 0, 1);//rtia
 
                             serialPort1.Write(strToHexByte(tb_s_p2.Text.Trim()), 0, 1);//points
 
