@@ -195,6 +195,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.COMChoose = new System.Windows.Forms.ComboBox();
             this.gb1 = new System.Windows.Forms.GroupBox();
+            this.btn_scan = new System.Windows.Forms.Button();
             this.gb_dc = new System.Windows.Forms.GroupBox();
             this.label39 = new System.Windows.Forms.Label();
             this.tb_cyc = new System.Windows.Forms.TextBox();
@@ -307,7 +308,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.btn_stop2 = new Comm.RoundButton();
             this.btn_comb_start = new Comm.RoundButton();
-            this.btn_scan = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -733,7 +733,7 @@
             this.groupBox5.Controls.Add(this.chart1);
             this.groupBox5.Location = new System.Drawing.Point(6, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(790, 218);
+            this.groupBox5.Size = new System.Drawing.Size(790, 210);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Amplitude";
@@ -742,7 +742,7 @@
             // button1
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button1.Location = new System.Drawing.Point(712, 184);
+            this.button1.Location = new System.Drawing.Point(712, 180);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 31);
             this.button1.TabIndex = 3;
@@ -792,7 +792,7 @@
             series2.Name = "MAG";
             series2.ToolTip = "#VALX #VAL";
             this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(703, 183);
+            this.chart1.Size = new System.Drawing.Size(703, 175);
             this.chart1.TabIndex = 1;
             this.chart1.Text = "chart1";
             title2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
@@ -2193,6 +2193,16 @@
             this.gb1.Text = "Serial COM ";
             this.gb1.Enter += new System.EventHandler(this.gb1_Enter_1);
             // 
+            // btn_scan
+            // 
+            this.btn_scan.Location = new System.Drawing.Point(182, 19);
+            this.btn_scan.Name = "btn_scan";
+            this.btn_scan.Size = new System.Drawing.Size(45, 23);
+            this.btn_scan.TabIndex = 12;
+            this.btn_scan.Text = "scann";
+            this.btn_scan.UseVisualStyleBackColor = true;
+            this.btn_scan.Click += new System.EventHandler(this.btn_scan_Click);
+            // 
             // gb_dc
             // 
             this.gb_dc.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -2828,7 +2838,7 @@
             this.gb_comb.Controls.Add(this.gb_dc2);
             this.gb_comb.Controls.Add(this.gb_rep2);
             this.gb_comb.Controls.Add(this.gb_ac2);
-            this.gb_comb.Location = new System.Drawing.Point(161, 31);
+            this.gb_comb.Location = new System.Drawing.Point(154, 31);
             this.gb_comb.Name = "gb_comb";
             this.gb_comb.Size = new System.Drawing.Size(426, 567);
             this.gb_comb.TabIndex = 90;
@@ -3556,16 +3566,6 @@
             this.btn_comb_start.UseVisualStyleBackColor = false;
             this.btn_comb_start.Click += new System.EventHandler(this.btn_comb_start_Click);
             // 
-            // btn_scan
-            // 
-            this.btn_scan.Location = new System.Drawing.Point(182, 19);
-            this.btn_scan.Name = "btn_scan";
-            this.btn_scan.Size = new System.Drawing.Size(45, 23);
-            this.btn_scan.TabIndex = 12;
-            this.btn_scan.Text = "scann";
-            this.btn_scan.UseVisualStyleBackColor = true;
-            this.btn_scan.Click += new System.EventHandler(this.btn_scan_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -3581,15 +3581,15 @@
             this.Controls.Add(this.btn_TD);
             this.Controls.Add(this.btn_cfg);
             this.Controls.Add(this.btn_freq);
-            this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel_load);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.gb_comb);
             this.Controls.Add(this.gb_dc);
             this.Controls.Add(this.groupBox_UI);
             this.Controls.Add(this.gb_ac);
-            this.Controls.Add(this.panel4);
             this.Controls.Add(this.gb_exp);
+            this.Controls.Add(this.panel4);
+            this.Controls.Add(this.panel5);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "TANGEIS Client V1.0.0";
