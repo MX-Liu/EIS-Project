@@ -52,9 +52,9 @@
             System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.HexSend = new System.Windows.Forms.CheckBox();
             this.ClearSendArea = new System.Windows.Forms.Button();
@@ -251,8 +251,6 @@
             this.btn_fre_load = new System.Windows.Forms.Button();
             this.gb_comb = new System.Windows.Forms.GroupBox();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.btn_stop2 = new Comm.RoundButton();
-            this.btn_comb_start = new Comm.RoundButton();
             this.gb_temperature = new System.Windows.Forms.GroupBox();
             this.label64 = new System.Windows.Forms.Label();
             this.rb_temp_n = new System.Windows.Forms.RadioButton();
@@ -307,6 +305,9 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.btn_stop2 = new Comm.RoundButton();
+            this.btn_comb_start = new Comm.RoundButton();
+            this.btn_scan = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -732,7 +733,7 @@
             this.groupBox5.Controls.Add(this.chart1);
             this.groupBox5.Location = new System.Drawing.Point(6, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(790, 230);
+            this.groupBox5.Size = new System.Drawing.Size(790, 218);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Amplitude";
@@ -741,7 +742,7 @@
             // button1
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button1.Location = new System.Drawing.Point(712, 190);
+            this.button1.Location = new System.Drawing.Point(712, 184);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 31);
             this.button1.TabIndex = 3;
@@ -791,7 +792,7 @@
             series2.Name = "MAG";
             series2.ToolTip = "#VALX #VAL";
             this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(703, 195);
+            this.chart1.Size = new System.Drawing.Size(703, 183);
             this.chart1.TabIndex = 1;
             this.chart1.Text = "chart1";
             title2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
@@ -2027,9 +2028,9 @@
             "None",
             "Odd",
             "Even"});
-            this.CheckBitChoose.Location = new System.Drawing.Point(53, 98);
+            this.CheckBitChoose.Location = new System.Drawing.Point(44, 98);
             this.CheckBitChoose.Name = "CheckBitChoose";
-            this.CheckBitChoose.Size = new System.Drawing.Size(173, 21);
+            this.CheckBitChoose.Size = new System.Drawing.Size(135, 21);
             this.CheckBitChoose.TabIndex = 6;
             this.CheckBitChoose.SelectedIndexChanged += new System.EventHandler(this.comboBox5_SelectedIndexChanged);
             // 
@@ -2066,9 +2067,9 @@
             "1000000",
             "250000",
             "5600"});
-            this.BaudrateChoose.Location = new System.Drawing.Point(53, 46);
+            this.BaudrateChoose.Location = new System.Drawing.Point(44, 46);
             this.BaudrateChoose.Name = "BaudrateChoose";
-            this.BaudrateChoose.Size = new System.Drawing.Size(173, 21);
+            this.BaudrateChoose.Size = new System.Drawing.Size(135, 21);
             this.BaudrateChoose.TabIndex = 2;
             this.BaudrateChoose.SelectedIndexChanged += new System.EventHandler(this.BaudrateChoose_SelectedIndexChanged);
             // 
@@ -2082,9 +2083,9 @@
             "6",
             "7",
             "8"});
-            this.DataBitChoose.Location = new System.Drawing.Point(53, 72);
+            this.DataBitChoose.Location = new System.Drawing.Point(44, 72);
             this.DataBitChoose.Name = "DataBitChoose";
-            this.DataBitChoose.Size = new System.Drawing.Size(173, 21);
+            this.DataBitChoose.Size = new System.Drawing.Size(135, 21);
             this.DataBitChoose.TabIndex = 4;
             this.DataBitChoose.SelectedIndexChanged += new System.EventHandler(this.DataBitChoose_SelectedIndexChanged);
             // 
@@ -2096,9 +2097,9 @@
             this.StopBitChoose.Items.AddRange(new object[] {
             "1",
             "2"});
-            this.StopBitChoose.Location = new System.Drawing.Point(53, 124);
+            this.StopBitChoose.Location = new System.Drawing.Point(44, 124);
             this.StopBitChoose.Name = "StopBitChoose";
-            this.StopBitChoose.Size = new System.Drawing.Size(173, 21);
+            this.StopBitChoose.Size = new System.Drawing.Size(135, 21);
             this.StopBitChoose.TabIndex = 3;
             this.StopBitChoose.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
@@ -2162,15 +2163,16 @@
             this.COMChoose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.COMChoose.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.COMChoose.FormattingEnabled = true;
-            this.COMChoose.Location = new System.Drawing.Point(53, 20);
+            this.COMChoose.Location = new System.Drawing.Point(44, 20);
             this.COMChoose.Name = "COMChoose";
-            this.COMChoose.Size = new System.Drawing.Size(173, 21);
+            this.COMChoose.Size = new System.Drawing.Size(135, 21);
             this.COMChoose.TabIndex = 5;
             this.COMChoose.SelectedIndexChanged += new System.EventHandler(this.comboBox4_SelectedIndexChanged);
             // 
             // gb1
             // 
             this.gb1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb1.Controls.Add(this.btn_scan);
             this.gb1.Controls.Add(this.COMChoose);
             this.gb1.Controls.Add(this.label5);
             this.gb1.Controls.Add(this.OpenPortButton);
@@ -2594,7 +2596,7 @@
             this.tb_Sweep_f2.Name = "tb_Sweep_f2";
             this.tb_Sweep_f2.Size = new System.Drawing.Size(100, 21);
             this.tb_Sweep_f2.TabIndex = 4;
-            this.tb_Sweep_f2.Text = "33";
+            this.tb_Sweep_f2.Text = "100";
             this.toolTip1.SetToolTip(this.tb_Sweep_f2, "0~1000kHz");
             this.tb_Sweep_f2.TextChanged += new System.EventHandler(this.tb_Sweep_f2_TextChanged);
             // 
@@ -2605,7 +2607,7 @@
             this.tb_Sweep_t2.Name = "tb_Sweep_t2";
             this.tb_Sweep_t2.Size = new System.Drawing.Size(100, 21);
             this.tb_Sweep_t2.TabIndex = 6;
-            this.tb_Sweep_t2.Text = "44";
+            this.tb_Sweep_t2.Text = "100000";
             this.toolTip1.SetToolTip(this.tb_Sweep_t2, "0~1000kHz");
             this.tb_Sweep_t2.TextChanged += new System.EventHandler(this.tb_Sweep_t2_TextChanged);
             // 
@@ -2617,7 +2619,7 @@
             this.tb_amp2.Name = "tb_amp2";
             this.tb_amp2.Size = new System.Drawing.Size(99, 21);
             this.tb_amp2.TabIndex = 26;
-            this.tb_amp2.Text = "1";
+            this.tb_amp2.Text = "607";
             this.toolTip1.SetToolTip(this.tb_amp2, "0~600mV");
             this.tb_amp2.TextChanged += new System.EventHandler(this.tb_amp2_TextChanged);
             // 
@@ -2629,7 +2631,7 @@
             this.tb_s_p2.Name = "tb_s_p2";
             this.tb_s_p2.Size = new System.Drawing.Size(99, 21);
             this.tb_s_p2.TabIndex = 41;
-            this.tb_s_p2.Text = "1";
+            this.tb_s_p2.Text = "101";
             this.toolTip1.SetToolTip(this.tb_s_p2, "0~200");
             this.tb_s_p2.TextChanged += new System.EventHandler(this.tb_s_p2_TextChanged);
             // 
@@ -2696,35 +2698,35 @@
             // newProjectToolStripMenuItem
             // 
             this.newProjectToolStripMenuItem.Name = "newProjectToolStripMenuItem";
-            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.newProjectToolStripMenuItem.Text = "New Project(N)";
             this.newProjectToolStripMenuItem.Click += new System.EventHandler(this.newProjectToolStripMenuItem_Click);
             // 
             // LoadProtoolStripMenuItem1
             // 
             this.LoadProtoolStripMenuItem1.Name = "LoadProtoolStripMenuItem1";
-            this.LoadProtoolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.LoadProtoolStripMenuItem1.Size = new System.Drawing.Size(167, 22);
             this.LoadProtoolStripMenuItem1.Text = "Load Project(O)";
             this.LoadProtoolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // DataAnalyserToolStripMenuItem
             // 
             this.DataAnalyserToolStripMenuItem.Name = "DataAnalyserToolStripMenuItem";
-            this.DataAnalyserToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.DataAnalyserToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.DataAnalyserToolStripMenuItem.Text = "Data Analyser";
             this.DataAnalyserToolStripMenuItem.Click += new System.EventHandler(this.loadProjectToolStripMenuItem_Click);
             // 
             // BackToolStripMenuItem
             // 
             this.BackToolStripMenuItem.Name = "BackToolStripMenuItem";
-            this.BackToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.BackToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.BackToolStripMenuItem.Text = "Back";
             this.BackToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.exitToolStripMenuItem.Text = "Exit(C)";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -2826,7 +2828,7 @@
             this.gb_comb.Controls.Add(this.gb_dc2);
             this.gb_comb.Controls.Add(this.gb_rep2);
             this.gb_comb.Controls.Add(this.gb_ac2);
-            this.gb_comb.Location = new System.Drawing.Point(161, 32);
+            this.gb_comb.Location = new System.Drawing.Point(161, 31);
             this.gb_comb.Name = "gb_comb";
             this.gb_comb.Size = new System.Drawing.Size(426, 567);
             this.gb_comb.TabIndex = 90;
@@ -2844,31 +2846,6 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(413, 56);
             this.panel6.TabIndex = 93;
-            // 
-            // btn_stop2
-            // 
-            this.btn_stop2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_stop2.BackgroundImage")));
-            this.btn_stop2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btn_stop2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btn_stop2.Location = new System.Drawing.Point(229, 4);
-            this.btn_stop2.Name = "btn_stop2";
-            this.btn_stop2.Size = new System.Drawing.Size(50, 51);
-            this.btn_stop2.TabIndex = 92;
-            this.btn_stop2.UseVisualStyleBackColor = true;
-            this.btn_stop2.Click += new System.EventHandler(this.btn_stop2_Click_1);
-            // 
-            // btn_comb_start
-            // 
-            this.btn_comb_start.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_comb_start.BackColor = System.Drawing.Color.ForestGreen;
-            this.btn_comb_start.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btn_comb_start.Image = ((System.Drawing.Image)(resources.GetObject("btn_comb_start.Image")));
-            this.btn_comb_start.Location = new System.Drawing.Point(118, 1);
-            this.btn_comb_start.Name = "btn_comb_start";
-            this.btn_comb_start.Size = new System.Drawing.Size(52, 52);
-            this.btn_comb_start.TabIndex = 88;
-            this.btn_comb_start.UseVisualStyleBackColor = false;
-            this.btn_comb_start.Click += new System.EventHandler(this.btn_comb_start_Click);
             // 
             // gb_temperature
             // 
@@ -3554,30 +3531,65 @@
             this.statusStrip1.TabIndex = 91;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // btn_stop2
+            // 
+            this.btn_stop2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_stop2.BackgroundImage")));
+            this.btn_stop2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btn_stop2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_stop2.Location = new System.Drawing.Point(229, 4);
+            this.btn_stop2.Name = "btn_stop2";
+            this.btn_stop2.Size = new System.Drawing.Size(50, 51);
+            this.btn_stop2.TabIndex = 92;
+            this.btn_stop2.UseVisualStyleBackColor = true;
+            this.btn_stop2.Click += new System.EventHandler(this.btn_stop2_Click_1);
+            // 
+            // btn_comb_start
+            // 
+            this.btn_comb_start.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_comb_start.BackColor = System.Drawing.Color.ForestGreen;
+            this.btn_comb_start.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_comb_start.Image = ((System.Drawing.Image)(resources.GetObject("btn_comb_start.Image")));
+            this.btn_comb_start.Location = new System.Drawing.Point(118, 1);
+            this.btn_comb_start.Name = "btn_comb_start";
+            this.btn_comb_start.Size = new System.Drawing.Size(52, 52);
+            this.btn_comb_start.TabIndex = 88;
+            this.btn_comb_start.UseVisualStyleBackColor = false;
+            this.btn_comb_start.Click += new System.EventHandler(this.btn_comb_start_Click);
+            // 
+            // btn_scan
+            // 
+            this.btn_scan.Location = new System.Drawing.Point(182, 19);
+            this.btn_scan.Name = "btn_scan";
+            this.btn_scan.Size = new System.Drawing.Size(45, 23);
+            this.btn_scan.TabIndex = 12;
+            this.btn_scan.Text = "scann";
+            this.btn_scan.UseVisualStyleBackColor = true;
+            this.btn_scan.Click += new System.EventHandler(this.btn_scan_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1600, 633);
-            this.Controls.Add(this.gb_comb);
-            this.Controls.Add(this.groupBox_UI);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.gb_dc);
-            this.Controls.Add(this.gb_ac);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.panel_switch);
             this.Controls.Add(this.gb_time);
             this.Controls.Add(this.btn_AC);
-            this.Controls.Add(this.gb_exp);
             this.Controls.Add(this.btn_DC);
             this.Controls.Add(this.btn_TD);
             this.Controls.Add(this.btn_cfg);
             this.Controls.Add(this.btn_freq);
-            this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel_load);
             this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.gb_comb);
+            this.Controls.Add(this.gb_dc);
+            this.Controls.Add(this.groupBox_UI);
+            this.Controls.Add(this.gb_ac);
+            this.Controls.Add(this.panel4);
+            this.Controls.Add(this.gb_exp);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "TANGEIS Client V1.0.0";
@@ -3907,6 +3919,7 @@
         private System.Windows.Forms.TextBox cb_days2;
         private System.Windows.Forms.TextBox cb_days;
         private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.Button btn_scan;
     }
 }
 
