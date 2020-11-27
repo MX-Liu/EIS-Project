@@ -390,7 +390,11 @@ namespace Comm
         {
             if ((s.Length % 2) != 0)
                 s = fest_str(s, s.Length + 1);
+<<<<<<< HEAD
                 int b = Convert.ToInt32(s);
+=======
+                Int64 b = Convert.ToInt64(s);
+>>>>>>> upstream/master
 
                 string HexStr = b.ToString("X");
                 return HexStr;
@@ -1734,6 +1738,9 @@ namespace Comm
         {
             btn_start.Enabled = false;
             btn_stop.Enabled = true;
+            btn_TD.Enabled = false;
+            btn_AC.Enabled = false;
+            btn_freq.Enabled = true;
 
             try
             {
@@ -1743,10 +1750,16 @@ namespace Comm
                     if (rb_Frequncy.Checked)//TD选择
 
                     {
+                        btn_TD.Enabled = true;
+                        btn_AC.Enabled = false;
+                        btn_freq.Enabled = false;
                         serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x05 }, 0, 5);//TD帧头
                     }
                     else if(rb_Sweep.Checked)//FDA选择
                     {
+                        btn_TD.Enabled = false;
+                        btn_AC.Enabled = false;
+                        btn_freq.Enabled = true;
                         serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x01 }, 0, 5);//FDA帧头
                     }
 
@@ -2246,20 +2259,20 @@ namespace Comm
 
                     }
                     catch (Exception ee)
-                    {
-                        MessageBox.Show("Please fill in the parameters completely");
-                        btn_start.Enabled = true;
-                        btn_stop.Enabled = false;
+            {
+                MessageBox.Show("Please fill in the parameters completely");
+                btn_start.Enabled = true;
+                btn_stop.Enabled = false;
 
-                    }
-                }
+            }
+        }
                 else
                 {
                     btn_start.Enabled = true;
                     btn_stop.Enabled = false;
                     MessageBox.Show("Please open the serialport!");
                 }
-            }
+}
 
 
             catch (Exception ex)
@@ -2270,7 +2283,7 @@ namespace Comm
                 serialPort1 = new System.IO.Ports.SerialPort();
                 btn_start.Enabled = true;
                 btn_stop.Enabled = false;
-               
+
 
             }
         }
