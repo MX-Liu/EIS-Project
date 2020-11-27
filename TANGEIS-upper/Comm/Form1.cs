@@ -71,7 +71,7 @@ namespace Comm
         private Int64 cnt9 = 0;//Comb相位图存
         private Int64 cnt10 = 0;//Comb Nqst图存
         private Int64 cnt11 = 0;//Comb画多曲线计数器
-        //private Int64 cnt12 = 0;
+        private Int64 cnt_hands_shake = 0;//串口握手信号计数器
 
         private bool Hands_shake = false; //握手标志位
         private bool Hands_shake1 = false; //握手标志位
@@ -390,11 +390,7 @@ namespace Comm
         {
             if ((s.Length % 2) != 0)
                 s = fest_str(s, s.Length + 1);
-<<<<<<< HEAD
                 int b = Convert.ToInt32(s);
-=======
-                Int64 b = Convert.ToInt64(s);
->>>>>>> upstream/master
 
                 string HexStr = b.ToString("X");
                 return HexStr;
@@ -766,7 +762,7 @@ namespace Comm
             if (serialPort1.IsOpen)
 
             {
-                serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
+                
 
                 //
                 byte[] temp2 = strToHexByte(ID_Num);
@@ -776,10 +772,21 @@ namespace Comm
                     ID_N[3 - i] = temp[i];
                 }
 
+                //重复发送三次   延时2ms
+                serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
                 serialPort1.Write(ID_N, 0, 4);
                 serialPort1.Write(Zeros, 0, 5);
                 serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
-
+                Thread.Sleep(2);
+                serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
+                serialPort1.Write(ID_N, 0, 4);
+                serialPort1.Write(Zeros, 0, 5);
+                serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
+                Thread.Sleep(2);
+                serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
+                serialPort1.Write(ID_N, 0, 4);
+                serialPort1.Write(Zeros, 0, 5);
+                serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
             }
 
         }
@@ -1087,13 +1094,24 @@ namespace Comm
                         {
                             //其他数据
                             //string strvv = serialPort1.ReadExisting();
-                            string strvv = serialPort1.ReadLine();
-                            string[] strArr = strvv.Split(',');
-                            int length = strArr.Length;
+                            try
+                            {
+                                string strvv = serialPort1.ReadLine();
+                                string[] strArr = strvv.Split(',');
+                                int length = strArr.Length;
 
 
-                            data_queue.Enqueue(strvv + ':');
-                            ReceiveArea.AppendText(strvv);
+                                data_queue.Enqueue(strvv + ':');
+                                ReceiveArea.AppendText(strvv);
+                            }
+                            catch
+                            {
+                                Hands_shake = false;
+                                //MessageBox.Show("False COM!");
+                                serialPort1.Close();
+                                PortIsOpen = false;
+                                OpenPortButton.Text = "Port Open";
+                            }
                         }
 
                     }
@@ -1118,13 +1136,8 @@ namespace Comm
                             //收到0，4时，正常工作
                             if ((strArr[0].Equals("0")) && (strArr[1].Equals("4")))
                             {
-                                Hands_shake = true;
-                                MessageBox.Show("MCU is already!");
-                                //显示功能按钮
-                                btn_freq.Enabled = true;
-                                btn_TD.Enabled = true;
-                                btn_DC.Enabled = true;
-                                btn_AC.Enabled = true;
+
+                                cnt_hands_shake++;                                
                             }
                             // 收到1/2，4时，正常工作
                             else if (((strArr[0].Equals("1")) || (strArr[0].Equals("2")) && (strArr[1].Equals("4"))))
@@ -1142,6 +1155,16 @@ namespace Comm
                                 serialPort1.Close();
                                 PortIsOpen = false;
                                 OpenPortButton.Text = "Port Open";
+                            }
+                            if (cnt_hands_shake>0)
+                            {
+                                Hands_shake = true;
+                                MessageBox.Show("MCU is already!");
+                                //显示功能按钮
+                                btn_freq.Enabled = true;
+                                btn_TD.Enabled = true;
+                                btn_DC.Enabled = true;
+                                btn_AC.Enabled = true;
                             }
                         }
                     }
@@ -1738,9 +1761,6 @@ namespace Comm
         {
             btn_start.Enabled = false;
             btn_stop.Enabled = true;
-            btn_TD.Enabled = false;
-            btn_AC.Enabled = false;
-            btn_freq.Enabled = true;
 
             try
             {
@@ -1750,16 +1770,10 @@ namespace Comm
                     if (rb_Frequncy.Checked)//TD选择
 
                     {
-                        btn_TD.Enabled = true;
-                        btn_AC.Enabled = false;
-                        btn_freq.Enabled = false;
                         serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x05 }, 0, 5);//TD帧头
                     }
                     else if(rb_Sweep.Checked)//FDA选择
                     {
-                        btn_TD.Enabled = false;
-                        btn_AC.Enabled = false;
-                        btn_freq.Enabled = true;
                         serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x01 }, 0, 5);//FDA帧头
                     }
 
@@ -1991,7 +2005,7 @@ namespace Comm
                         {
                             tia = "1";
                         }
-                        if (cb_tia2.Text.Equals("5K"))
+                        if (cb_tia.Text.Equals("5K"))
                         {
                             tia = "2";
                         }
@@ -2259,20 +2273,20 @@ namespace Comm
 
                     }
                     catch (Exception ee)
-            {
-                MessageBox.Show("Please fill in the parameters completely");
-                btn_start.Enabled = true;
-                btn_stop.Enabled = false;
+                    {
+                        MessageBox.Show("Please fill in the parameters completely");
+                        btn_start.Enabled = true;
+                        btn_stop.Enabled = false;
 
-            }
-        }
+                    }
+                }
                 else
                 {
                     btn_start.Enabled = true;
                     btn_stop.Enabled = false;
                     MessageBox.Show("Please open the serialport!");
                 }
-}
+            }
 
 
             catch (Exception ex)
@@ -2283,7 +2297,7 @@ namespace Comm
                 serialPort1 = new System.IO.Ports.SerialPort();
                 btn_start.Enabled = true;
                 btn_stop.Enabled = false;
-
+               
 
             }
         }
