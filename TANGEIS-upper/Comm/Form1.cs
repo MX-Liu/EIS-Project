@@ -784,31 +784,19 @@ namespace Comm
                     ID_N[3 - i] = temp[i];
                 }
 
-                //重复发送5次   延时2ms
-                serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
-                serialPort1.Write(ID_N, 0, 4);
-                serialPort1.Write(Zeros, 0, 5);
-                serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
-                Thread.Sleep(2);
-                serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
-                serialPort1.Write(ID_N, 0, 4);
-                serialPort1.Write(Zeros, 0, 5);
-                serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
-                Thread.Sleep(2);
-                serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
-                serialPort1.Write(ID_N, 0, 4);
-                serialPort1.Write(Zeros, 0, 5);
-                serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
-                Thread.Sleep(2);
-                serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
-                serialPort1.Write(ID_N, 0, 4);
-                serialPort1.Write(Zeros, 0, 5);
-                serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
-                Thread.Sleep(2);
-                serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
-                serialPort1.Write(ID_N, 0, 4);
-                serialPort1.Write(Zeros, 0, 5);
-                serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
+                //重复发送5次   延时10s
+
+                for(int h = 0; h < 5; h++)
+                {
+                    if (Hands_shake == true)
+                    { break; }
+                    else
+                    serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
+                    serialPort1.Write(ID_N, 0, 4);
+                    serialPort1.Write(Zeros, 0, 5);
+                    serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
+                    Thread.Sleep(10);
+                }
             }
 
         }
