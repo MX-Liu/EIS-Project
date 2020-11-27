@@ -126,7 +126,7 @@ namespace Comm
             CheckBitChoose.Text = "NONE";
             StopBitChoose.Text = "1";
             DataBitChoose.Text = "8";
-            BaudrateChoose.Text = "9600";
+            BaudrateChoose.Text = "1000000";
             tb_Sweep_f.Text = "10";
             tb_Sweep_t.Text = "100";
             tb_times_D1.Text = "0";
@@ -239,6 +239,18 @@ namespace Comm
             cb_dor.Items.Add("10");
 
 
+            tb_freq.Text = "1000";
+            tb_Sweep_f.Text = "100";
+            tb_Sweep_t.Text = "100000";
+            tb_amp.Text = "607";
+            cb_dor.Text = "4";
+            cb_tia.Text = "5K";
+            cb_dft.Text = "16384";
+            tb_s_p.Text = "101";
+            
+            cb_dor2.Text = "4";
+            cb_tia2.Text = "5K";
+            cb_dft2.Text = "16384";
             //添加串口接收时间
             serialPort1.DataReceived += new SerialDataReceivedEventHandler(Port_DataRecevied);
 
@@ -772,7 +784,17 @@ namespace Comm
                     ID_N[3 - i] = temp[i];
                 }
 
-                //重复发送三次   延时2ms
+                //重复发送5次   延时2ms
+                serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
+                serialPort1.Write(ID_N, 0, 4);
+                serialPort1.Write(Zeros, 0, 5);
+                serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
+                Thread.Sleep(2);
+                serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
+                serialPort1.Write(ID_N, 0, 4);
+                serialPort1.Write(Zeros, 0, 5);
+                serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
+                Thread.Sleep(2);
                 serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
                 serialPort1.Write(ID_N, 0, 4);
                 serialPort1.Write(Zeros, 0, 5);
@@ -1165,6 +1187,7 @@ namespace Comm
                                 btn_TD.Enabled = true;
                                 btn_DC.Enabled = true;
                                 btn_AC.Enabled = true;
+                                cnt_hands_shake = 0;
                             }
                         }
                     }
@@ -4970,6 +4993,20 @@ namespace Comm
         private void panel5_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void btn_scan_Click(object sender, EventArgs e)
+        {
+            string[] PortNames = SerialPort.GetPortNames();    //获取本机串口名称，存入PortNames数组中
+            BackToolStripMenuItem.Enabled = true;
+            for (int i = 0; i < PortNames.Count(); i++)
+                //for(int j = 0; j < PortNames.Count(); j++)
+                {
+                       
+                        
+                            COMChoose.Items.Add(PortNames[i]);   //将数组内容加载到comboBox控件中
+                        
+                }
         }
     }
 }
