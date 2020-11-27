@@ -268,6 +268,9 @@ namespace Comm
 
             setTag(this);//调用方法
 
+            //添加窗口关闭事件
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+
         }
 
 
@@ -833,11 +836,7 @@ namespace Comm
 
                     if (Hands_shake == true)//握手成功
                     {
-                        //显示功能按钮
-                        btn_freq.Enabled = true;
-                        btn_TD.Enabled = true;
-                        btn_DC.Enabled = true;
-                        btn_AC.Enabled = true;
+                       
                         if (TD == true)//TD 数据接收
                         {
 
@@ -1090,7 +1089,7 @@ namespace Comm
 
 
                             data_queue.Enqueue(strvv + ':');
-                            //ReceiveArea.AppendText(length.ToString());
+                            ReceiveArea.AppendText(strvv);
                         }
 
                     }
@@ -1117,6 +1116,11 @@ namespace Comm
                             {
                                 Hands_shake = true;
                                 MessageBox.Show("MCU is already!");
+                                //显示功能按钮
+                                btn_freq.Enabled = true;
+                                btn_TD.Enabled = true;
+                                btn_DC.Enabled = true;
+                                btn_AC.Enabled = true;
                             }
                             // 收到1/2，4时，正常工作
                             else if (((strArr[0].Equals("1")) || (strArr[0].Equals("2")) && (strArr[1].Equals("4"))))
@@ -1885,8 +1889,8 @@ namespace Comm
                             tb_Sweep_t.Enabled = false;
                             cb_freq_f.Enabled = false;
                             cb_freq_t.Enabled = false;
-                            //btn_freq.Enabled = false;
-                            btn_TD.Enabled = false;
+                            btn_freq.Enabled = false;
+                            //btn_TD.Enabled = false;
                             btn_DC.Enabled = false;
                             btn_AC.Enabled = false;
 
@@ -1915,8 +1919,8 @@ namespace Comm
                             serialPort1.Write(flag, 1, 1);
                             tb_freq.Enabled = false;
                             cb_freq.Enabled = false;
-                            btn_freq.Enabled = false;
-                            //btn_TD.Enabled = false;
+                            //btn_freq.Enabled = false;
+                            btn_TD.Enabled = false;
                             btn_DC.Enabled = false;
                             btn_AC.Enabled = false;
 
@@ -3820,6 +3824,17 @@ namespace Comm
         //shut down
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show(
+                    "Data will be lost, are you sure to close the window?",
+                    "Attention",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question) != DialogResult.OK)
+            {
+
+
+               // e.Cancel = true;
+                return;
+            }
             System.Environment.Exit(0);
         }
 
@@ -3833,10 +3848,27 @@ namespace Comm
             ChartClear();
         }
 
+        void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show(
+                    "Data will be lost, are you sure to close the window?",
+                    "Attention",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question) != DialogResult.OK)
+            {
+
+                
+                e.Cancel = true;
+                return;
+            }
+            System.Environment.Exit(0);
+
+        }
+
         //*********************************************//
         //****************未使用**********************//
         //*******************************************//
-            private void chart5_Click(object sender, EventArgs e)
+        private void chart5_Click(object sender, EventArgs e)
         {
 
         }
