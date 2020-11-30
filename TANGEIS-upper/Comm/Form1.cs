@@ -186,6 +186,11 @@ namespace Comm
         //事件添加
         private void Form1_Load(object sender, EventArgs e)
         {
+            btn_freq.Enabled = true;
+            btn_TD.Enabled = true;
+            btn_DC.Enabled = true;
+            btn_AC.Enabled = true;
+
 
             ipaddress.Text = "http://192.168.191.1";
             //ipaddress.Text ="http://" + IP_get();
@@ -774,8 +779,6 @@ namespace Comm
             if (serialPort1.IsOpen)
 
             {
-                
-
                 //
                 byte[] temp2 = strToHexByte(ID_Num);
                 byte[] temp = exchange(temp2);
@@ -784,18 +787,22 @@ namespace Comm
                     ID_N[3 - i] = temp[i];
                 }
 
-                //重复发送5次   延时10s
+                //重复发送5次   延时10ms
 
-                for(int h = 0; h < 5; h++)
+                for(int h = 0; h < 3; h++)
                 {
                     if (Hands_shake == true)
-                    { break; }
+                    {
+                        break;
+                    }
                     else
-                    serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
-                    serialPort1.Write(ID_N, 0, 4);
-                    serialPort1.Write(Zeros, 0, 5);
-                    serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
-                    Thread.Sleep(10);
+                    {
+                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
+                        serialPort1.Write(ID_N, 0, 4);
+                        serialPort1.Write(Zeros, 0, 5);
+                        serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
+                        Thread.Sleep(100);
+                    }
                 }
             }
 
@@ -857,7 +864,7 @@ namespace Comm
 
                     if (Hands_shake == true)//握手成功
                     {
-                       
+                        
                         if (TD == true)//TD 数据接收
                         {
 
@@ -881,7 +888,7 @@ namespace Comm
                                 data_queue.Enqueue(cnt + "," + strv + ":");
 
                                 //写入文件
-                                FileStream fs = new FileStream(Single_m1, FileMode.Append);
+                                FileStream fs = new FileStream(pathString2 + "\\" + cnt_TD + "Single_Measurement1.txt", FileMode.Append);
                                 StreamWriter sw = new StreamWriter(fs);
                                 sw.WriteLine(cnt + "\t" + strv + "\t");
                                 sw.Flush();
@@ -926,7 +933,7 @@ namespace Comm
                                     data_queue.Enqueue(time + "," + stru + ":");
 
                                     //DC 写入文件
-                                    FileStream fs = new FileStream(U_I_R, FileMode.Append);
+                                    FileStream fs = new FileStream(pathString3 +"\\" +cnt_UIR+"U_I_R_data.txt", FileMode.Append);
                                     StreamWriter sw = new StreamWriter(fs);
                                     sw.WriteLine(time.ToString() + "\t" + tb_u.Text + "\t" + tb_I.Text + "\t" + tb_R.Text);
                                     sw.Flush();
@@ -1003,7 +1010,7 @@ namespace Comm
 
                                     if (rb_dur.Checked)//单次测量文件写入
                                     {
-                                        FileStream fs = new FileStream(Single_m, FileMode.Append);
+                                        FileStream fs = new FileStream(pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt", FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
                                         sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t");
                                         sw.Flush();
@@ -1012,7 +1019,7 @@ namespace Comm
                                     }
                                     else if (rb_rep.Checked)//多次测量文件写入
                                     {
-                                        FileStream fs = new FileStream(Multiple_m, FileMode.Append);
+                                        FileStream fs = new FileStream(pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt", FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
                                         sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + Num_FDA1.ToString());
                                         sw.Flush();
@@ -1084,7 +1091,7 @@ namespace Comm
                                     data_queue.Enqueue(strc + ":");
 
                                     //Comb 写入文件
-                                    FileStream fs = new FileStream(Combination_m, FileMode.Append);
+                                    FileStream fs = new FileStream(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt", FileMode.Append);
                                     StreamWriter sw = new StreamWriter(fs);
                                     sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + cnt11.ToString());
                                     sw.Flush();
@@ -1443,7 +1450,7 @@ namespace Comm
                         if (Hands_shake1 == true)
                         {
                             data += ID_Num + ":";
-                            Hands_shake1 = false;
+                            //Hands_shake1 = false;
                         }
                         else
                         {
@@ -1783,7 +1790,7 @@ namespace Comm
                     {
                         serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x05 }, 0, 5);//TD帧头
                     }
-                    else if(rb_Sweep.Checked)//FDA选择
+                    else if (rb_Sweep.Checked)//FDA选择
                     {
                         serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x01 }, 0, 5);//FDA帧头
                     }
@@ -1860,8 +1867,7 @@ namespace Comm
 
                         serialPort1.Write(amp, 0, 2);//amp
 
-                        //serialPort1.Write(strToHexByte(cb_dft.Text.Trim()), 0, 1);//dft
-                        
+
 
                         if (cb_dft.Text.Equals("4"))
                         {
@@ -1922,7 +1928,7 @@ namespace Comm
                         //TD
                         if (rb_Frequncy.Checked)
                         {
-                            serialPort1.Write(flag, 0, 1);
+                            serialPort1.Write(flag, 0, 1);//
                             tb_Sweep_f.Enabled = false;
                             tb_Sweep_t.Enabled = false;
                             cb_freq_f.Enabled = false;
