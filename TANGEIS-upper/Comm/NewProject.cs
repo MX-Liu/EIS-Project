@@ -269,7 +269,7 @@ namespace Comm
                     //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
                     StreamWriter sw = new StreamWriter(Single_m1);
-                    sw.WriteLine("Time" + "\t" + "Impendence");
+                    sw.WriteLine("Time" + "\t" + "Impedance");
                     sw.Flush();
                     sw.Close();
                 }
