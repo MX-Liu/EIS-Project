@@ -797,7 +797,7 @@ namespace Comm
                     }
                     else
                     {
-                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x00 }, 0, 5);//帧头
+                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0x10, 0x00 }, 0, 5);//帧头
                         serialPort1.Write(ID_N, 0, 4);
                         serialPort1.Write(Zeros, 0, 5);
                         serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
@@ -1788,11 +1788,11 @@ namespace Comm
                     if (rb_Frequncy.Checked)//TD选择
 
                     {
-                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x05 }, 0, 5);//TD帧头
+                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0x40, 0x05 }, 0, 5);//TD帧头
                     }
                     else if (rb_Sweep.Checked)//FDA选择
                     {
-                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x01 }, 0, 5);//FDA帧头
+                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0x40, 0x01 }, 0, 5);//FDA帧头
                     }
 
                     //duration 时间初始化
@@ -2330,7 +2330,7 @@ namespace Comm
             btn_AC.Enabled = true ;
             BackToolStripMenuItem.Enabled = true;
 
-            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x09 }, 0, 5);//停止帧头
+            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0x07, 0x09 }, 0, 5);//停止帧头
             serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
 
             btn_start.Enabled = true;
@@ -2555,7 +2555,7 @@ namespace Comm
                 //首先判断串口是否开启
                 if (serialPort1.IsOpen)
                 {
-                    serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x03 }, 0, 5);//帧头
+                    serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0x20, 0x03 }, 0, 5);//帧头
 
                     //DC 持续时间输入
                     int temp_h1 = 0;
@@ -2704,7 +2704,7 @@ namespace Comm
         //DC Stop
         private void btn_stop1_Click(object sender, EventArgs e)
         {
-            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x08 }, 0, 5);//DC 停止帧头
+            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0x07, 0x08 }, 0, 5);//DC 停止帧头
             serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
             btn_start1.Enabled = true;
             btn_stop1.Enabled = false;
@@ -2841,7 +2841,7 @@ namespace Comm
                             this.chart_temp.Series[0].Points.AddXY(CNT_T, tempt);
                         }
 
-                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x04 }, 0, 5);//Comb 帧头
+                        serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0x40, 0x04 }, 0, 5);//Comb 帧头
 
                         //长数组定义
                         byte[] flag = new byte[2];
@@ -3293,7 +3293,7 @@ namespace Comm
             btn_comb_start.Enabled = true;
             btn_stop2.Enabled = false;
 
-            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0xAA, 0x07 }, 0, 5);//comb 停止帧头
+            serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0x07, 0x07 }, 0, 5);//comb 停止帧头
             serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
             btn_comb_start.Enabled = true;
             chart_temp.Series[0].Points.Clear();
