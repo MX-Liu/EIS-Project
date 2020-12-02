@@ -5002,5 +5002,22 @@ namespace Comm
                         
                 }
         }
+
+        private void btn_download_Click(object sender, EventArgs e)
+        {
+            string filePathOnly2 = Path.GetDirectoryName(pathString1);
+            string fold2 = Path.GetFileName(filePathOnly2);
+
+            if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2 + "/FDA/Single measurement.txt"))//判断是否已存在文件
+            {
+                WebClient wc = new WebClient();
+                wc.DownloadFile(new Uri("http://192.168.191.1:8080/" + ID_Num + "//" + "FDA/Single measurement.txt"), Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2 + "/FDA/Single measurement1.txt");
+            }
+            if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2 + "/FDA/Single measurement.txt"))//判断是否已存在文件
+            {
+                WebClient wc = new WebClient();
+                wc.DownloadFile(new Uri("http://192.168.191.1:8080/" + ID_Num + "//" + "FDA/Single measurement.txt"), Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2 + "/FDA/Single measurement1.txt");
+            }
+        }
     }
 }
