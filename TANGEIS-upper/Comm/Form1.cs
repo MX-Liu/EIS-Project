@@ -133,7 +133,21 @@ namespace Comm
             tb_times_D2.Text = "0";
             tb_times_T1.Text = "0";
             tb_times_T2.Text = "0";
+            cb_freq.Text = "Hz";
+            cb_freq_f.Text = "Hz";
+            cb_freq_t.Text = "Hz";
+            cb_dor.Text = "5";
+            cb_tia.Text = "0";
+            cb_dft.Text = "1";
             cb_days.Text = "0";
+
+
+            cb_freq_f2.Text = "Hz";
+            cb_freq_t2.Text = "Hz";
+            cb_dor2.Text = "5";
+            cb_tia2.Text = "0";
+            cb_dft2.Text = "1";
+            cb_days2.Text = "7";
 
             //
             rb_Frequncy.Checked = true;
@@ -157,21 +171,7 @@ namespace Comm
             btn_stop1.Enabled = false;
 
             //rb_Sawtooth.Checked = true;
-            cb_freq.Text = "Hz";
-            cb_freq_f.Text = "Hz";
-            cb_freq_t.Text = "Hz";
-            cb_dor.Text = "5";
-            cb_tia.Text = "0";
-            cb_dft.Text = "1";
-            cb_days.Text = "7";
 
-
-            cb_freq_f2.Text = "Hz";
-            cb_freq_t2.Text = "Hz";
-            cb_dor2.Text = "5";
-            cb_tia2.Text = "0";
-            cb_dft2.Text = "1";
-            cb_days2.Text = "7";
 
             SaveFilePath.Visible = true;
             ChooseFile.Visible = true;
