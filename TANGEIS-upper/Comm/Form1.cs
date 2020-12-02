@@ -1012,7 +1012,7 @@ namespace Comm
                                     {
                                         FileStream fs = new FileStream(pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt", FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t");
+                                        sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[3].ToString());
                                         sw.Flush();
                                         sw.Close();
                                         fs.Close();
@@ -1446,23 +1446,21 @@ namespace Comm
                 try
                 {
                     for (int i = 0; i < 7; i++)
-                {
+                    {
                         if (Hands_shake1 == true)
                         {
                             data += ID_Num + ":";
-                            //Hands_shake1 = false;
+                            Hands_shake1 = false;
                         }
-                        else
-                        {
-                            data += (string)data_queue.Dequeue();
-                        }
-                    }
+                         data += (string)data_queue.Dequeue();
+                        
+                     }
                
                     socketIoManager(1, data);//发送 数据队列
                 }
                 catch
                 {
-
+                    MessageBox.Show("The Queue ist empty!");
                 }
                 }
         }
@@ -2153,7 +2151,7 @@ namespace Comm
                         else//duration
                         {
 
-                            serialPort1.Write(strToHexByte(cb_days.Text), 0, 1);//天数空值
+                            serialPort1.Write(flag, 0, 1);//天数空值
                             serialPort1.Write(Start_send2, 0, 4);//开始时间2发送
                             serialPort1.Write(End_send2, 0, 4);//结束时间2发送
                             serialPort1.Write(strToHexByte(tb_times_D1.Text.Trim()), 0, 1);//次数2/天发送
@@ -5008,15 +5006,16 @@ namespace Comm
             string filePathOnly2 = Path.GetDirectoryName(pathString1);
             string fold2 = Path.GetFileName(filePathOnly2);
 
-            if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2 + "/FDA/Single measurement.txt"))//判断是否已存在文件
+            //if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2 + "/FDA/Single measurement.txt"))//判断是否已存在文件
             {
                 WebClient wc = new WebClient();
-                wc.DownloadFile(new Uri("http://192.168.191.1:8080/" + ID_Num + "//" + "FDA/Single measurement.txt"), Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2 + "/FDA/Single measurement1.txt");
-            }
-            if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2 + "/FDA/Single measurement.txt"))//判断是否已存在文件
-            {
-                WebClient wc = new WebClient();
-                wc.DownloadFile(new Uri("http://192.168.191.1:8080/" + ID_Num + "//" + "FDA/Single measurement.txt"), Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2 + "/FDA/Single measurement1.txt");
+                string path_server = "http://192.168.191.1:8080/" + ID_Num + "//";
+                string path_Project = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2;
+                wc.DownloadFile(new Uri(path_server + "FDA/Single measurement.txt"),              path_Project  + "/FDA/Single_Measurement.txt");
+                wc.DownloadFile(new Uri(path_server + "FDA/Multiple measurement.txt"),            path_Project + "/FDA/Multiple_Measurement.txt");
+                wc.DownloadFile(new Uri(path_server + "TD/Single measurement.txt"),               path_Project + "/TD/Single_Measurement.txt");
+                wc.DownloadFile(new Uri(path_server + "DC/U_I_R_Data.txt"),                       path_Project + "/DC/U_I_R_data.txt");
+                wc.DownloadFile(new Uri(path_server + "Combination/Combination_Measurement.txt"), path_Project + "/Combination/Combination_Measurement.txt");
             }
         }
     }
