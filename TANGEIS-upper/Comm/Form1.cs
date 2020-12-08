@@ -110,6 +110,13 @@ namespace Comm
         string tia = "";
         string tia2 = "";
 
+        string start_time_jdg1 = "00:00:00";
+        string start_time_jdg2 = "00:00:00";
+        string end_time_jdg1 = "00:00:00";
+        string end_time_jdg2 = "00:00:00";
+
+        
+
         Int32 tempt = 37;//温度初值
 
 
@@ -127,27 +134,18 @@ namespace Comm
             StopBitChoose.Text = "1";
             DataBitChoose.Text = "8";
             BaudrateChoose.Text = "1000000";
+
+            dateTimePicker_f_1.Text = "00:00:00";
             tb_Sweep_f.Text = "10";
             tb_Sweep_t.Text = "100";
-            tb_times_D1.Text = "0";
-            tb_times_D2.Text = "0";
+            //tb_times_D1.Text = "0";
+            //tb_times_D2.Text = "0";
             tb_times_T1.Text = "0";
             tb_times_T2.Text = "0";
-            cb_freq.Text = "Hz";
-            cb_freq_f.Text = "Hz";
-            cb_freq_t.Text = "Hz";
-            cb_dor.Text = "5";
-            cb_tia.Text = "0";
-            cb_dft.Text = "1";
             cb_days.Text = "0";
-
-
-            cb_freq_f2.Text = "Hz";
-            cb_freq_t2.Text = "Hz";
-            cb_dor2.Text = "5";
-            cb_tia2.Text = "0";
-            cb_dft2.Text = "1";
-            cb_days2.Text = "7";
+            
+            //dateTimePicker_f_1.Text = System.DateTime.Now.ToString("HH:mm:ss");
+            //dateTimePicker_t_1.Text = System.DateTime.Now.ToString("HH:mm:ss");
 
             //
             rb_Frequncy.Checked = true;
@@ -171,7 +169,21 @@ namespace Comm
             btn_stop1.Enabled = false;
 
             //rb_Sawtooth.Checked = true;
+            cb_freq.Text = "Hz";
+            cb_freq_f.Text = "Hz";
+            cb_freq_t.Text = "Hz";
+            cb_dor.Text = "5";
+            cb_tia.Text = "0";
+            cb_dft.Text = "1";
+            cb_days.Text = "7";
 
+
+            cb_freq_f2.Text = "Hz";
+            cb_freq_t2.Text = "Hz";
+            cb_dor2.Text = "5";
+            cb_tia2.Text = "0";
+            cb_dft2.Text = "1";
+            cb_days2.Text = "7";
 
             SaveFilePath.Visible = true;
             ChooseFile.Visible = true;
@@ -191,6 +203,8 @@ namespace Comm
             btn_DC.Enabled = true;
             btn_AC.Enabled = true;
 
+            dateTimePicker_f_1.Text = System.DateTime.Now.ToString("HH:mm:ss");
+            dateTimePicker_t_1.Text = System.DateTime.Now.ToString("HH:mm:ss");
 
             ipaddress.Text = "http://192.168.191.1";
             //ipaddress.Text ="http://" + IP_get();
@@ -444,24 +458,21 @@ namespace Comm
             return Zeit;
         }
 
-        //计算时间差
-        private string TimeDifference(string Zeit)
+        //计算时间差(与系统时间作差)
+        private string TimeDifference(DateTime Zeit)
         {
-            int cc = 0;
-            string z = Convert.ToString(cc);
-            //int n = Convert.ToInt32(days);
-            int tmp = Convert.ToInt32(TimeToSec(Zeit));
-            string dt1 = System.DateTime.Now.ToString("HH:mm:ss");
-            int tmp1 = Convert.ToInt32(TimeToSec(dt1));
-            int TD = tmp - tmp1;
+            DateTime start_time1 = System.DateTime.Now;//获取系统时间
+            TimeSpan ts = Zeit.Subtract(start_time1);//计算系统事件与当前时间差
+
+            int TD = ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds;
+
             if (TD < 0)
             {
                 TD = TD + 86400;
             }
 
-            string TD1 = z;
-            //try
-            //{
+            string TD1 = "0";
+
             if (TD >= 60)
             {
                 TD1 = TD.ToString();
@@ -470,7 +481,7 @@ namespace Comm
             else
             {
                 MessageBox.Show("开始时间至少在一分钟之后");
-
+                TD1 = "0";
             }
 
             return TD1;
@@ -705,6 +716,21 @@ namespace Comm
         //*********************************************//
         //**************串口传输+画图*****************//
         //*******************************************//
+
+        //手动添加串口
+        private void btn_scan_Click(object sender, EventArgs e)
+        {
+            string[] PortNames = SerialPort.GetPortNames();    //获取本机串口名称，存入PortNames数组中
+            BackToolStripMenuItem.Enabled = true;
+            for (int i = 0; i < PortNames.Count(); i++)
+            //for(int j = 0; j < PortNames.Count(); j++)
+            {
+
+
+                COMChoose.Items.Add(PortNames[i]);   //将数组内容加载到comboBox控件中
+
+            }
+        }
 
         //打开串口
         private void OpenPort_Click(object sender, EventArgs e)
@@ -1012,7 +1038,7 @@ namespace Comm
                                     {
                                         FileStream fs = new FileStream(pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt", FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[3].ToString());
+                                        sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t");
                                         sw.Flush();
                                         sw.Close();
                                         fs.Close();
@@ -1408,6 +1434,27 @@ namespace Comm
 
         }
 
+        //从服务器下载文件
+        private void btn_download_Click(object sender, EventArgs e)
+        {
+            string filePathOnly2 = Path.GetDirectoryName(pathString1);
+            string fold2 = Path.GetFileName(filePathOnly2);
+
+            //if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2 + "/FDA/Single measurement.txt"))//判断是否已存在文件
+            {
+                WebClient wc = new WebClient();
+                string path_server = "http://192.168.191.1:8080/" + ID_Num + "//";
+                string path_Project = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2;
+                wc.DownloadFile(new Uri(path_server + "FDA/Single measurement.txt"), path_Project + "/FDA/Single_Measurement.txt");
+                wc.DownloadFile(new Uri(path_server + "FDA/Multiple measurement.txt"), path_Project + "/FDA/Multiple_Measurement.txt");
+                wc.DownloadFile(new Uri(path_server + "TD/Single measurement.txt"), path_Project + "/TD/Single_Measurement.txt");
+                wc.DownloadFile(new Uri(path_server + "DC/U_I_R_Data.txt"), path_Project + "/DC/U_I_R_data.txt");
+                wc.DownloadFile(new Uri(path_server + "Combination/Combination_Measurement.txt"), path_Project + "/Combination/Combination_Measurement.txt");
+            }
+        }
+
+
+        //获取本机IPv4
         public static string IP_get()
         {
             {
@@ -1446,21 +1493,23 @@ namespace Comm
                 try
                 {
                     for (int i = 0; i < 7; i++)
-                    {
+                {
                         if (Hands_shake1 == true)
                         {
                             data += ID_Num + ":";
-                            Hands_shake1 = false;
+                            //Hands_shake1 = false;
                         }
-                         data += (string)data_queue.Dequeue();
-                        
-                     }
+                        else
+                        {
+                            data += (string)data_queue.Dequeue();
+                        }
+                    }
                
                     socketIoManager(1, data);//发送 数据队列
                 }
                 catch
                 {
-                    MessageBox.Show("The Queue ist empty!");
+
                 }
                 }
         }
@@ -2008,9 +2057,7 @@ namespace Comm
                         serialPort1.Write(Fre, 0, 12);//频率发送
 
                         serialPort1.Write(flag1, 0, 1);//log  暂时没用
-
-
-                        //string tia = "";
+            
 
                         if (cb_tia.Text.Equals("200"))
                         {
@@ -2082,7 +2129,7 @@ namespace Comm
 
                             //开始时间
 
-                            string start_time1 = dateTimePicker_f_1.Text;//获取开始时间
+                            DateTime start_time1 = DateTime.Parse(dateTimePicker_f_1.Text);//获取开始时间
                             string start_send1 = TimeDifference(start_time1);//计算与当前时间差
 
                             byte[] temp_s1 = strToHexByte(start_send1);
@@ -2094,7 +2141,7 @@ namespace Comm
 
                             serialPort1.Write(Start_send1, 0, 4);//开始时间1发送
 
-                            string end_time1 = dateTimePicker_t_1.Text;//获取结束时间
+                            DateTime end_time1 = DateTime.Parse(dateTimePicker_t_1.Text);//获取结束时间
                             string end_send1 = TimeDifference(end_time1);//计算与当前时间差
 
                             byte[] temp_e1 = strToHexByte(end_send1);
@@ -2111,7 +2158,7 @@ namespace Comm
 
                             if (checkBox_SEC.Checked)
                             {
-                                string start_time2 = dateTimePicker_f_2.Text;//获取第二次开始时间
+                                DateTime start_time2 = DateTime.Parse(dateTimePicker_f_2.Text);//获取第二次开始时间
                                 string start_send2 = TimeDifference(start_time2);//计算与当前时间差
                                 byte[] temp_s2 = strToHexByte(start_send2);
                                 byte[] temp_se2 = exchange(temp_s2);
@@ -2122,7 +2169,7 @@ namespace Comm
 
                                 serialPort1.Write(Start_send2, 0, 4);//开始时间2发送
 
-                                string end_time2 = dateTimePicker_t_2.Text;//获取第二次结束时间
+                                DateTime end_time2 = DateTime.Parse(dateTimePicker_t_2.Text);//获取第二次结束时间
                                 string end_send2 = TimeDifference(end_time2);//计算与当前时间差
 
                                 byte[] temp_e2 = strToHexByte(end_send2);
@@ -2151,7 +2198,7 @@ namespace Comm
                         else//duration
                         {
 
-                            serialPort1.Write(flag, 0, 1);//天数空值
+                            serialPort1.Write(strToHexByte(cb_days.Text), 0, 1);//天数空值
                             serialPort1.Write(Start_send2, 0, 4);//开始时间2发送
                             serialPort1.Write(End_send2, 0, 4);//结束时间2发送
                             serialPort1.Write(strToHexByte(tb_times_D1.Text.Trim()), 0, 1);//次数2/天发送
@@ -2292,6 +2339,10 @@ namespace Comm
                         MessageBox.Show("Please fill in the parameters completely");
                         btn_start.Enabled = true;
                         btn_stop.Enabled = false;
+                        btn_freq.Enabled = true;
+                        btn_TD.Enabled = true;
+                        btn_DC.Enabled = true;
+                        btn_AC.Enabled = true;
 
                     }
                 }
@@ -2299,6 +2350,10 @@ namespace Comm
                 {
                     btn_start.Enabled = true;
                     btn_stop.Enabled = false;
+                    btn_freq.Enabled = true;
+                    btn_TD.Enabled = true;
+                    btn_DC.Enabled = true;
+                    btn_AC.Enabled = true;
                     MessageBox.Show("Please open the serialport!");
                 }
             }
@@ -2426,6 +2481,42 @@ namespace Comm
             rb_Frequncy.Visible = true;
         }
 
+        //每小时只能测量一次
+        private void tb_times_D1_TextChanged(object sender, EventArgs e)
+        {
+            DateTime start_time1 = DateTime.Parse(dateTimePicker_f_1.Text);//获取开始时间
+            DateTime end_time1 = DateTime.Parse(dateTimePicker_t_1.Text);//获取结束时间
+
+            TimeSpan ts = end_time1.Subtract(start_time1);
+
+            int different = (ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds) / 3600;
+            int repeat_times = Convert.ToInt32(tb_times_D1.Text);
+
+            if (repeat_times > (different + 1))
+            {
+                MessageBox.Show("The repeat times should be not more than 1 time/hour!");
+                tb_times_D1.Text = "0";
+            }
+
+        }
+
+        private void tb_times_D2_TextChanged(object sender, EventArgs e)
+        {
+            DateTime start_time1 = DateTime.Parse(dateTimePicker_f_2.Text);//获取开始时间
+            DateTime end_time1 = DateTime.Parse(dateTimePicker_t_2.Text);//获取结束时间
+
+            TimeSpan ts = end_time1.Subtract(start_time1);
+
+            int different = (ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds) / 3600;
+            int repeat_times = Convert.ToInt32(tb_times_D2.Text);
+
+            if (repeat_times > (different + 1))
+            {
+                MessageBox.Show("The repeat times should be not more than 1 time/hour!");
+                tb_times_D2.Text = "0";
+            }
+        }
+
         //天数选择判断
         private void DTP_End_ValueChanged(object sender, EventArgs e)
         {
@@ -2514,7 +2605,7 @@ namespace Comm
         // 时间输入判断
         private void dateTimePicker_f_1_ValueChanged(object sender, EventArgs e)
         {
-            String tmp1 = dateTimePicker_f_1.Text;
+            DateTime tmp1 = DateTime.Parse(dateTimePicker_f_1.Text);
             string tmp3 = TimeDifference(tmp1);
         }
 
@@ -2656,6 +2747,10 @@ namespace Comm
                         MessageBox.Show("Please fill in the parameters completely!");
                         btn_start1.Enabled = true;
                         btn_stop1.Enabled = false;
+                        btn_freq.Enabled = true;
+                        btn_TD.Enabled = true;
+                        btn_DC.Enabled = true;
+                        btn_AC.Enabled = true;
                     }
                 }
                 else
@@ -2663,6 +2758,10 @@ namespace Comm
                     MessageBox.Show("Please open the serialport!");
                     btn_start1.Enabled = true;
                     btn_stop1.Enabled = false;
+                    btn_freq.Enabled = true;
+                    btn_TD.Enabled = true;
+                    btn_DC.Enabled = true;
+                    btn_AC.Enabled = true;
                 }
 
                 //DC 参数写入
@@ -2696,6 +2795,10 @@ namespace Comm
                 MessageBox.Show("Please open the serialport!");
                 btn_start1.Enabled = true;
                 btn_stop1.Enabled = false;
+                btn_freq.Enabled = true;
+                btn_TD.Enabled = true;
+                btn_DC.Enabled = true;
+                btn_AC.Enabled = true;
             }
         }
 
@@ -3071,7 +3174,7 @@ namespace Comm
 
                             //开始时间
 
-                            string start_time1 = dateTimePicker_f_3.Text;//获取时间
+                            DateTime start_time1 = DateTime.Parse(dateTimePicker_f_3.Text);//获取时间
                             string start_send1 = TimeDifference(start_time1);//计算开始时间差
 
                             byte[] temp_s1 = strToHexByte(start_send1);
@@ -3083,7 +3186,7 @@ namespace Comm
 
                             serialPort1.Write(Start_send12, 0, 4);//开始时间1发送
 
-                            string end_time1 = dateTimePicker_t_3.Text;//获取第一次截止时间
+                            DateTime end_time1 = DateTime.Parse(dateTimePicker_t_3.Text);//获取第一次截止时间
                             string end_send1 = TimeDifference(end_time1);//计算结束时间差
 
                             byte[] temp_e1 = strToHexByte(end_send1);
@@ -3100,8 +3203,11 @@ namespace Comm
 
                             if (checkBox_SEC2.Checked)
                             {
-                                string start_time2 = dateTimePicker_f_4.Text;//获取第二次开始时间
+                                DateTime start_time2 = DateTime.Parse(dateTimePicker_f_4.Text);//获取第二次开始时间
                                 string start_send2 = TimeDifference(start_time2);//计算第二次开始时间差
+
+                                
+
                                 byte[] temp_s2 = strToHexByte(start_send2);
                                 byte[] temp_se2 = exchange(temp_s2);
                                 for (int i = 0; i < temp_se2.Length; i++)
@@ -3111,7 +3217,7 @@ namespace Comm
 
                                 serialPort1.Write(Start_send22, 0, 4);//开始时间2发送
 
-                                string end_time2 = dateTimePicker_t_4.Text;//获取第二次结束时间
+                                DateTime end_time2 = DateTime.Parse(dateTimePicker_t_4.Text);//获取第二次结束时间
                                 string end_send2 = TimeDifference(end_time2);//计算第二次结束时间差
 
                                 byte[] temp_e2 = strToHexByte(end_send2);
@@ -3140,15 +3246,22 @@ namespace Comm
                         catch (Exception ee)
                         {
                             MessageBox.Show("Please fill in the parameters completely!");
-
+                            btn_freq.Enabled = true;
+                            btn_TD.Enabled = true;
+                            btn_DC.Enabled = true;
+                            btn_AC.Enabled = true;
                         }
                     }
 
                     else
                     {
-                        //MessageBox.Show("Please open the serialport!");
-                        //btn_comb_start.Enabled = true;
-                        //btn_stop2.Enabled = false;
+                        MessageBox.Show("Please open the serialport!");
+                        btn_comb_start.Enabled = true;
+                        btn_stop2.Enabled = false;
+                        btn_freq.Enabled = true;
+                        btn_TD.Enabled = true;
+                        btn_DC.Enabled = true;
+                        btn_AC.Enabled = true;
                     }
                 }
 
@@ -3160,6 +3273,10 @@ namespace Comm
                     serialPort1 = new System.IO.Ports.SerialPort();
                 
                     MessageBox.Show("Plesase open the serialport!");
+                    btn_freq.Enabled = true;
+                    btn_TD.Enabled = true;
+                    btn_DC.Enabled = true;
+                    btn_AC.Enabled = true;
 
                 }
 
@@ -3216,6 +3333,10 @@ namespace Comm
                             MessageBox.Show("Please fill in the parameters completely!");
                             btn_comb_start.Enabled = true;
                             btn_stop2.Enabled = false;
+                            btn_freq.Enabled = true;
+                            btn_TD.Enabled = true;
+                            btn_DC.Enabled = true;
+                            btn_AC.Enabled = true;
                         }
 
 
@@ -3225,6 +3346,10 @@ namespace Comm
                         MessageBox.Show("Please open the serialport!");
                         btn_comb_start.Enabled = true;
                         btn_stop2.Enabled = false;
+                        btn_freq.Enabled = true;
+                        btn_TD.Enabled = true;
+                        btn_DC.Enabled = true;
+                        btn_AC.Enabled = true;
                     }
 
                 }
@@ -3237,6 +3362,10 @@ namespace Comm
                     MessageBox.Show("Plesase open the serialport!");
                     btn_comb_start.Enabled = true;
                     btn_stop2.Enabled = false;
+                    btn_freq.Enabled = true;
+                    btn_TD.Enabled = true;
+                    btn_DC.Enabled = true;
+                    btn_AC.Enabled = true;
 
                 }
 
@@ -3276,6 +3405,10 @@ namespace Comm
             {
                 btn_comb_start.Enabled = true;
                 btn_stop2.Enabled = false;
+                btn_freq.Enabled = true;
+                btn_TD.Enabled = true;
+                btn_DC.Enabled = true;
+                btn_AC.Enabled = true;
 
             }
         }
@@ -3316,6 +3449,40 @@ namespace Comm
                 sw1.Close();
             }
 
+        }
+
+            private void tb_times_D3_TextChanged(object sender, EventArgs e)
+        {
+            DateTime start_time1 = DateTime.Parse(dateTimePicker_f_3.Text);//获取开始时间
+            DateTime end_time1 = DateTime.Parse(dateTimePicker_t_3.Text);//获取结束时间
+
+            TimeSpan ts = end_time1.Subtract(start_time1);
+            
+            int different = (ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds) / 3600;
+            int repeat_times = Convert.ToInt32(tb_times_D3.Text);
+
+            if (repeat_times > (different + 1))
+            {
+                MessageBox.Show("The repeat times should be not more than 1 time/hour!");
+                tb_times_D3.Text = "0";
+            }
+        }
+
+        private void tb_times_D4_TextChanged(object sender, EventArgs e)
+        {
+            DateTime start_time1 = DateTime.Parse(dateTimePicker_f_4.Text);//获取开始时间
+            DateTime end_time1 = DateTime.Parse(dateTimePicker_t_4.Text);//获取结束时间
+
+            TimeSpan ts = end_time1.Subtract(start_time1);
+
+            int different = (ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds) / 3600;
+            int repeat_times = Convert.ToInt32(tb_times_D4.Text);
+
+            if (repeat_times > (different + 1))
+            {
+                MessageBox.Show("The repeat times should be not more than 1 time/hour!");
+                tb_times_D4.Text = "0";
+            }
         }
 
         //second check in COMB
@@ -4424,12 +4591,7 @@ namespace Comm
         private void dateTimePicker_f_2_ValueChanged(object sender, EventArgs e)
         {
 
-        }
-
-        private void tb_times_D2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        }        
 
         private void lab_second_Click(object sender, EventArgs e)
         {
@@ -4462,11 +4624,6 @@ namespace Comm
         }
 
         private void dateTimePicker_f_1_ValueChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tb_times_D1_TextChanged(object sender, EventArgs e)
         {
 
         }
@@ -4696,10 +4853,6 @@ namespace Comm
 
         }
 
-
-
-
-
         private void hlepHToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -4832,10 +4985,7 @@ namespace Comm
 
         }
 
-        private void tb_times_D4_TextChanged(object sender, EventArgs e)
-        {
 
-        }
 
         private void label57_Click(object sender, EventArgs e)
         {
@@ -4872,10 +5022,6 @@ namespace Comm
 
         }
 
-        private void tb_times_D3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void label60_Click(object sender, EventArgs e)
         {
@@ -4987,36 +5133,8 @@ namespace Comm
 
         }
 
-        private void btn_scan_Click(object sender, EventArgs e)
-        {
-            string[] PortNames = SerialPort.GetPortNames();    //获取本机串口名称，存入PortNames数组中
-            BackToolStripMenuItem.Enabled = true;
-            for (int i = 0; i < PortNames.Count(); i++)
-                //for(int j = 0; j < PortNames.Count(); j++)
-                {
-                       
-                        
-                            COMChoose.Items.Add(PortNames[i]);   //将数组内容加载到comboBox控件中
-                        
-                }
-        }
 
-        private void btn_download_Click(object sender, EventArgs e)
-        {
-            string filePathOnly2 = Path.GetDirectoryName(pathString1);
-            string fold2 = Path.GetFileName(filePathOnly2);
 
-            //if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2 + "/FDA/Single measurement.txt"))//判断是否已存在文件
-            {
-                WebClient wc = new WebClient();
-                string path_server = "http://192.168.191.1:8080/" + ID_Num + "//";
-                string path_Project = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "//" + fold2;
-                wc.DownloadFile(new Uri(path_server + "FDA/Single measurement.txt"),              path_Project  + "/FDA/Single_Measurement.txt");
-                wc.DownloadFile(new Uri(path_server + "FDA/Multiple measurement.txt"),            path_Project + "/FDA/Multiple_Measurement.txt");
-                wc.DownloadFile(new Uri(path_server + "TD/Single measurement.txt"),               path_Project + "/TD/Single_Measurement.txt");
-                wc.DownloadFile(new Uri(path_server + "DC/U_I_R_Data.txt"),                       path_Project + "/DC/U_I_R_data.txt");
-                wc.DownloadFile(new Uri(path_server + "Combination/Combination_Measurement.txt"), path_Project + "/Combination/Combination_Measurement.txt");
-            }
-        }
+        
     }
 }
