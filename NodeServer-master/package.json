@@ -1,18 +1,14 @@
 {
-  "name": "day08",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "socket-chat-example",
+  "version": "0.0.1",
+  "description": "my first socket.io app",
+  "dependencies": {
+    "chart.js": "^2.9.3",
+    "express": "^4.17.1",
+    "serialport": "^9.0.0",
+    "socket.io": "^1.7.4"
   },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-less": "^3.3.0",
-    "gulp-minify-css": "^1.2.4",
-    "gulp-uglify": "^2.0.0",
-    "gulp-watch": "^4.3.11"
+  "scripts": {
+    "start": "node index.js"
   }
 }

@@ -72,6 +72,7 @@ namespace Comm
         private Int64 cnt10 = 0;//Comb Nqst图存
         private Int64 cnt11 = 0;//Comb画多曲线计数器
         private Int64 cnt_hands_shake = 0;//串口握手信号计数器
+        private Int64 cnt_hands_shake_wifi = 0;//wifi握手信号计数器
 
         private bool Hands_shake = false; //握手标志位
         private bool Hands_shake1 = false; //握手标志位
@@ -144,8 +145,6 @@ namespace Comm
             tb_times_T2.Text = "0";
             cb_days.Text = "0";
             
-            //dateTimePicker_f_1.Text = System.DateTime.Now.ToString("HH:mm:ss");
-            //dateTimePicker_t_1.Text = System.DateTime.Now.ToString("HH:mm:ss");
 
             //
             rb_Frequncy.Checked = true;
@@ -203,8 +202,9 @@ namespace Comm
             btn_DC.Enabled = true;
             btn_AC.Enabled = true;
 
-            dateTimePicker_f_1.Text = System.DateTime.Now.ToString("HH:mm:ss");
-            dateTimePicker_t_1.Text = System.DateTime.Now.ToString("HH:mm:ss");
+
+
+            this.MinimumSize = new Size(800, 350);  //限制窗体的最小宽度为370，最小高度为240
 
             ipaddress.Text = "http://192.168.191.1";
             //ipaddress.Text ="http://" + IP_get();
@@ -549,7 +549,7 @@ namespace Comm
 
         }
 
-        //方波发生器
+        //三角波发生器
         private double trianglewav(double t, double p)
 
         {
@@ -1389,11 +1389,11 @@ namespace Comm
         //建立连接
         private void button1_Click_1(object sender, EventArgs e)
         {
+            Hands_shake1 = true;
             string data = null;
             socketIoManager(0, data);
             //socketIoManager(1, ID_Num + ":");
-            Hands_shake1 = true;
-       
+                 
         }
 
         //关闭连接
@@ -1488,20 +1488,25 @@ namespace Comm
         {
             if (data_queue.Count != 0)
             {
-                string data;
-                data = (string)data_queue.Dequeue();
+                string data= ID_Num + ":";
+                //data = (string)data_queue.Dequeue();
                 try
                 {
-                    for (int i = 0; i < 7; i++)
+                    for (int i = 0; i < 16; i++)
                 {
-                        if (Hands_shake1 == true)
+                        if (Hands_shake1 == false)
                         {
-                            data += ID_Num + ":";
-                            //Hands_shake1 = false;
+                            data += (string)data_queue.Dequeue();
                         }
                         else
                         {
-                            data += (string)data_queue.Dequeue();
+                            data += ID_Num + ":";
+                            cnt_hands_shake_wifi++;
+                            if (cnt_hands_shake_wifi > 10)
+                            {
+                                Hands_shake1 = false;
+                                cnt_hands_shake_wifi = 0;
+                            }
                         }
                     }
                
@@ -1724,6 +1729,8 @@ namespace Comm
             dateTimePicker_t_4.Enabled = false;
             tb_times_D4.Enabled = false;
             tb_times_T4.Enabled = false;
+            
+            //是否进行第二阶段
             if (checkBox_SEC2.Checked)
             {
                 dateTimePicker_f_4.Enabled = true;
@@ -1756,7 +1763,6 @@ namespace Comm
             panel_switch.Top = btn_DC.Top;
             if (rb_Sweep1.Checked)
             {
-
                 panel1.Visible = true;
                 tb_s_p1.Enabled = true;
                 tb_d_h1.Enabled = false;
@@ -2097,12 +2103,7 @@ namespace Comm
                         }
 
                         serialPort1.Write(strToHexByte(tia), 0, 1);//rtia
-                        //serialPort1.Write(strToHexByte(cb_tia.Text.Trim()), 0, 1);//rtia
-
                         serialPort1.Write(strToHexByte(tb_s_p.Text.Trim()), 0, 1);//points
-
-
-
 
                         //repeat
                         if (rb_rep.Checked)
@@ -2481,7 +2482,33 @@ namespace Comm
             rb_Frequncy.Visible = true;
         }
 
-        //每小时只能测量一次
+
+
+
+        //扫频操作框
+        private void rb_Sweep_CheckedChanged(object sender, EventArgs e)
+        {
+            tb_freq.Enabled = false;
+            tb_freq.Visible = false;
+            tb_freq.Text = null;
+            cb_freq.Enabled = false;
+            cb_freq.Visible = false;
+            tb_Sweep_f.Enabled = true;
+            tb_Sweep_t.Enabled = true;
+            tb_Sweep_f.Visible = true;
+            tb_Sweep_t.Visible = true;
+            cb_freq_f.Enabled = true;
+            cb_freq_t.Enabled = true;
+            cb_freq_f.Visible = true;
+            cb_freq_t.Visible = true;
+            rb_Sweep.Visible = true;
+            rb_Frequncy.Visible = false;
+            label13.Visible = true;
+            label11.Visible = true;
+        }
+
+
+        //每小时最多只能测量一次
         private void tb_times_D1_TextChanged(object sender, EventArgs e)
         {
             DateTime start_time1 = DateTime.Parse(dateTimePicker_f_1.Text);//获取开始时间
@@ -2540,29 +2567,6 @@ namespace Comm
             cb_days.Text = ts;
         }
 
-
-        //扫频操作框
-        private void rb_Sweep_CheckedChanged(object sender, EventArgs e)
-        {
-            tb_freq.Enabled = false;
-            tb_freq.Visible = false;
-            tb_freq.Text = null;
-            cb_freq.Enabled = false;
-            cb_freq.Visible = false;
-            tb_Sweep_f.Enabled = true;
-            tb_Sweep_t.Enabled = true;
-            tb_Sweep_f.Visible = true;
-            tb_Sweep_t.Visible = true;
-            cb_freq_f.Enabled = true;
-            cb_freq_t.Enabled = true;
-            cb_freq_f.Visible = true;
-            cb_freq_t.Visible = true;
-            rb_Sweep.Visible = true;
-            rb_Frequncy.Visible = false;
-            label13.Visible = true;
-            label11.Visible = true;
-        }
-
         //repeat 操作框
         private void rb_rep_CheckedChanged(object sender, EventArgs e)
         {
@@ -2588,19 +2592,7 @@ namespace Comm
             gb_Single.Visible = true;
         }
 
-        //second choice in FDA
-        private void checkBox_SEC_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_SEC.Checked)
-            {
-                panel_sec.Visible = true;
-            }
-            else
-            {
-                panel_sec.Visible = false;
-            }
 
-        }
 
         // 时间输入判断
         private void dateTimePicker_f_1_ValueChanged(object sender, EventArgs e)
@@ -3057,10 +3049,7 @@ namespace Comm
                                 dft2 = "12";
                             }
 
-
                             serialPort1.Write(strToHexByte(dft2), 0, 1);//dft
-
-
 
 
                             //频率
@@ -4030,7 +4019,7 @@ namespace Comm
         //*********************************************//
         //****************Windows Close***************//
         //*******************************************//
-        //shut down
+        //exit
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(
@@ -4057,6 +4046,7 @@ namespace Comm
             ChartClear();
         }
 
+        //shut down
         void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (MessageBox.Show(

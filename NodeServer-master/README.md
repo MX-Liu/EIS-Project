@@ -1,12 +1,13 @@
-# 简介
-Node 本地简单静态服务器
+# chat-example
 
-## 如何使用
+This is the source code for a very simple chat example used for
+the [Getting Started](http://socket.io/get-started/chat/) guide
+of the Socket.IO website.
 
-1. 安装 `node`
-2. 建立文件夹 static 用来存放静态资源文件 css\html\js\images
-3. 执行命令行 `node server`
-4. 浏览器输入地址 'localhost:8000/test.html'
+Please refer to it to learn how to run this application.
 
-## 便捷
-除了安装node，无需依赖安装配置其它。
+You can also spin up a free Heroku dyno to test it out:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/socketio/chat-example)
+
+Besides, the application is deployed on [Now](https://zeit.co/now): https://socketio-chat-example.now.sh/
