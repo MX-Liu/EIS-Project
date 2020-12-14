@@ -86,7 +86,7 @@ namespace Comm
         private Queue chart_x = new Queue();//  数据队列 用于无线传输
         private Queue chart_y = new Queue();
         private Queue data_queue = new Queue();
-
+        private Queue ID_queue = new Queue();
 
 
         string parameter1 = "";//TD 参数路径
@@ -139,8 +139,7 @@ namespace Comm
             dateTimePicker_f_1.Text = "00:00:00";
             tb_Sweep_f.Text = "10";
             tb_Sweep_t.Text = "100";
-            //tb_times_D1.Text = "0";
-            //tb_times_D2.Text = "0";
+
             tb_times_T1.Text = "0";
             tb_times_T2.Text = "0";
             cb_days.Text = "0";
@@ -174,7 +173,7 @@ namespace Comm
             cb_dor.Text = "5";
             cb_tia.Text = "0";
             cb_dft.Text = "1";
-            cb_days.Text = "7";
+           
 
 
             cb_freq_f2.Text = "Hz";
@@ -182,7 +181,7 @@ namespace Comm
             cb_dor2.Text = "5";
             cb_tia2.Text = "0";
             cb_dft2.Text = "1";
-            cb_days2.Text = "7";
+            cb_days2.Text = "0";
 
             SaveFilePath.Visible = true;
             ChooseFile.Visible = true;
@@ -480,7 +479,7 @@ namespace Comm
             }
             else
             {
-                MessageBox.Show("开始时间至少在一分钟之后");
+                MessageBox.Show("Start time should be 1 min later");
                 TD1 = "0";
             }
 
@@ -738,6 +737,7 @@ namespace Comm
             int PortBaudrate, PortDataBits;
             Parity PortParity;
             StopBits PortStopBits;
+
             if (!PortIsOpen)
             {
                 PortBaudrate = Convert.ToInt32(BaudrateChoose.Text);
@@ -783,7 +783,7 @@ namespace Comm
             {
                 Hands_shake = false;
                 serialPort1.Close();
-                timer2.Enabled = false;
+                //timer2.Enabled = false;
                 PortIsOpen = false;
                 OpenPortButton.Text = "Open COM";
             }
@@ -887,21 +887,48 @@ namespace Comm
 
                 if (!Hexshow.Checked)
                 {
-
+                    
                     if (Hands_shake == true)//握手成功
                     {
+                        if (Hands_shake1 == true)
+                        {
+
+
+                            //for (int i = 0; i < 16; i++)
+                            //{
+                            //    ID_queue.Enqueue(ID_Num + ":");                                
+                            //}
+                            //string ID_WIFI_SEND = (string)ID_queue.Dequeue();
+                            //for (int i = 0; i < 15; i++)
+                            //{
+                            //    ID_WIFI_SEND += (string)ID_queue.Dequeue();
+
+                            //}
+                            string ID_WIFI_SEND = ID_Num + ":";
+                            Hands_shake1 = false;
+                            socketIoManager(1, ID_WIFI_SEND);
+                        }
+                        
                         
                         if (TD == true)//TD 数据接收
                         {
 
                             string strv = serialPort1.ReadLine();
                             ReceiveArea.AppendText(strv);
+
+                            if (strv.Equals("stop"))
+                            {
+                                MessageBox.Show("The TD Experiment is alrasdy Stop");
+                                btn_start.Enabled = true;
+                                btn_stop.Enabled = false;
+                            }
+
                             string[] strArry = strv.Split(',');
                             int length_v = strArry.Length;
                             time++;
                             string length2 = Convert.ToString(length_v);
 
-                            //DC 画图
+                            //TD 画图
                             if (length_v == 1 && strArry[0] != "200000.00")
                             {
 
@@ -929,6 +956,14 @@ namespace Comm
 
                             string stru = serialPort1.ReadLine();
                             ReceiveArea.AppendText(stru);
+
+                            if (stru.Equals("stop"))
+                            {
+                                MessageBox.Show("The DCM Experiment is alrasdy Stop");
+                                btn_start1.Enabled = true;
+                                btn_stop1.Enabled = false;
+                            }
+
                             string[] strArry = stru.Split(',');
                             int length_u = strArry.Length;
                             time++;
@@ -984,6 +1019,13 @@ namespace Comm
                             string str = serialPort1.ReadLine();
                             ReceiveArea.AppendText(str);
 
+                            if (str.Equals("stop"))
+                            {
+                                MessageBox.Show("The FDA Experiment is alrasdy Stop");
+                                btn_start.Enabled = true;
+                                btn_stop.Enabled = false;
+                            }
+
                             string[] strArr = str.Split(',');
                             int length = strArr.Length;
                             //ReceiveArea.AppendText(length.ToString());
@@ -1028,11 +1070,22 @@ namespace Comm
                                     this.chart1.Series[cnt6.ToString()].Points.AddXY(fre, mag);
                                     this.chart2.Series[cnt6.ToString()].Points.AddXY(fre, pha);
                                     this.chart3.Series[cnt6.ToString()].Points.AddXY(real, img);
-                                    //this.chart1.ChartAreas[cnt6.ToString()].AxisX.ScaleView.Scroll(ScrollType.Last);
-                                    //this.chart2.ChartAreas[cnt6.ToString()].AxisX.ScaleView.Scroll(ScrollType.Last);
+
 
                                     //FDA 添加到无线队列
                                     data_queue.Enqueue(str + ":");
+                                    //string data = (string)data_queue.Dequeue();
+                                    //for (int i = 0; i < 15; i++)
+                                    //{
+                                    //     data += (string)data_queue.Dequeue();
+                                    //    if (i == 15)
+                                    //    {
+                                    //        i = 0;
+                                    //    }
+                                       
+                                    //}
+                                    socketIoManager(1, str + ":");//发送 数据队列
+
 
                                     if (rb_dur.Checked)//单次测量文件写入
                                     {
@@ -1068,68 +1121,77 @@ namespace Comm
                         {
                             string strc = serialPort1.ReadLine();
                             ReceiveArea.AppendText(strc);
-
-                            string[] strArr = strc.Split(',');
-                            int length = strArr.Length;
-
-
-                            //Comb 画图
-                            if (length == 4 && strArr[0] != "200000.00")
+                            if (strc.Equals("stop"))
                             {
-                                try
-                                {
-                                    fre = Convert.ToSingle(strArr[0]);
-                                    mag = Convert.ToSingle(strArr[1]);
-                                    pha = Convert.ToSingle(strArr[2]);
+                                MessageBox.Show("The Combination Experiment is alrasdy Stop");
+                                btn_comb_start.Enabled = true;
+                                btn_stop2.Enabled = false;
+                            }
+                            else
+                            {
+                                string[] strArr = strc.Split(',');
+                                int length = strArr.Length;
 
-                                    //Comb 数据与前一个序号作比较
-                                    Num_COMB1 = Convert.ToInt32(strArr[3]);
-                                    if (Num_COMB1 > Num_COMB2)
+
+                                //Comb 画图
+                                if (length == 4 && strArr[0] != "200000.00")
+                                {
+                                    try
                                     {
-                                        cnt11++;
-                                        chart1.Series.Add((cnt11).ToString());//添加
-                                        chart2.Series.Add((cnt11).ToString());//添加
-                                        chart3.Series.Add((cnt11).ToString());//添加
-                                        this.chart1.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
-                                        this.chart2.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
-                                        this.chart3.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
+                                        fre = Convert.ToSingle(strArr[0]);
+                                        mag = Convert.ToSingle(strArr[1]);
+                                        pha = Convert.ToSingle(strArr[2]);
+
+                                        //Comb 数据与前一个序号作比较
+                                        Num_COMB1 = Convert.ToInt32(strArr[3]);
+                                        if (Num_COMB1 > Num_COMB2)
+                                        {
+                                            cnt11++;
+                                            chart1.Series.Add((cnt11).ToString());//添加
+                                            chart2.Series.Add((cnt11).ToString());//添加
+                                            chart3.Series.Add((cnt11).ToString());//添加
+                                            this.chart1.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
+                                            this.chart2.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
+                                            this.chart3.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
+                                        }
+                                        Num_COMB2 = Convert.ToInt32(strArr[3]);
+                                        int fre_int = (int)(fre * 100);
+                                        fre = fre_int / 100;
+
+
+
+                                        double real = mag * Math.Cos(pha * Math.PI / 180);
+                                        double img = mag * Math.Sin(-pha * Math.PI / 180);
+
+                                        int real_int = (int)(real * 100);
+                                        real = real_int / 100;
+
+                                        int img_int = (int)(img * 100);
+                                        img = img_int / 100;
+
+                                        this.chart1.Series[(cnt11).ToString()].Points.AddXY(fre, mag);
+                                        this.chart2.Series[(cnt11).ToString()].Points.AddXY(fre, pha);
+                                        this.chart3.Series[(cnt11).ToString()].Points.AddXY(real, img);
+
+                                        //Comb 添加到无线队列
+                                        data_queue.Enqueue(strc + ":");
+
+                                        //Comb 写入文件
+                                        FileStream fs = new FileStream(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt", FileMode.Append);
+                                        StreamWriter sw = new StreamWriter(fs);
+                                        sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + cnt11.ToString());
+                                        sw.Flush();
+                                        sw.Close();
+                                        fs.Close();
+
                                     }
-                                    Num_COMB2 = Convert.ToInt32(strArr[3]);
-                                    int fre_int = (int)(fre * 100);
-                                    fre = fre_int / 100;
 
+                                    catch
+                                    {
+                                        //MessageBox.Show("图表未工作");
+                                        Console.WriteLine("error");
 
-
-                                    double real = mag * Math.Cos(pha * Math.PI / 180);
-                                    double img = mag * Math.Sin(-pha * Math.PI / 180);
-
-                                    int real_int = (int)(real * 100);
-                                    real = real_int / 100;
-
-                                    int img_int = (int)(img * 100);
-                                    img = img_int / 100;
-
-                                    this.chart1.Series[(cnt11).ToString()].Points.AddXY(fre, mag);
-                                    this.chart2.Series[(cnt11).ToString()].Points.AddXY(fre, pha);
-                                    this.chart3.Series[(cnt11).ToString()].Points.AddXY(real, img);
-
-                                    //Comb 添加到无线队列
-                                    data_queue.Enqueue(strc + ":");
-
-                                    //Comb 写入文件
-                                    FileStream fs = new FileStream(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt", FileMode.Append);
-                                    StreamWriter sw = new StreamWriter(fs);
-                                    sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + cnt11.ToString());
-                                    sw.Flush();
-                                    sw.Close();
-                                    fs.Close();
-
-                                }
-                                catch
-                                {
-                                    //MessageBox.Show("图表未工作");
-                                    Console.WriteLine("error");
-
+                                    }
                                 }
                             }
                         }
@@ -1173,8 +1235,7 @@ namespace Comm
                         int length = strArr.Length;
                         if (length == 2 && strArr[0] != "200000.00")
                         {
-                            //Int16 status = Convert.ToInt16(strArr[0]);
-                            //Int16 endbit = Convert.ToInt16(strArr[1]);
+
 
                             //收到0，4时，正常工作
                             if ((strArr[0].Equals("0")) && (strArr[1].Equals("4")))
@@ -1392,7 +1453,7 @@ namespace Comm
             Hands_shake1 = true;
             string data = null;
             socketIoManager(0, data);
-            //socketIoManager(1, ID_Num + ":");
+            socketIoManager(1, ID_Num + ":");
                  
         }
 
@@ -1415,7 +1476,7 @@ namespace Comm
 
             if (send == 0)
             {
-                timer2.Enabled = true;
+                //timer2.Enabled = true;
                 socket.On(Socket.EVENT_CONNECT, () =>
                 {
                     MessageBox.Show("connect server successfully");
@@ -1493,7 +1554,7 @@ namespace Comm
                 try
                 {
                     for (int i = 0; i < 16; i++)
-                {
+                    {
                         if (Hands_shake1 == false)
                         {
                             data += (string)data_queue.Dequeue();
@@ -1510,7 +1571,7 @@ namespace Comm
                         }
                     }
                
-                    socketIoManager(1, data);//发送 数据队列
+                   // socketIoManager(1, data);//发送 数据队列
                 }
                 catch
                 {
@@ -1832,9 +1893,11 @@ namespace Comm
         {
             btn_start.Enabled = false;
             btn_stop.Enabled = true;
-
+            //timer2.Enabled = true;
             try
             {
+
+                //socketIoManager(1, data);//发送 数据队列
                 //首先判断串口是否开启
                 if (serialPort1.IsOpen)
                 {
