@@ -30,7 +30,7 @@ io.on('connection', function(socket){
 	
 	data_buff = msg.split(":");
 	
-	for (i = 0; i < 16; i++) 
+	for (i = 0; i < 1; i++) 
 	{ 
 		dataFIFO.push(data_buff[i]);
 		Recieved_data = data_buff[i].split(",");
