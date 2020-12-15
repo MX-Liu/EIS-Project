@@ -486,10 +486,15 @@ namespace Comm
             return TD1;
         }
 
-        //字符串转byte（不用）
-        private byte[] strToByte(string s)
+        //字符串转BCDbyte
+        private byte[] strToBCDByte(string s)
         {
+
+            if ((s.Length % 2) != 0)
+                s = "0" + s;
             byte[] b = Encoding.ASCII.GetBytes(s);//按照指定编码将string编程字节数组
+
+
             byte[] result = new byte[s.Length];
             for (int i = 0; i < b.Length; i++)//逐字节变为16进制字符，以%隔开
             {
@@ -504,7 +509,13 @@ namespace Comm
 
             }
 
-            return result;
+
+            //test.AppendText(hexString);
+            byte[] returnBytes = new byte[s.Length / 2];
+            for (int j = 0; j < returnBytes.Length; j++)
+                returnBytes[j] = Convert.ToByte (result[0]*10 + result[1]) ;
+
+            return returnBytes;
         }
 
 
@@ -4456,8 +4467,89 @@ namespace Comm
 
         private void lab_date_Click(object sender, EventArgs e)
         {
+            //try
+            {
+                //首先判断串口是否开启
+                if (serialPort1.IsOpen)
+                {
+                    serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0x0F, 0x06 }, 0, 5);//帧头
+                    DateTime realtime = System.DateTime.Now;
+                    Int64 date = Convert.ToInt64( realtime.ToString("yy/MM/dd").Replace("/",""));
+                    Int64 time = Convert.ToInt64( realtime.ToString("HH:mm:ss").Replace(":",""));
 
-        }
+
+                    //时分秒计算
+                    Int64 nowhours = time / 10000;
+                    Int64 prepare_min = time % 10000;
+                    Int64 nowmin = prepare_min / 100;
+                    Int64 nowsec = prepare_min % 100;
+
+                    //ReceiveArea.Text = prepare_min.ToString();
+
+
+
+                    serialPort1.Write(strToBCDByte(nowhours.ToString()), 0, 1);
+                    serialPort1.Write(strToBCDByte(nowmin.ToString()), 0, 1);
+                    serialPort1.Write(strToBCDByte(nowsec.ToString()), 0, 1);
+
+                    string Weekday = (realtime.DayOfWeek).ToString();
+
+                    if (Weekday.Equals("Monday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x01}, 0, 1);
+                    }
+                    if (Weekday.Equals("Tuesday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x02 }, 0, 1);
+                    }
+                    if (Weekday.Equals("Wednesday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x03 }, 0, 1);
+                    }
+                    if (Weekday.Equals("Thursday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x04 }, 0, 1);
+                    }
+                    if (Weekday.Equals("Friday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x05 }, 0, 1);
+                    }
+                    if (Weekday.Equals("Saturday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x06 }, 0, 1);
+                    }
+                    if (Weekday.Equals("Sunday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x07 }, 0, 1);
+                    }
+
+
+                    //年月日计算
+                    Int64 prepare_year = date % 1000000;
+                    Int64 nowyear = prepare_year / 10000;
+                    Int64 prepare_month = prepare_year % 10000;
+                    Int64 nowmonth = prepare_month / 100;
+                    Int64 nowday = prepare_month % 100;
+
+
+                    serialPort1.Write(strToBCDByte(nowmonth.ToString()), 0, 1);
+                    serialPort1.Write(strToBCDByte(nowday.ToString()), 0, 1);
+                    serialPort1.Write(strToBCDByte(nowyear.ToString()), 0, 1);
+
+                    serialPort1.Write(new byte[] { 0x00 }, 0, 1);
+                    serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
+
+                }
+                else
+                {
+                    MessageBox.Show("Please open the serialport at first");
+                }
+            }
+            //catch
+            {
+                //MessageBox.Show("Please open the serialport at first");
+            }
+            }
 
         private void label38_Click(object sender, EventArgs e)
         {
