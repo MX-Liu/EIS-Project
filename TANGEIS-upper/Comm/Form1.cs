@@ -901,24 +901,24 @@ namespace Comm
                     
                     if (Hands_shake == true)//握手成功
                     {
-                        if (Hands_shake1 == true)
-                        {
+                        //if (Hands_shake1 == true)
+                        //{
 
 
-                            //for (int i = 0; i < 16; i++)
-                            //{
-                            //    ID_queue.Enqueue(ID_Num + ":");                                
-                            //}
-                            //string ID_WIFI_SEND = (string)ID_queue.Dequeue();
-                            //for (int i = 0; i < 15; i++)
-                            //{
-                            //    ID_WIFI_SEND += (string)ID_queue.Dequeue();
+                        //    //for (int i = 0; i < 16; i++)
+                        //    //{
+                        //    //    ID_queue.Enqueue(ID_Num + ":");                                
+                        //    //}
+                        //    //string ID_WIFI_SEND = (string)ID_queue.Dequeue();
+                        //    //for (int i = 0; i < 15; i++)
+                        //    //{
+                        //    //    ID_WIFI_SEND += (string)ID_queue.Dequeue();
 
-                            //}
-                            string ID_WIFI_SEND = ID_Num + ":";
-                            Hands_shake1 = false;
-                            socketIoManager(1, ID_WIFI_SEND);
-                        }
+                        //    //}
+                        //    string ID_WIFI_SEND = ID_Num + ":";
+                        //    Hands_shake1 = false;
+                        //    socketIoManager(1, ID_WIFI_SEND);
+                        //}
                         
                         
                         if (TD == true)//TD 数据接收
@@ -1095,7 +1095,7 @@ namespace Comm
                                     //    }
                                        
                                     //}
-                                    socketIoManager(1, str + ":");//发送 数据队列
+                                    //socketIoManager(1, str + ":");//发送 数据队列
 
 
                                     if (rb_dur.Checked)//单次测量文件写入
