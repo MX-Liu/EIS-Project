@@ -65,7 +65,7 @@ namespace Comm
         private Int64 cnt3 = 0;//FDA Nqst图存
         private Int64 cnt4 = 0;//TD 图存
         private Int64 cnt5 = 0;//DC图存
-        private Int64 cnt6 = 0;//FDA画多曲线计数器
+
         private Int64 cnt7 = 0;//Data Analyzer 画多曲线计数器
         private Int64 cnt8 = 0;//Comb幅度图存
         private Int64 cnt9 = 0;//Comb相位图存
@@ -76,6 +76,7 @@ namespace Comm
 
         private bool Hands_shake = false; //握手标志位
         private bool Hands_shake1 = false; //握手标志位
+        private bool FDA_PLOT = true; //FDA多曲线标志位
 
         private Int64 cnt_comb = 0;//comb 文件命名计数器
         private Int64 cnt_FDA1 = 0;//FDA 单次测量命名计数器
@@ -111,10 +112,6 @@ namespace Comm
         string tia = "";
         string tia2 = "";
 
-        string start_time_jdg1 = "00:00:00";
-        string start_time_jdg2 = "00:00:00";
-        string end_time_jdg1 = "00:00:00";
-        string end_time_jdg2 = "00:00:00";
 
         
 
@@ -170,17 +167,11 @@ namespace Comm
             cb_freq.Text = "Hz";
             cb_freq_f.Text = "Hz";
             cb_freq_t.Text = "Hz";
-            cb_dor.Text = "5";
-            cb_tia.Text = "0";
-            cb_dft.Text = "1";
+
            
-
-
             cb_freq_f2.Text = "Hz";
             cb_freq_t2.Text = "Hz";
-            cb_dor2.Text = "5";
-            cb_tia2.Text = "0";
-            cb_dft2.Text = "1";
+
             cb_days2.Text = "0";
 
             SaveFilePath.Visible = true;
@@ -490,32 +481,18 @@ namespace Comm
         private byte[] strToBCDByte(string s)
         {
 
-            if ((s.Length % 2) != 0)
-                s = "0" + s;
-            byte[] b = Encoding.ASCII.GetBytes(s);//按照指定编码将string编程字节数组
+            //if ((s.Length % 2) != 0)
+            //{
+            //    s = "0" + s;
+            //}
 
+            Int32 BCD_Code = Convert.ToInt32(s) / 10 * 16 + Convert.ToInt32(s) % 10;
 
-            byte[] result = new byte[s.Length];
-            for (int i = 0; i < b.Length; i++)//逐字节变为16进制字符，以%隔开
-            {
-                if ((b[i] == 'A') || b[i] == 'B' || b[i] == 'C' || b[i] == 'D' || b[i] == 'E' || b[i] == 'F')
-                {
-                    result[i] = Convert.ToByte(Convert.ToInt32(b[i]) - 55);
-                }
-                else
-                {
-                    result[i] = Convert.ToByte(Convert.ToInt32(b[i]) - 48);
-                }
+            string BCD = BCD_Code.ToString();
 
-            }
+            byte[] result = strToHexByte(BCD);
 
-
-            //test.AppendText(hexString);
-            byte[] returnBytes = new byte[s.Length / 2];
-            for (int j = 0; j < returnBytes.Length; j++)
-                returnBytes[j] = Convert.ToByte (result[0]*10 + result[1]) ;
-
-            return returnBytes;
+            return result;
         }
 
 
@@ -1050,24 +1027,27 @@ namespace Comm
                                     mag = Convert.ToSingle(strArr[1]);
                                     pha = Convert.ToSingle(strArr[2]);
 
-                                    //比较上一个数的序号
-                                    Num_FDA1 = Convert.ToInt32(strArr[3]);
-                                    if (Num_FDA1 > Num_FDA2)
-                                    {
-                                        cnt6++;
-                                        chart1.Series.Add((cnt6).ToString());//添加
-                                        chart2.Series.Add((cnt6).ToString());//添加
-                                        chart3.Series.Add((cnt6).ToString());//添加
-                                        this.chart1.Series[(cnt6).ToString()].ChartType = SeriesChartType.Point;
-                                        this.chart2.Series[(cnt6).ToString()].ChartType = SeriesChartType.Point;
-                                        this.chart3.Series[(cnt6).ToString()].ChartType = SeriesChartType.Point;
-                                    }
-                                    Num_FDA2 = Convert.ToInt32(strArr[3]);
+                                //比较上一个数的序号
+                                Num_FDA1 = Convert.ToInt32(strArr[3]);
+                                if (Num_FDA1 > Num_FDA2)
+                                {                                  
+                                    FDA_PLOT = true;
 
-                                    int fre_int = (int)(fre * 100);
+                                }
+                                Num_FDA2 = Convert.ToInt32(strArr[3]);
+
+                                if (FDA_PLOT == true)
+                                { 
+                                    chart1.Series.Add((strArr[3]).ToString());//添加
+                                    chart2.Series.Add((strArr[3]).ToString());//添加
+                                    chart3.Series.Add((strArr[3]).ToString());//添加
+                                    this.chart1.Series[(strArr[3]).ToString()].ChartType = SeriesChartType.Point;
+                                    this.chart2.Series[(strArr[3]).ToString()].ChartType = SeriesChartType.Point;
+                                    this.chart3.Series[(strArr[3]).ToString()].ChartType = SeriesChartType.Point;
+                                    FDA_PLOT = false;
+                                }
+                                int fre_int = (int)(fre * 100);
                                     fre = fre_int / 100;
-
-
 
                                     double real = mag * Math.Cos(pha * Math.PI / 180);
                                     double img = mag * Math.Sin(-pha * Math.PI / 180);
@@ -1078,9 +1058,9 @@ namespace Comm
                                     int img_int = (int)(img * 100);
                                     img = img_int / 100;
 
-                                    this.chart1.Series[cnt6.ToString()].Points.AddXY(fre, mag);
-                                    this.chart2.Series[cnt6.ToString()].Points.AddXY(fre, pha);
-                                    this.chart3.Series[cnt6.ToString()].Points.AddXY(real, img);
+                                    this.chart1.Series[strArr[3].ToString()].Points.AddXY(fre, mag);
+                                    this.chart2.Series[strArr[3].ToString()].Points.AddXY(fre, pha);
+                                    this.chart3.Series[strArr[3].ToString()].Points.AddXY(real, img);
 
 
                                     //FDA 添加到无线队列
@@ -1111,20 +1091,20 @@ namespace Comm
                                     {
                                         FileStream fs = new FileStream(pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt", FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + Num_FDA1.ToString());
+                                        sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[3].ToString());
                                         sw.Flush();
                                         sw.Close();
                                         fs.Close();
                                     }
                             }
                                 catch
-                                {
-                                    cnt6++;
-                                    //MessageBox.Show("图表未工作");
-                                    Console.WriteLine("error");
+                            {
+                               
+                                MessageBox.Show("图表未工作");
+                                Console.WriteLine("error");
 
-                                }
                             }
+                        }
                         }
 
                         //Comb 数据接收
@@ -1413,14 +1393,14 @@ namespace Comm
             chart3.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             chart3.ChartAreas[0].AxisY.ScaleView.Size = 3000;
             chart4.ChartAreas[0].AxisX.ScaleView.Size = 3000;
-            chart1.Series.Add((0).ToString());//添加
-            chart2.Series.Add((0).ToString());//添加
-            chart3.Series.Add((0).ToString());//添加
-            this.chart1.Series[(0).ToString()].ChartType = SeriesChartType.Point;
-            this.chart2.Series[(0).ToString()].ChartType = SeriesChartType.Point;
-            this.chart3.Series[(0).ToString()].ChartType = SeriesChartType.Point;
+            //chart1.Series.Add((0).ToString());//添加
+            //chart2.Series.Add((0).ToString());//添加
+            //chart3.Series.Add((0).ToString());//添加
+            //this.chart1.Series[(0).ToString()].ChartType = SeriesChartType.Point;
+            //this.chart2.Series[(0).ToString()].ChartType = SeriesChartType.Point;
+            //this.chart3.Series[(0).ToString()].ChartType = SeriesChartType.Point;
             chart_u_i_r.ChartAreas[0].AxisX.ScaleView.Size = 3000;
-            cnt6 = 0;//FDA线条数目初始化
+            FDA_PLOT = true;
             cnt11 = 0;//Comb线条数目初始化
         }
 
@@ -3068,8 +3048,6 @@ namespace Comm
                             serialPort1.Write(amp2, 0, 2);//amp
 
 
-                            string dft2 = "";
-
                             if (cb_dft2.Text.Equals("4"))
                             {
                                 dft2 = "0";
@@ -4467,7 +4445,7 @@ namespace Comm
 
         private void lab_date_Click(object sender, EventArgs e)
         {
-            //try
+            try
             {
                 //首先判断串口是否开启
                 if (serialPort1.IsOpen)
@@ -4545,9 +4523,9 @@ namespace Comm
                     MessageBox.Show("Please open the serialport at first");
                 }
             }
-            //catch
+            catch
             {
-                //MessageBox.Show("Please open the serialport at first");
+                MessageBox.Show("Please open the serialport at first");
             }
             }
 
