@@ -74,7 +74,7 @@ namespace Comm
         private Int64 cnt_hands_shake = 0;//串口握手信号计数器
         private Int64 cnt_hands_shake_wifi = 0;//wifi握手信号计数器
 
-        private bool Hands_shake = true; //握手标志位
+        private bool Hands_shake = false; //握手标志位
         private bool Hands_shake1 = false; //握手标志位
         private bool FDA_PLOT = true; //FDA多曲线标志位
         private bool COMB_PLOT = true; //FDA多曲线标志位
@@ -880,10 +880,10 @@ namespace Comm
                     
                     if (Hands_shake == true)//握手成功
                     {
-                        btn_freq.Enabled = true;
-                        btn_TD.Enabled = true;
-                        btn_DC.Enabled = true;
-                        btn_AC.Enabled = true;
+                        //btn_freq.Enabled = true;
+                        //btn_TD.Enabled = true;
+                        //btn_DC.Enabled = true;
+                        //btn_AC.Enabled = true;
                         //if (Hands_shake1 == true)
                         //{
 
@@ -3672,8 +3672,8 @@ namespace Comm
                 btn_DC.Visible = true;
                 btn_AC.Visible = true;
                 btn_cfg.Visible = true;
-                btn_freq.Enabled = true;
-                btn_TD.Enabled = true;
+                btn_freq.Enabled = false;
+                btn_TD.Enabled = false;
                 btn_DC.Enabled = false;
                 btn_AC.Enabled = false;
                 panel_switch.Visible = true;
