@@ -77,6 +77,7 @@ namespace Comm
         private bool Hands_shake = false; //握手标志位
         private bool Hands_shake1 = false; //握手标志位
         private bool FDA_PLOT = true; //FDA多曲线标志位
+        private bool COMB_PLOT = true; //FDA多曲线标志位
 
         private Int64 cnt_comb = 0;//comb 文件命名计数器
         private Int64 cnt_FDA1 = 0;//FDA 单次测量命名计数器
@@ -481,10 +482,7 @@ namespace Comm
         private byte[] strToBCDByte(string s)
         {
 
-            //if ((s.Length % 2) != 0)
-            //{
-            //    s = "0" + s;
-            //}
+
 
             Int32 BCD_Code = Convert.ToInt32(s) / 10 * 16 + Convert.ToInt32(s) % 10;
 
@@ -1137,15 +1135,23 @@ namespace Comm
                                         Num_COMB1 = Convert.ToInt32(strArr[3]);
                                         if (Num_COMB1 > Num_COMB2)
                                         {
-                                            cnt11++;
-                                            chart1.Series.Add((cnt11).ToString());//添加
-                                            chart2.Series.Add((cnt11).ToString());//添加
-                                            chart3.Series.Add((cnt11).ToString());//添加
-                                            this.chart1.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
-                                            this.chart2.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
-                                            this.chart3.Series[(cnt11).ToString()].ChartType = SeriesChartType.Point;
+                                            COMB_PLOT = true;
                                         }
+
                                         Num_COMB2 = Convert.ToInt32(strArr[3]);
+
+                                        if (COMB_PLOT == true)
+                                        {
+                                            cnt11++;
+                                            chart1.Series.Add((strArr[3]).ToString());//添加
+                                            chart2.Series.Add((strArr[3]).ToString());//添加
+                                            chart3.Series.Add((strArr[3]).ToString());//添加
+                                            this.chart1.Series[(strArr[3]).ToString()].ChartType = SeriesChartType.Point;
+                                            this.chart2.Series[(strArr[3]).ToString()].ChartType = SeriesChartType.Point;
+                                            this.chart3.Series[(strArr[3]).ToString()].ChartType = SeriesChartType.Point;
+
+                                        }
+                                        
                                         int fre_int = (int)(fre * 100);
                                         fre = fre_int / 100;
 
@@ -1160,9 +1166,9 @@ namespace Comm
                                         int img_int = (int)(img * 100);
                                         img = img_int / 100;
 
-                                        this.chart1.Series[(cnt11).ToString()].Points.AddXY(fre, mag);
-                                        this.chart2.Series[(cnt11).ToString()].Points.AddXY(fre, pha);
-                                        this.chart3.Series[(cnt11).ToString()].Points.AddXY(real, img);
+                                        this.chart1.Series[(strArr[3]).ToString()].Points.AddXY(fre, mag);
+                                        this.chart2.Series[(strArr[3]).ToString()].Points.AddXY(fre, pha);
+                                        this.chart3.Series[(strArr[3]).ToString()].Points.AddXY(real, img);
 
                                         //Comb 添加到无线队列
                                         data_queue.Enqueue(strc + ":");
@@ -3103,6 +3109,7 @@ namespace Comm
 
                             serialPort1.Write(strToHexByte(dft2), 0, 1);//dft
 
+                            serialPort1.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00 }, 0, 5);
 
                             //频率
 
