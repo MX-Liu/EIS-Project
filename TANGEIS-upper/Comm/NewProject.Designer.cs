@@ -38,6 +38,7 @@
             this.btn_Cal = new System.Windows.Forms.Button();
             this.btn_SaveFile = new System.Windows.Forms.Button();
             this.fdb = new System.Windows.Forms.FolderBrowserDialog();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.SuspendLayout();
             // 
             // tb_name
@@ -109,6 +110,7 @@
             this.btn_Cal.TabIndex = 7;
             this.btn_Cal.Text = "Cancel";
             this.btn_Cal.UseVisualStyleBackColor = true;
+            this.btn_Cal.Click += new System.EventHandler(this.btn_Cal_Click);
             // 
             // btn_SaveFile
             // 
@@ -120,11 +122,21 @@
             this.btn_SaveFile.UseVisualStyleBackColor = true;
             this.btn_SaveFile.Click += new System.EventHandler(this.btn_SaveFile_Click);
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, 300);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(418, 22);
+            this.statusStrip1.TabIndex = 9;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
             // NewProject
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(418, 322);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btn_SaveFile);
             this.Controls.Add(this.btn_Cal);
             this.Controls.Add(this.btn_OK);
@@ -136,6 +148,7 @@
             this.Controls.Add(this.tb_name);
             this.Name = "NewProject";
             this.Text = "NewProject";
+            this.Load += new System.EventHandler(this.NewProject_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -153,5 +166,6 @@
         private System.Windows.Forms.Button btn_Cal;
         private System.Windows.Forms.Button btn_SaveFile;
         private System.Windows.Forms.FolderBrowserDialog fdb;
+        private System.Windows.Forms.StatusStrip statusStrip1;
     }
 }

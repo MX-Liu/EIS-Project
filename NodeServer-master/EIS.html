@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>EIS RESULT</title>
+        <style type="text/css">
+            * {
+    padding: 0;
+    margin: 0;
+}
+body {
+    background-color: rgb(236,236,236);
+    min-width: 770px;
+}
+header {
+    width: 100%;
+    background-color: black;
+    color: white;
+    height: 65px;
+    padding: 10px 50px;
+    box-sizing: border-box;
+    position: relative;
+}
+h1 {
+    font-size: 20px;
+    line-height: 45px;
+}
+span {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 14px;
+    color: #108ee9;
+    cursor: pointer;
+}
+main {
+    width: 90%;
+    background-color: white;
+    border-radius: 5px;
+    margin: 50px auto;
+    /* text-align: center; */
+    padding-bottom: 30px;
+    position: relative;
+    padding: 25px;
+}
+table {
+    width: 100%;
+    display: inline-block;
+}
+
+.left {
+    width: 50%;
+    display: inline-block;
+}
+table td {
+    width: 10%;
+    line-height: 35px;
+    font-size: 14px;
+    color: #666;
+}
+select {
+    width: 70%;
+    height: 20px;
+}
+.displayBlock {
+    display: inline-block;
+    width: 40%;
+    vertical-align: top;
+    margin-left: 10px;
+}
+h5 {
+    display: inline-block;
+}
+button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+#getData {
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    height: 325px;
+    overflow: auto;
+    padding: 5px;
+}
+form {
+    margin-top: 10px;
+}
+input[type="text"] {
+    width: 70%;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid rgb(217,217,217);
+    box-sizing: border-box;
+    margin: 5px 0;
+    padding-left: 5px;
+    font-size: 14px;
+    color: #666;
+}
+input[type="button"] {
+    width: 25%;
+    height: 30px;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #108ee9;
+    border: none;
+    box-sizing: border-box;
+    margin: 10px 0;
+}
+input[type="button"]:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+button {
+    width: 200px;
+    height: 28px;
+    border-radius: 3px;
+    color: #fff;
+    background-color: #999595;
+    border: none;
+    box-sizing: border-box;
+}
+.right {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+}
+#showFlash {
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    height: 258px;
+    margin-bottom: 10px;
+}
+#getData p {
+    color: #666;
+    font-size: 14px;
+}
+.buttonGroup button {
+    margin: 3px;
+    width: 28%;
+}
+        </style>
+        
+    </head>
+
+    <body>
+		<h1> TANGEIS PLATFORM </h1>
+	
+		 <div class="left">
+			<text id="Project_ID">ProjectID</text>
+            <button id="btdn1">Frequency Domain Anlysis</button>
+            <button id="btdn_TD">Time Domain Analysis</button>
+			<button id="btdn_DC">DC Measurement</button> <br />
+			<br />
+            <button id="btdn_Comb">Combination</button>  
+			<button id="btdn2">Clear</button>
+
+        </div>
+		
+        <canvas id="panel" height="320px" width="800px"> <!--画布布局-->
+		</canvas>
+		
+		<canvas id="panel2" height="320px" width="800px"> <!--画布布局-->
+		</canvas>
+		
+		<canvas id="panel3" height="320px" width="800px"> <!--画布布局-->
+		</canvas>
+		
+		
+       
+		
+        <!--导入chart可视化文件-->
+		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>  <!-- 导入jQuery文件 -->
+		<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>  
+	
+        <script>
+			Chart.defaults.global.defaultFontFamily = "Lato";
+			Chart.defaults.global.defaultFontSize = 18;
+			
+			var socket = io();
+			var result;		
+			var	ProjectID;		
+			
+			function addData(chart, label, data) 
+			{
+				chart.data.labels.push(label);
+				chart.data.datasets.forEach((dataset) => {
+				dataset.data.push(data);});
+				chart.update();
+			}
+			
+			function addDataScatter(chart,label,color,data1,data2) 
+			{
+				chart.data.labels.push(label);
+				//chart.data.datasets.piontColor.push();
+				chart.data.datasets.forEach((dataset) => {
+				dataset.data.push({x:data1,y:data2});
+				//dataset.piontColor.push(color);
+				});
+				chart.update();
+			}
+
+			
+			
+			$(function () {
+                    
+
+					var c = $("#panel").get(0);//设置为2d画布
+					
+					var can = c.getContext("2d");
+				
+					var c2 = $("#panel2").get(0);//设置为2d画布
+					
+					var can2 = c2.getContext("2d");
+				
+					var c3 = $("#panel3").get(0);//设置为2d画布
+					
+					var can3 = c3.getContext("2d");
+        
+		
+				$("#btdn1").click(
+                        function () {
+							
+						
+						$("#panel2").show();
+						$("#panel3").show();	
+							
+						var magchart = new Chart(can, {
+						type: 'scatter',
+						
+						data: {
+							datasets: [{
+								label: 'Magnitude-Frequency-Characteristic',
+								borderColor: 'orange',
+								fill: false,
+								data: [{
+									x: 10,
+									y: 10
+								}]
+							}]
+						},
+						options: {
+							title: {
+									display: true,
+									text: 'Magnitude Diagram'
+									},
+							scales: {
+								x: {
+									type: 'linear',
+									position: 'bottom',
+									
+								}
+							}
+						}
+					});
+					
+					var phachart = new Chart(can2, {
+						type: 'scatter',
+						
+						data: {
+							datasets: [{
+								label: 'Phase-Frequency-Characteristic',
+								borderColor: 'blue',
+								fill: false,
+								data: [{
+									x: 10,
+									y: 10
+								}]
+							}]
+						},
+						options: {
+							title: {
+									display: true,
+									text: 'Phase Diagram'
+									},
+							scales: {
+								x: {
+									type: 'linear',
+									position: 'bottom',
+									
+								}
+							}
+						}
+					});	
+					
+				
+				var nqstChart = new Chart(can3, {
+						type: 'scatter',
+						
+						data: {
+							datasets: [{
+								label: 'Nyquist',
+								borderColor: 'red',
+								fill: false,
+								data: [{
+									x: 10,
+									y: 10
+								}]
+							}]
+						},
+						options: {
+							title: {
+									display: true,
+									text: 'Nyquist Diagram'
+									},
+							scales: {
+								x: {
+									type: 'linear',
+									position: 'bottom',
+									
+								}
+							}
+						}
+					});
+                            Inter=setInterval(
+                                function () {
+									socket.emit('chat message', "I need data");									
+									socket.on('chat message', function(msg){
+										result=msg.split(",");
+									});
+									 if(result.length == 4)
+									 {
+										addDataScatter(magchart,'mag','orange',result[0],result[1]);
+										addDataScatter(phachart,'pha','red',result[0],result[2]);
+										let real = result[1]*Math.cos(result[2]*Math.PI/180);
+										let img  = -result[1]*Math.sin(result[2]*Math.PI/180);									
+										addDataScatter(nqstChart,'Nyq','blue',real,img);
+									
+									}
+									
+                                },500
+                            )					
+					
+				
+					
+                  
+                    $("#btdn2").click(
+                        function () {
+                            clearInterval(Inter);
+                        }
+                    )
+                    }  
+                )
+				
+				
+				
+				
+				
+				 $("#btdn_TD").click(
+                        function () {
+							$("#panel2").hide();
+							$("#panel3").hide();
+							var TDchart = new Chart(can, {
+								type: 'scatter',
+
+								data: {
+									datasets: [{
+										label: 'Time-Impendence',
+										borderColor: 'orange',
+										fill: false,
+										data: [{
+											x: 10,
+											y: 10
+										}]
+									}]
+								},
+								options: {
+									title: {
+											display: true,
+											text: 'Time Domain Analysis'
+											},
+									scales: {
+										x: {
+											type: 'linear',
+											position: 'bottom',
+
+										}
+									}
+								}
+							});
+				
+				
+                            Inter=setInterval(
+                                function () {
+									socket.emit('chat message', "I need data");									
+									socket.on('chat message', function(msg){
+										result=msg.split(",");
+									});
+									 
+									 if(result.length == 2)
+									 {
+										addDataScatter(TDchart,'TD','orange',result[0],result[1]);
+									}
+                                },500
+                            )
+							$("#btdn2").click(
+                        function () {
+                            clearInterval(Inter);
+                        }
+                    )
+                }
+            )
+			
+			
+				
+				
+			$("#btdn_Comb").click(
+			function () {
+				
+			$("#panel2").show();
+			$("#panel3").show();
+			var magchart = new Chart(can, {
+				type: 'scatter',
+
+				data: {
+					datasets: [{
+						label: 'Magnitude-Frequency-Characteristic',
+						borderColor: 'orange',
+						fill: false,
+						data: [{
+							x: 10,
+							y: 10
+						}]
+					}]
+				},
+				options: {
+					title: {
+							display: true,
+							text: 'Magnitude Diagram'
+							},
+					scales: {
+						x: {
+							type: 'linear',
+							position: 'bottom',
+
+						}
+					}
+				}
+			});
+
+			var phachart = new Chart(can2, {
+				type: 'scatter',
+
+				data: {
+					datasets: [{
+						label: 'Phase-Frequency-Characteristic',
+						borderColor: 'blue',
+						fill: false,
+						data: [{
+							x: 10,
+							y: 10
+						}]
+					}]
+				},
+				options: {
+					title: {
+							display: true,
+							text: 'Phase Diagram'
+							},
+					scales: {
+						x: {
+							type: 'linear',
+							position: 'bottom',
+
+						}
+					}
+				}
+			});	
+
+
+		var nqstChart = new Chart(can3, {
+				type: 'scatter',
+
+				data: {
+					datasets: [{
+						label: 'Nyquist',
+						borderColor: 'red',
+						fill: false,
+						data: [{
+							x: 10,
+							y: 10
+						}]
+					}]
+				},
+				options: {
+					title: {
+							display: true,
+							text: 'Nyquist Diagram'
+							},
+					scales: {
+						x: {
+							type: 'linear',
+							position: 'bottom',
+
+						}
+					}
+				}
+			});
+					Inter=setInterval(
+						function () {
+							socket.emit('chat message', "I need data");									
+							socket.on('chat message', function(msg){
+								result=msg.split(",");
+							});
+							if(result.length == 5)
+							{
+								addDataScatter(magchart,'mag','orange',result[0],result[1]);
+								addDataScatter(phachart,'pha','red',result[0],result[2]);
+								let real = result[1]*Math.cos(result[2]*Math.PI/180);
+								let img  = -result[1]*Math.sin(result[2]*Math.PI/180);
+
+								addDataScatter(nqstChart,'Nyq','blue',real,img);
+							}
+						},500
+					)					
+
+
+
+
+				$("#btdn2").click(
+					function () {
+						clearInterval(Inter);
+					}
+				)
+			  }  
+			)
+				 
+				$("#btdn_DC").click(
+                        function () {
+							$("#panel2").hide();
+							$("#panel3").hide();
+							var Uchart = new Chart(can, {
+								type: 'scatter',
+
+								data: {
+									datasets: [{
+										label: 'Voltage-Current-Characteristic',
+										borderColor: 'orange',
+										fill: false,
+										data: [{
+											x: 10,
+											y: 10
+										},{
+											x: 10,
+											y: 10
+										},{
+											x: 10,
+											y: 10
+										}]
+									}]
+								},
+								options: {
+									title: {
+											display: true,
+											text: 'DC Measurement'
+											},
+									scales: {
+										x: {
+											type: 'linear',
+											position: 'bottom',
+
+										}
+									}
+								}
+							});
+
+                            Inter=setInterval(
+                                function () {
+									socket.emit('chat message', "I need data");									
+									socket.on('chat message', function(msg){
+										result=msg.split(",");
+									});
+									 if(result.length == 3)
+									 {
+										addDataScatter(Uchart,'U','red',result[0],result[1]);
+										addDataScatter(Uchart,'I','orange',result[0],result[2]);
+										addDataScatter(Uchart,'R','blue',result[0],result[1]/result[2]);
+									 }	
+                                },500
+                            )
+							$("#btdn2").click(
+                        function () {
+                            clearInterval(Inter);
+                        }
+                    )
+                }
+            )
+
+		})
+	
+            
+
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,99 @@
+1. 数据定义
+   1.1 界面标志位
+   1.2 串口数据定义
+   1.3 图形数据定义
+   1.4 各类计数器定义
+   1.5 路径定义
+2. 数据初始化
+   2.1 串口参数初始化
+   2.2 数据初始化
+   2.3 控件初始化
+   2.4 事件添加
+3. 自编函数
+   3.1 鼠标悬停读数设置
+   3.2 控制控件随窗体大小变化而变化
+   3.3 字符串定长
+   3.4 字符串转16进制
+   3.5 数字倒序排列
+   3.6 时间转秒
+   3.7 计算时间差(与系统时间作差)
+   3.8 字符串转16进制byte[]编码发送
+   3.9 三角波发生器
+   3.10 方波发生器
+4. 界面清空
+   4.1 按钮清空
+   4.2 函数清空
+   4.3 发送位清空
+5. 串口传输+画图
+   5.1 手动添加串口
+   5.2 打开串口
+   5.3 发送数据
+   5.4 定义串口接收事件
+   5.5 鼠标滚轮改变图像大小
+   5.6 chart init.
+   5.7 从文件发送
+6. 无线传输
+   6.1 建立连接
+   6.2 关闭连接
+   6.3 服务器数据传输
+   6.4 从服务器下载文件
+   6.5 获取本机IPv4
+   6.6 wifi定时器
+7. 文件存储
+   7.1 打开存储文件选项
+   7.2 打开文件
+   7.3 保存文件
+   7.4 bode图幅值保存
+   7.5 bode图相位保存
+   7.6 Nyquist图保存
+   7.7 时域曲线保存
+   7.8 U_I_R曲线保存 
+8. 界面切换
+   8.1 频域
+   8.2 初始化
+   8.3 时域
+   8.4 交流+直流
+   8.5 直流
+   8.6 function to control buttons（groupBox控制函数）
+9. 定时器
+   9.1 时钟显示
+   9.2 关闭窗口后关闭后台进程
+10. 频域窗口
+   10.1 FDA+TD send
+   10.2 FDA+TD stop
+   10.3 TD操作框
+   10.4 扫频操作框
+   10.5 每小时最多只能测量一次
+   10.6 天数选择判断
+   10.7 repeat 操作框
+   10.8 duration 操作框
+   10.9 时间输入判断
+   10.10 二次测量界面
+11. DC窗口
+   11.1 DC send
+   11.2 DC Stop
+   11.3 Slider for choice of wave
+   11.4 wave choose
+   11.5 Model choose
+ 12. Combination window
+   12.1 Combination send
+   12.2 stop of Combination
+   12.3 second check in COMB
+   12.4 Days Difference
+13. New Project
+   13.1 Form 2(data send back)
+14. load  Project
+   14.1 ID Struct
+   14.2 open Project
+15 Data Analyser
+   15.1 open Dateset
+   15.2 painting of single measurement in FDA
+   15.3 paiting of multiple measurement in FDA
+   15.4 paiting of single measurement in TD
+   15.5 paiting in DC
+   15.6 paiting of Combination_Measurement in COMB
+16 Windows Close
+   16.1 exit
+   16.2 back
+   16.3 shut down
+17. 未使用
