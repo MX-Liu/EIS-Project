@@ -134,7 +134,7 @@ namespace Comm
             DataBitChoose.Text = "8";
             BaudrateChoose.Text = "1000000";
 
-            dateTimePicker_f_1.Text = "00:00:00";
+           
             tb_Sweep_f.Text = "10";
             tb_Sweep_t.Text = "100";
 
@@ -173,7 +173,7 @@ namespace Comm
             cb_freq_f2.Text = "Hz";
             cb_freq_t2.Text = "Hz";
 
-            cb_days2.Text = "0";
+            cb_days2.Text = "1";
 
             SaveFilePath.Visible = true;
             ChooseFile.Visible = true;
@@ -292,10 +292,14 @@ namespace Comm
 
             //添加窗口关闭事件
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            //DTP_Start.Text = System.DateTime.Now.ToString("yyyy/MM/dd");
+            //DTP_Start2.Text = System.DateTime.Now.ToString("yyyy/MM/dd");
+            //DTP_End.Text = System.DateTime.Now.ToString("yyyy/MM/dd");
+            //DTP_End2.Text = System.DateTime.Now.ToString("yyyy/MM/dd");
 
         }
 
-
+        
 
 
         //*********************************************//
@@ -471,7 +475,7 @@ namespace Comm
             }
             else
             {
-                MessageBox.Show("Start time should be 1 min later");
+               // MessageBox.Show("Start time should be 1 min later");
                 TD1 = "0";
             }
 
@@ -876,6 +880,10 @@ namespace Comm
                     
                     if (Hands_shake == true)//握手成功
                     {
+                        //btn_freq.Enabled = true;
+                        //btn_TD.Enabled = true;
+                        //btn_DC.Enabled = true;
+                        //btn_AC.Enabled = true;
                         //if (Hands_shake1 == true)
                         //{
 
@@ -894,8 +902,8 @@ namespace Comm
                         //    Hands_shake1 = false;
                         //    socketIoManager(1, ID_WIFI_SEND);
                         //}
-                        
-                        
+
+
                         if (TD == true)//TD 数据接收
                         {
 
@@ -1195,10 +1203,10 @@ namespace Comm
                         else
                         {
                             //其他数据
-                            //string strvv = serialPort1.ReadExisting();
+                            string strvv = serialPort1.ReadExisting();
                             try
                             {
-                                string strvv = serialPort1.ReadLine();
+                                //string strvv = serialPort1.ReadLine();
                                 string[] strArr = strvv.Split(',');
                                 int length = strArr.Length;
 
@@ -1724,6 +1732,8 @@ namespace Comm
             enableButtons(false, true, false, false, true, false, true, false, false, false);
             rb_Frequncy.Checked = false;
             rb_Sweep.Checked = true;
+
+            
             //serialPort1.Write("Open COM");
 
         }
@@ -1754,7 +1764,7 @@ namespace Comm
             DCM = false;
 
             //界面初始化
-            rb_dur.Enabled = true;
+            rb_dur.Checked = true;
             rb_rep.Enabled = false;
             panel_switch.Height = btn_TD.Height;
             panel_switch.Top = btn_TD.Top;
@@ -2170,21 +2180,21 @@ namespace Comm
                         {
                             //计算天数
 
-                            string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
-                            DTP_Start.Text = dt1;
-                            DateTime d1 = DateTime.Parse(DTP_Start.Text);
-                            DateTime d2 = DateTime.Parse(DTP_End.Text);
-                            System.TimeSpan ND = d2 - d1;
-                            int ts1 = ND.Days;   //天数差
-                            int ts2 = 0;
-                            if ((ts1 > 0) && (ts1 < 8))
-                            {
-                                ts2 = ts1;
-                            }
+                            //string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
+                            //DTP_Start.Text = dt1;
+                            //DateTime d1 = DateTime.Parse(DTP_Start.Text);
+                            //DateTime d2 = DateTime.Parse(DTP_End.Text);
+                            //System.TimeSpan ND = d2 - d1;
+                            //int ts1 = ND.Days;   //天数差
+                            //int ts2 = 0;
+                            //if ((ts1 > 0) && (ts1 < 8))
+                            //{
+                            //    ts2 = ts1;
+                            //}
 
-                            string ts = Convert.ToString(ts2);
+                            //string ts = Convert.ToString(ts2);
 
-                            cb_days.Text = ts;//天数显示
+                            //cb_days.Text = ts;//天数显示
 
                             serialPort1.Write(strToHexByte(cb_days.Text), 0, 1);//天数 发送
 
@@ -2612,7 +2622,7 @@ namespace Comm
             DateTime d1 = DateTime.Parse(DTP_Start.Text);
             DateTime d2 = DateTime.Parse(DTP_End.Text);
             System.TimeSpan ND = d2 - d1;
-            int ts1 = ND.Days;   //天数差
+            int ts1 = ND.Days + 1;   //天数差
             int ts2 = 0;
             if ((ts1 > 0) && (ts1 < 8))
             {
@@ -2639,6 +2649,14 @@ namespace Comm
             tb_d_s.Text = null;
             gb_mulitply.Visible = true;
             gb_Single.Visible = false;
+            if (rb_rep.Checked == true)
+            {
+                cb_days.Text = "1";
+            }
+            else
+            {
+                cb_days.Text = "0";
+            }
         }
 
         //duration 操作框
@@ -2655,11 +2673,7 @@ namespace Comm
 
 
         // 时间输入判断
-        private void dateTimePicker_f_1_ValueChanged(object sender, EventArgs e)
-        {
-            DateTime tmp1 = DateTime.Parse(dateTimePicker_f_1.Text);
-            string tmp3 = TimeDifference(tmp1);
-        }
+
 
         //二次测量界面
         private void checkBox_SEC_CheckedChanged_1(object sender, EventArgs e)
@@ -3039,9 +3053,6 @@ namespace Comm
                         try
                         {
 
-                           
-                            //dor2 = Convert.ToDouble();
-                            //dor2 = Math.Log(dor2) / Math.Log(4);
                             serialPort1.Write(strToHexByte(cb_dor2.Text), 0, 1);//odr
 
                             byte[] tmp2 = strToHexByte(tb_amp2.Text);
@@ -3109,7 +3120,7 @@ namespace Comm
 
                             serialPort1.Write(strToHexByte(dft2), 0, 1);//dft
 
-                            serialPort1.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00 }, 0, 5);
+                            serialPort1.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00 }, 0, 5);//中部补零
 
                             //频率
 
@@ -3203,22 +3214,22 @@ namespace Comm
 
                             //计算天数
 
-                            string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
-                            DTP_Start.Text = dt1;
-                            DateTime d1 = DateTime.Parse(DTP_Start2.Text);
-                            DateTime d2 = DateTime.Parse(DTP_End2.Text);
-                            System.TimeSpan ND = d2 - d1;
-                            int ts1 = ND.Days;   //天数差
-                            int ts2 = 0;
-                            if ((ts1 > 0) && (ts1 < 8))
-                            {
-                                ts2 = ts1;
-                            }
+                            //string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
+                            //DTP_Start.Text = dt1;
+                            //DateTime d1 = DateTime.Parse(DTP_Start2.Text);
+                            //DateTime d2 = DateTime.Parse(DTP_End2.Text);
+                            //System.TimeSpan ND = d2 - d1;
+                            //int ts1 = ND.Days;   //天数差
+                            //int ts2 = 0;
+                            //if ((ts1 > 0) && (ts1 < 8))
+                            //{
+                            //    ts2 = ts1;
+                            //}
 
-                            string ts = Convert.ToString(ts2);
-                            cb_days2.Text = ts;//显示天数
+                            //string ts = Convert.ToString(ts2);
+                            //cb_days2.Text = ts;//显示天数
 
-                            serialPort1.Write(strToHexByte(cb_days2.Text), 0, 1);//发送天书
+                            serialPort1.Write(strToHexByte(cb_days2.Text), 0, 1);//发送天数
 
                             //开始时间
 
@@ -3289,7 +3300,7 @@ namespace Comm
                                 serialPort1.Write(strToHexByte(tb_times_D4.Text.Trim()), 0, 1);//次数2/天发送
                                 serialPort1.Write(strToHexByte(tb_times_T4.Text.Trim()), 0, 1);//次数2/次发送
                             }
-
+                            serialPort1.Write(new byte[] { 0x00,0x00,0x00,0x00}, 0, 4);//结束时间2发送
                         }
                         catch (Exception ee)
                         {
@@ -3365,14 +3376,14 @@ namespace Comm
 
                             if (rb_temp_y.Checked)
                             {
-                                serialPort1.Write(flag, 0, 1);
+                                serialPort1.Write(flag, 1, 1);
                             }
                             else
                             {
-                                serialPort1.Write(flag, 1, 1);
+                                serialPort1.Write(flag, 0, 1);
                             }
 
-                            serialPort1.Write(Zeros, 0, 18);//补零
+                            serialPort1.Write(Zeros, 0, 8);//补零
                             serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
                         }
 
@@ -3561,7 +3572,7 @@ namespace Comm
             DateTime d1 = DateTime.Parse(DTP_Start2.Text);
             DateTime d2 = DateTime.Parse(DTP_End2.Text);
             System.TimeSpan ND = d2 - d1;
-            int ts1 = ND.Days;   //天数差
+            int ts1 = ND.Days + 1;   //天数差
             int ts2 = 0;
             if ((ts1 > 0) && (ts1 < 8))
             {
@@ -3570,6 +3581,7 @@ namespace Comm
             else
             {
                 MessageBox.Show("The Days should between 1 and 7.");
+                ts2 = 0;
             }
 
             string ts = Convert.ToString(ts2);
@@ -4715,12 +4727,36 @@ namespace Comm
 
         private void dateTimePicker_t_2_ValueChanged(object sender, EventArgs e)
         {
-
+            if ((FDA == true) && (checkBox_SEC.Checked))
+            {
+                DateTime end_time = DateTime.Parse(dateTimePicker_t_2.Text);
+                DateTime start_time = DateTime.Parse(dateTimePicker_f_2.Text);//获取开始时间
+                string tp = TimeDifference(end_time);//计算系统事件与结束时间差
+                string ts = TimeDifference(start_time);//计算结束与开始时间差
+                                                       // int TD = ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds;
+                if ((Convert.ToUInt64(tp) - Convert.ToUInt64(ts)) < 60)
+                {
+                    MessageBox.Show("End time should be 1 min later than start time at least");
+                    dateTimePicker_t_2.Text = System.DateTime.Now.ToString("HH:mm:ss");
+                }
+            }
         }
 
         private void dateTimePicker_f_2_ValueChanged(object sender, EventArgs e)
         {
-
+            if ((FDA == true) && (checkBox_SEC.Checked))
+            {
+                DateTime end_time = DateTime.Parse(dateTimePicker_f_2.Text);
+                DateTime start_time = DateTime.Parse(dateTimePicker_t_1.Text);//获取开始时间
+                string tp = TimeDifference(end_time);//计算系统事件与结束时间差
+                string ts = TimeDifference(start_time);//计算结束与开始时间差
+                                                       // int TD = ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds;
+                if ((Convert.ToUInt64(tp) - Convert.ToUInt64(ts)) < 60)
+                {
+                    MessageBox.Show("The second start time should be 1 min later than the first end time at least");
+                    dateTimePicker_t_3.Text = System.DateTime.Now.ToString("HH:mm:ss");
+                }
+            }       
         }        
 
         private void lab_second_Click(object sender, EventArgs e)
@@ -4750,12 +4786,36 @@ namespace Comm
 
         private void dateTimePicker_t_1_ValueChanged(object sender, EventArgs e)
         {
-
+            if (ACM == true)
+            {
+                DateTime end_time = DateTime.Parse(dateTimePicker_t_1.Text);
+                DateTime start_time = DateTime.Parse(dateTimePicker_f_1.Text);//获取开始时间
+                string tp = TimeDifference(end_time);//计算系统事件与结束时间差
+                string ts = TimeDifference(start_time);//计算结束与开始时间差
+                                                       // int TD = ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds;
+                if ((Convert.ToUInt64(tp) - Convert.ToUInt64(ts)) < 60)
+                {
+                    MessageBox.Show("End time should be 1 min later than start time at least");
+                    dateTimePicker_t_1.Text = System.DateTime.Now.ToString("HH:mm:ss");
+                }
+            }
         }
 
         private void dateTimePicker_f_1_ValueChanged_1(object sender, EventArgs e)
         {
-
+            if ((FDA == true) )
+            {
+                bool limit_start_time = false;
+                DateTime start_time = DateTime.Parse(dateTimePicker_f_1.Text);
+                DateTime system_time1 = System.DateTime.Now;//获取系统时间
+                TimeSpan ts = start_time.Subtract(system_time1);//计算系统事件与当前时间差
+                int TD = ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds;
+                if (TD < 60)
+                {
+                    MessageBox.Show("Start time should be 1 min later");
+                    dateTimePicker_f_1.Text = System.DateTime.Now.AddMinutes(2).ToString("HH:mm:ss");
+                }
+            }
         }
 
         private void lab_first_Click(object sender, EventArgs e)
@@ -5107,12 +5167,36 @@ namespace Comm
 
         private void dateTimePicker_t_4_ValueChanged(object sender, EventArgs e)
         {
-
+            if((ACM == true)&&(checkBox_SEC2.Checked))
+            {
+                DateTime end_time = DateTime.Parse(dateTimePicker_t_4.Text);
+                DateTime start_time = DateTime.Parse(dateTimePicker_f_4.Text);//获取开始时间
+                string tp = TimeDifference(end_time);//计算系统事件与结束时间差
+                string ts = TimeDifference(start_time);//计算结束与开始时间差
+                                                       // int TD = ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds;
+                if ((Convert.ToUInt64(tp) - Convert.ToUInt64(ts)) < 60)
+                {
+                    MessageBox.Show("End time should be 1 min later than start time at least");
+                    dateTimePicker_t_4.Text = System.DateTime.Now.ToString("HH:mm:ss");
+                }
+            }
         }
 
         private void dateTimePicker_f_4_ValueChanged(object sender, EventArgs e)
         {
-
+            if ((ACM == true) && (checkBox_SEC2.Checked))
+            {
+                DateTime end_time = DateTime.Parse(dateTimePicker_f_4.Text);
+                DateTime start_time = DateTime.Parse(dateTimePicker_t_3.Text);//获取开始时间
+                string tp = TimeDifference(end_time);//计算系统事件与结束时间差
+                string ts = TimeDifference(start_time);//计算结束与开始时间差
+                                                       // int TD = ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds;
+                if ((Convert.ToUInt64(tp) - Convert.ToUInt64(ts)) < 60)
+                {
+                    MessageBox.Show("The second start time should be 1 min later than the first end time at least");
+                    dateTimePicker_f_4.Text = System.DateTime.Now.ToString("HH:mm:ss");
+                }
+            }
         }
 
 
@@ -5144,12 +5228,35 @@ namespace Comm
 
         private void dateTimePicker_t_3_ValueChanged(object sender, EventArgs e)
         {
-
+            if(ACM==true)
+            { 
+                DateTime end_time = DateTime.Parse(dateTimePicker_t_3.Text);
+                DateTime start_time = DateTime.Parse(dateTimePicker_f_3.Text);//获取开始时间
+                string tp = TimeDifference(end_time);//计算系统事件与结束时间差
+                string ts = TimeDifference(start_time);//计算结束与开始时间差
+               // int TD = ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds;
+                if ((Convert.ToUInt64(tp)- Convert.ToUInt64(ts)) < 60)
+                {
+                    MessageBox.Show("End time should be 1 min later than start time at least");
+                    dateTimePicker_t_3.Text = System.DateTime.Now.ToString("HH:mm:ss");
+                }
+            }
         }
 
         private void dateTimePicker_f_3_ValueChanged(object sender, EventArgs e)
         {
-
+            if (ACM == true)
+            {
+                DateTime start_time = DateTime.Parse(dateTimePicker_f_3.Text);
+                DateTime system_time1 = System.DateTime.Now;//获取系统时间
+                TimeSpan ts = start_time.Subtract(system_time1);//计算系统事件与当前时间差
+                int TD = ts.Hours * 3600 + ts.Minutes * 60 + ts.Seconds;
+                if (TD < 60)
+                {
+                    MessageBox.Show("Start time should be 1 min later");
+                    dateTimePicker_f_3.Text = System.DateTime.Now.AddMinutes(2).ToString("HH:mm:ss");
+                }
+            }
         }
 
 
@@ -5263,8 +5370,9 @@ namespace Comm
 
         }
 
+        private void cb_days2_TextChanged(object sender, EventArgs e)
+        {
 
-
-        
+        }
     }
 }
