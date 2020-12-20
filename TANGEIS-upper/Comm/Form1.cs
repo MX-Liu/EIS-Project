@@ -74,7 +74,7 @@ namespace Comm
         private Int64 cnt_hands_shake = 0;//串口握手信号计数器
         private Int64 cnt_hands_shake_wifi = 0;//wifi握手信号计数器
 
-        private bool Hands_shake = false; //握手标志位
+        private bool Hands_shake = true; //握手标志位
         private bool Hands_shake1 = false; //握手标志位
         private bool FDA_PLOT = true; //FDA多曲线标志位
         private bool COMB_PLOT = true; //FDA多曲线标志位
@@ -84,6 +84,7 @@ namespace Comm
         private Int64 cnt_FDA2 = 0;////FDA 多次测量命名计数器
         private Int64 cnt_TD = 0;//TD 文件命名计数器
         private Int64 cnt_UIR = 0;//UIR 文件命名计数器
+        private Int64 cnt_temp = 0;//UIR 文件命名计数器
 
         private Queue chart_x = new Queue();//  数据队列 用于无线传输
         private Queue chart_y = new Queue();
@@ -880,10 +881,10 @@ namespace Comm
                     
                     if (Hands_shake == true)//握手成功
                     {
-                        //btn_freq.Enabled = true;
-                        //btn_TD.Enabled = true;
-                        //btn_DC.Enabled = true;
-                        //btn_AC.Enabled = true;
+                        btn_freq.Enabled = true;
+                        btn_TD.Enabled = true;
+                        btn_DC.Enabled = true;
+                        btn_AC.Enabled = true;
                         //if (Hands_shake1 == true)
                         //{
 
@@ -908,7 +909,7 @@ namespace Comm
                         {
 
                             string strv = serialPort1.ReadLine();
-                            ReceiveArea.AppendText(strv);
+                            //ReceiveArea.AppendText(strv);
 
                             if (strv.Equals("stop"))
                             {
@@ -918,26 +919,27 @@ namespace Comm
                             }
 
                             string[] strArry = strv.Split(',');
+                            ReceiveArea.AppendText(strArry[5] + '\n');
                             int length_v = strArry.Length;
                             time++;
                             string length2 = Convert.ToString(length_v);
 
                             //TD 画图
-                            if (length_v == 1 && strArry[0] != "200000.00")
+                            if (length_v == 6 && strArry[0] == "AA" && strArry[1] == "FF" && strArry[2] == "FF" && strArry[3] == "AA" && strArry[4] == "5")
                             {
 
                                 cnt++;
                                 //TD  画图
-                                this.chart4.Series[0].Points.AddXY(cnt, strv);
+                                this.chart4.Series[0].Points.AddXY(cnt, strArry[5]);
                                 this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
 
                                 //添加到无线传输队列
-                                data_queue.Enqueue(cnt + "," + strv + ":");
+                                data_queue.Enqueue(cnt + "," + strArry[5] + ":");
 
                                 //写入文件
                                 FileStream fs = new FileStream(pathString2 + "\\" + cnt_TD + "Single_Measurement1.txt", FileMode.Append);
                                 StreamWriter sw = new StreamWriter(fs);
-                                sw.WriteLine(cnt + "\t" + strv + "\t");
+                                sw.WriteLine(cnt + "\t" + strArry[5] + "\t");
                                 sw.Flush();
                                 sw.Close();
                                 fs.Close();
@@ -949,7 +951,7 @@ namespace Comm
                         {
 
                             string stru = serialPort1.ReadLine();
-                            ReceiveArea.AppendText(stru);
+                            //ReceiveArea.AppendText(stru);
 
                             if (stru.Equals("stop"))
                             {
@@ -959,17 +961,18 @@ namespace Comm
                             }
 
                             string[] strArry = stru.Split(',');
+                            ReceiveArea.AppendText(strArry[5] + "," + strArry[6] + '\n');
                             int length_u = strArry.Length;
                             time++;
                             string length1 = Convert.ToString(length_u);
 
                             //DC 画图
-                            if (length_u == 2 && strArry[0] != "200000.00")
+                            if (length_u == 7 && strArry[0] == "AA" && strArry[1] == "FF" && strArry[2] == "FF" && strArry[3] == "AA" && strArry[4] == "3")
                             {
                                 try
                                 {
-                                    vol = Convert.ToSingle(strArry[0]);
-                                    cur = Convert.ToSingle(strArry[1]);
+                                    vol = Convert.ToSingle(strArry[5]);
+                                    cur = Convert.ToSingle(strArry[6]);
 
 
                                     double res = vol / cur;
@@ -985,7 +988,7 @@ namespace Comm
                                     tb_R.Text = res.ToString();
 
                                     //DC  添加到无线队列
-                                    data_queue.Enqueue(time + "," + stru + ":");
+                                    data_queue.Enqueue(time + "," + strArry[5] + "," + strArry[6] + ":");
 
                                     //DC 写入文件
                                     FileStream fs = new FileStream(pathString3 +"\\" +cnt_UIR+"U_I_R_data.txt", FileMode.Append);
@@ -1011,7 +1014,7 @@ namespace Comm
                         {
 
                             string str = serialPort1.ReadLine();
-                            ReceiveArea.AppendText(str);
+                            //ReceiveArea.AppendText(str);
 
                             if (str.Equals("stop"))
                             {
@@ -1021,35 +1024,36 @@ namespace Comm
                             }
 
                             string[] strArr = str.Split(',');
+                            ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7] + '\n');
                             int length = strArr.Length;
                             //ReceiveArea.AppendText(length.ToString());
 
                             //FDA 画图
-                            if (length == 4 && strArr[0] != "200000.00")
+                            if (length == 9 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "1")
                             {
                                 try
                                 {
-                                    fre = Convert.ToSingle(strArr[0]);
-                                    mag = Convert.ToSingle(strArr[1]);
-                                    pha = Convert.ToSingle(strArr[2]);
+                                    fre = Convert.ToSingle(strArr[5]);
+                                    mag = Convert.ToSingle(strArr[6]);
+                                    pha = Convert.ToSingle(strArr[7]);
 
                                 //比较上一个数的序号
-                                Num_FDA1 = Convert.ToInt32(strArr[3]);
+                                Num_FDA1 = Convert.ToInt32(strArr[8]);
                                 if (Num_FDA1 > Num_FDA2)
                                 {                                  
                                     FDA_PLOT = true;
 
                                 }
-                                Num_FDA2 = Convert.ToInt32(strArr[3]);
+                                Num_FDA2 = Convert.ToInt32(strArr[8]);
 
                                 if (FDA_PLOT == true)
                                 { 
-                                    chart1.Series.Add((strArr[3]).ToString());//添加
-                                    chart2.Series.Add((strArr[3]).ToString());//添加
-                                    chart3.Series.Add((strArr[3]).ToString());//添加
-                                    this.chart1.Series[(strArr[3]).ToString()].ChartType = SeriesChartType.Point;
-                                    this.chart2.Series[(strArr[3]).ToString()].ChartType = SeriesChartType.Point;
-                                    this.chart3.Series[(strArr[3]).ToString()].ChartType = SeriesChartType.Point;
+                                    chart1.Series.Add((strArr[8]).ToString());//添加
+                                    chart2.Series.Add((strArr[8]).ToString());//添加
+                                    chart3.Series.Add((strArr[8]).ToString());//添加
+                                    this.chart1.Series[strArr[8].ToString()].ChartType = SeriesChartType.Point;
+                                    this.chart2.Series[strArr[8].ToString()].ChartType = SeriesChartType.Point;
+                                    this.chart3.Series[strArr[8].ToString()].ChartType = SeriesChartType.Point;
                                     FDA_PLOT = false;
                                 }
                                 int fre_int = (int)(fre * 100);
@@ -1064,9 +1068,9 @@ namespace Comm
                                     int img_int = (int)(img * 100);
                                     img = img_int / 100;
 
-                                    this.chart1.Series[strArr[3].ToString()].Points.AddXY(fre, mag);
-                                    this.chart2.Series[strArr[3].ToString()].Points.AddXY(fre, pha);
-                                    this.chart3.Series[strArr[3].ToString()].Points.AddXY(real, img);
+                                    this.chart1.Series[strArr[8].ToString()].Points.AddXY(fre, mag);
+                                    this.chart2.Series[strArr[8].ToString()].Points.AddXY(fre, pha);
+                                    this.chart3.Series[strArr[8].ToString()].Points.AddXY(real, img);
 
 
                                     //FDA 添加到无线队列
@@ -1088,7 +1092,7 @@ namespace Comm
                                     {
                                         FileStream fs = new FileStream(pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt", FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t");
+                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t");
                                         sw.Flush();
                                         sw.Close();
                                         fs.Close();
@@ -1097,7 +1101,7 @@ namespace Comm
                                     {
                                         FileStream fs = new FileStream(pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt", FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[3].ToString());
+                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[3].ToString());
                                         sw.Flush();
                                         sw.Close();
                                         fs.Close();
@@ -1117,7 +1121,7 @@ namespace Comm
                         else if (ACM == true)
                         {
                             string strc = serialPort1.ReadLine();
-                            ReceiveArea.AppendText(strc);
+                            //ReceiveArea.AppendText(strc);
                             if (strc.Equals("stop"))
                             {
                                 MessageBox.Show("The Combination Experiment is alrasdy Stop");
@@ -1127,36 +1131,38 @@ namespace Comm
                             else
                             {
                                 string[] strArr = strc.Split(',');
+                                
                                 int length = strArr.Length;
 
 
                                 //Comb 画图
-                                if (length == 4 && strArr[0] != "200000.00")
+                                if (length == 9 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "1")
                                 {
+                                    ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7] + '\n');
                                     try
                                     {
-                                        fre = Convert.ToSingle(strArr[0]);
-                                        mag = Convert.ToSingle(strArr[1]);
-                                        pha = Convert.ToSingle(strArr[2]);
+                                        fre = Convert.ToSingle(strArr[5]);
+                                        mag = Convert.ToSingle(strArr[6]);
+                                        pha = Convert.ToSingle(strArr[7]);
 
                                         //Comb 数据与前一个序号作比较
-                                        Num_COMB1 = Convert.ToInt32(strArr[3]);
+                                        Num_COMB1 = Convert.ToInt32(strArr[8]);
                                         if (Num_COMB1 > Num_COMB2)
                                         {
                                             COMB_PLOT = true;
                                         }
 
-                                        Num_COMB2 = Convert.ToInt32(strArr[3]);
+                                        Num_COMB2 = Convert.ToInt32(strArr[8]);
 
                                         if (COMB_PLOT == true)
                                         {
                                             cnt11++;
-                                            chart1.Series.Add((strArr[3]).ToString());//添加
-                                            chart2.Series.Add((strArr[3]).ToString());//添加
-                                            chart3.Series.Add((strArr[3]).ToString());//添加
-                                            this.chart1.Series[(strArr[3]).ToString()].ChartType = SeriesChartType.Point;
-                                            this.chart2.Series[(strArr[3]).ToString()].ChartType = SeriesChartType.Point;
-                                            this.chart3.Series[(strArr[3]).ToString()].ChartType = SeriesChartType.Point;
+                                            chart1.Series.Add((strArr[8]).ToString());//添加
+                                            chart2.Series.Add((strArr[8]).ToString());//添加
+                                            chart3.Series.Add((strArr[8]).ToString());//添加
+                                            this.chart1.Series[(strArr[8]).ToString()].ChartType = SeriesChartType.Point;
+                                            this.chart2.Series[(strArr[8]).ToString()].ChartType = SeriesChartType.Point;
+                                            this.chart3.Series[(strArr[8]).ToString()].ChartType = SeriesChartType.Point;
 
                                         }
                                         
@@ -1174,9 +1180,9 @@ namespace Comm
                                         int img_int = (int)(img * 100);
                                         img = img_int / 100;
 
-                                        this.chart1.Series[(strArr[3]).ToString()].Points.AddXY(fre, mag);
-                                        this.chart2.Series[(strArr[3]).ToString()].Points.AddXY(fre, pha);
-                                        this.chart3.Series[(strArr[3]).ToString()].Points.AddXY(real, img);
+                                        this.chart1.Series[(strArr[8]).ToString()].Points.AddXY(fre, mag);
+                                        this.chart2.Series[(strArr[8]).ToString()].Points.AddXY(fre, pha);
+                                        this.chart3.Series[(strArr[8]).ToString()].Points.AddXY(real, img);
 
                                         //Comb 添加到无线队列
                                         data_queue.Enqueue(strc + ":");
@@ -1184,7 +1190,7 @@ namespace Comm
                                         //Comb 写入文件
                                         FileStream fs = new FileStream(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt", FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(strArr[0] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + cnt11.ToString());
+                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + cnt11.ToString());
                                         sw.Flush();
                                         sw.Close();
                                         fs.Close();
@@ -1198,18 +1204,28 @@ namespace Comm
 
                                     }
                                 }
+                                else if(length == 6 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "2")
+                                {
+                                    ReceiveArea.AppendText(strArr[5] + '\n');
+                                    cnt_temp++;
+                                    this.chart_temp.Series[0].Points.AddXY(cnt_temp, strArr[5]);
+                                    tb_temp.Text = strArr[5] + "℃";
+                                    data_queue.Enqueue(strArr[5] + "℃" + ':');
+                                    ReceiveArea.AppendText(strArr[5] + "℃");
+                                }
+
                             }
                         }
                         else
                         {
                             //其他数据
-                            string strvv = serialPort1.ReadExisting();
+                           
                             try
                             {
-                                //string strvv = serialPort1.ReadLine();
+                                string strvv = serialPort1.ReadLine();
                                 string[] strArr = strvv.Split(',');
                                 int length = strArr.Length;
-
+                                
 
                                 data_queue.Enqueue(strvv + ':');
                                 ReceiveArea.AppendText(strvv);
@@ -3672,7 +3688,7 @@ namespace Comm
                 btn_DC.Visible = true;
                 btn_AC.Visible = true;
                 btn_cfg.Visible = true;
-                btn_freq.Enabled = false;
+                btn_freq.Enabled = true;
                 btn_TD.Enabled = false;
                 btn_DC.Enabled = false;
                 btn_AC.Enabled = false;
