@@ -108,6 +108,7 @@ namespace Comm
         string foldPath = "";//工程路径
         string ID_Num = "";//工程ID
         string Combination_m = "";//COMB 数据存储 路径
+        string Temperature_M = "";//温度 数据存储 路径
         string Temperature = "℃";//温度单位
         string dft = "";
         string dft2 = "";
@@ -881,10 +882,10 @@ namespace Comm
                     
                     if (Hands_shake == true)//握手成功
                     {
-                        btn_freq.Enabled = true;
-                        btn_TD.Enabled = true;
-                        btn_DC.Enabled = true;
-                        btn_AC.Enabled = true;
+                        //btn_freq.Enabled = true;
+                        //btn_TD.Enabled = true;
+                        //btn_DC.Enabled = true;
+                        //btn_AC.Enabled = true;
                         //if (Hands_shake1 == true)
                         //{
 
@@ -919,33 +920,39 @@ namespace Comm
                             }
 
                             string[] strArry = strv.Split(',');
-                            ReceiveArea.AppendText(strArry[5] + '\n');
+                            
                             int length_v = strArry.Length;
                             time++;
                             string length2 = Convert.ToString(length_v);
-
-                            //TD 画图
-                            if (length_v == 6 && strArry[0] == "AA" && strArry[1] == "FF" && strArry[2] == "FF" && strArry[3] == "AA" && strArry[4] == "5")
+                            try
                             {
 
-                                cnt++;
-                                //TD  画图
-                                this.chart4.Series[0].Points.AddXY(cnt, strArry[5]);
-                                this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
+                                //TD 画图
+                                if (length_v == 6 && strArry[0] == "AA" && strArry[1] == "FF" && strArry[2] == "FF" && strArry[3] == "AA" && strArry[4] == "5")
+                                {
 
-                                //添加到无线传输队列
-                                data_queue.Enqueue(cnt + "," + strArry[5] + ":");
+                                    ReceiveArea.AppendText(strArry[5] + '\n');
+                                    cnt++;
+                                    //TD  画图
+                                    this.chart4.Series[0].Points.AddXY(cnt, strArry[5]);
+                                    this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
 
-                                //写入文件
-                                FileStream fs = new FileStream(pathString2 + "\\" + cnt_TD + "Single_Measurement1.txt", FileMode.Append);
-                                StreamWriter sw = new StreamWriter(fs);
-                                sw.WriteLine(cnt + "\t" + strArry[5] + "\t");
-                                sw.Flush();
-                                sw.Close();
-                                fs.Close();
+                                    //添加到无线传输队列
+                                    data_queue.Enqueue(cnt + "," + strArry[5] + ":");
+
+                                    //写入文件
+                                    FileStream fs = new FileStream(pathString2 + "\\" + cnt_TD + "Single_Measurement1.txt", FileMode.Append);
+                                    StreamWriter sw = new StreamWriter(fs);
+                                    sw.WriteLine(cnt + "\t" + strArry[5] + "\t");
+                                    sw.Flush();
+                                    sw.Close();
+                                    fs.Close();
+                                }
                             }
+                            catch
+                            {
 
-
+                            }
                         }
                         else if (DCM == true) // DC 数据接收
                         {
@@ -961,16 +968,16 @@ namespace Comm
                             }
 
                             string[] strArry = stru.Split(',');
-                            ReceiveArea.AppendText(strArry[5] + "," + strArry[6] + '\n');
+                            
                             int length_u = strArry.Length;
                             time++;
                             string length1 = Convert.ToString(length_u);
-
-                            //DC 画图
-                            if (length_u == 7 && strArry[0] == "AA" && strArry[1] == "FF" && strArry[2] == "FF" && strArry[3] == "AA" && strArry[4] == "3")
+                            try
                             {
-                                try
+                                //DC 画图
+                                if (length_u == 7 && strArry[0] == "AA" && strArry[1] == "FF" && strArry[2] == "FF" && strArry[3] == "AA" && strArry[4] == "3")
                                 {
+                                    ReceiveArea.AppendText(strArry[5] + "," + strArry[6] + '\n');
                                     vol = Convert.ToSingle(strArry[5]);
                                     cur = Convert.ToSingle(strArry[6]);
 
@@ -1000,12 +1007,13 @@ namespace Comm
 
                                 }
 
-                                catch
-                                {
+                               
+                            }
+                             catch
+                            {
 
-                                    Console.WriteLine("error");
+                                Console.WriteLine("error");
 
-                                }
                             }
                         }
 
@@ -1024,15 +1032,15 @@ namespace Comm
                             }
 
                             string[] strArr = str.Split(',');
-                            ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7] + '\n');
+                            
                             int length = strArr.Length;
                             //ReceiveArea.AppendText(length.ToString());
-
-                            //FDA 画图
-                            if (length == 9 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "1")
+                            try
                             {
-                                try
+                                //FDA 画图
+                                if (length == 9 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "1")
                                 {
+                                    ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7] + "," + strArr[8] + '\n');
                                     fre = Convert.ToSingle(strArr[5]);
                                     mag = Convert.ToSingle(strArr[6]);
                                     pha = Convert.ToSingle(strArr[7]);
@@ -1101,20 +1109,21 @@ namespace Comm
                                     {
                                         FileStream fs = new FileStream(pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt", FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[3].ToString());
+                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[8].ToString());
                                         sw.Flush();
                                         sw.Close();
                                         fs.Close();
                                     }
                             }
-                                catch
+
+                        }
+                            catch
                             {
-                               
+
                                 MessageBox.Show("图表未工作");
                                 Console.WriteLine("error");
 
                             }
-                        }
                         }
 
                         //Comb 数据接收
@@ -1138,9 +1147,10 @@ namespace Comm
                                 //Comb 画图
                                 if (length == 9 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "1")
                                 {
-                                    ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7] + '\n');
+                                    
                                     try
                                     {
+                                        ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7] + "," + strArr[8] + '\n');
                                         fre = Convert.ToSingle(strArr[5]);
                                         mag = Convert.ToSingle(strArr[6]);
                                         pha = Convert.ToSingle(strArr[7]);
@@ -1190,7 +1200,7 @@ namespace Comm
                                         //Comb 写入文件
                                         FileStream fs = new FileStream(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt", FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + cnt11.ToString());
+                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[8]);
                                         sw.Flush();
                                         sw.Close();
                                         fs.Close();
@@ -1206,12 +1216,28 @@ namespace Comm
                                 }
                                 else if(length == 6 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "2")
                                 {
-                                    ReceiveArea.AppendText(strArr[5] + '\n');
+                                    ReceiveArea.AppendText(strArr[5] + "℃" + "\n");
                                     cnt_temp++;
-                                    this.chart_temp.Series[0].Points.AddXY(cnt_temp, strArr[5]);
-                                    tb_temp.Text = strArr[5] + "℃";
-                                    data_queue.Enqueue(strArr[5] + "℃" + ':');
-                                    ReceiveArea.AppendText(strArr[5] + "℃");
+                                    try
+                                    {
+                                        this.chart_temp.Series[0].Points.AddXY(cnt_temp, strArr[5]);
+                                        tb_temp.Text = strArr[5] + "℃";
+                                        data_queue.Enqueue(strArr[5] + "℃" + ':');
+
+
+                                        //Comb 写入文件
+                                        FileStream fs = new FileStream(pathString4 + "\\" + cnt_comb + "Temperature_Measurement.txt", FileMode.Append);
+                                        StreamWriter sw = new StreamWriter(fs);
+                                        sw.WriteLine(cnt_temp.ToString() + "\t" + strArr[5]);
+                                        sw.Flush();
+                                        sw.Close();
+                                        fs.Close();
+                                    }
+                                    catch
+                                    {
+
+                                    }
+
                                 }
 
                             }
@@ -2194,23 +2220,6 @@ namespace Comm
                         //repeat
                         if (rb_rep.Checked)
                         {
-                            //计算天数
-
-                            //string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
-                            //DTP_Start.Text = dt1;
-                            //DateTime d1 = DateTime.Parse(DTP_Start.Text);
-                            //DateTime d2 = DateTime.Parse(DTP_End.Text);
-                            //System.TimeSpan ND = d2 - d1;
-                            //int ts1 = ND.Days;   //天数差
-                            //int ts2 = 0;
-                            //if ((ts1 > 0) && (ts1 < 8))
-                            //{
-                            //    ts2 = ts1;
-                            //}
-
-                            //string ts = Convert.ToString(ts2);
-
-                            //cb_days.Text = ts;//天数显示
 
                             serialPort1.Write(strToHexByte(cb_days.Text), 0, 1);//天数 发送
 
@@ -3523,6 +3532,15 @@ namespace Comm
                 sw1.Flush();
                 sw1.Close();
             }
+            if (!File.Exists(pathString4 + "\\" + cnt_comb + "Temperature_Measurement.txt"))
+            {
+                //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+
+                StreamWriter sw1 = new StreamWriter(Temperature_M);
+                sw1.WriteLine("Time" + "\t" + "Temperature");
+                sw1.Flush();
+                sw1.Close();
+            }
 
         }
 
@@ -3636,6 +3654,7 @@ namespace Comm
                 U_I_R = f2.U_I_R;
                 ID_Num = f2.ID_Num;
                 Combination_m = f2.Combination_M;
+                Temperature_M = f2.Temperature_M;
 
                 //新建文件后文件界面初始化
                 enableButtons(true, true, true, true, false, false, false, true, false, false);
@@ -3689,9 +3708,9 @@ namespace Comm
                 btn_AC.Visible = true;
                 btn_cfg.Visible = true;
                 btn_freq.Enabled = true;
-                btn_TD.Enabled = false;
-                btn_DC.Enabled = false;
-                btn_AC.Enabled = false;
+                btn_TD.Enabled = true;
+                btn_DC.Enabled = true;
+                btn_AC.Enabled = true;
                 panel_switch.Visible = true;
                 panel_load.Visible = false;
 
@@ -3714,7 +3733,7 @@ namespace Comm
                 Multiple_m = pathString1 + "/0Multiple_Measurement.txt";
                 U_I_R = pathString3 + "/0U_I_R_data.txt";
                 Combination_m = pathString4 + "/0Combination_Measurement.txt";
-
+                Temperature_M = pathString4 + "/0Temperature_Measurement.txt";
                 //在工程目录建立ID_Information.txt，保存工程信息
                 string filePathOnly = Path.GetDirectoryName(foldPath);
                 string file = Path.GetFileName(filePathOnly);
