@@ -159,7 +159,7 @@ namespace Comm
             btn_s.Visible = false;
             btn_m.Visible = false;
             panel_switch.Visible = false;
-            btn_comb_start.Enabled = true;
+            btn_comb_start.Enabled = false;
             btn_stop.Enabled = false;
             btn_stop2.Enabled = false;
             btn_stop1.Enabled = false;
