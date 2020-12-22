@@ -232,7 +232,7 @@ namespace Comm
                     //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
                     StreamWriter sw = new StreamWriter(Multiple_m);
-                    sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
+                    sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha"  + "\t" + "Times");
                     sw.Flush();
                     sw.Close();
                 }
@@ -269,7 +269,7 @@ namespace Comm
                     //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
                     StreamWriter sw = new StreamWriter(Single_m1);
-                    sw.WriteLine("Time" + "\t" + "Impedance");
+                    sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha" + "\t" );
                     sw.Flush();
                     sw.Close();
                 }
