@@ -191,10 +191,10 @@ namespace Comm
         //事件添加
         private void Form1_Load(object sender, EventArgs e)
         {
-            btn_freq.Enabled = true;
-            btn_TD.Enabled = true;
-            btn_DC.Enabled = true;
-            btn_AC.Enabled = true;
+            btn_freq.Enabled = false;
+            btn_TD.Enabled = false;
+            btn_DC.Enabled = false;
+            btn_AC.Enabled = false;
 
 
 
@@ -295,10 +295,7 @@ namespace Comm
 
             //添加窗口关闭事件
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            //DTP_Start.Text = System.DateTime.Now.ToString("yyyy/MM/dd");
-            //DTP_Start2.Text = System.DateTime.Now.ToString("yyyy/MM/dd");
-            //DTP_End.Text = System.DateTime.Now.ToString("yyyy/MM/dd");
-            //DTP_End2.Text = System.DateTime.Now.ToString("yyyy/MM/dd");
+
 
         }
 
@@ -881,10 +878,10 @@ namespace Comm
                     
                     if (Hands_shake == true)//握手成功
                     {
-                        btn_freq.Enabled = true;
-                        btn_TD.Enabled = true;
-                        btn_DC.Enabled = true;
-                        btn_AC.Enabled = true;
+                        //btn_freq.Enabled = true;
+                        //btn_TD.Enabled = true;
+                        //btn_DC.Enabled = true;
+                        //btn_AC.Enabled = true;
                         //if (Hands_shake1 == true)
                         //{
 
@@ -971,7 +968,7 @@ namespace Comm
                                 this.chart3.Series[strArr[8]].Points.AddXY(real, img);
 
                                 cnt++;
-                                this.chart4.Series[strArr[8]].Points.AddXY(cnt, strArr[6]);
+                                this.chart4.Series[strArr[8]].Points.AddXY(cnt,Convert.ToSingle( strArr[6]));
 
 
                                 //添加到无线传输队列
@@ -1037,7 +1034,7 @@ namespace Comm
                                     data_queue.Enqueue(time + "," + strArry[5] + "," + strArry[6] + ":");
 
                                     //DC 写入文件
-                                    FileStream fs = new FileStream(pathString3 +"\\" +cnt_UIR+"U_I_R_data.txt", FileMode.Append);
+                                    FileStream fs = new FileStream(pathString3 +"\\" + cnt_UIR+"U_I_R_data.txt", FileMode.Append);
                                     StreamWriter sw = new StreamWriter(fs);
                                     sw.WriteLine(time.ToString() + "\t" + tb_u.Text + "\t" + tb_I.Text + "\t" + tb_R.Text + '\t');
                                     sw.Flush();
@@ -1050,6 +1047,7 @@ namespace Comm
                                 {
 
                                     Console.WriteLine("error");
+                                    //MessageBox.Show("did not write in");
 
                                 }
                             }
@@ -1222,7 +1220,7 @@ namespace Comm
                                             this.chart3.Series[(strArr[8])].ChartType = SeriesChartType.Point;
                                             COMB_PLOT = false;
                                         }
-                                        
+
                                         int fre_int = (int)(fre * 100);
                                         fre = fre_int / 100;
 
@@ -1261,12 +1259,12 @@ namespace Comm
 
                                     }
                                 }
-                                else if(length == 6 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "2")
+                                else if (length == 6 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "2")
                                 {
                                     try
                                     {
                                         cnt_temp++;
-                                        this.chart_temp.Series[0].Points.AddXY(cnt_temp, strArr[5]);
+                                        this.chart_temp.Series[0].Points.AddXY(cnt_temp, Convert.ToSingle(strArr[5]));
                                         tb_temp.Text = strArr[5] + "℃";
                                         data_queue.Enqueue(strArr[5] + "℃" + ':');
                                         ReceiveArea.AppendText(strArr[5] + "℃");
@@ -1276,6 +1274,10 @@ namespace Comm
                                         //MessageBox.Show("图表未工作");
                                         Console.WriteLine("error");
                                     }
+                                }
+                                else
+                                {
+                                    ReceiveArea.AppendText(strc);
                                 }
 
                             }
@@ -1486,12 +1488,7 @@ namespace Comm
             chart3.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             chart3.ChartAreas[0].AxisY.ScaleView.Size = 3000;
             chart4.ChartAreas[0].AxisX.ScaleView.Size = 3000;
-            //chart1.Series.Add((0).ToString());//添加
-            //chart2.Series.Add((0).ToString());//添加
-            //chart3.Series.Add((0).ToString());//添加
-            //this.chart1.Series[(0).ToString()].ChartType = SeriesChartType.Point;
-            //this.chart2.Series[(0).ToString()].ChartType = SeriesChartType.Point;
-            //this.chart3.Series[(0).ToString()].ChartType = SeriesChartType.Point;
+
             chart_u_i_r.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             FDA_PLOT = true;
             TD_PLOT = true;
@@ -3760,10 +3757,10 @@ namespace Comm
                 btn_DC.Visible = true;
                 btn_AC.Visible = true;
                 btn_cfg.Visible = true;
-                btn_freq.Enabled = true;
-                btn_TD.Enabled = true;
-                btn_DC.Enabled = true;
-                btn_AC.Enabled = true;
+                btn_freq.Enabled = false;                   ;
+                btn_TD.Enabled = false;
+                btn_DC.Enabled = false;
+                btn_AC.Enabled = false;
                 panel_switch.Visible = true;
                 panel_load.Visible = false;
 
