@@ -65,19 +65,21 @@ namespace Comm
         private Int64 cnt3 = 0;//FDA Nqst图存
         private Int64 cnt4 = 0;//TD 图存
         private Int64 cnt5 = 0;//DC图存
-
+        private Int64 cnt6 = 0;//TD幅度图存
         private Int64 cnt7 = 0;//Data Analyzer 画多曲线计数器
         private Int64 cnt8 = 0;//Comb幅度图存
         private Int64 cnt9 = 0;//Comb相位图存
         private Int64 cnt10 = 0;//Comb Nqst图存
-        private Int64 cnt11 = 0;//Comb画多曲线计数器
+        private Int64 cnt11 = 0;//TD相位图存
+        private Int64 cnt12 = 0;//TDNqst图存
         private Int64 cnt_hands_shake = 0;//串口握手信号计数器
         private Int64 cnt_hands_shake_wifi = 0;//wifi握手信号计数器
 
         private bool Hands_shake = true; //握手标志位
         private bool Hands_shake1 = false; //握手标志位
         private bool FDA_PLOT = true; //FDA多曲线标志位
-        private bool COMB_PLOT = true; //FDA多曲线标志位
+        private bool COMB_PLOT = true; //COMB多曲线标志位
+        private bool TD_PLOT = true; //COMB多曲线标志位
 
         private Int64 cnt_comb = 0;//comb 文件命名计数器
         private Int64 cnt_FDA1 = 0;//FDA 单次测量命名计数器
@@ -108,7 +110,6 @@ namespace Comm
         string foldPath = "";//工程路径
         string ID_Num = "";//工程ID
         string Combination_m = "";//COMB 数据存储 路径
-        string Temperature_M = "";//温度 数据存储 路径
         string Temperature = "℃";//温度单位
         string dft = "";
         string dft2 = "";
@@ -190,10 +191,10 @@ namespace Comm
         //事件添加
         private void Form1_Load(object sender, EventArgs e)
         {
-            btn_freq.Enabled = true;
-            btn_TD.Enabled = true;
-            btn_DC.Enabled = true;
-            btn_AC.Enabled = true;
+            btn_freq.Enabled = false;
+            btn_TD.Enabled = false;
+            btn_DC.Enabled = false;
+            btn_AC.Enabled = false;
 
 
 
@@ -294,10 +295,7 @@ namespace Comm
 
             //添加窗口关闭事件
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            //DTP_Start.Text = System.DateTime.Now.ToString("yyyy/MM/dd");
-            //DTP_Start2.Text = System.DateTime.Now.ToString("yyyy/MM/dd");
-            //DTP_End.Text = System.DateTime.Now.ToString("yyyy/MM/dd");
-            //DTP_End2.Text = System.DateTime.Now.ToString("yyyy/MM/dd");
+
 
         }
 
@@ -523,7 +521,6 @@ namespace Comm
         private byte[] strToHexByte(string Str)
         {
 
-            //Str = Str.Replace(" ", "");
             string hexString = strToHex(Str);
             //string hexString = Str;
 
@@ -797,7 +794,6 @@ namespace Comm
             if (serialPort1.IsOpen)
 
             {
-                //
                 byte[] temp2 = strToHexByte(ID_Num);
                 byte[] temp = exchange(temp2);
                 for (int i = 0; i < temp.Length; i++)
@@ -910,49 +906,84 @@ namespace Comm
                         {
 
                             string strv = serialPort1.ReadLine();
-                            //ReceiveArea.AppendText(strv);
 
                             if (strv.Equals("stop"))
                             {
                                 MessageBox.Show("The TD Experiment is alrasdy Stop");
+                                btn_freq.Enabled = true;
+                                btn_TD.Enabled = true;
+                                btn_DC.Enabled = true;
+                                btn_AC.Enabled = true;
+
                                 btn_start.Enabled = true;
                                 btn_stop.Enabled = false;
                             }
 
-                            string[] strArry = strv.Split(',');
+                            string[] strArr = strv.Split(',');
                             
-                            int length_v = strArry.Length;
+                            int length_v = strArr.Length;
                             time++;
-                            string length2 = Convert.ToString(length_v);
-                            try
+                            
+
+                            //TD 画图
+                            if (length_v == 9 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "5")
                             {
 
-                                //TD 画图
-                                if (length_v == 6 && strArry[0] == "AA" && strArry[1] == "FF" && strArry[2] == "FF" && strArry[3] == "AA" && strArry[4] == "5")
+                                ReceiveArea.AppendText(cnt.ToString() + "," + strArr[5] + '\t' + "," + strArr[6] + '\t' + "," + strArr[7] + '\t' + '\n');
+
+                                fre = Convert.ToSingle(strArr[5]);
+                                mag = Convert.ToSingle(strArr[6]);
+                                pha = Convert.ToSingle(strArr[7]);
+
+
+
+                                if (TD_PLOT == true)
                                 {
-
-                                    ReceiveArea.AppendText(strArry[5] + '\n');
-                                    cnt++;
-                                    //TD  画图
-                                    this.chart4.Series[0].Points.AddXY(cnt, strArry[5]);
-                                    this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
-
-                                    //添加到无线传输队列
-                                    data_queue.Enqueue(cnt + "," + strArry[5] + ":");
-
-                                    //写入文件
-                                    FileStream fs = new FileStream(pathString2 + "\\" + cnt_TD + "Single_Measurement1.txt", FileMode.Append);
-                                    StreamWriter sw = new StreamWriter(fs);
-                                    sw.WriteLine(cnt + "\t" + strArry[5] + "\t");
-                                    sw.Flush();
-                                    sw.Close();
-                                    fs.Close();
+                                    chart1.Series.Add(strArr[8]);//添加
+                                    chart2.Series.Add((strArr[8]));//添加
+                                    chart3.Series.Add((strArr[8]));//添加
+                                    chart4.Series.Add((strArr[8]));//添加
+                                     
+                                    
+                                    this.chart1.Series[strArr[8]].ChartType = SeriesChartType.Point;
+                                    this.chart2.Series[strArr[8]].ChartType = SeriesChartType.Point;
+                                    this.chart3.Series[strArr[8]].ChartType = SeriesChartType.Point;
+                                    this.chart4.Series[strArr[8]].ChartType = SeriesChartType.Point;
+                                    TD_PLOT = false;
                                 }
-                            }
-                            catch
-                            {
+                                int fre_int = (int)(fre * 100);
+                                fre = fre_int / 100;
 
+                                double real = mag * Math.Cos(pha * Math.PI / 180);
+                                double img = mag * Math.Sin(-pha * Math.PI / 180);
+
+                                int real_int = (int)(real * 100);
+                                real = real_int / 100;
+
+                                int img_int = (int)(img * 100);
+                                img = img_int / 100;
+
+                                this.chart1.Series[strArr[8]].Points.AddXY(fre, mag);
+                                this.chart2.Series[strArr[8]].Points.AddXY(fre, pha);
+                                this.chart3.Series[strArr[8]].Points.AddXY(real, img);
+
+                                cnt++;
+                                this.chart4.Series[strArr[8]].Points.AddXY(cnt,Convert.ToSingle( strArr[6]));
+
+
+                                //添加到无线传输队列
+                                data_queue.Enqueue(cnt + "," + strArr[6] + ":");
+
+                                //写入文件
+                                FileStream fs = new FileStream(pathString2 + "\\" + cnt_TD.ToString() + "Single_Measurement.txt", FileMode.Append);
+                                StreamWriter sw = new StreamWriter(fs);
+                                sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t");
+                                sw.Flush();
+                                sw.Close();
+                                fs.Close();
                             }
+
+
                         }
                         else if (DCM == true) // DC 数据接收
                         {
@@ -963,6 +994,12 @@ namespace Comm
                             if (stru.Equals("stop"))
                             {
                                 MessageBox.Show("The DCM Experiment is alrasdy Stop");
+
+                                btn_freq.Enabled = true;
+                                btn_TD.Enabled = true;
+                                btn_DC.Enabled = true;
+                                btn_AC.Enabled = true;
+
                                 btn_start1.Enabled = true;
                                 btn_stop1.Enabled = false;
                             }
@@ -972,23 +1009,22 @@ namespace Comm
                             int length_u = strArry.Length;
                             time++;
                             string length1 = Convert.ToString(length_u);
-                            try
+
+                            //DC 画图
+                            if (length_u == 7 && strArry[0] == "AA" && strArry[1] == "FF" && strArry[2] == "FF" && strArry[3] == "AA" && strArry[4] == "3")
                             {
-                                //DC 画图
-                                if (length_u == 7 && strArry[0] == "AA" && strArry[1] == "FF" && strArry[2] == "FF" && strArry[3] == "AA" && strArry[4] == "3")
+                                try
                                 {
                                     ReceiveArea.AppendText(strArry[5] + "," + strArry[6] + '\n');
                                     vol = Convert.ToSingle(strArry[5]);
                                     cur = Convert.ToSingle(strArry[6]);
 
-
                                     double res = vol / cur;
-
 
                                     this.chart_u_i_r.Series[0].Points.AddXY(time, vol);
                                     this.chart_u_i_r.Series[1].Points.AddXY(time, cur);
                                     this.chart_u_i_r.Series[2].Points.AddXY(time, res);
-                                    this.chart_u_i_r.ChartAreas[0].AxisX.IsLogarithmic = true;
+                                    //this.chart_u_i_r.ChartAreas[0].AxisX.IsLogarithmic = true;
 
                                     tb_u.Text = vol.ToString();
                                     tb_I.Text = cur.ToString();
@@ -998,22 +1034,22 @@ namespace Comm
                                     data_queue.Enqueue(time + "," + strArry[5] + "," + strArry[6] + ":");
 
                                     //DC 写入文件
-                                    FileStream fs = new FileStream(pathString3 +"\\" +cnt_UIR+"U_I_R_data.txt", FileMode.Append);
+                                    FileStream fs = new FileStream(pathString3 +"\\" + cnt_UIR+"U_I_R_data.txt", FileMode.Append);
                                     StreamWriter sw = new StreamWriter(fs);
-                                    sw.WriteLine(time.ToString() + "\t" + tb_u.Text + "\t" + tb_I.Text + "\t" + tb_R.Text);
+                                    sw.WriteLine(time.ToString() + "\t" + tb_u.Text + "\t" + tb_I.Text + "\t" + tb_R.Text + '\t');
                                     sw.Flush();
                                     sw.Close();
                                     fs.Close();
 
                                 }
 
-                               
-                            }
-                             catch
-                            {
+                                catch
+                                {
 
-                                Console.WriteLine("error");
+                                    Console.WriteLine("error");
+                                    //MessageBox.Show("did not write in");
 
+                                }
                             }
                         }
 
@@ -1022,11 +1058,16 @@ namespace Comm
                         {
 
                             string str = serialPort1.ReadLine();
-                            //ReceiveArea.AppendText(str);
 
                             if (str.Equals("stop"))
                             {
                                 MessageBox.Show("The FDA Experiment is alrasdy Stop");
+
+                                btn_freq.Enabled = true;
+                                btn_TD.Enabled = true;
+                                btn_DC.Enabled = true;
+                                btn_AC.Enabled = true;
+
                                 btn_start.Enabled = true;
                                 btn_stop.Enabled = false;
                             }
@@ -1034,13 +1075,14 @@ namespace Comm
                             string[] strArr = str.Split(',');
                             
                             int length = strArr.Length;
-                            //ReceiveArea.AppendText(length.ToString());
-                            try
+                            
+
+                            //FDA 画图
+                            if (length == 9 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "1")
                             {
-                                //FDA 画图
-                                if (length == 9 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "1")
+                                ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7] + '\n');
+                                try
                                 {
-                                    ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7] + "," + strArr[8] + '\n');
                                     fre = Convert.ToSingle(strArr[5]);
                                     mag = Convert.ToSingle(strArr[6]);
                                     pha = Convert.ToSingle(strArr[7]);
@@ -1056,12 +1098,12 @@ namespace Comm
 
                                 if (FDA_PLOT == true)
                                 { 
-                                    chart1.Series.Add((strArr[8]).ToString());//添加
-                                    chart2.Series.Add((strArr[8]).ToString());//添加
-                                    chart3.Series.Add((strArr[8]).ToString());//添加
-                                    this.chart1.Series[strArr[8].ToString()].ChartType = SeriesChartType.Point;
-                                    this.chart2.Series[strArr[8].ToString()].ChartType = SeriesChartType.Point;
-                                    this.chart3.Series[strArr[8].ToString()].ChartType = SeriesChartType.Point;
+                                    chart1.Series.Add((strArr[8]));//添加
+                                    chart2.Series.Add((strArr[8]));//添加
+                                    chart3.Series.Add((strArr[8]));//添加
+                                    this.chart1.Series[strArr[8]].ChartType = SeriesChartType.Point;
+                                    this.chart2.Series[strArr[8]].ChartType = SeriesChartType.Point;
+                                    this.chart3.Series[strArr[8]].ChartType = SeriesChartType.Point;
                                     FDA_PLOT = false;
                                 }
                                 int fre_int = (int)(fre * 100);
@@ -1076,9 +1118,9 @@ namespace Comm
                                     int img_int = (int)(img * 100);
                                     img = img_int / 100;
 
-                                    this.chart1.Series[strArr[8].ToString()].Points.AddXY(fre, mag);
-                                    this.chart2.Series[strArr[8].ToString()].Points.AddXY(fre, pha);
-                                    this.chart3.Series[strArr[8].ToString()].Points.AddXY(real, img);
+                                    this.chart1.Series[strArr[8]].Points.AddXY(fre, mag);
+                                    this.chart2.Series[strArr[8]].Points.AddXY(fre, pha);
+                                    this.chart3.Series[strArr[8]].Points.AddXY(real, img);
 
 
                                     //FDA 添加到无线队列
@@ -1109,21 +1151,20 @@ namespace Comm
                                     {
                                         FileStream fs = new FileStream(pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt", FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[8].ToString());
+                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[8] + '\t');
                                         sw.Flush();
                                         sw.Close();
                                         fs.Close();
                                     }
                             }
-
-                        }
-                            catch
+                                catch
                             {
-
+                               
                                 MessageBox.Show("图表未工作");
                                 Console.WriteLine("error");
 
                             }
+                        }
                         }
 
                         //Comb 数据接收
@@ -1134,6 +1175,11 @@ namespace Comm
                             if (strc.Equals("stop"))
                             {
                                 MessageBox.Show("The Combination Experiment is alrasdy Stop");
+                                btn_freq.Enabled = true;
+                                btn_TD.Enabled = true;
+                                btn_DC.Enabled = true;
+                                btn_AC.Enabled = true;
+
                                 btn_comb_start.Enabled = true;
                                 btn_stop2.Enabled = false;
                             }
@@ -1145,12 +1191,11 @@ namespace Comm
 
 
                                 //Comb 画图
-                                if (length == 9 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "1")
+                                if (length == 9 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "4")
                                 {
-                                    
+                                    ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7] + "," + strArr[8] + '\n');
                                     try
                                     {
-                                        ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7] + "," + strArr[8] + '\n');
                                         fre = Convert.ToSingle(strArr[5]);
                                         mag = Convert.ToSingle(strArr[6]);
                                         pha = Convert.ToSingle(strArr[7]);
@@ -1167,15 +1212,15 @@ namespace Comm
                                         if (COMB_PLOT == true)
                                         {
                                             cnt11++;
-                                            chart1.Series.Add((strArr[8]).ToString());//添加
-                                            chart2.Series.Add((strArr[8]).ToString());//添加
-                                            chart3.Series.Add((strArr[8]).ToString());//添加
-                                            this.chart1.Series[(strArr[8]).ToString()].ChartType = SeriesChartType.Point;
-                                            this.chart2.Series[(strArr[8]).ToString()].ChartType = SeriesChartType.Point;
-                                            this.chart3.Series[(strArr[8]).ToString()].ChartType = SeriesChartType.Point;
-
+                                            chart1.Series.Add((strArr[8]));//添加
+                                            chart2.Series.Add((strArr[8]));//添加
+                                            chart3.Series.Add((strArr[8]));//添加
+                                            this.chart1.Series[(strArr[8])].ChartType = SeriesChartType.Point;
+                                            this.chart2.Series[(strArr[8])].ChartType = SeriesChartType.Point;
+                                            this.chart3.Series[(strArr[8])].ChartType = SeriesChartType.Point;
+                                            COMB_PLOT = false;
                                         }
-                                        
+
                                         int fre_int = (int)(fre * 100);
                                         fre = fre_int / 100;
 
@@ -1190,9 +1235,9 @@ namespace Comm
                                         int img_int = (int)(img * 100);
                                         img = img_int / 100;
 
-                                        this.chart1.Series[(strArr[8]).ToString()].Points.AddXY(fre, mag);
-                                        this.chart2.Series[(strArr[8]).ToString()].Points.AddXY(fre, pha);
-                                        this.chart3.Series[(strArr[8]).ToString()].Points.AddXY(real, img);
+                                        this.chart1.Series[(strArr[8])].Points.AddXY(fre, mag);
+                                        this.chart2.Series[(strArr[8])].Points.AddXY(fre, pha);
+                                        this.chart3.Series[(strArr[8])].Points.AddXY(real, img);
 
                                         //Comb 添加到无线队列
                                         data_queue.Enqueue(strc + ":");
@@ -1200,7 +1245,7 @@ namespace Comm
                                         //Comb 写入文件
                                         FileStream fs = new FileStream(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt", FileMode.Append);
                                         StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[8]);
+                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[8] + '\t');
                                         sw.Flush();
                                         sw.Close();
                                         fs.Close();
@@ -1214,30 +1259,25 @@ namespace Comm
 
                                     }
                                 }
-                                else if(length == 6 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "2")
+                                else if (length == 6 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "2")
                                 {
-                                    ReceiveArea.AppendText(strArr[5] + "℃" + "\n");
-                                    cnt_temp++;
                                     try
                                     {
-                                        this.chart_temp.Series[0].Points.AddXY(cnt_temp, strArr[5]);
+                                        cnt_temp++;
+                                        this.chart_temp.Series[0].Points.AddXY(cnt_temp, Convert.ToSingle(strArr[5]));
                                         tb_temp.Text = strArr[5] + "℃";
                                         data_queue.Enqueue(strArr[5] + "℃" + ':');
-
-
-                                        //Comb 写入文件
-                                        FileStream fs = new FileStream(pathString4 + "\\" + cnt_comb + "Temperature_Measurement.txt", FileMode.Append);
-                                        StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(cnt_temp.ToString() + "\t" + strArr[5]);
-                                        sw.Flush();
-                                        sw.Close();
-                                        fs.Close();
+                                        ReceiveArea.AppendText(strArr[5] + "℃");
                                     }
                                     catch
                                     {
-
+                                        //MessageBox.Show("图表未工作");
+                                        Console.WriteLine("error");
                                     }
-
+                                }
+                                else
+                                {
+                                    ReceiveArea.AppendText(strc);
                                 }
 
                             }
@@ -1259,7 +1299,6 @@ namespace Comm
                             catch
                             {
                                 Hands_shake = false;
-                                //MessageBox.Show("False COM!");
                                 serialPort1.Close();
                                 PortIsOpen = false;
                                 OpenPortButton.Text = "Port Open";
@@ -1449,15 +1488,12 @@ namespace Comm
             chart3.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             chart3.ChartAreas[0].AxisY.ScaleView.Size = 3000;
             chart4.ChartAreas[0].AxisX.ScaleView.Size = 3000;
-            //chart1.Series.Add((0).ToString());//添加
-            //chart2.Series.Add((0).ToString());//添加
-            //chart3.Series.Add((0).ToString());//添加
-            //this.chart1.Series[(0).ToString()].ChartType = SeriesChartType.Point;
-            //this.chart2.Series[(0).ToString()].ChartType = SeriesChartType.Point;
-            //this.chart3.Series[(0).ToString()].ChartType = SeriesChartType.Point;
+
             chart_u_i_r.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             FDA_PLOT = true;
-            cnt11 = 0;//Comb线条数目初始化
+            TD_PLOT = true;
+            COMB_PLOT = true;
+            //cnt11 = 0;//Comb线条数目初始化
         }
 
 
@@ -1692,6 +1728,13 @@ namespace Comm
                 MessageBox.Show("you have stored this picture");
                 cnt8++;
             }
+            else if (TD == true)
+            {
+                string bode_amp = pathString2 + "/bode_amp" + cnt6 + ".png";
+                this.chart1.SaveImage(bode_amp, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+                MessageBox.Show("you have stored this picture");
+                cnt6++;
+            }
         }
             
 
@@ -1713,6 +1756,13 @@ namespace Comm
                 MessageBox.Show("you have stored this picture");
                 cnt9++;
             }
+            else if (TD == true)
+            {
+                string bode_pha = pathString2 + "/bode_pha" + cnt11 + ".png";
+                this.chart2.SaveImage(bode_pha, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+                MessageBox.Show("you have stored this picture");
+                cnt11++;
+            }
 
         }
 
@@ -1732,6 +1782,13 @@ namespace Comm
                 this.chart3.SaveImage(Nyqst, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
                 MessageBox.Show("you have stored this picture");
                 cnt10++;
+            }
+            else if (TD == true)
+            {
+                string Nyqst = pathString2 + "/Nyqst" + cnt12 + ".png";
+                this.chart3.SaveImage(Nyqst, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+                MessageBox.Show("you have stored this picture");
+                cnt12++;
             }
         }
 
@@ -1769,14 +1826,12 @@ namespace Comm
 
             //界面初始化
             rb_rep.Enabled = true;
+            tb_s_p.Enabled = true;
             panel_switch.Height = btn_freq.Height;
             panel_switch.Top = btn_freq.Top;
             enableButtons(false, true, false, false, true, false, true, false, false, false);
             rb_Frequncy.Checked = false;
             rb_Sweep.Checked = true;
-
-            
-            //serialPort1.Write("Open COM");
 
         }
 
@@ -1792,7 +1847,7 @@ namespace Comm
             //界面初始化
             panel_switch.Height = btn_cfg.Height;
             panel_switch.Top = btn_cfg.Top;
-            enableButtons(true, true, true, true, false, false, false, true, false, false);
+            enableButtons(false, true, true, true, false, false, false, false, false, false);
 
         }
 
@@ -1805,9 +1860,12 @@ namespace Comm
             ACM = false;
             DCM = false;
 
+            tb_s_p.Text = "1";
+            tb_s_p.Enabled = false;
             //界面初始化
             rb_dur.Checked = true;
             rb_rep.Enabled = false;
+            
             panel_switch.Height = btn_TD.Height;
             panel_switch.Top = btn_TD.Top;
             gb_ac.Text = "AC Control";
@@ -1891,7 +1949,7 @@ namespace Comm
             }
 
             gb_ac.Text = "DC Control";
-            enableButtons(false, false, false, false, false, true, false, false, true, false);
+            enableButtons(false, true, false, false, false, true, false, false, true, false);
             //serialPort1.Write("Open COM");
         }
 
@@ -2220,6 +2278,23 @@ namespace Comm
                         //repeat
                         if (rb_rep.Checked)
                         {
+                            //计算天数
+
+                            //string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
+                            //DTP_Start.Text = dt1;
+                            //DateTime d1 = DateTime.Parse(DTP_Start.Text);
+                            //DateTime d2 = DateTime.Parse(DTP_End.Text);
+                            //System.TimeSpan ND = d2 - d1;
+                            //int ts1 = ND.Days;   //天数差
+                            //int ts2 = 0;
+                            //if ((ts1 > 0) && (ts1 < 8))
+                            //{
+                            //    ts2 = ts1;
+                            //}
+
+                            //string ts = Convert.ToString(ts2);
+
+                            //cb_days.Text = ts;//天数显示
 
                             serialPort1.Write(strToHexByte(cb_days.Text), 0, 1);//天数 发送
 
@@ -2498,11 +2573,11 @@ namespace Comm
 
                 cnt_TD++;
 
-                if (!File.Exists(pathString2 + "\\" + cnt_TD + "Single_Measurement1.txt"))
+                if (!File.Exists(pathString2 + "\\" + cnt_TD + "Single_Measurement.txt"))
                 {
 
-                    StreamWriter sw1 = new StreamWriter(pathString2 + "\\" + cnt_TD + "Single_Measurement1.txt");
-                    sw1.WriteLine("Time" + "\t" + "Voltag" + "\t" + "Current" + "\t" + "Impedence");
+                    StreamWriter sw1 = new StreamWriter(pathString2 + "\\" + cnt_TD + "Single_Measurement.txt");
+                    sw1.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
                     sw1.Flush();
                     sw1.Close();
                 }
@@ -2999,7 +3074,7 @@ namespace Comm
         //Combination send
         private void btn_comb_start_Click(object sender, EventArgs e)
         {
-
+           
             btn_freq.Enabled = false;
             btn_TD.Enabled = false;
             btn_DC.Enabled = false;
@@ -3237,22 +3312,7 @@ namespace Comm
 
                             //repeat
 
-                            //计算天数
 
-                            //string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
-                            //DTP_Start.Text = dt1;
-                            //DateTime d1 = DateTime.Parse(DTP_Start2.Text);
-                            //DateTime d2 = DateTime.Parse(DTP_End2.Text);
-                            //System.TimeSpan ND = d2 - d1;
-                            //int ts1 = ND.Days;   //天数差
-                            //int ts2 = 0;
-                            //if ((ts1 > 0) && (ts1 < 8))
-                            //{
-                            //    ts2 = ts1;
-                            //}
-
-                            //string ts = Convert.ToString(ts2);
-                            //cb_days2.Text = ts;//显示天数
 
                             serialPort1.Write(strToHexByte(cb_days2.Text), 0, 1);//发送天数
 
@@ -3532,15 +3592,6 @@ namespace Comm
                 sw1.Flush();
                 sw1.Close();
             }
-            if (!File.Exists(pathString4 + "\\" + cnt_comb + "Temperature_Measurement.txt"))
-            {
-                //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-
-                StreamWriter sw1 = new StreamWriter(Temperature_M);
-                sw1.WriteLine("Time" + "\t" + "Temperature");
-                sw1.Flush();
-                sw1.Close();
-            }
 
         }
 
@@ -3654,7 +3705,6 @@ namespace Comm
                 U_I_R = f2.U_I_R;
                 ID_Num = f2.ID_Num;
                 Combination_m = f2.Combination_M;
-                Temperature_M = f2.Temperature_M;
 
                 //新建文件后文件界面初始化
                 enableButtons(true, true, true, true, false, false, false, true, false, false);
@@ -3707,10 +3757,10 @@ namespace Comm
                 btn_DC.Visible = true;
                 btn_AC.Visible = true;
                 btn_cfg.Visible = true;
-                btn_freq.Enabled = true;
-                btn_TD.Enabled = true;
-                btn_DC.Enabled = true;
-                btn_AC.Enabled = true;
+                btn_freq.Enabled = false;                   ;
+                btn_TD.Enabled = false;
+                btn_DC.Enabled = false;
+                btn_AC.Enabled = false;
                 panel_switch.Visible = true;
                 panel_load.Visible = false;
 
@@ -3733,7 +3783,7 @@ namespace Comm
                 Multiple_m = pathString1 + "/0Multiple_Measurement.txt";
                 U_I_R = pathString3 + "/0U_I_R_data.txt";
                 Combination_m = pathString4 + "/0Combination_Measurement.txt";
-                Temperature_M = pathString4 + "/0Temperature_Measurement.txt";
+
                 //在工程目录建立ID_Information.txt，保存工程信息
                 string filePathOnly = Path.GetDirectoryName(foldPath);
                 string file = Path.GetFileName(filePathOnly);

@@ -130,12 +130,6 @@ namespace Comm
             get { return this.Combination_M; }
         }
 
-        public string Temperature_M;
-        public string temperature_M
-        {
-            get { return this.Temperature_M; }
-        }
-
         public string ID_Num;
         public string Id_num
         {
@@ -238,7 +232,7 @@ namespace Comm
                     //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
                     StreamWriter sw = new StreamWriter(Multiple_m);
-                    sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
+                    sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha"  + "\t" + "Times");
                     sw.Flush();
                     sw.Close();
                 }
@@ -275,7 +269,7 @@ namespace Comm
                     //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
 
                     StreamWriter sw = new StreamWriter(Single_m1);
-                    sw.WriteLine("Time" + "\t" + "Impedance");
+                    sw.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha" + "\t" );
                     sw.Flush();
                     sw.Close();
                 }
@@ -352,17 +346,7 @@ namespace Comm
                     sw.Close();
                 }
 
-                Temperature_M = pathString4 + "/0Temperature_Measurement.txt";
 
-                if (!File.Exists(Temperature_M))
-                {
-                    //FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-
-                    StreamWriter sw = new StreamWriter(Temperature_M);
-                    sw.WriteLine("Time" + "\t" + "Temperature" );
-                    sw.Flush();
-                    sw.Close();
-                }
 
 
                 string Read_path = filename + "/ReadME.txt";
