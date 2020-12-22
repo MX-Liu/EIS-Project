@@ -604,7 +604,95 @@ namespace Comm
             }
             return y;
         }
+        //时间校准
+        private void datetimesend()
+        {
 
+            try
+            {
+                //首先判断串口是否开启
+                if (serialPort1.IsOpen)
+                {
+                    serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0x0F, 0x06 }, 0, 5);//帧头
+                    DateTime realtime = System.DateTime.Now;
+                    Int64 date = Convert.ToInt64(realtime.ToString("yy/MM/dd").Replace("/", ""));
+                    Int64 time = Convert.ToInt64(realtime.ToString("HH:mm:ss").Replace(":", ""));
+
+
+                    //时分秒计算
+                    Int64 nowhours = time / 10000;
+                    Int64 prepare_min = time % 10000;
+                    Int64 nowmin = prepare_min / 100;
+                    Int64 nowsec = prepare_min % 100;
+
+                    //ReceiveArea.Text = prepare_min.ToString();
+
+
+
+                    serialPort1.Write(strToBCDByte(nowhours.ToString()), 0, 1);
+                    serialPort1.Write(strToBCDByte(nowmin.ToString()), 0, 1);
+                    serialPort1.Write(strToBCDByte(nowsec.ToString()), 0, 1);
+
+                    string Weekday = (realtime.DayOfWeek).ToString();
+
+                    if (Weekday.Equals("Monday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x01 }, 0, 1);
+                    }
+                    if (Weekday.Equals("Tuesday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x02 }, 0, 1);
+                    }
+                    if (Weekday.Equals("Wednesday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x03 }, 0, 1);
+                    }
+                    if (Weekday.Equals("Thursday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x04 }, 0, 1);
+                    }
+                    if (Weekday.Equals("Friday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x05 }, 0, 1);
+                    }
+                    if (Weekday.Equals("Saturday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x06 }, 0, 1);
+                    }
+                    if (Weekday.Equals("Sunday"))
+                    {
+                        serialPort1.Write(new byte[] { 0x07 }, 0, 1);
+                    }
+
+
+                    //年月日计算
+                    Int64 prepare_year = date % 1000000;
+                    Int64 nowyear = prepare_year / 10000;
+                    Int64 prepare_month = prepare_year % 10000;
+                    Int64 nowmonth = prepare_month / 100;
+                    Int64 nowday = prepare_month % 100;
+
+
+                    serialPort1.Write(strToBCDByte(nowmonth.ToString()), 0, 1);
+                    serialPort1.Write(strToBCDByte(nowday.ToString()), 0, 1);
+                    serialPort1.Write(strToBCDByte(nowyear.ToString()), 0, 1);
+
+                    serialPort1.Write(new byte[] { 0x00 }, 0, 1);
+                    serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
+
+                }
+                else
+                {
+                    MessageBox.Show("Please open the serialport at first");
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Please open the serialport at first");
+            }
+
+
+        }
 
         //*********************************************//
         //**************界面清空**********************//
@@ -794,6 +882,7 @@ namespace Comm
             if (serialPort1.IsOpen)
 
             {
+                
                 byte[] temp2 = strToHexByte(ID_Num);
                 byte[] temp = exchange(temp2);
                 for (int i = 0; i < temp.Length; i++)
@@ -807,6 +896,9 @@ namespace Comm
                 {
                     if (Hands_shake == true)
                     {
+                        //时间校准
+                        datetimesend();
+
                         break;
                     }
                     else
@@ -818,6 +910,7 @@ namespace Comm
                         Thread.Sleep(100);
                     }
                 }
+                
             }
 
         }
@@ -929,7 +1022,7 @@ namespace Comm
                             if (length_v == 9 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "5")
                             {
 
-                                ReceiveArea.AppendText(cnt.ToString() + "," + strArr[5] + '\t' + "," + strArr[6] + '\t' + "," + strArr[7] + '\t' + '\n');
+                                ReceiveArea.AppendText(cnt.ToString() + "," + strArr[5]  + "," + strArr[6] +"," + strArr[7] + '\r' + '\n');
 
                                 fre = Convert.ToSingle(strArr[5]);
                                 mag = Convert.ToSingle(strArr[6]);
@@ -942,13 +1035,15 @@ namespace Comm
                                     chart1.Series.Add(strArr[8]);//添加
                                     chart2.Series.Add((strArr[8]));//添加
                                     chart3.Series.Add((strArr[8]));//添加
-                                    chart4.Series.Add((strArr[8]));//添加
-                                     
-                                    
+                                    chart4.Series.Add(("mag"));//添加
+                                    chart4.Series.Add(("pha"));//添加
+
+
                                     this.chart1.Series[strArr[8]].ChartType = SeriesChartType.Point;
                                     this.chart2.Series[strArr[8]].ChartType = SeriesChartType.Point;
                                     this.chart3.Series[strArr[8]].ChartType = SeriesChartType.Point;
-                                    this.chart4.Series[strArr[8]].ChartType = SeriesChartType.Point;
+                                    this.chart4.Series["mag"].ChartType = SeriesChartType.Point;
+                                    this.chart4.Series["pha"].ChartType = SeriesChartType.Point;
                                     TD_PLOT = false;
                                 }
                                 int fre_int = (int)(fre * 100);
@@ -968,8 +1063,9 @@ namespace Comm
                                 this.chart3.Series[strArr[8]].Points.AddXY(real, img);
 
                                 cnt++;
-                                this.chart4.Series[strArr[8]].Points.AddXY(cnt,Convert.ToSingle( strArr[6]));
+                                this.chart4.Series["mag"].Points.AddXY(cnt,Convert.ToSingle( strArr[6]));
 
+                                this.chart4.Series["pha"].Points.AddXY(cnt, Convert.ToSingle(strArr[7]));
 
                                 //添加到无线传输队列
                                 data_queue.Enqueue(cnt + "," + strArr[6] + ":");
@@ -1015,7 +1111,7 @@ namespace Comm
                             {
                                 try
                                 {
-                                    ReceiveArea.AppendText(strArry[5] + "," + strArry[6] + '\n');
+                                    ReceiveArea.AppendText(strArry[5] + "," + strArry[6] + '\r' + '\n');
                                     vol = Convert.ToSingle(strArry[5]);
                                     cur = Convert.ToSingle(strArry[6]);
 
@@ -1080,7 +1176,7 @@ namespace Comm
                             //FDA 画图
                             if (length == 9 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "1")
                             {
-                                ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7] + '\n');
+                                ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7]+ '\r' + '\n');
                                 try
                                 {
                                     fre = Convert.ToSingle(strArr[5]);
@@ -1193,7 +1289,7 @@ namespace Comm
                                 //Comb 画图
                                 if (length == 9 && strArr[0] == "AA" && strArr[1] == "FF" && strArr[2] == "FF" && strArr[3] == "AA" && strArr[4] == "4")
                                 {
-                                    ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7] + "," + strArr[8] + '\n');
+                                    ReceiveArea.AppendText(strArr[5] + "," + strArr[6] + "," + strArr[7] + "," + strArr[8] + '\r' + '\n');
                                     try
                                     {
                                         fre = Convert.ToSingle(strArr[5]);
@@ -1267,7 +1363,7 @@ namespace Comm
                                         this.chart_temp.Series[0].Points.AddXY(cnt_temp, Convert.ToSingle(strArr[5]));
                                         tb_temp.Text = strArr[5] + "℃";
                                         data_queue.Enqueue(strArr[5] + "℃" + ':');
-                                        ReceiveArea.AppendText(strArr[5] + "℃");
+                                        ReceiveArea.AppendText(strArr[5] + "℃" +'\r' + '\n');
                                     }
                                     catch
                                     {
@@ -1288,7 +1384,7 @@ namespace Comm
                            
                             try
                             {
-                                string strvv = serialPort1.ReadLine();
+                                string strvv = serialPort1.ReadExisting();
                                 string[] strArr = strvv.Split(',');
                                 int length = strArr.Length;
                                 
@@ -3220,7 +3316,7 @@ namespace Comm
 
                             serialPort1.Write(strToHexByte(dft2), 0, 1);//dft
 
-                            serialPort1.Write(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00 }, 0, 5);//中部补零
+                            serialPort1.Write(new byte[] { 0x01, 0x00, 0x00, 0x00, 0x00 }, 0, 5);//中部补零
 
                             //频率
 
@@ -4549,89 +4645,8 @@ namespace Comm
 
         private void lab_date_Click(object sender, EventArgs e)
         {
-            try
-            {
-                //首先判断串口是否开启
-                if (serialPort1.IsOpen)
-                {
-                    serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0x0F, 0x06 }, 0, 5);//帧头
-                    DateTime realtime = System.DateTime.Now;
-                    Int64 date = Convert.ToInt64( realtime.ToString("yy/MM/dd").Replace("/",""));
-                    Int64 time = Convert.ToInt64( realtime.ToString("HH:mm:ss").Replace(":",""));
-
-
-                    //时分秒计算
-                    Int64 nowhours = time / 10000;
-                    Int64 prepare_min = time % 10000;
-                    Int64 nowmin = prepare_min / 100;
-                    Int64 nowsec = prepare_min % 100;
-
-                    //ReceiveArea.Text = prepare_min.ToString();
-
-
-
-                    serialPort1.Write(strToBCDByte(nowhours.ToString()), 0, 1);
-                    serialPort1.Write(strToBCDByte(nowmin.ToString()), 0, 1);
-                    serialPort1.Write(strToBCDByte(nowsec.ToString()), 0, 1);
-
-                    string Weekday = (realtime.DayOfWeek).ToString();
-
-                    if (Weekday.Equals("Monday"))
-                    {
-                        serialPort1.Write(new byte[] { 0x01}, 0, 1);
-                    }
-                    if (Weekday.Equals("Tuesday"))
-                    {
-                        serialPort1.Write(new byte[] { 0x02 }, 0, 1);
-                    }
-                    if (Weekday.Equals("Wednesday"))
-                    {
-                        serialPort1.Write(new byte[] { 0x03 }, 0, 1);
-                    }
-                    if (Weekday.Equals("Thursday"))
-                    {
-                        serialPort1.Write(new byte[] { 0x04 }, 0, 1);
-                    }
-                    if (Weekday.Equals("Friday"))
-                    {
-                        serialPort1.Write(new byte[] { 0x05 }, 0, 1);
-                    }
-                    if (Weekday.Equals("Saturday"))
-                    {
-                        serialPort1.Write(new byte[] { 0x06 }, 0, 1);
-                    }
-                    if (Weekday.Equals("Sunday"))
-                    {
-                        serialPort1.Write(new byte[] { 0x07 }, 0, 1);
-                    }
-
-
-                    //年月日计算
-                    Int64 prepare_year = date % 1000000;
-                    Int64 nowyear = prepare_year / 10000;
-                    Int64 prepare_month = prepare_year % 10000;
-                    Int64 nowmonth = prepare_month / 100;
-                    Int64 nowday = prepare_month % 100;
-
-
-                    serialPort1.Write(strToBCDByte(nowmonth.ToString()), 0, 1);
-                    serialPort1.Write(strToBCDByte(nowday.ToString()), 0, 1);
-                    serialPort1.Write(strToBCDByte(nowyear.ToString()), 0, 1);
-
-                    serialPort1.Write(new byte[] { 0x00 }, 0, 1);
-                    serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
-
-                }
-                else
-                {
-                    MessageBox.Show("Please open the serialport at first");
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Please open the serialport at first");
-            }
-            }
+            datetimesend();
+        }
 
         private void label38_Click(object sender, EventArgs e)
         {

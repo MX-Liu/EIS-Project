@@ -29,28 +29,28 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea22 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend16 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Title title13 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea23 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend17 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Title title14 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea24 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend18 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Title title15 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea25 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend19 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Title title16 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea26 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend20 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series17 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea27 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series19 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea50 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend36 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title29 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea51 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend37 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title30 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea52 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend38 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title31 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea53 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend39 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title32 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea54 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend40 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series36 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series37 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series38 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea55 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series39 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea28 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series20 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea56 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series40 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.HexSend = new System.Windows.Forms.CheckBox();
             this.ClearSendArea = new System.Windows.Forms.Button();
@@ -149,16 +149,12 @@
             this.label36 = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
             this.panel_sec = new System.Windows.Forms.Panel();
-            this.label28 = new System.Windows.Forms.Label();
             this.tb_times_T2 = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
             this.dateTimePicker_t_2 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker_f_2 = new System.Windows.Forms.DateTimePicker();
             this.tb_times_D2 = new System.Windows.Forms.TextBox();
             this.lab_second = new System.Windows.Forms.Label();
             this.panel_fst = new System.Windows.Forms.Panel();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
             this.tb_times_T1 = new System.Windows.Forms.TextBox();
             this.dateTimePicker_t_1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker_f_1 = new System.Windows.Forms.DateTimePicker();
@@ -269,9 +265,7 @@
             this.label53 = new System.Windows.Forms.Label();
             this.label54 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label55 = new System.Windows.Forms.Label();
             this.tb_times_T4 = new System.Windows.Forms.TextBox();
-            this.label56 = new System.Windows.Forms.Label();
             this.dateTimePicker_t_4 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker_f_4 = new System.Windows.Forms.DateTimePicker();
             this.tb_times_D4 = new System.Windows.Forms.TextBox();
@@ -279,8 +273,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.label67 = new System.Windows.Forms.Label();
             this.label66 = new System.Windows.Forms.Label();
-            this.label65 = new System.Windows.Forms.Label();
-            this.label58 = new System.Windows.Forms.Label();
             this.label59 = new System.Windows.Forms.Label();
             this.dateTimePicker_t_3 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker_f_3 = new System.Windows.Forms.DateTimePicker();
@@ -307,6 +299,13 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.btn_download = new System.Windows.Forms.Button();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label55 = new System.Windows.Forms.Label();
+            this.label56 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -363,9 +362,9 @@
             this.groupBox1.Controls.Add(this.PutIntoFile);
             this.groupBox1.Controls.Add(this.ChooseFile);
             this.groupBox1.Controls.Add(this.Hexshow);
-            this.groupBox1.Location = new System.Drawing.Point(5, 200);
+            this.groupBox1.Location = new System.Drawing.Point(5, 225);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(416, 212);
+            this.groupBox1.Size = new System.Drawing.Size(371, 187);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Configure";
@@ -375,7 +374,7 @@
             // 
             this.HexSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.HexSend.AutoSize = true;
-            this.HexSend.Location = new System.Drawing.Point(8, 41);
+            this.HexSend.Location = new System.Drawing.Point(8, 28);
             this.HexSend.Name = "HexSend";
             this.HexSend.Size = new System.Drawing.Size(72, 16);
             this.HexSend.TabIndex = 4;
@@ -386,9 +385,9 @@
             // ClearSendArea
             // 
             this.ClearSendArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.ClearSendArea.Location = new System.Drawing.Point(10, 177);
+            this.ClearSendArea.Location = new System.Drawing.Point(10, 164);
             this.ClearSendArea.Name = "ClearSendArea";
-            this.ClearSendArea.Size = new System.Drawing.Size(395, 23);
+            this.ClearSendArea.Size = new System.Drawing.Size(350, 23);
             this.ClearSendArea.TabIndex = 2;
             this.ClearSendArea.Text = "Clear Send Data";
             this.ClearSendArea.UseVisualStyleBackColor = true;
@@ -397,9 +396,9 @@
             // SaveFilePath
             // 
             this.SaveFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveFilePath.Location = new System.Drawing.Point(10, 87);
+            this.SaveFilePath.Location = new System.Drawing.Point(10, 74);
             this.SaveFilePath.Name = "SaveFilePath";
-            this.SaveFilePath.Size = new System.Drawing.Size(395, 21);
+            this.SaveFilePath.Size = new System.Drawing.Size(350, 21);
             this.SaveFilePath.TabIndex = 4;
             this.SaveFilePath.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -407,7 +406,7 @@
             // 
             this.PutIntoFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.PutIntoFile.AutoSize = true;
-            this.PutIntoFile.Location = new System.Drawing.Point(8, 64);
+            this.PutIntoFile.Location = new System.Drawing.Point(8, 51);
             this.PutIntoFile.Name = "PutIntoFile";
             this.PutIntoFile.Size = new System.Drawing.Size(102, 16);
             this.PutIntoFile.TabIndex = 2;
@@ -418,9 +417,9 @@
             // ChooseFile
             // 
             this.ChooseFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.ChooseFile.Location = new System.Drawing.Point(10, 120);
+            this.ChooseFile.Location = new System.Drawing.Point(10, 107);
             this.ChooseFile.Name = "ChooseFile";
-            this.ChooseFile.Size = new System.Drawing.Size(395, 23);
+            this.ChooseFile.Size = new System.Drawing.Size(350, 23);
             this.ChooseFile.TabIndex = 1;
             this.ChooseFile.Text = "Choose File";
             this.ChooseFile.UseVisualStyleBackColor = true;
@@ -430,7 +429,7 @@
             // 
             this.Hexshow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.Hexshow.AutoSize = true;
-            this.Hexshow.Location = new System.Drawing.Point(8, 20);
+            this.Hexshow.Location = new System.Drawing.Point(8, 7);
             this.Hexshow.Name = "Hexshow";
             this.Hexshow.Size = new System.Drawing.Size(90, 16);
             this.Hexshow.TabIndex = 0;
@@ -441,7 +440,7 @@
             // socket
             // 
             this.socket.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.socket.Location = new System.Drawing.Point(72, 191);
+            this.socket.Location = new System.Drawing.Point(72, 193);
             this.socket.Name = "socket";
             this.socket.Size = new System.Drawing.Size(287, 30);
             this.socket.TabIndex = 5;
@@ -498,7 +497,7 @@
             this.tabControl1.Location = new System.Drawing.Point(5, 415);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(413, 133);
+            this.tabControl1.Size = new System.Drawing.Size(385, 128);
             this.tabControl1.TabIndex = 15;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -509,7 +508,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(405, 104);
+            this.tabPage1.Size = new System.Drawing.Size(377, 99);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Single Send";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -528,11 +527,11 @@
             // SendArea
             // 
             this.SendArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.SendArea.Location = new System.Drawing.Point(2, 5);
+            this.SendArea.Location = new System.Drawing.Point(2, 2);
             this.SendArea.Multiline = true;
             this.SendArea.Name = "SendArea";
             this.SendArea.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.SendArea.Size = new System.Drawing.Size(402, 71);
+            this.SendArea.Size = new System.Drawing.Size(374, 71);
             this.SendArea.TabIndex = 1;
             this.SendArea.TextChanged += new System.EventHandler(this.SendArea_TextChanged);
             // 
@@ -696,28 +695,28 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chart1.BorderlineColor = System.Drawing.SystemColors.Window;
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-            chartArea22.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea22.AxisX.MajorGrid.LineColor = System.Drawing.Color.Silver;
-            chartArea22.AxisX.ScaleView.SmallScrollMinSize = 5D;
-            chartArea22.AxisX.ScrollBar.BackColor = System.Drawing.Color.LightGray;
-            chartArea22.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.DarkGray;
-            chartArea22.AxisX.Title = "Frequency(Hz)";
-            chartArea22.AxisY.Title = "Amplitude (Ohm)";
-            chartArea22.CursorX.IsUserEnabled = true;
-            chartArea22.CursorX.IsUserSelectionEnabled = true;
-            chartArea22.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea22);
+            chartArea50.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea50.AxisX.MajorGrid.LineColor = System.Drawing.Color.Silver;
+            chartArea50.AxisX.ScaleView.SmallScrollMinSize = 5D;
+            chartArea50.AxisX.ScrollBar.BackColor = System.Drawing.Color.LightGray;
+            chartArea50.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.DarkGray;
+            chartArea50.AxisX.Title = "Frequency(Hz)";
+            chartArea50.AxisY.Title = "Amplitude (Ohm)";
+            chartArea50.CursorX.IsUserEnabled = true;
+            chartArea50.CursorX.IsUserSelectionEnabled = true;
+            chartArea50.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea50);
             this.chart1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            legend16.Alignment = System.Drawing.StringAlignment.Far;
-            legend16.BackColor = System.Drawing.Color.White;
-            legend16.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.LeftRight;
-            legend16.BackHatchStyle = System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.BackwardDiagonal;
-            legend16.BorderColor = System.Drawing.Color.White;
-            legend16.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend16.IsDockedInsideChartArea = false;
-            legend16.Name = "Legend2";
-            legend16.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide;
-            this.chart1.Legends.Add(legend16);
+            legend36.Alignment = System.Drawing.StringAlignment.Far;
+            legend36.BackColor = System.Drawing.Color.White;
+            legend36.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.LeftRight;
+            legend36.BackHatchStyle = System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.BackwardDiagonal;
+            legend36.BorderColor = System.Drawing.Color.White;
+            legend36.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend36.IsDockedInsideChartArea = false;
+            legend36.Name = "Legend2";
+            legend36.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide;
+            this.chart1.Legends.Add(legend36);
             this.chart1.Location = new System.Drawing.Point(6, 22);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
@@ -725,10 +724,10 @@
         System.Drawing.Color.Red};
             this.chart1.Size = new System.Drawing.Size(532, 240);
             this.chart1.TabIndex = 1;
-            title13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            title13.Name = "Title1";
-            title13.Text = "Amplitude-Frequency";
-            this.chart1.Titles.Add(title13);
+            title29.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            title29.Name = "Title1";
+            title29.Text = "Amplitude-Frequency";
+            this.chart1.Titles.Add(title29);
             this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // groupBox6
@@ -758,27 +757,27 @@
             this.chart2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea23.AxisX.Title = "Frequency(Hz)";
-            chartArea23.AxisY.Title = "Phase (Degree)";
-            chartArea23.CursorX.IsUserEnabled = true;
-            chartArea23.CursorX.IsUserSelectionEnabled = true;
-            chartArea23.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea23);
-            legend17.Alignment = System.Drawing.StringAlignment.Far;
-            legend17.DockedToChartArea = "ChartArea1";
-            legend17.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend17.IsDockedInsideChartArea = false;
-            legend17.Name = "Legend2";
-            this.chart2.Legends.Add(legend17);
+            chartArea51.AxisX.Title = "Frequency(Hz)";
+            chartArea51.AxisY.Title = "Phase (Degree)";
+            chartArea51.CursorX.IsUserEnabled = true;
+            chartArea51.CursorX.IsUserSelectionEnabled = true;
+            chartArea51.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea51);
+            legend37.Alignment = System.Drawing.StringAlignment.Far;
+            legend37.DockedToChartArea = "ChartArea1";
+            legend37.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend37.IsDockedInsideChartArea = false;
+            legend37.Name = "Legend2";
+            this.chart2.Legends.Add(legend37);
             this.chart2.Location = new System.Drawing.Point(6, 33);
             this.chart2.Name = "chart2";
             this.chart2.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Fire;
             this.chart2.Size = new System.Drawing.Size(538, 227);
             this.chart2.TabIndex = 2;
-            title14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            title14.Name = "Title1";
-            title14.Text = "Phase-Frequency";
-            this.chart2.Titles.Add(title14);
+            title30.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            title30.Name = "Title1";
+            title30.Text = "Phase-Frequency";
+            this.chart2.Titles.Add(title30);
             this.chart2.Click += new System.EventHandler(this.chart2_Click);
             // 
             // tabPage4
@@ -810,27 +809,27 @@
             this.chart3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea24.AxisX.ScrollBar.IsPositionedInside = false;
-            chartArea24.AxisY.Maximum = 50D;
-            chartArea24.AxisY.ScrollBar.IsPositionedInside = false;
-            chartArea24.CursorX.IsUserEnabled = true;
-            chartArea24.CursorX.IsUserSelectionEnabled = true;
-            chartArea24.CursorY.IsUserEnabled = true;
-            chartArea24.CursorY.IsUserSelectionEnabled = true;
-            chartArea24.Name = "ChartArea1";
-            this.chart3.ChartAreas.Add(chartArea24);
-            legend18.Name = "Legend1";
-            this.chart3.Legends.Add(legend18);
+            chartArea52.AxisX.ScrollBar.IsPositionedInside = false;
+            chartArea52.AxisY.Maximum = 50D;
+            chartArea52.AxisY.ScrollBar.IsPositionedInside = false;
+            chartArea52.CursorX.IsUserEnabled = true;
+            chartArea52.CursorX.IsUserSelectionEnabled = true;
+            chartArea52.CursorY.IsUserEnabled = true;
+            chartArea52.CursorY.IsUserSelectionEnabled = true;
+            chartArea52.Name = "ChartArea1";
+            this.chart3.ChartAreas.Add(chartArea52);
+            legend38.Name = "Legend1";
+            this.chart3.Legends.Add(legend38);
             this.chart3.Location = new System.Drawing.Point(3, 3);
             this.chart3.Name = "chart3";
             this.chart3.Size = new System.Drawing.Size(547, 544);
             this.chart3.SuppressExceptions = true;
             this.chart3.TabIndex = 0;
             this.chart3.Text = "chart3";
-            title15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            title15.Name = "Title1";
-            title15.Text = "Nyquist Diagram";
-            this.chart3.Titles.Add(title15);
+            title31.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            title31.Name = "Title1";
+            title31.Text = "Nyquist Diagram";
+            this.chart3.Titles.Add(title31);
             this.chart3.Click += new System.EventHandler(this.chart3_Click);
             // 
             // TimeDomin
@@ -863,18 +862,18 @@
             this.chart4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea25.AxisX.ScrollBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            chartArea25.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            chartArea25.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
-            chartArea25.AxisX.ScrollBar.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            chartArea25.CursorX.IsUserEnabled = true;
-            chartArea25.CursorX.IsUserSelectionEnabled = true;
-            chartArea25.Name = "ChartArea1";
-            this.chart4.ChartAreas.Add(chartArea25);
-            legend19.Alignment = System.Drawing.StringAlignment.Far;
-            legend19.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend19.Name = "Legend1";
-            this.chart4.Legends.Add(legend19);
+            chartArea53.AxisX.ScrollBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            chartArea53.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            chartArea53.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
+            chartArea53.AxisX.ScrollBar.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            chartArea53.CursorX.IsUserEnabled = true;
+            chartArea53.CursorX.IsUserSelectionEnabled = true;
+            chartArea53.Name = "ChartArea1";
+            this.chart4.ChartAreas.Add(chartArea53);
+            legend39.Alignment = System.Drawing.StringAlignment.Far;
+            legend39.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend39.Name = "Legend1";
+            this.chart4.Legends.Add(legend39);
             this.chart4.Location = new System.Drawing.Point(13, 16);
             this.chart4.Margin = new System.Windows.Forms.Padding(2);
             this.chart4.Name = "chart4";
@@ -882,9 +881,9 @@
             this.chart4.Size = new System.Drawing.Size(528, 525);
             this.chart4.TabIndex = 0;
             this.chart4.Text = "chart4";
-            title16.Name = "Time Domain";
-            title16.Text = "Time Domain";
-            this.chart4.Titles.Add(title16);
+            title32.Name = "Time Domain";
+            title32.Text = "Time Domain";
+            this.chart4.Titles.Add(title32);
             this.chart4.Click += new System.EventHandler(this.chart4_Click);
             // 
             // tabPage5
@@ -916,29 +915,29 @@
             this.chart_u_i_r.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea26.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
-            chartArea26.Name = "ChartArea1";
-            this.chart_u_i_r.ChartAreas.Add(chartArea26);
-            legend20.Name = "Legend1";
-            this.chart_u_i_r.Legends.Add(legend20);
+            chartArea54.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
+            chartArea54.Name = "ChartArea1";
+            this.chart_u_i_r.ChartAreas.Add(chartArea54);
+            legend40.Name = "Legend1";
+            this.chart_u_i_r.Legends.Add(legend40);
             this.chart_u_i_r.Location = new System.Drawing.Point(2, 34);
             this.chart_u_i_r.Name = "chart_u_i_r";
             this.chart_u_i_r.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
-            series16.ChartArea = "ChartArea1";
-            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series16.Legend = "Legend1";
-            series16.Name = "0";
-            series17.ChartArea = "ChartArea1";
-            series17.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series17.Legend = "Legend1";
-            series17.Name = "1";
-            series18.ChartArea = "ChartArea1";
-            series18.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series18.Legend = "Legend1";
-            series18.Name = "2";
-            this.chart_u_i_r.Series.Add(series16);
-            this.chart_u_i_r.Series.Add(series17);
-            this.chart_u_i_r.Series.Add(series18);
+            series36.ChartArea = "ChartArea1";
+            series36.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series36.Legend = "Legend1";
+            series36.Name = "0";
+            series37.ChartArea = "ChartArea1";
+            series37.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series37.Legend = "Legend1";
+            series37.Name = "1";
+            series38.ChartArea = "ChartArea1";
+            series38.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series38.Legend = "Legend1";
+            series38.Name = "2";
+            this.chart_u_i_r.Series.Add(series36);
+            this.chart_u_i_r.Series.Add(series37);
+            this.chart_u_i_r.Series.Add(series38);
             this.chart_u_i_r.Size = new System.Drawing.Size(548, 517);
             this.chart_u_i_r.TabIndex = 0;
             this.chart_u_i_r.Text = "chart5";
@@ -963,7 +962,7 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(4, 50);
+            this.label8.Location = new System.Drawing.Point(4, 52);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(74, 16);
             this.label8.TabIndex = 17;
@@ -981,9 +980,9 @@
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.socket);
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(2, 6);
+            this.groupBox4.Location = new System.Drawing.Point(2, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(407, 290);
+            this.groupBox4.Size = new System.Drawing.Size(407, 293);
             this.groupBox4.TabIndex = 17;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Server Configure";
@@ -992,7 +991,7 @@
             // btnStop
             // 
             this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStop.Location = new System.Drawing.Point(72, 232);
+            this.btnStop.Location = new System.Drawing.Point(72, 234);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(287, 28);
             this.btnStop.TabIndex = 21;
@@ -1003,7 +1002,7 @@
             // Port
             // 
             this.Port.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.Port.Location = new System.Drawing.Point(72, 152);
+            this.Port.Location = new System.Drawing.Point(72, 154);
             this.Port.Name = "Port";
             this.Port.Size = new System.Drawing.Size(287, 22);
             this.Port.TabIndex = 20;
@@ -1013,7 +1012,7 @@
             // ipaddress
             // 
             this.ipaddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.ipaddress.Location = new System.Drawing.Point(72, 84);
+            this.ipaddress.Location = new System.Drawing.Point(72, 86);
             this.ipaddress.Name = "ipaddress";
             this.ipaddress.Size = new System.Drawing.Size(287, 22);
             this.ipaddress.TabIndex = 19;
@@ -1024,7 +1023,7 @@
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(4, 124);
+            this.label9.Location = new System.Drawing.Point(4, 126);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(32, 16);
             this.label9.TabIndex = 18;
@@ -1637,9 +1636,9 @@
             // panel_sec
             // 
             this.panel_sec.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.panel_sec.Controls.Add(this.label24);
             this.panel_sec.Controls.Add(this.label28);
             this.panel_sec.Controls.Add(this.tb_times_T2);
-            this.panel_sec.Controls.Add(this.label24);
             this.panel_sec.Controls.Add(this.dateTimePicker_t_2);
             this.panel_sec.Controls.Add(this.dateTimePicker_f_2);
             this.panel_sec.Controls.Add(this.tb_times_D2);
@@ -1650,17 +1649,6 @@
             this.panel_sec.TabIndex = 88;
             this.panel_sec.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_sec_Paint);
             // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label28.Location = new System.Drawing.Point(111, 7);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(11, 12);
-            this.label28.TabIndex = 81;
-            this.label28.Text = " ";
-            this.label28.Click += new System.EventHandler(this.label28_Click);
-            // 
             // tb_times_T2
             // 
             this.tb_times_T2.Location = new System.Drawing.Point(318, 2);
@@ -1669,32 +1657,21 @@
             this.tb_times_T2.TabIndex = 74;
             this.tb_times_T2.TextChanged += new System.EventHandler(this.tb_times_T2_TextChanged);
             // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label24.Location = new System.Drawing.Point(212, 7);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(11, 12);
-            this.label24.TabIndex = 76;
-            this.label24.Text = " ";
-            this.label24.Click += new System.EventHandler(this.label24_Click);
-            // 
             // dateTimePicker_t_2
             // 
             this.dateTimePicker_t_2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dateTimePicker_t_2.Location = new System.Drawing.Point(153, 2);
             this.dateTimePicker_t_2.Name = "dateTimePicker_t_2";
-            this.dateTimePicker_t_2.Size = new System.Drawing.Size(74, 21);
+            this.dateTimePicker_t_2.Size = new System.Drawing.Size(94, 21);
             this.dateTimePicker_t_2.TabIndex = 80;
             this.dateTimePicker_t_2.ValueChanged += new System.EventHandler(this.dateTimePicker_t_2_ValueChanged);
             // 
             // dateTimePicker_f_2
             // 
             this.dateTimePicker_f_2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker_f_2.Location = new System.Drawing.Point(56, 2);
+            this.dateTimePicker_f_2.Location = new System.Drawing.Point(44, 2);
             this.dateTimePicker_f_2.Name = "dateTimePicker_f_2";
-            this.dateTimePicker_f_2.Size = new System.Drawing.Size(71, 21);
+            this.dateTimePicker_f_2.Size = new System.Drawing.Size(98, 21);
             this.dateTimePicker_f_2.TabIndex = 73;
             this.dateTimePicker_f_2.ValueChanged += new System.EventHandler(this.dateTimePicker_f_2_ValueChanged);
             // 
@@ -1733,28 +1710,6 @@
             this.panel_fst.TabIndex = 87;
             this.panel_fst.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_fst_Paint_1);
             // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label23.Location = new System.Drawing.Point(212, 6);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(11, 12);
-            this.label23.TabIndex = 75;
-            this.label23.Text = " ";
-            this.label23.Click += new System.EventHandler(this.label23_Click);
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label22.Location = new System.Drawing.Point(111, 6);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(11, 12);
-            this.label22.TabIndex = 74;
-            this.label22.Text = " ";
-            this.label22.Click += new System.EventHandler(this.label22_Click);
-            // 
             // tb_times_T1
             // 
             this.tb_times_T1.Location = new System.Drawing.Point(318, 2);
@@ -1769,7 +1724,7 @@
             this.dateTimePicker_t_1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dateTimePicker_t_1.Location = new System.Drawing.Point(152, 2);
             this.dateTimePicker_t_1.Name = "dateTimePicker_t_1";
-            this.dateTimePicker_t_1.Size = new System.Drawing.Size(75, 21);
+            this.dateTimePicker_t_1.Size = new System.Drawing.Size(95, 21);
             this.dateTimePicker_t_1.TabIndex = 72;
             this.dateTimePicker_t_1.ValueChanged += new System.EventHandler(this.dateTimePicker_t_1_ValueChanged);
             // 
@@ -1777,9 +1732,9 @@
             // 
             this.dateTimePicker_f_1.CustomFormat = "HH:mm";
             this.dateTimePicker_f_1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker_f_1.Location = new System.Drawing.Point(56, 2);
+            this.dateTimePicker_f_1.Location = new System.Drawing.Point(44, 2);
             this.dateTimePicker_f_1.Name = "dateTimePicker_f_1";
-            this.dateTimePicker_f_1.Size = new System.Drawing.Size(69, 21);
+            this.dateTimePicker_f_1.Size = new System.Drawing.Size(98, 21);
             this.dateTimePicker_f_1.TabIndex = 71;
             this.dateTimePicker_f_1.ValueChanged += new System.EventHandler(this.dateTimePicker_f_1_ValueChanged_1);
             // 
@@ -1977,9 +1932,9 @@
             "None",
             "Odd",
             "Even"});
-            this.CheckBitChoose.Location = new System.Drawing.Point(79, 118);
+            this.CheckBitChoose.Location = new System.Drawing.Point(79, 119);
             this.CheckBitChoose.Name = "CheckBitChoose";
-            this.CheckBitChoose.Size = new System.Drawing.Size(223, 24);
+            this.CheckBitChoose.Size = new System.Drawing.Size(220, 24);
             this.CheckBitChoose.TabIndex = 6;
             this.CheckBitChoose.SelectedIndexChanged += new System.EventHandler(this.comboBox5_SelectedIndexChanged);
             // 
@@ -1987,7 +1942,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 95);
+            this.label3.Location = new System.Drawing.Point(20, 96);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(30, 16);
             this.label3.TabIndex = 9;
@@ -2016,9 +1971,9 @@
             "1000000",
             "250000",
             "5600"});
-            this.BaudrateChoose.Location = new System.Drawing.Point(79, 66);
+            this.BaudrateChoose.Location = new System.Drawing.Point(79, 67);
             this.BaudrateChoose.Name = "BaudrateChoose";
-            this.BaudrateChoose.Size = new System.Drawing.Size(223, 24);
+            this.BaudrateChoose.Size = new System.Drawing.Size(220, 24);
             this.BaudrateChoose.TabIndex = 2;
             this.BaudrateChoose.SelectedIndexChanged += new System.EventHandler(this.BaudrateChoose_SelectedIndexChanged);
             // 
@@ -2032,9 +1987,9 @@
             "6",
             "7",
             "8"});
-            this.DataBitChoose.Location = new System.Drawing.Point(79, 92);
+            this.DataBitChoose.Location = new System.Drawing.Point(79, 93);
             this.DataBitChoose.Name = "DataBitChoose";
-            this.DataBitChoose.Size = new System.Drawing.Size(223, 24);
+            this.DataBitChoose.Size = new System.Drawing.Size(220, 24);
             this.DataBitChoose.TabIndex = 4;
             this.DataBitChoose.SelectedIndexChanged += new System.EventHandler(this.DataBitChoose_SelectedIndexChanged);
             // 
@@ -2046,9 +2001,9 @@
             this.StopBitChoose.Items.AddRange(new object[] {
             "1",
             "2"});
-            this.StopBitChoose.Location = new System.Drawing.Point(79, 144);
+            this.StopBitChoose.Location = new System.Drawing.Point(79, 145);
             this.StopBitChoose.Name = "StopBitChoose";
-            this.StopBitChoose.Size = new System.Drawing.Size(223, 24);
+            this.StopBitChoose.Size = new System.Drawing.Size(220, 24);
             this.StopBitChoose.TabIndex = 3;
             this.StopBitChoose.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
@@ -2056,7 +2011,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 69);
+            this.label2.Location = new System.Drawing.Point(20, 70);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(40, 16);
             this.label2.TabIndex = 8;
@@ -2067,7 +2022,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 121);
+            this.label4.Location = new System.Drawing.Point(20, 122);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(42, 16);
             this.label4.TabIndex = 10;
@@ -2078,7 +2033,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 43);
+            this.label1.Location = new System.Drawing.Point(20, 44);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(38, 16);
             this.label1.TabIndex = 7;
@@ -2088,9 +2043,9 @@
             // OpenPortButton
             // 
             this.OpenPortButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.OpenPortButton.Location = new System.Drawing.Point(79, 175);
+            this.OpenPortButton.Location = new System.Drawing.Point(79, 176);
             this.OpenPortButton.Name = "OpenPortButton";
-            this.OpenPortButton.Size = new System.Drawing.Size(223, 23);
+            this.OpenPortButton.Size = new System.Drawing.Size(220, 23);
             this.OpenPortButton.TabIndex = 0;
             this.OpenPortButton.Text = "OPEN COM";
             this.OpenPortButton.UseVisualStyleBackColor = true;
@@ -2100,7 +2055,7 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(20, 147);
+            this.label5.Location = new System.Drawing.Point(20, 148);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(36, 16);
             this.label5.TabIndex = 11;
@@ -2112,9 +2067,9 @@
             this.COMChoose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.COMChoose.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.COMChoose.FormattingEnabled = true;
-            this.COMChoose.Location = new System.Drawing.Point(79, 40);
+            this.COMChoose.Location = new System.Drawing.Point(79, 41);
             this.COMChoose.Name = "COMChoose";
-            this.COMChoose.Size = new System.Drawing.Size(223, 24);
+            this.COMChoose.Size = new System.Drawing.Size(220, 24);
             this.COMChoose.TabIndex = 5;
             this.COMChoose.SelectedIndexChanged += new System.EventHandler(this.comboBox4_SelectedIndexChanged);
             // 
@@ -2136,7 +2091,7 @@
             this.gb1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gb1.Location = new System.Drawing.Point(3, 10);
             this.gb1.Name = "gb1";
-            this.gb1.Size = new System.Drawing.Size(411, 225);
+            this.gb1.Size = new System.Drawing.Size(408, 227);
             this.gb1.TabIndex = 12;
             this.gb1.TabStop = false;
             this.gb1.Text = "Serial COM ";
@@ -2224,24 +2179,24 @@
             // chart_v
             // 
             this.chart_v.Anchor = System.Windows.Forms.AnchorStyles.None;
-            chartArea27.AxisX.MajorGrid.Enabled = false;
-            chartArea27.AxisX.ScrollBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            chartArea27.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            chartArea27.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
-            chartArea27.AxisX.ScrollBar.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            chartArea27.AxisY.MajorGrid.Enabled = false;
-            chartArea27.BorderWidth = 3;
-            chartArea27.Name = "ChartArea1";
-            this.chart_v.ChartAreas.Add(chartArea27);
+            chartArea55.AxisX.MajorGrid.Enabled = false;
+            chartArea55.AxisX.ScrollBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            chartArea55.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            chartArea55.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
+            chartArea55.AxisX.ScrollBar.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            chartArea55.AxisY.MajorGrid.Enabled = false;
+            chartArea55.BorderWidth = 3;
+            chartArea55.Name = "ChartArea1";
+            this.chart_v.ChartAreas.Add(chartArea55);
             this.chart_v.Location = new System.Drawing.Point(239, 69);
             this.chart_v.Margin = new System.Windows.Forms.Padding(2);
             this.chart_v.Name = "chart_v";
             this.chart_v.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
-            series19.ChartArea = "ChartArea1";
-            series19.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series19.LabelBorderWidth = 3;
-            series19.Name = "Series1";
-            this.chart_v.Series.Add(series19);
+            series39.ChartArea = "ChartArea1";
+            series39.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series39.LabelBorderWidth = 3;
+            series39.Name = "Series1";
+            this.chart_v.Series.Add(series39);
             this.chart_v.Size = new System.Drawing.Size(174, 147);
             this.chart_v.TabIndex = 1;
             this.chart_v.Text = "chart5";
@@ -2658,35 +2613,35 @@
             // newProjectToolStripMenuItem
             // 
             this.newProjectToolStripMenuItem.Name = "newProjectToolStripMenuItem";
-            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.newProjectToolStripMenuItem.Text = "New Project(N)";
             this.newProjectToolStripMenuItem.Click += new System.EventHandler(this.newProjectToolStripMenuItem_Click);
             // 
             // LoadProtoolStripMenuItem1
             // 
             this.LoadProtoolStripMenuItem1.Name = "LoadProtoolStripMenuItem1";
-            this.LoadProtoolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.LoadProtoolStripMenuItem1.Size = new System.Drawing.Size(167, 22);
             this.LoadProtoolStripMenuItem1.Text = "Load Project(O)";
             this.LoadProtoolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // DataAnalyserToolStripMenuItem
             // 
             this.DataAnalyserToolStripMenuItem.Name = "DataAnalyserToolStripMenuItem";
-            this.DataAnalyserToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.DataAnalyserToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.DataAnalyserToolStripMenuItem.Text = "Data Analyser";
             this.DataAnalyserToolStripMenuItem.Click += new System.EventHandler(this.loadProjectToolStripMenuItem_Click);
             // 
             // BackToolStripMenuItem
             // 
             this.BackToolStripMenuItem.Name = "BackToolStripMenuItem";
-            this.BackToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.BackToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.BackToolStripMenuItem.Text = "Back";
             this.BackToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.exitToolStripMenuItem.Text = "Exit(C)";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -2948,10 +2903,14 @@
             // gb_rep2
             // 
             this.gb_rep2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.gb_rep2.Controls.Add(this.label56);
+            this.gb_rep2.Controls.Add(this.label55);
+            this.gb_rep2.Controls.Add(this.label38);
             this.gb_rep2.Controls.Add(this.cb_days2);
             this.gb_rep2.Controls.Add(this.label40);
             this.gb_rep2.Controls.Add(this.checkBox_SEC2);
             this.gb_rep2.Controls.Add(this.label50);
+            this.gb_rep2.Controls.Add(this.label59);
             this.gb_rep2.Controls.Add(this.DTP_End2);
             this.gb_rep2.Controls.Add(this.DTP_Start2);
             this.gb_rep2.Controls.Add(this.label51);
@@ -3069,9 +3028,7 @@
             // panel2
             // 
             this.panel2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.panel2.Controls.Add(this.label55);
             this.panel2.Controls.Add(this.tb_times_T4);
-            this.panel2.Controls.Add(this.label56);
             this.panel2.Controls.Add(this.dateTimePicker_t_4);
             this.panel2.Controls.Add(this.dateTimePicker_f_4);
             this.panel2.Controls.Add(this.tb_times_D4);
@@ -3082,18 +3039,6 @@
             this.panel2.TabIndex = 88;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
-            // label55
-            // 
-            this.label55.AutoSize = true;
-            this.label55.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label55.Enabled = false;
-            this.label55.Location = new System.Drawing.Point(111, 7);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(11, 12);
-            this.label55.TabIndex = 81;
-            this.label55.Text = " ";
-            this.label55.Click += new System.EventHandler(this.label55_Click);
-            // 
             // tb_times_T4
             // 
             this.tb_times_T4.Location = new System.Drawing.Point(317, 2);
@@ -3103,33 +3048,21 @@
             this.tb_times_T4.Text = "0";
             this.tb_times_T4.TextChanged += new System.EventHandler(this.tb_times_T4_TextChanged);
             // 
-            // label56
-            // 
-            this.label56.AutoSize = true;
-            this.label56.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label56.Enabled = false;
-            this.label56.Location = new System.Drawing.Point(212, 6);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(11, 12);
-            this.label56.TabIndex = 76;
-            this.label56.Text = " ";
-            this.label56.Click += new System.EventHandler(this.label56_Click);
-            // 
             // dateTimePicker_t_4
             // 
             this.dateTimePicker_t_4.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker_t_4.Location = new System.Drawing.Point(153, 2);
+            this.dateTimePicker_t_4.Location = new System.Drawing.Point(144, 2);
             this.dateTimePicker_t_4.Name = "dateTimePicker_t_4";
-            this.dateTimePicker_t_4.Size = new System.Drawing.Size(74, 21);
+            this.dateTimePicker_t_4.Size = new System.Drawing.Size(99, 21);
             this.dateTimePicker_t_4.TabIndex = 80;
             this.dateTimePicker_t_4.ValueChanged += new System.EventHandler(this.dateTimePicker_t_4_ValueChanged);
             // 
             // dateTimePicker_f_4
             // 
             this.dateTimePicker_f_4.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker_f_4.Location = new System.Drawing.Point(56, 2);
+            this.dateTimePicker_f_4.Location = new System.Drawing.Point(45, 2);
             this.dateTimePicker_f_4.Name = "dateTimePicker_f_4";
-            this.dateTimePicker_f_4.Size = new System.Drawing.Size(71, 21);
+            this.dateTimePicker_f_4.Size = new System.Drawing.Size(95, 21);
             this.dateTimePicker_f_4.TabIndex = 73;
             this.dateTimePicker_f_4.ValueChanged += new System.EventHandler(this.dateTimePicker_f_4_ValueChanged);
             // 
@@ -3157,9 +3090,6 @@
             this.panel3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.panel3.Controls.Add(this.label67);
             this.panel3.Controls.Add(this.label66);
-            this.panel3.Controls.Add(this.label65);
-            this.panel3.Controls.Add(this.label58);
-            this.panel3.Controls.Add(this.label59);
             this.panel3.Controls.Add(this.tb_times_T3);
             this.panel3.Controls.Add(this.dateTimePicker_t_3);
             this.panel3.Controls.Add(this.dateTimePicker_f_3);
@@ -3193,48 +3123,25 @@
             this.label66.TabIndex = 77;
             this.label66.Text = " ";
             // 
-            // label65
-            // 
-            this.label65.AutoSize = true;
-            this.label65.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label65.Enabled = false;
-            this.label65.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label65.Location = new System.Drawing.Point(209, 5);
-            this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(14, 14);
-            this.label65.TabIndex = 76;
-            this.label65.Text = " ";
-            // 
-            // label58
-            // 
-            this.label58.AutoSize = true;
-            this.label58.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label58.Location = new System.Drawing.Point(212, 6);
-            this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(11, 12);
-            this.label58.TabIndex = 75;
-            this.label58.Text = " ";
-            this.label58.Click += new System.EventHandler(this.label58_Click);
-            // 
             // label59
             // 
             this.label59.AutoSize = true;
             this.label59.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label59.Enabled = false;
             this.label59.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label59.Location = new System.Drawing.Point(107, 6);
+            this.label59.Location = new System.Drawing.Point(142, 86);
             this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(14, 14);
+            this.label59.Size = new System.Drawing.Size(21, 14);
             this.label59.TabIndex = 74;
-            this.label59.Text = " ";
+            this.label59.Text = "  ";
             this.label59.Click += new System.EventHandler(this.label59_Click);
             // 
             // dateTimePicker_t_3
             // 
             this.dateTimePicker_t_3.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker_t_3.Location = new System.Drawing.Point(152, 2);
+            this.dateTimePicker_t_3.Location = new System.Drawing.Point(144, 2);
             this.dateTimePicker_t_3.Name = "dateTimePicker_t_3";
-            this.dateTimePicker_t_3.Size = new System.Drawing.Size(75, 21);
+            this.dateTimePicker_t_3.Size = new System.Drawing.Size(99, 21);
             this.dateTimePicker_t_3.TabIndex = 72;
             this.dateTimePicker_t_3.ValueChanged += new System.EventHandler(this.dateTimePicker_t_3_ValueChanged);
             // 
@@ -3242,9 +3149,9 @@
             // 
             this.dateTimePicker_f_3.CustomFormat = "HH:mm";
             this.dateTimePicker_f_3.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker_f_3.Location = new System.Drawing.Point(56, 2);
+            this.dateTimePicker_f_3.Location = new System.Drawing.Point(45, 2);
             this.dateTimePicker_f_3.Name = "dateTimePicker_f_3";
-            this.dateTimePicker_f_3.Size = new System.Drawing.Size(69, 21);
+            this.dateTimePicker_f_3.Size = new System.Drawing.Size(95, 21);
             this.dateTimePicker_f_3.TabIndex = 71;
             this.dateTimePicker_f_3.ValueChanged += new System.EventHandler(this.dateTimePicker_f_3_ValueChanged);
             // 
@@ -3305,17 +3212,17 @@
             this.chart_temp.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chart_temp.BackColor = System.Drawing.SystemColors.Control;
             this.chart_temp.BorderlineColor = System.Drawing.SystemColors.Control;
-            chartArea28.AxisX.Interval = 2D;
-            chartArea28.AxisY.Minimum = 20D;
-            chartArea28.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
-            chartArea28.Name = "ChartArea1";
-            this.chart_temp.ChartAreas.Add(chartArea28);
+            chartArea56.AxisX.Interval = 2D;
+            chartArea56.AxisY.Minimum = 20D;
+            chartArea56.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
+            chartArea56.Name = "ChartArea1";
+            this.chart_temp.ChartAreas.Add(chartArea56);
             this.chart_temp.Location = new System.Drawing.Point(251, 92);
             this.chart_temp.Name = "chart_temp";
-            series20.ChartArea = "ChartArea1";
-            series20.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series20.Name = "Series1";
-            this.chart_temp.Series.Add(series20);
+            series40.ChartArea = "ChartArea1";
+            series40.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series40.Name = "Series1";
+            this.chart_temp.Series.Add(series40);
             this.chart_temp.Size = new System.Drawing.Size(160, 84);
             this.chart_temp.TabIndex = 91;
             this.chart_temp.Text = "chart5";
@@ -3542,11 +3449,11 @@
             // 
             this.panel5.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.panel5.Controls.Add(this.gb1);
-            this.panel5.Controls.Add(this.groupBox1);
             this.panel5.Controls.Add(this.tabControl1);
-            this.panel5.Location = new System.Drawing.Point(158, 46);
+            this.panel5.Controls.Add(this.groupBox1);
+            this.panel5.Location = new System.Drawing.Point(162, 44);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(421, 546);
+            this.panel5.Size = new System.Drawing.Size(418, 546);
             this.panel5.TabIndex = 90;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
@@ -3568,6 +3475,90 @@
             this.btn_download.Text = "DownLoad from Server";
             this.btn_download.UseVisualStyleBackColor = true;
             this.btn_download.Click += new System.EventHandler(this.btn_download_Click);
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label38.Enabled = false;
+            this.label38.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label38.Location = new System.Drawing.Point(141, 121);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(21, 14);
+            this.label38.TabIndex = 99;
+            this.label38.Text = "  ";
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label55.Enabled = false;
+            this.label55.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label55.Location = new System.Drawing.Point(245, 121);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(21, 14);
+            this.label55.TabIndex = 100;
+            this.label55.Text = "  ";
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label56.Enabled = false;
+            this.label56.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label56.Location = new System.Drawing.Point(245, 86);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(21, 14);
+            this.label56.TabIndex = 101;
+            this.label56.Text = "  ";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label22.Enabled = false;
+            this.label22.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label22.Location = new System.Drawing.Point(115, 5);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(21, 14);
+            this.label22.TabIndex = 76;
+            this.label22.Text = "  ";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label23.Enabled = false;
+            this.label23.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label23.Location = new System.Drawing.Point(220, 5);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(21, 14);
+            this.label23.TabIndex = 77;
+            this.label23.Text = "  ";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label28.Enabled = false;
+            this.label28.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label28.Location = new System.Drawing.Point(115, 5);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(21, 14);
+            this.label28.TabIndex = 81;
+            this.label28.Text = "  ";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label24.Enabled = false;
+            this.label24.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label24.Location = new System.Drawing.Point(220, 5);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(21, 14);
+            this.label24.TabIndex = 82;
+            this.label24.Text = "  ";
             // 
             // Form1
             // 
@@ -3802,10 +3793,6 @@
         private System.Windows.Forms.TextBox tb_times_T2;
         private System.Windows.Forms.TextBox tb_times_T1;
         private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TextBox tb_start;
         private System.Windows.Forms.Label label29;
@@ -3852,15 +3839,12 @@
         private System.Windows.Forms.Label label53;
         private System.Windows.Forms.Label label54;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label55;
         private System.Windows.Forms.TextBox tb_times_T4;
-        private System.Windows.Forms.Label label56;
         private System.Windows.Forms.DateTimePicker dateTimePicker_t_4;
         private System.Windows.Forms.DateTimePicker dateTimePicker_f_4;
         private System.Windows.Forms.TextBox tb_times_D4;
         private System.Windows.Forms.Label label57;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label58;
         private System.Windows.Forms.Label label59;
         private System.Windows.Forms.TextBox tb_times_T3;
         private System.Windows.Forms.DateTimePicker dateTimePicker_t_3;
@@ -3908,7 +3892,6 @@
         private System.Windows.Forms.Button btn_download;
         private System.Windows.Forms.Label label67;
         private System.Windows.Forms.Label label66;
-        private System.Windows.Forms.Label label65;
         private System.Windows.Forms.Button ClearReceive;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPage3;
@@ -3927,6 +3910,13 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
     }
 }
 
