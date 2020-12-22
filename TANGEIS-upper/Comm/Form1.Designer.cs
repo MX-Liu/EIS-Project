@@ -29,28 +29,28 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea50 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend36 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Title title29 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea51 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend37 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Title title30 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea52 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend38 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Title title31 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea53 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend39 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Title title32 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea54 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend40 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series36 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series37 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series38 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea55 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series39 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea56 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series40 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.HexSend = new System.Windows.Forms.CheckBox();
             this.ClearSendArea = new System.Windows.Forms.Button();
@@ -149,12 +149,16 @@
             this.label36 = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
             this.panel_sec = new System.Windows.Forms.Panel();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
             this.tb_times_T2 = new System.Windows.Forms.TextBox();
             this.dateTimePicker_t_2 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker_f_2 = new System.Windows.Forms.DateTimePicker();
             this.tb_times_D2 = new System.Windows.Forms.TextBox();
             this.lab_second = new System.Windows.Forms.Label();
             this.panel_fst = new System.Windows.Forms.Panel();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             this.tb_times_T1 = new System.Windows.Forms.TextBox();
             this.dateTimePicker_t_1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker_f_1 = new System.Windows.Forms.DateTimePicker();
@@ -255,9 +259,13 @@
             this.label70 = new System.Windows.Forms.Label();
             this.label71 = new System.Windows.Forms.Label();
             this.gb_rep2 = new System.Windows.Forms.GroupBox();
+            this.label56 = new System.Windows.Forms.Label();
+            this.label55 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
             this.cb_days2 = new System.Windows.Forms.TextBox();
             this.label40 = new System.Windows.Forms.Label();
             this.label50 = new System.Windows.Forms.Label();
+            this.label59 = new System.Windows.Forms.Label();
             this.DTP_End2 = new System.Windows.Forms.DateTimePicker();
             this.DTP_Start2 = new System.Windows.Forms.DateTimePicker();
             this.label51 = new System.Windows.Forms.Label();
@@ -273,7 +281,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.label67 = new System.Windows.Forms.Label();
             this.label66 = new System.Windows.Forms.Label();
-            this.label59 = new System.Windows.Forms.Label();
             this.dateTimePicker_t_3 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker_f_3 = new System.Windows.Forms.DateTimePicker();
             this.label60 = new System.Windows.Forms.Label();
@@ -299,13 +306,6 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.btn_download = new System.Windows.Forms.Button();
-            this.label38 = new System.Windows.Forms.Label();
-            this.label55 = new System.Windows.Forms.Label();
-            this.label56 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -547,7 +547,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(405, 104);
+            this.tabPage2.Size = new System.Drawing.Size(377, 99);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Send File";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -695,28 +695,28 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chart1.BorderlineColor = System.Drawing.SystemColors.Window;
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-            chartArea50.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea50.AxisX.MajorGrid.LineColor = System.Drawing.Color.Silver;
-            chartArea50.AxisX.ScaleView.SmallScrollMinSize = 5D;
-            chartArea50.AxisX.ScrollBar.BackColor = System.Drawing.Color.LightGray;
-            chartArea50.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.DarkGray;
-            chartArea50.AxisX.Title = "Frequency(Hz)";
-            chartArea50.AxisY.Title = "Amplitude (Ohm)";
-            chartArea50.CursorX.IsUserEnabled = true;
-            chartArea50.CursorX.IsUserSelectionEnabled = true;
-            chartArea50.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea50);
+            chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Silver;
+            chartArea1.AxisX.ScaleView.SmallScrollMinSize = 5D;
+            chartArea1.AxisX.ScrollBar.BackColor = System.Drawing.Color.LightGray;
+            chartArea1.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisX.Title = "Frequency(Hz)";
+            chartArea1.AxisY.Title = "Amplitude (Ohm)";
+            chartArea1.CursorX.IsUserEnabled = true;
+            chartArea1.CursorX.IsUserSelectionEnabled = true;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
             this.chart1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            legend36.Alignment = System.Drawing.StringAlignment.Far;
-            legend36.BackColor = System.Drawing.Color.White;
-            legend36.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.LeftRight;
-            legend36.BackHatchStyle = System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.BackwardDiagonal;
-            legend36.BorderColor = System.Drawing.Color.White;
-            legend36.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend36.IsDockedInsideChartArea = false;
-            legend36.Name = "Legend2";
-            legend36.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide;
-            this.chart1.Legends.Add(legend36);
+            legend1.Alignment = System.Drawing.StringAlignment.Far;
+            legend1.BackColor = System.Drawing.Color.White;
+            legend1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.LeftRight;
+            legend1.BackHatchStyle = System.Windows.Forms.DataVisualization.Charting.ChartHatchStyle.BackwardDiagonal;
+            legend1.BorderColor = System.Drawing.Color.White;
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend1.IsDockedInsideChartArea = false;
+            legend1.Name = "Legend2";
+            legend1.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide;
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(6, 22);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
@@ -724,10 +724,10 @@
         System.Drawing.Color.Red};
             this.chart1.Size = new System.Drawing.Size(532, 240);
             this.chart1.TabIndex = 1;
-            title29.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            title29.Name = "Title1";
-            title29.Text = "Amplitude-Frequency";
-            this.chart1.Titles.Add(title29);
+            title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            title1.Name = "Title1";
+            title1.Text = "Amplitude-Frequency";
+            this.chart1.Titles.Add(title1);
             this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // groupBox6
@@ -757,27 +757,27 @@
             this.chart2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea51.AxisX.Title = "Frequency(Hz)";
-            chartArea51.AxisY.Title = "Phase (Degree)";
-            chartArea51.CursorX.IsUserEnabled = true;
-            chartArea51.CursorX.IsUserSelectionEnabled = true;
-            chartArea51.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea51);
-            legend37.Alignment = System.Drawing.StringAlignment.Far;
-            legend37.DockedToChartArea = "ChartArea1";
-            legend37.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend37.IsDockedInsideChartArea = false;
-            legend37.Name = "Legend2";
-            this.chart2.Legends.Add(legend37);
+            chartArea2.AxisX.Title = "Frequency(Hz)";
+            chartArea2.AxisY.Title = "Phase (Degree)";
+            chartArea2.CursorX.IsUserEnabled = true;
+            chartArea2.CursorX.IsUserSelectionEnabled = true;
+            chartArea2.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea2);
+            legend2.Alignment = System.Drawing.StringAlignment.Far;
+            legend2.DockedToChartArea = "ChartArea1";
+            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend2.IsDockedInsideChartArea = false;
+            legend2.Name = "Legend2";
+            this.chart2.Legends.Add(legend2);
             this.chart2.Location = new System.Drawing.Point(6, 33);
             this.chart2.Name = "chart2";
             this.chart2.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Fire;
             this.chart2.Size = new System.Drawing.Size(538, 227);
             this.chart2.TabIndex = 2;
-            title30.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            title30.Name = "Title1";
-            title30.Text = "Phase-Frequency";
-            this.chart2.Titles.Add(title30);
+            title2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            title2.Name = "Title1";
+            title2.Text = "Phase-Frequency";
+            this.chart2.Titles.Add(title2);
             this.chart2.Click += new System.EventHandler(this.chart2_Click);
             // 
             // tabPage4
@@ -809,27 +809,27 @@
             this.chart3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea52.AxisX.ScrollBar.IsPositionedInside = false;
-            chartArea52.AxisY.Maximum = 50D;
-            chartArea52.AxisY.ScrollBar.IsPositionedInside = false;
-            chartArea52.CursorX.IsUserEnabled = true;
-            chartArea52.CursorX.IsUserSelectionEnabled = true;
-            chartArea52.CursorY.IsUserEnabled = true;
-            chartArea52.CursorY.IsUserSelectionEnabled = true;
-            chartArea52.Name = "ChartArea1";
-            this.chart3.ChartAreas.Add(chartArea52);
-            legend38.Name = "Legend1";
-            this.chart3.Legends.Add(legend38);
+            chartArea3.AxisX.ScrollBar.IsPositionedInside = false;
+            chartArea3.AxisY.Maximum = 50D;
+            chartArea3.AxisY.ScrollBar.IsPositionedInside = false;
+            chartArea3.CursorX.IsUserEnabled = true;
+            chartArea3.CursorX.IsUserSelectionEnabled = true;
+            chartArea3.CursorY.IsUserEnabled = true;
+            chartArea3.CursorY.IsUserSelectionEnabled = true;
+            chartArea3.Name = "ChartArea1";
+            this.chart3.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart3.Legends.Add(legend3);
             this.chart3.Location = new System.Drawing.Point(3, 3);
             this.chart3.Name = "chart3";
             this.chart3.Size = new System.Drawing.Size(547, 544);
             this.chart3.SuppressExceptions = true;
             this.chart3.TabIndex = 0;
             this.chart3.Text = "chart3";
-            title31.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            title31.Name = "Title1";
-            title31.Text = "Nyquist Diagram";
-            this.chart3.Titles.Add(title31);
+            title3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            title3.Name = "Title1";
+            title3.Text = "Nyquist Diagram";
+            this.chart3.Titles.Add(title3);
             this.chart3.Click += new System.EventHandler(this.chart3_Click);
             // 
             // TimeDomin
@@ -862,18 +862,18 @@
             this.chart4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea53.AxisX.ScrollBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            chartArea53.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            chartArea53.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
-            chartArea53.AxisX.ScrollBar.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            chartArea53.CursorX.IsUserEnabled = true;
-            chartArea53.CursorX.IsUserSelectionEnabled = true;
-            chartArea53.Name = "ChartArea1";
-            this.chart4.ChartAreas.Add(chartArea53);
-            legend39.Alignment = System.Drawing.StringAlignment.Far;
-            legend39.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend39.Name = "Legend1";
-            this.chart4.Legends.Add(legend39);
+            chartArea4.AxisX.ScrollBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            chartArea4.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            chartArea4.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
+            chartArea4.AxisX.ScrollBar.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            chartArea4.CursorX.IsUserEnabled = true;
+            chartArea4.CursorX.IsUserSelectionEnabled = true;
+            chartArea4.Name = "ChartArea1";
+            this.chart4.ChartAreas.Add(chartArea4);
+            legend4.Alignment = System.Drawing.StringAlignment.Far;
+            legend4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend4.Name = "Legend1";
+            this.chart4.Legends.Add(legend4);
             this.chart4.Location = new System.Drawing.Point(13, 16);
             this.chart4.Margin = new System.Windows.Forms.Padding(2);
             this.chart4.Name = "chart4";
@@ -881,9 +881,9 @@
             this.chart4.Size = new System.Drawing.Size(528, 525);
             this.chart4.TabIndex = 0;
             this.chart4.Text = "chart4";
-            title32.Name = "Time Domain";
-            title32.Text = "Time Domain";
-            this.chart4.Titles.Add(title32);
+            title4.Name = "Time Domain";
+            title4.Text = "Time Domain";
+            this.chart4.Titles.Add(title4);
             this.chart4.Click += new System.EventHandler(this.chart4_Click);
             // 
             // tabPage5
@@ -915,29 +915,29 @@
             this.chart_u_i_r.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea54.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
-            chartArea54.Name = "ChartArea1";
-            this.chart_u_i_r.ChartAreas.Add(chartArea54);
-            legend40.Name = "Legend1";
-            this.chart_u_i_r.Legends.Add(legend40);
+            chartArea5.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
+            chartArea5.Name = "ChartArea1";
+            this.chart_u_i_r.ChartAreas.Add(chartArea5);
+            legend5.Name = "Legend1";
+            this.chart_u_i_r.Legends.Add(legend5);
             this.chart_u_i_r.Location = new System.Drawing.Point(2, 34);
             this.chart_u_i_r.Name = "chart_u_i_r";
             this.chart_u_i_r.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
-            series36.ChartArea = "ChartArea1";
-            series36.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series36.Legend = "Legend1";
-            series36.Name = "0";
-            series37.ChartArea = "ChartArea1";
-            series37.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series37.Legend = "Legend1";
-            series37.Name = "1";
-            series38.ChartArea = "ChartArea1";
-            series38.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series38.Legend = "Legend1";
-            series38.Name = "2";
-            this.chart_u_i_r.Series.Add(series36);
-            this.chart_u_i_r.Series.Add(series37);
-            this.chart_u_i_r.Series.Add(series38);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series1.Legend = "Legend1";
+            series1.Name = "0";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series2.Legend = "Legend1";
+            series2.Name = "1";
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series3.Legend = "Legend1";
+            series3.Name = "2";
+            this.chart_u_i_r.Series.Add(series1);
+            this.chart_u_i_r.Series.Add(series2);
+            this.chart_u_i_r.Series.Add(series3);
             this.chart_u_i_r.Size = new System.Drawing.Size(548, 517);
             this.chart_u_i_r.TabIndex = 0;
             this.chart_u_i_r.Text = "chart5";
@@ -1097,11 +1097,11 @@
             // 
             this.gb_time.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.gb_time.Controls.Add(this.lab_date);
-            this.gb_time.Location = new System.Drawing.Point(2, 59);
+            this.gb_time.Location = new System.Drawing.Point(2, 74);
             this.gb_time.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.gb_time.Name = "gb_time";
             this.gb_time.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.gb_time.Size = new System.Drawing.Size(150, 80);
+            this.gb_time.Size = new System.Drawing.Size(150, 75);
             this.gb_time.TabIndex = 24;
             this.gb_time.TabStop = false;
             this.gb_time.Enter += new System.EventHandler(this.gb_time_Enter);
@@ -1113,7 +1113,7 @@
             this.lab_date.Location = new System.Drawing.Point(2, 17);
             this.lab_date.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lab_date.Name = "lab_date";
-            this.lab_date.Size = new System.Drawing.Size(146, 60);
+            this.lab_date.Size = new System.Drawing.Size(146, 55);
             this.lab_date.TabIndex = 1;
             this.lab_date.Text = "2020/07/12 00:00:00";
             this.lab_date.Click += new System.EventHandler(this.lab_date_Click);
@@ -1649,6 +1649,30 @@
             this.panel_sec.TabIndex = 88;
             this.panel_sec.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_sec_Paint);
             // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label24.Enabled = false;
+            this.label24.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label24.Location = new System.Drawing.Point(220, 5);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(21, 14);
+            this.label24.TabIndex = 82;
+            this.label24.Text = "  ";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label28.Enabled = false;
+            this.label28.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label28.Location = new System.Drawing.Point(115, 5);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(21, 14);
+            this.label28.TabIndex = 81;
+            this.label28.Text = "  ";
+            // 
             // tb_times_T2
             // 
             this.tb_times_T2.Location = new System.Drawing.Point(318, 2);
@@ -1709,6 +1733,30 @@
             this.panel_fst.Size = new System.Drawing.Size(383, 24);
             this.panel_fst.TabIndex = 87;
             this.panel_fst.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_fst_Paint_1);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label23.Enabled = false;
+            this.label23.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label23.Location = new System.Drawing.Point(220, 5);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(21, 14);
+            this.label23.TabIndex = 77;
+            this.label23.Text = "  ";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label22.Enabled = false;
+            this.label22.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label22.Location = new System.Drawing.Point(115, 5);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(21, 14);
+            this.label22.TabIndex = 76;
+            this.label22.Text = "  ";
             // 
             // tb_times_T1
             // 
@@ -2179,24 +2227,24 @@
             // chart_v
             // 
             this.chart_v.Anchor = System.Windows.Forms.AnchorStyles.None;
-            chartArea55.AxisX.MajorGrid.Enabled = false;
-            chartArea55.AxisX.ScrollBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            chartArea55.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            chartArea55.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
-            chartArea55.AxisX.ScrollBar.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            chartArea55.AxisY.MajorGrid.Enabled = false;
-            chartArea55.BorderWidth = 3;
-            chartArea55.Name = "ChartArea1";
-            this.chart_v.ChartAreas.Add(chartArea55);
+            chartArea6.AxisX.MajorGrid.Enabled = false;
+            chartArea6.AxisX.ScrollBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            chartArea6.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            chartArea6.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
+            chartArea6.AxisX.ScrollBar.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            chartArea6.AxisY.MajorGrid.Enabled = false;
+            chartArea6.BorderWidth = 3;
+            chartArea6.Name = "ChartArea1";
+            this.chart_v.ChartAreas.Add(chartArea6);
             this.chart_v.Location = new System.Drawing.Point(239, 69);
             this.chart_v.Margin = new System.Windows.Forms.Padding(2);
             this.chart_v.Name = "chart_v";
             this.chart_v.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
-            series39.ChartArea = "ChartArea1";
-            series39.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series39.LabelBorderWidth = 3;
-            series39.Name = "Series1";
-            this.chart_v.Series.Add(series39);
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series4.LabelBorderWidth = 3;
+            series4.Name = "Series1";
+            this.chart_v.Series.Add(series4);
             this.chart_v.Size = new System.Drawing.Size(174, 147);
             this.chart_v.TabIndex = 1;
             this.chart_v.Text = "chart5";
@@ -2613,35 +2661,35 @@
             // newProjectToolStripMenuItem
             // 
             this.newProjectToolStripMenuItem.Name = "newProjectToolStripMenuItem";
-            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newProjectToolStripMenuItem.Text = "New Project(N)";
             this.newProjectToolStripMenuItem.Click += new System.EventHandler(this.newProjectToolStripMenuItem_Click);
             // 
             // LoadProtoolStripMenuItem1
             // 
             this.LoadProtoolStripMenuItem1.Name = "LoadProtoolStripMenuItem1";
-            this.LoadProtoolStripMenuItem1.Size = new System.Drawing.Size(167, 22);
+            this.LoadProtoolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.LoadProtoolStripMenuItem1.Text = "Load Project(O)";
             this.LoadProtoolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // DataAnalyserToolStripMenuItem
             // 
             this.DataAnalyserToolStripMenuItem.Name = "DataAnalyserToolStripMenuItem";
-            this.DataAnalyserToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.DataAnalyserToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.DataAnalyserToolStripMenuItem.Text = "Data Analyser";
             this.DataAnalyserToolStripMenuItem.Click += new System.EventHandler(this.loadProjectToolStripMenuItem_Click);
             // 
             // BackToolStripMenuItem
             // 
             this.BackToolStripMenuItem.Name = "BackToolStripMenuItem";
-            this.BackToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.BackToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.BackToolStripMenuItem.Text = "Back";
             this.BackToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit(C)";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -2928,6 +2976,42 @@
             this.gb_rep2.Text = "Time Set";
             this.gb_rep2.Enter += new System.EventHandler(this.gb_rep2_Enter);
             // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label56.Enabled = false;
+            this.label56.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label56.Location = new System.Drawing.Point(245, 86);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(21, 14);
+            this.label56.TabIndex = 101;
+            this.label56.Text = "  ";
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label55.Enabled = false;
+            this.label55.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label55.Location = new System.Drawing.Point(245, 121);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(21, 14);
+            this.label55.TabIndex = 100;
+            this.label55.Text = "  ";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label38.Enabled = false;
+            this.label38.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label38.Location = new System.Drawing.Point(141, 121);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(21, 14);
+            this.label38.TabIndex = 99;
+            this.label38.Text = "  ";
+            // 
             // cb_days2
             // 
             this.cb_days2.Enabled = false;
@@ -2958,6 +3042,19 @@
             this.label50.TabIndex = 95;
             this.label50.Text = "End at";
             this.label50.Click += new System.EventHandler(this.label50_Click);
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label59.Enabled = false;
+            this.label59.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label59.Location = new System.Drawing.Point(142, 86);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(21, 14);
+            this.label59.TabIndex = 74;
+            this.label59.Text = "  ";
+            this.label59.Click += new System.EventHandler(this.label59_Click);
             // 
             // DTP_End2
             // 
@@ -3123,19 +3220,6 @@
             this.label66.TabIndex = 77;
             this.label66.Text = " ";
             // 
-            // label59
-            // 
-            this.label59.AutoSize = true;
-            this.label59.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label59.Enabled = false;
-            this.label59.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label59.Location = new System.Drawing.Point(142, 86);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(21, 14);
-            this.label59.TabIndex = 74;
-            this.label59.Text = "  ";
-            this.label59.Click += new System.EventHandler(this.label59_Click);
-            // 
             // dateTimePicker_t_3
             // 
             this.dateTimePicker_t_3.Format = System.Windows.Forms.DateTimePickerFormat.Time;
@@ -3212,17 +3296,17 @@
             this.chart_temp.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chart_temp.BackColor = System.Drawing.SystemColors.Control;
             this.chart_temp.BorderlineColor = System.Drawing.SystemColors.Control;
-            chartArea56.AxisX.Interval = 2D;
-            chartArea56.AxisY.Minimum = 20D;
-            chartArea56.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
-            chartArea56.Name = "ChartArea1";
-            this.chart_temp.ChartAreas.Add(chartArea56);
+            chartArea7.AxisX.Interval = 2D;
+            chartArea7.AxisY.Minimum = 20D;
+            chartArea7.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Center;
+            chartArea7.Name = "ChartArea1";
+            this.chart_temp.ChartAreas.Add(chartArea7);
             this.chart_temp.Location = new System.Drawing.Point(251, 92);
             this.chart_temp.Name = "chart_temp";
-            series40.ChartArea = "ChartArea1";
-            series40.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series40.Name = "Series1";
-            this.chart_temp.Series.Add(series40);
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series5.Name = "Series1";
+            this.chart_temp.Series.Add(series5);
             this.chart_temp.Size = new System.Drawing.Size(160, 84);
             this.chart_temp.TabIndex = 91;
             this.chart_temp.Text = "chart5";
@@ -3468,97 +3552,14 @@
             // 
             // btn_download
             // 
-            this.btn_download.Location = new System.Drawing.Point(6, 30);
+            this.btn_download.Image = ((System.Drawing.Image)(resources.GetObject("btn_download.Image")));
+            this.btn_download.Location = new System.Drawing.Point(48, 31);
             this.btn_download.Name = "btn_download";
-            this.btn_download.Size = new System.Drawing.Size(140, 32);
+            this.btn_download.Size = new System.Drawing.Size(44, 50);
             this.btn_download.TabIndex = 92;
-            this.btn_download.Text = "DownLoad from Server";
+            this.toolTip1.SetToolTip(this.btn_download, "DownLoad from Server");
             this.btn_download.UseVisualStyleBackColor = true;
             this.btn_download.Click += new System.EventHandler(this.btn_download_Click);
-            // 
-            // label38
-            // 
-            this.label38.AutoSize = true;
-            this.label38.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label38.Enabled = false;
-            this.label38.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label38.Location = new System.Drawing.Point(141, 121);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(21, 14);
-            this.label38.TabIndex = 99;
-            this.label38.Text = "  ";
-            // 
-            // label55
-            // 
-            this.label55.AutoSize = true;
-            this.label55.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label55.Enabled = false;
-            this.label55.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label55.Location = new System.Drawing.Point(245, 121);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(21, 14);
-            this.label55.TabIndex = 100;
-            this.label55.Text = "  ";
-            // 
-            // label56
-            // 
-            this.label56.AutoSize = true;
-            this.label56.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label56.Enabled = false;
-            this.label56.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label56.Location = new System.Drawing.Point(245, 86);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(21, 14);
-            this.label56.TabIndex = 101;
-            this.label56.Text = "  ";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label22.Enabled = false;
-            this.label22.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label22.Location = new System.Drawing.Point(115, 5);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(21, 14);
-            this.label22.TabIndex = 76;
-            this.label22.Text = "  ";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label23.Enabled = false;
-            this.label23.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label23.Location = new System.Drawing.Point(220, 5);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(21, 14);
-            this.label23.TabIndex = 77;
-            this.label23.Text = "  ";
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label28.Enabled = false;
-            this.label28.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label28.Location = new System.Drawing.Point(115, 5);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(21, 14);
-            this.label28.TabIndex = 81;
-            this.label28.Text = "  ";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label24.Enabled = false;
-            this.label24.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label24.Location = new System.Drawing.Point(220, 5);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(21, 14);
-            this.label24.TabIndex = 82;
-            this.label24.Text = "  ";
             // 
             // Form1
             // 
