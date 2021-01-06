@@ -52,13 +52,13 @@ io.on('connection', function(socket){
 						//创建以FDA为名的子文件夹
 						console.log(ID_NUM + "FDA目录创建成功。");	
 						//创建Single  Measurement 的txt文档
-						fs.writeFile("./static/"+ID_NUM+"/"+"FDA/Single measurement.txt", "Fre"+"\t"+"Mag"+"\t"+"Pha",  function(err) {
+						fs.writeFile("./static/" + ID_NUM + "/" + "FDA/Single measurement.txt", "Fre" + "\t" + "Mag" + "\t" + "Pha" + "\t",  function(err) {
 						   if (err) {
 							   return console.error(err);
 						   }					  
 						});		
 						//创建multiple measurement 的txt文档
-						fs.writeFile("./static/"+ID_NUM+"/"+"FDA/Multiple measurement.txt", "Fre"+"\t"+"Mag"+"\t"+"Pha"+"\t"+"Times",  function(err) {
+						fs.writeFile("./static/" + ID_NUM + "/" + "FDA/Multiple measurement.txt", "Fre" + "\t" + "Mag" + "\t" + "Pha" + "\t" + "Times" + "\t",  function(err) {
 						   if (err) {
 							   return console.error(err);
 						   }					  
@@ -74,7 +74,7 @@ io.on('connection', function(socket){
 					{
 						console.log(ID_NUM + "TD目录创建成功。");	
 						//创建Single  Measurement 的txt文档
-						fs.writeFile("./static/"+ID_NUM+"/"+"TD/Single measurement.txt", "Time" + "\t" + "Impedance",  function(err) {
+						fs.writeFile("./static/" + ID_NUM + "/" + "TD/Single measurement.txt", "Fre" + "\t" + "Mag" + "\t" + "Pha" + "\t" + "Times" + "\t",  function(err) {
 						   if (err) {
 							   return console.error(err);
 						   }					  
@@ -90,7 +90,7 @@ io.on('connection', function(socket){
 					{
 						console.log(ID_NUM + "DC目录创建成功。");		
 						//创建U_I_R_Data的txt文档
-						fs.writeFile("./static/"+ID_NUM+"/"+"DC/U_I_R_Data.txt", "Time" + "\t" + "Voltage" + "\t" + "Current" + "\t" + "Resistance",  function(err) {
+						fs.writeFile("./static/" + ID_NUM + "/" + "DC/U_I_R_Data.txt", "Time" + "\t" + "Voltage" + "\t" + "Current" + "\t" + "Resistance" + "\t",  function(err) {
 						   if (err) {
 							   return console.error(err);
 						   }					  
@@ -106,7 +106,7 @@ io.on('connection', function(socket){
 					{
 						console.log(ID_NUM + "Combination目录创建成功。");	
 						//创建U_I_R_Data的txt文档
-						fs.writeFile("./static/"+ID_NUM+"/"+"Combination/Combination_Measurement.txt", "Fre"+"\t"+"Mag"+"\t"+"Pha"+"\t"+"Times",  function(err) {
+						fs.writeFile("./static/" + ID_NUM + "/" + "Combination/Combination_Measurement.txt", "Fre" + "\t" + "Mag" + "\t" + "Pha" + "\t" + "Times" + "\t",  function(err) {
 						   if (err) {
 							   return console.error(err);
 						   }					  
@@ -124,20 +124,20 @@ io.on('connection', function(socket){
 		
 	}
 	//FDA数据接收
-	else if(Recieved_data.length == 4)
+	else if (Recieved_data.length == 9 && Recieved_data[0] == "AA" && Recieved_data[1] == "FF" && Recieved_data[2] == "FF" && Recieved_data[3] == "AA" && Recieved_data[4] == "1")
 	{
 		console.log('receive data :' + data_buff[i]);
-		if (Recieved_data[3] == 0)
+		if (Recieved_data[8] == 0)
 		{
-			fs.writeFile("./static/"+ID_NUM+"/"+"FDA/Single measurement.txt", "\n"+Recieved_data[0]+"\t"+Recieved_data[1]+"\t"+Recieved_data[2],{flag:'a',encoding:'utf-8',mode:'0666'},  function(err) {
+			fs.writeFile("./static/" + ID_NUM + "/" + "FDA/Single measurement.txt", "\n" + Recieved_data[5] + "\t" + Recieved_data[6] + "\t" + Recieved_data[7] + "\t",{flag:'a',encoding:'utf-8',mode:'0666'},  function(err) {
 			   if (err) {
 				   return console.error(err);
 			   }					  
 		});	
 		}
-		else if (Recieved_data[3] >0)
+		else if (Recieved_data[8] >0)
 		{
-			fs.writeFile("./static/"+ID_NUM+"/"+"FDA/Multiple measurement.txt", "\n"+Recieved_data[0]+"\t"+Recieved_data[1]+"\t"+Recieved_data[2]+"\t"+Recieved_data[3], {flag:'a',encoding:'utf-8',mode:'0666'}, function(err) {
+			fs.writeFile("./static/" + ID_NUM + "/" + "FDA/Multiple measurement.txt", "\n" + Recieved_data[5] + "\t" + Recieved_data[7] + "\t" + Recieved_data[7] + "\t" + Recieved_data[8] + "\t", {flag:'a',encoding:'utf-8',mode:'0666'}, function(err) {
 			   if (err) {
 				   return console.error(err);
 			   }					  
@@ -146,9 +146,9 @@ io.on('connection', function(socket){
 		}
 	}
 	//DC数据接收
-	else if(Recieved_data.length == 3)
+	else if (Recieved_data.length == 8 && Recieved_data[0] == "AA" && Recieved_data[1] == "FF" && Recieved_data[2] == "FF" && Recieved_data[3] == "AA" && Recieved_data[4] == "3")
 	{
-		fs.writeFile("./static/"+ID_NUM+"/"+"DC/U_I_R_Data.txt", Recieved_data[0] + "\t" + Recieved_data[1] + "\t" + Recieved_data[2] + "\t" + Recieved_data[0]/Recieved_data[2], {flag:'a',encoding:'utf-8',mode:'0666'}, function(err) {
+		fs.writeFile("./static/" + ID_NUM + "/" + "DC/U_I_R_Data.txt", "\n" + Recieved_data[5] + "\t" + Recieved_data[6] + "\t" + Recieved_data[7] + "\t" + Recieved_data[6] / Recieved_data[7] + "\t", {flag:'a',encoding:'utf-8',mode:'0666'}, function(err) {
 		   if (err) {
 			   return console.error(err);
 		   }					  
@@ -156,9 +156,9 @@ io.on('connection', function(socket){
 		
 	}
 	//TD数据接收
-	else if(Recieved_data.length == 2)
+	else if (Recieved_data.length == 9 && Recieved_data[0] == "AA" && Recieved_data[1] == "FF" && Recieved_data[2] == "FF" && Recieved_data[3] == "AA" && Recieved_data[4] == "5)
 	{
-		fs.writeFile("./static/"+ID_NUM+"/"+"TD/Single measurement.txt", Recieved_data[0] + "\t" + Recieved_data[1], {flag:'a',encoding:'utf-8',mode:'0666'}, function(err) {
+		fs.writeFile("./static/" + ID_NUM + "/" + "TD/Single measurement.txt", "\n" + Recieved_data[5] + "\t" + Recieved_data[7] + "\t" + Recieved_data[7] + "\t" + Recieved_data[8] + "\t", {flag:'a',encoding:'utf-8',mode:'0666'}, function(err) {
 		   if (err) {
 			   return console.error(err);
 		   }					  
@@ -166,9 +166,9 @@ io.on('connection', function(socket){
 		
 	}
 	//Combination数据接收
-	else if(Recieved_data.length == 5)
+	else if (Recieved_data.length == 9 && Recieved_data[0] == "AA" && Recieved_data[1] == "FF" && Recieved_data[2] == "FF" && Recieved_data[3] == "AA" && Recieved_data[4] == "4")
 	{
-		fs.writeFile("./static/"+ID_NUM+"/"+"Combination/Combination_Measurement.txt", "\n"+Recieved_data[0]+"\t"+Recieved_data[1]+"\t"+Recieved_data[2]+"\t"+Recieved_data[3], {flag:'a',encoding:'utf-8',mode:'0666'}, function(err) {
+		fs.writeFile("./static/" + ID_NUM + "/" + "Combination/Combination_Measurement.txt", "\n" + Recieved_data[5] + "\t" + Recieved_data[6] + "\t" + Recieved_data[7] + "\t" + Recieved_data[8] + "\t", {flag:'a',encoding:'utf-8',mode:'0666'}, function(err) {
 			   if (err) {
 				   return console.error(err);
 			   }					  
