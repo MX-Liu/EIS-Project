@@ -230,6 +230,7 @@
             this.checkBox_SEC2 = new System.Windows.Forms.CheckBox();
             this.tb_times_T3 = new System.Windows.Forms.TextBox();
             this.tb_times_D3 = new System.Windows.Forms.TextBox();
+            this.btn_download = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -305,7 +306,6 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.btn_download = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -2631,6 +2631,17 @@
             this.toolTip1.SetToolTip(this.tb_times_D3, "Measure times for the first peroid.");
             this.tb_times_D3.TextChanged += new System.EventHandler(this.tb_times_D3_TextChanged);
             // 
+            // btn_download
+            // 
+            this.btn_download.Image = ((System.Drawing.Image)(resources.GetObject("btn_download.Image")));
+            this.btn_download.Location = new System.Drawing.Point(48, 31);
+            this.btn_download.Name = "btn_download";
+            this.btn_download.Size = new System.Drawing.Size(44, 50);
+            this.btn_download.TabIndex = 92;
+            this.toolTip1.SetToolTip(this.btn_download, "DownLoad from Server");
+            this.btn_download.UseVisualStyleBackColor = true;
+            this.btn_download.Click += new System.EventHandler(this.btn_download_Click);
+            // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -3549,17 +3560,6 @@
             this.statusStrip1.Size = new System.Drawing.Size(1367, 22);
             this.statusStrip1.TabIndex = 91;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // btn_download
-            // 
-            this.btn_download.Image = ((System.Drawing.Image)(resources.GetObject("btn_download.Image")));
-            this.btn_download.Location = new System.Drawing.Point(48, 31);
-            this.btn_download.Name = "btn_download";
-            this.btn_download.Size = new System.Drawing.Size(44, 50);
-            this.btn_download.TabIndex = 92;
-            this.toolTip1.SetToolTip(this.btn_download, "DownLoad from Server");
-            this.btn_download.UseVisualStyleBackColor = true;
-            this.btn_download.Click += new System.EventHandler(this.btn_download_Click);
             // 
             // Form1
             // 

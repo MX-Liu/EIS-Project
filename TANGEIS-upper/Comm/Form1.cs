@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using Quobject.SocketIoClientDotNet.Client;// socket.io for .NET (Client)
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Net;
+using Microsoft.VisualBasic;
 //using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
@@ -81,11 +82,11 @@ namespace Comm
         private bool COMB_PLOT = true; //COMB多曲线标志位
         private bool TD_PLOT = true; //COMB多曲线标志位
 
-        private Int64 cnt_comb = 0;//comb 文件命名计数器
-        private Int64 cnt_FDA1 = 0;//FDA 单次测量命名计数器
-        private Int64 cnt_FDA2 = 0;////FDA 多次测量命名计数器
-        private Int64 cnt_TD = 0;//TD 文件命名计数器
-        private Int64 cnt_UIR = 0;//UIR 文件命名计数器
+        private Int64 cnt_comb = -1;//comb 文件命名计数器
+        private Int64 cnt_FDA1 = -1;//FDA 单次测量命名计数器
+        private Int64 cnt_FDA2 = -1;////FDA 多次测量命名计数器
+        private Int64 cnt_TD = -1;//TD 文件命名计数器
+        private Int64 cnt_UIR = -1;//UIR 文件命名计数器
         private Int64 cnt_temp = 0;//UIR 文件命名计数器
 
         private Queue chart_x = new Queue();//  数据队列 用于无线传输
@@ -195,6 +196,8 @@ namespace Comm
             btn_TD.Enabled = false;
             btn_DC.Enabled = false;
             btn_AC.Enabled = false;
+
+            btn_download.Visible = false;
 
 
 
@@ -1008,7 +1011,26 @@ namespace Comm
 
                                 btn_start.Enabled = true;
                                 btn_stop.Enabled = false;
+
+                                try {
+                                string oldStr = pathString2 + "\\" + cnt_TD.ToString() + "Single_Measurement.txt";
+
+                                // 新文件名
+                                string newStr = pathString2 + "\\" + cnt_TD.ToString() + "Single_Measurement(Experiment Finished).txt";
+
+                                // 改名方法
+                                FileInfo fi = new FileInfo(oldStr);
+                                fi.MoveTo(Path.Combine(newStr));
+                                //cnt_TD ++;
+                                }
+                                catch
+                                {
+                                //防止stop后继续给数据出错
+                                
+                                }
+
                             }
+                            
 
                             string[] strArr = strv.Split(',');
                             
@@ -1077,12 +1099,15 @@ namespace Comm
                                     data_queue.Enqueue(cnt + "," + strArr[6] + ":");
 
                                     //写入文件
-                                    FileStream fs = new FileStream(pathString2 + "\\" + cnt_TD.ToString() + "Single_Measurement.txt", FileMode.Append);
-                                    StreamWriter sw = new StreamWriter(fs);
-                                    sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t");
-                                    sw.Flush();
-                                    sw.Close();
-                                    fs.Close();
+                                    if (cnt_TD > -1)
+                                    {
+                                        FileStream fs = new FileStream(pathString2 + "\\" + cnt_TD.ToString() + "Single_Measurement.txt", FileMode.Append);
+                                        StreamWriter sw = new StreamWriter(fs);
+                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t");
+                                        sw.Flush();
+                                        sw.Close();
+                                        fs.Close();
+                                    }
                                 }
 
                             }
@@ -1108,6 +1133,23 @@ namespace Comm
 
                                 btn_start1.Enabled = true;
                                 btn_stop1.Enabled = false;
+
+                                try
+                                {
+                                    string oldStr = pathString3 + "\\" + cnt_UIR + "U_I_R_data.txt";
+
+                                    // 新文件名
+                                    string newStr = pathString3 + "\\" + cnt_UIR + "U_I_R_data(Experiment Finished).txt";
+
+                                    // 改名方法
+                                    FileInfo fi = new FileInfo(oldStr);
+                                    fi.MoveTo(Path.Combine(newStr));
+                                    //cnt_UIR ++;
+                                }
+                                catch 
+                                {
+                                //STOP后，仍给数据会出错
+                                }
                             }
 
                             string[] strArry = stru.Split(',');
@@ -1125,6 +1167,22 @@ namespace Comm
                                     vol = Convert.ToSingle(strArry[5]);
                                     cur = Convert.ToSingle(strArry[6]);
 
+
+                                    try
+                                    {
+                                        chart_u_i_r.Series.Add("0");//添加
+                                        chart_u_i_r.Series.Add("1");//添加
+                                        chart_u_i_r.Series.Add("2");//添加
+
+                                        this.chart_u_i_r.Series["0"].ChartType = SeriesChartType.Point;
+                                        this.chart_u_i_r.Series["1"].ChartType = SeriesChartType.Point;
+                                        this.chart_u_i_r.Series["2"].ChartType = SeriesChartType.Point;
+
+                                    }
+                                    catch
+                                    {
+                                    }
+
                                     double res = vol / cur;
 
                                     this.chart_u_i_r.Series[0].Points.AddXY(time, vol);
@@ -1140,12 +1198,15 @@ namespace Comm
                                     data_queue.Enqueue(time + "," + strArry[5] + "," + strArry[6] + ":");
 
                                     //DC 写入文件
-                                    FileStream fs = new FileStream(pathString3 +"\\" + cnt_UIR+"U_I_R_data.txt", FileMode.Append);
-                                    StreamWriter sw = new StreamWriter(fs);
-                                    sw.WriteLine(time.ToString() + "\t" + tb_u.Text + "\t" + tb_I.Text + "\t" + tb_R.Text + '\t');
-                                    sw.Flush();
-                                    sw.Close();
-                                    fs.Close();
+                                    if (cnt_UIR > -1)
+                                    {
+                                        FileStream fs = new FileStream(pathString3 + "\\" + cnt_UIR + "U_I_R_data.txt", FileMode.Append);
+                                        StreamWriter sw = new StreamWriter(fs);
+                                        sw.WriteLine(time.ToString() + "\t" + tb_u.Text + "\t" + tb_I.Text + "\t" + tb_R.Text + '\t');
+                                        sw.Flush();
+                                        sw.Close();
+                                        fs.Close();
+                                    }
 
                                 }
 
@@ -1177,6 +1238,45 @@ namespace Comm
                                 btn_start.Enabled = true;
                                 btn_stop.Enabled = false;
                                 FDA_PLOT = true;
+
+                                if (rb_dur.Checked)//单次测量文件写入
+                                {
+                                    try
+                                    {
+                                        string oldStr = pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt";
+
+                                        // 新文件名
+                                        string newStr = pathString1 + "\\" + cnt_FDA1 + "Single_Measurement(Experiment Finished).txt";
+
+                                        // 改名方法
+                                        FileInfo fi = new FileInfo(oldStr);
+                                        fi.MoveTo(Path.Combine(newStr));
+                                        //cnt_FDA1++;
+                                    }
+                                    catch
+                                    { 
+                                    
+                                    }
+                                }
+                                else if (rb_rep.Checked)
+                                {
+                                    try
+                                    {
+                                        string oldStr = pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt";
+
+                                        // 新文件名
+                                        string newStr = pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement(Experiment Finished).txt";
+
+                                        // 改名方法
+                                        FileInfo fi = new FileInfo(oldStr);
+                                        fi.MoveTo(Path.Combine(newStr));
+                                    }
+                                    catch 
+                                    {
+                                    
+                                    }
+                                    //cnt_FDA2++;
+                                }
                             }
 
                             string[] strArr = str.Split(',');
@@ -1255,21 +1355,27 @@ namespace Comm
 
                                     if (rb_dur.Checked)//单次测量文件写入
                                     {
-                                        FileStream fs = new FileStream(pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt", FileMode.Append);
-                                        StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t");
-                                        sw.Flush();
-                                        sw.Close();
-                                        fs.Close();
+                                       if(cnt_FDA1 > -1)
+                                        { 
+                                            FileStream fs = new FileStream(pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt", FileMode.Append);
+                                            StreamWriter sw = new StreamWriter(fs);
+                                            sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t");
+                                            sw.Flush();
+                                            sw.Close();
+                                            fs.Close();
+                                        }
                                     }
                                     else if (rb_rep.Checked)//多次测量文件写入
                                     {
-                                        FileStream fs = new FileStream(pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt", FileMode.Append);
-                                        StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[8] + '\t');
-                                        sw.Flush();
-                                        sw.Close();
-                                        fs.Close();
+                                        if (cnt_FDA2 > -1)
+                                        {
+                                            FileStream fs = new FileStream(pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt", FileMode.Append);
+                                            StreamWriter sw = new StreamWriter(fs);
+                                            sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[8] + '\t');
+                                            sw.Flush();
+                                            sw.Close();
+                                            fs.Close();
+                                        }
                                     }
                             }
                                 catch
@@ -1297,6 +1403,23 @@ namespace Comm
 
                                 btn_comb_start.Enabled = true;
                                 btn_stop2.Enabled = false;
+
+                                string oldStr = pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt";
+
+                                // 新文件名
+                                string newStr = pathString4 + "\\" + cnt_comb + "Combination_Measurement(Experiment Finished).txt";
+
+                                try
+                                {
+                                    // 改名方法
+                                    FileInfo fi = new FileInfo(oldStr);
+                                    fi.MoveTo(Path.Combine(newStr));
+                                    //cnt_comb ++;
+                                }
+                                catch 
+                                {
+                                
+                                }
                             }
                             else
                             {
@@ -1364,12 +1487,15 @@ namespace Comm
                                         data_queue.Enqueue(strc + ":");
 
                                         //Comb 写入文件
-                                        FileStream fs = new FileStream(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt", FileMode.Append);
-                                        StreamWriter sw = new StreamWriter(fs);
-                                        sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[8] + '\t');
-                                        sw.Flush();
-                                        sw.Close();
-                                        fs.Close();
+                                        if (cnt_comb > -1)
+                                        {
+                                            FileStream fs = new FileStream(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt", FileMode.Append);
+                                            StreamWriter sw = new StreamWriter(fs);
+                                            sw.WriteLine(strArr[5] + "\t" + mag.ToString() + "\t" + pha.ToString() + "\t" + strArr[8] + '\t');
+                                            sw.Flush();
+                                            sw.Close();
+                                            fs.Close();
+                                        }
 
                                     }
 
@@ -1398,7 +1524,7 @@ namespace Comm
                                 }
                                 else
                                 {
-                                    ReceiveArea.AppendText(strc);
+                                   // ReceiveArea.AppendText(strc);
                                 }
 
                             }
@@ -1580,6 +1706,114 @@ namespace Comm
         //鼠标滚轮改变图像大小，XY轴
         void chart_MouseWheelXY(object sender, MouseEventArgs e)
         {
+
+            //Chart chart = (Chart)(sender);
+            //double zoomfactor = 2;   //设置缩放比例
+            //double xstartpoint = chart.ChartAreas[0].AxisX.ScaleView.ViewMinimum;      //获取当前x轴最小坐标
+            //double xendpoint = chart.ChartAreas[0].AxisX.ScaleView.ViewMaximum;      //获取当前x轴最大坐标
+            //double xmouseponit = chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);    //获取鼠标在chart中x坐标
+            //double xratio = (xendpoint - xmouseponit) / (xmouseponit - xstartpoint);      //计算当前鼠标基于坐标两侧的比值，后续放大缩小时保持比例不变
+
+            //double ystartpoint = chart.ChartAreas[0].AxisY.ScaleView.ViewMinimum;      //获取当前x轴最小坐标
+            //double yendpoint = chart.ChartAreas[0].AxisY.ScaleView.ViewMaximum;      //获取当前x轴最大坐标
+            //double ymouseponit = chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);    //获取鼠标在chart中x坐标
+            //double yratio = (yendpoint - ymouseponit) / (ymouseponit - ystartpoint);      //计算当前鼠标基于坐标两侧的比值，后续放大缩小时保持比例不变
+
+            //if (e.Delta > 0)    //滚轮上滑放大
+            //{
+            //    if (chart.ChartAreas[0].AxisX.ScaleView.Size > 5 && chart.ChartAreas[0].AxisY.ScaleView.Size > 5)     //缩放视图不小于5
+            //    {
+            //        if ((xmouseponit >= chart.ChartAreas[0].AxisX.ScaleView.ViewMinimum) && (xmouseponit <= chart.ChartAreas[0].AxisX.ScaleView.ViewMaximum)&&(ymouseponit >= chart.ChartAreas[0].AxisY.ScaleView.ViewMinimum) && (ymouseponit <= chart.ChartAreas[0].AxisY.ScaleView.ViewMaximum)) //判断鼠标位置不在x轴两侧边沿
+            //        {
+            //            double xspmovepoints = Math.Round((xmouseponit - xstartpoint) * (zoomfactor - 1) / zoomfactor, 1);    //计算x轴起点需要右移距离,保留一位小数
+            //            double xepmovepoints = Math.Round(xendpoint - xmouseponit - xratio * (xmouseponit - xstartpoint - xspmovepoints), 1);    //计算x轴末端左移距离，保留一位小数
+            //            double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
+            //            chart.ChartAreas[0].AxisX.ScaleView.Size -= viewsizechange;        //设置x轴缩放视图大小
+            //            chart.ChartAreas[0].AxisX.ScaleView.Position += xspmovepoints;        //设置x轴缩放视图起点，右移保持鼠标中心点
+                        
+            //            double yspmovepoints = Math.Round((ymouseponit - ystartpoint) * (zoomfactor - 1) / zoomfactor, 1);    //计算Y轴起点需要右移距离,保留一位小数
+            //            double yepmovepoints = Math.Round(yendpoint - ymouseponit - yratio * (ymouseponit - ystartpoint - yspmovepoints), 1);    //计算Y轴末端左移距离，保留一位小数
+            //            double yviewsizechange = yspmovepoints + yepmovepoints;         //计算Y轴缩放视图缩小变化尺寸
+            //            chart.ChartAreas[0].AxisY.ScaleView.Size -= yviewsizechange;        //设置Y轴缩放视图大小
+            //            chart.ChartAreas[0].AxisY.ScaleView.Position += yspmovepoints;        //设置Y轴缩放视图起点，右移保持鼠标中心点
+
+            //        }
+            //    }
+            //}
+            //else     //滚轮下滑缩小
+            //{
+
+            //    if (chart.ChartAreas[0].AxisX.ScaleView.Size < chart.ChartAreas[0].AxisX.Maximum && chart.ChartAreas[0].AxisY.ScaleView.Size < chart.ChartAreas[0].AxisY.Maximum)
+            //    {
+            //        double xspmovepoints = Math.Round((zoomfactor - 1) * (xmouseponit - xstartpoint), 1);   //计算x轴起点需要左移距离
+            //        double xepmovepoints = Math.Round((zoomfactor - 1) * (xendpoint - xmouseponit), 1);    //计算x轴末端右移距离
+
+            //        double yspmovepoints = Math.Round((zoomfactor - 1) * (ymouseponit - ystartpoint), 1);   //计算x轴起点需要左移距离
+            //        double yepmovepoints = Math.Round((zoomfactor - 1) * (yendpoint - ymouseponit), 1);    //计算x轴末端右移距离
+
+            //        if (chart.ChartAreas[0].AxisX.ScaleView.Size + xspmovepoints + xepmovepoints < chart.ChartAreas[0].AxisX.Maximum && chart.ChartAreas[0].AxisY.ScaleView.Size + yspmovepoints + yepmovepoints < chart.ChartAreas[0].AxisY.Maximum)  //判断缩放视图尺寸是否超过曲线尺寸
+            //        {
+            //            if ((xstartpoint - xspmovepoints <= 0) || (xepmovepoints + xendpoint >= chart.ChartAreas[0].AxisX.Maximum)&& (ystartpoint - yspmovepoints <= 0) || (yepmovepoints + yendpoint >= chart.ChartAreas[0].AxisY.Maximum))  //判断缩放值是否达到曲线边界
+            //            {
+            //                if (xstartpoint - xspmovepoints <= 0)    //缩放视图起点小于等于0
+            //                {
+            //                    xspmovepoints = xstartpoint;
+            //                    chart.ChartAreas[0].AxisX.ScaleView.Position = 0;    //缩放视图起点设为0
+                           
+            //                }
+            //                else
+            //                    chart.ChartAreas[0].AxisX.ScaleView.Position -= xspmovepoints;  //缩放视图起点大于0，按比例缩放
+
+            //                if (ystartpoint - yspmovepoints <= 0)    //缩放视图起点小于等于0
+            //                {
+            //                    yspmovepoints = ystartpoint;
+            //                    chart.ChartAreas[0].AxisY.ScaleView.Position = 0;    //缩放视图起点设为0
+
+            //                }
+            //                else
+            //                    chart.ChartAreas[0].AxisY.ScaleView.Position -= yspmovepoints;  //缩放视图起点大于0，按比例缩放
+
+            //                if (xepmovepoints + xendpoint >= chart.ChartAreas[0].AxisX.Maximum)  //缩放视图终点大于曲线最大值
+            //                    chart.ChartAreas[0].AxisX.ScaleView.Size = chart.ChartAreas[0].AxisX.Maximum - chart.ChartAreas[0].AxisX.ScaleView.Position;  //设置缩放视图尺寸=曲线最大值-视图起点值
+            //                else
+            //                {
+            //                    double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
+            //                    chart.ChartAreas[0].AxisX.ScaleView.Size += viewsizechange;   //按比例缩放视图大小
+            //                }
+
+            //                if (yepmovepoints + yendpoint >= chart.ChartAreas[0].AxisY.Maximum)  //缩放视图终点大于曲线最大值
+            //                    chart.ChartAreas[0].AxisY.ScaleView.Size = chart.ChartAreas[0].AxisY.Maximum - chart.ChartAreas[0].AxisY.ScaleView.Position;  //设置缩放视图尺寸=曲线最大值-视图起点值
+            //                else
+            //                {
+            //                    double yviewsizechange = yspmovepoints + yepmovepoints;         //计算x轴缩放视图缩小变化尺寸
+            //                    chart.ChartAreas[0].AxisY.ScaleView.Size += yviewsizechange;   //按比例缩放视图大小
+            //                }
+            //            }
+            //            else
+            //            {
+            //                double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
+            //                chart.ChartAreas[0].AxisX.ScaleView.Size += viewsizechange;   //按比例缩放视图大小
+            //                chart.ChartAreas[0].AxisX.ScaleView.Position -= xspmovepoints;   //按比例缩放视图大小
+
+            //                double yviewsizechange = yspmovepoints + yepmovepoints;         //计算x轴缩放视图缩小变化尺寸
+            //                chart.ChartAreas[0].AxisY.ScaleView.Size += yviewsizechange;   //按比例缩放视图大小
+            //                chart.ChartAreas[0].AxisY.ScaleView.Position -= yspmovepoints;   //按比例缩放视图大小
+            //            }
+            //        }
+            //        else
+            //        {
+            //            chart.ChartAreas[0].AxisX.ScaleView.Size = chart.ChartAreas[0].AxisX.Maximum;
+            //            chart.ChartAreas[0].AxisX.ScaleView.Position = 0;
+            //            chart.ChartAreas[0].AxisY.ScaleView.Size = chart.ChartAreas[0].AxisY.Maximum;
+            //            chart.ChartAreas[0].AxisY.ScaleView.Position = 0;
+            //        }
+            //    }
+            //}
+
+
+
+
+
             Chart chart = (Chart)(sender);
 
             if (e.Delta > 0)    //滚轮上滑放大
@@ -1606,8 +1840,8 @@ namespace Comm
             //定义图像轴的初始值
             chart1.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             chart2.ChartAreas[0].AxisX.ScaleView.Size = 3000;
-            chart3.ChartAreas[0].AxisX.ScaleView.Size = 3000;
-            chart3.ChartAreas[0].AxisY.ScaleView.Size = 3000;
+            chart3.ChartAreas[0].AxisX.ScaleView.Size = 16000;
+            chart3.ChartAreas[0].AxisY.ScaleView.Size = 16000;
             chart4.ChartAreas[0].AxisX.ScaleView.Size = 3000;
 
             chart_u_i_r.ChartAreas[0].AxisX.ScaleView.Size = 3000;
@@ -1684,6 +1918,7 @@ namespace Comm
                 socket.On(Socket.EVENT_CONNECT, () =>
                 {
                     MessageBox.Show("connect server successfully");
+                    btn_download.Visible = true;
                 });
 
                 socket.On("result", (data) =>
@@ -2418,23 +2653,6 @@ namespace Comm
                         //repeat
                         if (rb_rep.Checked)
                         {
-                            //计算天数
-
-                            //string dt1 = System.DateTime.Now.ToString("yyyy/MM/dd");
-                            //DTP_Start.Text = dt1;
-                            //DateTime d1 = DateTime.Parse(DTP_Start.Text);
-                            //DateTime d2 = DateTime.Parse(DTP_End.Text);
-                            //System.TimeSpan ND = d2 - d1;
-                            //int ts1 = ND.Days;   //天数差
-                            //int ts2 = 0;
-                            //if ((ts1 > 0) && (ts1 < 8))
-                            //{
-                            //    ts2 = ts1;
-                            //}
-
-                            //string ts = Convert.ToString(ts2);
-
-                            //cb_days.Text = ts;//天数显示
 
                             serialPort1.Write(strToHexByte(cb_days.Text), 0, 1);//天数 发送
 
@@ -2542,6 +2760,18 @@ namespace Comm
                         {
                             if (rb_dur.Checked)//单次测量参数写入
                             {
+                                cnt_FDA1++;
+
+                                if (!File.Exists(pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt"))
+                                {
+
+                                    StreamWriter sw1 = new StreamWriter(pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt");
+                                    sw1.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
+                                    sw1.Flush();
+                                    sw1.Close();
+                                }
+
+
                                 FileStream fs = new FileStream(parameter21, FileMode.Append);
                                 StreamWriter sw = new StreamWriter(fs);
                                 sw.WriteLine("Start at:   " + "\t" + System.DateTime.Now + "\t");
@@ -2575,6 +2805,17 @@ namespace Comm
                             }
                             else //多次测量参数写入
                             {
+                                cnt_FDA2++;
+
+                                if (!File.Exists(pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt"))
+                                {
+
+                                    StreamWriter sw1 = new StreamWriter(pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt");
+                                    sw1.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
+                                    sw1.Flush();
+                                    sw1.Close();
+                                }
+
                                 FileStream fs = new FileStream(parameter22, FileMode.Append);
                                 StreamWriter sw = new StreamWriter(fs);
                                 sw.WriteLine("Start at:   " + "\t" + System.DateTime.Now + "\t");
@@ -2610,6 +2851,19 @@ namespace Comm
                         }
                         else if (rb_Frequncy.Checked)//TD参数写入
                         {
+
+                            cnt_TD++;
+
+                            if (!File.Exists(pathString2 + "\\" + cnt_TD + "Single_Measurement.txt"))
+                            {
+
+                                StreamWriter sw1 = new StreamWriter(pathString2 + "\\" + cnt_TD + "Single_Measurement.txt");
+                                sw1.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
+                                sw1.Flush();
+                                sw1.Close();
+                            }
+
+
                             FileStream fs = new FileStream(parameter1, FileMode.Append);
                             StreamWriter sw = new StreamWriter(fs);
 
@@ -2706,6 +2960,15 @@ namespace Comm
             if (rb_Frequncy.Checked)//TD 停止时间写入
             {
 
+                string oldStr = pathString2 + "\\" + cnt_TD.ToString() + "Single_Measurement.txt";
+
+                // 新文件名
+                string newStr = pathString2 + "\\" + cnt_TD.ToString() + "Single_Measurement(Manual Finished).txt";
+
+                // 改名方法
+                FileInfo fi = new FileInfo(oldStr);
+                fi.MoveTo(Path.Combine(newStr));
+
                 FileStream fs = new FileStream(parameter1, FileMode.Append);
                 StreamWriter sw = new StreamWriter(fs);
                 sw.WriteLine("Stop at:   " + "\t" + System.DateTime.Now + "\t");
@@ -2713,21 +2976,26 @@ namespace Comm
                 sw.Flush();
                 sw.Close();
 
-                cnt_TD++;
-
-                if (!File.Exists(pathString2 + "\\" + cnt_TD + "Single_Measurement.txt"))
-                {
-
-                    StreamWriter sw1 = new StreamWriter(pathString2 + "\\" + cnt_TD + "Single_Measurement.txt");
-                    sw1.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
-                    sw1.Flush();
-                    sw1.Close();
-                }
+                
             }
             else
             {
                 if (rb_dur.Checked)//FDA 单次停止时间写入
                 {
+
+                    string oldStr = pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt";
+
+                    // 新文件名
+                    string newStr = pathString1 + "\\" + cnt_FDA1 + "Single_Measurement(Manual Finished).txt";
+
+                    // 改名方法
+
+                    if (!Directory.Exists(newStr))
+                    {
+                        FileInfo fi = new FileInfo(oldStr);
+                        fi.MoveTo(Path.Combine(newStr));
+                    }
+
                     FileStream fs = new FileStream(parameter21, FileMode.Append);
                     StreamWriter sw = new StreamWriter(fs);
                     sw.WriteLine("Stop at:   " + "\t" + System.DateTime.Now + "\t");
@@ -2735,20 +3003,21 @@ namespace Comm
                     sw.Flush();
                     sw.Close();
 
-                    cnt_FDA1++;
-
-                    if (!File.Exists(pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt"))
-                    {
-
-                        StreamWriter sw1 = new StreamWriter(pathString1 + "\\" + cnt_FDA1 + "Single_Measurement.txt");
-                        sw1.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
-                        sw1.Flush();
-                        sw1.Close();
-                    }
+                    
 
                 }
                 else//FDA 多次停止时间写入
                 {
+                    string oldStr = pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt";
+
+                    // 新文件名
+                    string newStr = pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement(Manual Finished).txt";
+
+                    // 改名方法
+                    FileInfo fi = new FileInfo(oldStr);
+                    fi.MoveTo(Path.Combine(newStr));
+
+
                     FileStream fs = new FileStream(parameter22, FileMode.Append);
                     StreamWriter sw = new StreamWriter(fs);
                     sw.WriteLine("Stop at:   " + "\t" + System.DateTime.Now + "\t");
@@ -2756,16 +3025,7 @@ namespace Comm
                     sw.Flush();
                     sw.Close();
 
-                    cnt_FDA2++;
-
-                    if (!File.Exists(pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt"))
-                    {
-
-                        StreamWriter sw1 = new StreamWriter(pathString1 + "\\" + cnt_FDA2 + "Multiple_Measurement.txt");
-                        sw1.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
-                        sw1.Flush();
-                        sw1.Close();
-                    }
+                    
                 }
             }
         }
@@ -3077,6 +3337,19 @@ namespace Comm
                     btn_AC.Enabled = true;
                 }
 
+
+                cnt_UIR++;
+
+                //添加新的数据文件
+                if (!File.Exists(pathString3 + "\\" + cnt_UIR + "U_I_R_data.txt"))
+                {
+
+                    StreamWriter sw1 = new StreamWriter(pathString3 + "\\" + cnt_UIR + "U_I_R_data.txt");
+                    sw1.WriteLine("Time" + "\t" + "Voltag" + "\t" + "Current" + "\t" + "Impedence");
+                    sw1.Flush();
+                    sw1.Close();
+                }
+
                 //DC 参数写入
                 FileStream fs = new FileStream(parameter3, FileMode.Append);
                 StreamWriter sw = new StreamWriter(fs);
@@ -3128,7 +3401,16 @@ namespace Comm
             btn_TD.Enabled = true;
             btn_DC.Enabled = true;
             btn_AC.Enabled = true;
-            
+
+            string oldStr = pathString3 + "\\" + cnt_UIR + "U_I_R_data.txt";
+
+            // 新文件名
+            string newStr = pathString3 + "\\" + cnt_UIR + "U_I_R_data(Manual Finished).txt";
+
+            // 改名方法
+            FileInfo fi = new FileInfo(oldStr);
+            fi.MoveTo(Path.Combine(newStr));
+
             //DC 停止时间写入
             FileStream fs = new FileStream(parameter3, FileMode.Append);
             StreamWriter sw = new StreamWriter(fs);
@@ -3137,17 +3419,7 @@ namespace Comm
             sw.Flush();
             sw.Close();
 
-            cnt_UIR++;
-
-            //添加新的数据文件
-            if (!File.Exists(pathString3 + "\\" + cnt_UIR + "U_I_R_data.txt"))
-            {
-
-                StreamWriter sw1 = new StreamWriter(pathString3 + "\\" + cnt_UIR + "U_I_R_data.txt");
-                sw1.WriteLine("Time" + "\t" + "Voltag" + "\t" + "Current" + "\t" + "Impedence");
-                sw1.Flush();
-                sw1.Close();
-            }
+           
         }
 
 
@@ -3185,7 +3457,6 @@ namespace Comm
                 {
                     t = 1.0 / 100 * i;
                     y = (peak - sv) * (Squarewav(2 * Math.PI * (200 - 0.75 * k + 1) * t / 100, 0.5)) + sv;
-                    //printf("%f\t%f\n", t, y);
                     this.chart_v.Series[0].Points.AddXY(t, y);
 
                 }
@@ -3230,6 +3501,7 @@ namespace Comm
             btn_freq.Enabled = false;
             btn_TD.Enabled = false;
             btn_DC.Enabled = false;
+            chart_temp.Series[0].Points.Clear();
             //btn_AC.Enabled = false;
 
             btn_comb_start.Enabled = false;
@@ -3665,6 +3937,21 @@ namespace Comm
 
                 }
 
+                cnt_comb++;
+
+                //新建参数文件
+                if (!File.Exists(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt"))
+                {
+                    
+
+                    StreamWriter sw1 = new StreamWriter(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt");
+                    sw1.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha" + "\t" + "ID");
+                    sw1.Flush();
+                    sw1.Close(); 
+                }
+
+                
+
                 //Comb 参数写入
                 FileStream fs = new FileStream(parameter4, FileMode.Append);
                 StreamWriter sw = new StreamWriter(fs);
@@ -3719,12 +4006,12 @@ namespace Comm
             BackToolStripMenuItem.Enabled = true;
             btn_comb_start.Enabled = true;
             btn_stop2.Enabled = false;
-            COMB_PLOT = true;
+            //COMB_PLOT = true;
 
             serialPort1.Write(new byte[] { 0xAA, 0xFF, 0xFF, 0x07, 0x07 }, 0, 5);//comb 停止帧头
             serialPort1.Write(new byte[] { 0x0d, 0x0a }, 0, 2);//帧尾
             btn_comb_start.Enabled = true;
-            chart_temp.Series[0].Points.Clear();
+            
             
             //Comb 停止时间写入
             FileStream fs = new FileStream(parameter4, FileMode.Append);
@@ -3734,17 +4021,14 @@ namespace Comm
             sw.Flush();
             sw.Close();
 
-            cnt_comb++;
+            string oldStr = pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt";
 
-            //新建参数文件
-            if (!File.Exists(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt"))
-            {
+            // 新文件名
+            string newStr = pathString4 + "\\" + cnt_comb + "Combination_Measurement(Manual Finished).txt";
 
-                StreamWriter sw1 = new StreamWriter(pathString4 + "\\" + cnt_comb + "Combination_Measurement.txt");
-                sw1.WriteLine("Fre" + "\t" + "Mag" + "\t" + "Pha");
-                sw1.Flush();
-                sw1.Close();
-            }
+            // 改名方法
+            FileInfo fi = new FileInfo(oldStr);
+            fi.MoveTo(Path.Combine(newStr));
 
         }
 
@@ -3910,10 +4194,10 @@ namespace Comm
                 btn_DC.Visible = true;
                 btn_AC.Visible = true;
                 btn_cfg.Visible = true;
-                btn_freq.Enabled = false;                   ;
-                btn_TD.Enabled = false;
-                btn_DC.Enabled = false;
-                btn_AC.Enabled = false;
+                btn_freq.Enabled = true;                   ;
+                btn_TD.Enabled = true;
+                btn_DC.Enabled = true;
+                btn_AC.Enabled = true;
                 panel_switch.Visible = true;
                 panel_load.Visible = false;
 
@@ -3974,8 +4258,43 @@ namespace Comm
 
                 }
 
+                //FDA文件序号最大值查询
+                
+
+                string FDA_path = foldPath + "/FDA";
+                string TD_path = foldPath + "/TD";
+                string DC_path = foldPath + "/DC";
+                string COMB_path = foldPath + "/Combination";
+                cnt_FDA1 = filemaxseach(FDA_path, "*Single_Measurement" + "*Finished).txt");
+                cnt_FDA2 = filemaxseach(FDA_path, "*Multiple_Measurement" + "*Finished).txt");
+                //MessageBox.Show(cnt_FDA2.ToString());                
+                cnt_TD = filemaxseach(TD_path, "*Single_Measurement" + "*Finished).txt");
+                cnt_UIR = filemaxseach(DC_path, "*U_I_R_data" + "*Finished).txt");
+                cnt_comb = filemaxseach(COMB_path, "*Combination_Measurement" + "*Finished).txt");
             }
         }
+
+        private Int64 filemaxseach(string filepath, string filename)
+        {
+            char ID_file = '0';
+            Int64 value = 0;
+
+           // string FDA = foldPath + "/FDA";
+            DirectoryInfo dir = new DirectoryInfo(filepath);
+            FileInfo[] finfo = dir.GetFiles(filename, SearchOption.AllDirectories);
+            string fnames = string.Empty;
+            try
+            {
+                ID_file = finfo[finfo.Length - 1].Name[0];
+                value = Convert.ToInt64(ID_file) - 48;
+                return value;
+            }
+            catch
+            {
+                return -1;
+            }
+        }
+        
 
         //*********************************************//
         //****************Data Analyser***************//
@@ -4026,6 +4345,7 @@ namespace Comm
             public double X;
             public double Y;
             public double Z;
+            public int k;
         }
 
         //TD 结构体
@@ -4063,53 +4383,73 @@ namespace Comm
             cnt7 = 0;
             //路径添加
             string FDA = foldPath + "/FDA";
-            string FDA_S = FDA + "/0Single_Measurement.txt";
-            string FDA_M = FDA + "/0Multiple_Measurement.txt";
-            string FDA_P1 = FDA + "/Parameter_s.txt";
-            string[] lines = File.ReadAllLines(FDA_S);
+            string[] filedir = Directory.GetFiles(FDA, "*Single_Measurement(Experiment Finished).txt", SearchOption.AllDirectories);
+            string[] FDA_S = filedir;
+            char ID_file = '0';
 
-            //线条添加
-            chart1.Series.Add((cnt7).ToString());//添加
-            chart2.Series.Add((cnt7).ToString());//添加
-            chart3.Series.Add((cnt7).ToString());//添加
-            this.chart1.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            this.chart2.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            this.chart3.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            // 点列表集合
-            List<Point1> points = new List<Point1>();
-            // 让过第一行，从第二行开始处理
-            if (lines.Length > 0)
+
+            DirectoryInfo dir = new DirectoryInfo(FDA);
+            FileInfo[] finfo = dir.GetFiles("*Single_Measurement(Experiment Finished).txt", SearchOption.AllDirectories);
+            string fnames = string.Empty;
+            for (int j = 0; j < finfo.Length; j++)
             {
-                for (int i = 1; i < lines.Length; i++)
+
+                FDA_S[j] = filedir[j];
+                ID_file = finfo[j].Name[0];
+
+                string[] lines = File.ReadAllLines(FDA_S[j]);
+
+
+                // 点列表集合
+                List<Point1> points = new List<Point1>();
+                // 让过第一行，从第二行开始处理
+                if (lines.Length > 0)
                 {
-                    string line = lines[i];
-                    // 拆分行
-                    string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                    Point1 p;
-                    // 获取Y（第一列）        
-                    p.X = double.Parse(v[0]);
-                    // 获取Y（第二列）        
-                    p.Y = double.Parse(v[1]);
-                    p.Z = double.Parse(v[2]);
-                    points.Add(p);
+                    for (int i = 1; i < lines.Length; i++)
+                    {
+                        string line = lines[i];
+                        // 拆分行
+                        string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                        Point1 p;
+                        // 获取Y（第一列）        
+                        p.X = double.Parse(v[0]);
+                        // 获取Y（第二列）        
+                        p.Y = double.Parse(v[1]);
+                        p.Z = double.Parse(v[2]);
+                        p.k = 0;
+                        points.Add(p);
 
-                    int fre_int = (int)(p.X * 100);
-                    p.X = fre_int / 100;
+                        try
+                        {
+                            //线条添加
+                            chart1.Series.Add((p.k).ToString() + "(" + ID_file + ")");//添加
+                            chart2.Series.Add((p.k).ToString() + "(" + ID_file + ")");//添加
+                            chart3.Series.Add((p.k).ToString() + "(" + ID_file + ")");//添加
+                            this.chart1.Series[(p.k).ToString() + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                            this.chart2.Series[(p.k).ToString() + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                            this.chart3.Series[(p.k).ToString() + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                        }
+                        catch
+                        {
+                        }
+                        int fre_int = (int)(p.X * 100);
+                        p.X = fre_int / 100;
 
-                    double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
-                    double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
+                        double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
+                        double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
 
-                    int real_int = (int)(real * 100);
-                    real = real_int / 100;
+                        int real_int = (int)(real * 100);
+                        real = real_int / 100;
 
-                    int img_int = (int)(img * 100);
-                    img = img_int / 100;
+                        int img_int = (int)(img * 100);
+                        img = img_int / 100;
 
-                    //画图
-                    this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                    this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
-                    this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
+                        //画图
+                        this.chart1.Series[(p.k).ToString() + "(" + ID_file + ")"].Points.AddXY(p.X, p.Y);
+                        this.chart2.Series[(p.k).ToString() + "(" + ID_file + ")"].Points.AddXY(p.X, p.Z);
+                        this.chart3.Series[(p.k).ToString() + "(" + ID_file + ")"].Points.AddXY(real, img);
 
+                    }
                 }
             }
         }
@@ -4122,54 +4462,75 @@ namespace Comm
             cnt7 = 0;
             //路径添加
             string FDA = foldPath + "/FDA";
-            string FDA_S = FDA + "/0Single_Measurement.txt";
-            string FDA_M = FDA + "/0Multiple_Measurement.txt";
-            string FDA_P2 = FDA + "/Parameter_m.txt";
-            string[] lines = File.ReadAllLines(FDA_M);
-            //线条添加
-            chart1.Series.Add((cnt7).ToString());//添加
-            chart2.Series.Add((cnt7).ToString());//添加
-            chart3.Series.Add((cnt7).ToString());//添加
-            this.chart1.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            this.chart2.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            this.chart3.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
+            string[] filedir = Directory.GetFiles(FDA, "*Multiple_Measurement(Experiment Finished).txt", SearchOption.AllDirectories);
+            string[] FDA_M = filedir;
+            char ID_file = '0';
 
-            // 点列表集合
-            List<Point1> points = new List<Point1>();
-            // 让过第一行，从第二行开始处理
+            DirectoryInfo dir = new DirectoryInfo(FDA);
+            FileInfo[] finfo = dir.GetFiles("*Multiple_Measurement(Experiment Finished).txt", SearchOption.AllDirectories);
+            string fnames = string.Empty;
+            for (int j = 0; j < finfo.Length; j++)
+            {
 
-            if (lines.Length > 0)
-            { 
-                    for (int i = 1; i < lines.Length; i++)
+                FDA_M[j] = filedir[j];
+                ID_file = finfo[j].Name[0];
+
+                string[] lines = File.ReadAllLines(FDA_M[j]);
+
+
+                // 点列表集合
+                List<Point1> points = new List<Point1>();
+                // 让过第一行，从第二行开始处理
+                if (lines.Length > 0)
                 {
-                    string line = lines[i];
-                    // 拆分行
-                    string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                    Point1 p;
-                    // 获取Y（第一列）        
-                    p.X = double.Parse(v[0]);
-                    // 获取Y（第二列）        
-                    p.Y = double.Parse(v[1]);
-                    p.Z = double.Parse(v[2]);
-                    points.Add(p);
 
-                    int fre_int = (int)(p.X * 100);
-                    p.X = fre_int / 100;
+                    for (int i = 1; i < lines.Length; i++)
+                    {
+                        string line = lines[i];
+                        // 拆分行
+                        string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                        Point1 p;
+                        // 获取Y（第一列）        
+                        p.X = double.Parse(v[0]);
+                        // 获取Y（第二列）        
+                        p.Y = double.Parse(v[1]);
+                        p.Z = double.Parse(v[2]);
+                        p.k = int.Parse(v[3]);
+                        points.Add(p);
 
-                    double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
-                    double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
+                        try
+                        {
+                            //线条添加
+                            chart1.Series.Add((p.k).ToString() + "(" + ID_file + ")");//添加
+                            chart2.Series.Add((p.k).ToString() + "(" + ID_file + ")");//添加
+                            chart3.Series.Add((p.k).ToString() + "(" + ID_file + ")");//添加
+                            this.chart1.Series[(p.k).ToString() + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                            this.chart2.Series[(p.k).ToString() + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                            this.chart3.Series[(p.k).ToString() + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                        }
+                        catch
+                        {
+                        }
 
-                    int real_int = (int)(real * 100);
-                    real = real_int / 100;
 
-                    int img_int = (int)(img * 100);
-                    img = img_int / 100;
+                        int fre_int = (int)(p.X * 100);
+                        p.X = fre_int / 100;
 
-                    //画图
-                    this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                    this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
-                    this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
+                        double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
+                        double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
 
+                        int real_int = (int)(real * 100);
+                        real = real_int / 100;
+
+                        int img_int = (int)(img * 100);
+                        img = img_int / 100;
+
+                        //画图
+                        this.chart1.Series[(p.k).ToString() + "(" + ID_file + ")"].Points.AddXY(p.X, p.Y);
+                        this.chart2.Series[(p.k).ToString() + "(" + ID_file + ")"].Points.AddXY(p.X, p.Z);
+                        this.chart3.Series[(p.k).ToString() + "(" + ID_file + ")"].Points.AddXY(real, img);
+
+                    }
                 }
             }
         }
@@ -4186,36 +4547,89 @@ namespace Comm
 
             //路径添加
             string TD = foldPath + "/TD";
-            string TD_S = TD + "/0Single_Measurement.txt";
-            //string FDA_M = FDA + "/Multiple_Measurement.txt";
-            string TD_p = TD + "/Parameter.txt";
+            //string TD_S = TD + "/0Single_Measurement.txt";
+            string[] filedir = Directory.GetFiles(TD, "*Single_Measurement(Experiment Finished).txt", SearchOption.AllDirectories);
+            string[] TD_S = filedir;
 
-            //线条添加
-            chart4.Series.Add((cnt7).ToString());//添加
-            this.chart4.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            List<Point_T> points = new List<Point_T>();
-            string[] lines = File.ReadAllLines(TD_S);
-            if(lines.Length>0)
-            { 
-                for (int i = 1; i < lines.Length; i++)
+            char ID_file = '0';
+
+
+            DirectoryInfo dir = new DirectoryInfo(TD);
+            FileInfo[] finfo = dir.GetFiles("*Single_Measurement(Experiment Finished).txt", SearchOption.AllDirectories);
+            string fnames = string.Empty; 
+
+            for (int j = 0; j < finfo.Length; j++)
+            {
+
+                TD_S[j] = filedir[j];
+                ID_file = finfo[j].Name[0];
+
+                // List<Point_T> points = new List<Point_T>();
+                string[] lines = File.ReadAllLines(TD_S[j]);
+
+
+                // 点列表集合
+                List<Point1> points = new List<Point1>();
+                // 让过第一行，从第二行开始处理
+
+                if (lines.Length > 0)
                 {
-                    string line = lines[i];
-                    // 拆分行
-                    string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                    Point_T p;
-                    // 获取Y（第一列）        
-                    p.X = double.Parse(v[0]);
-                    // 获取Y（第二列）        
-                    p.Y = double.Parse(v[1]);
-                    //p.Z = double.Parse(v[2]);
-                    points.Add(p);
+                    for (int i = 1; i < lines.Length; i++)
+                    {
+                        string line = lines[i];
+                        // 拆分行
+                        string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                        Point1 p;
+                        // 获取Y（第一列）        
+                        p.X = double.Parse(v[0]);
+                        // 获取Y（第二列）        
+                        p.Y = double.Parse(v[1]);
+                        p.Z = double.Parse(v[2]);
+                        p.k = 0;
+                        points.Add(p);
 
-                    //画图
-                    this.chart4.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                    //this.chart4.ChartAreas[0].AxisX.IsLogarithmic = true;
+                        try
+                        {
+                            //线条添加
+                            chart1.Series.Add((p.k).ToString() + "(" + ID_file + ")");//添加
+                            chart2.Series.Add((p.k).ToString() + "(" + ID_file + ")");//添加
+                            chart3.Series.Add((p.k).ToString() + "(" + ID_file + ")");//添加
+                            chart4.Series.Add("Mag" + "(" + ID_file + ")");//添加
+                            chart4.Series.Add("Pha" + "(" + ID_file + ")");//添加
+                            this.chart1.Series[(p.k).ToString() + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                            this.chart2.Series[(p.k).ToString() + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                            this.chart4.Series["Mag" + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                            this.chart4.Series["Pha" + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                            this.chart3.Series[(p.k).ToString() + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                            
+                        }
+                        catch
+                        {
+                        }
+
+                        int fre_int = (int)(p.X * 100);
+                        p.X = fre_int / 100;
+
+                        double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
+                        double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
+
+                        int real_int = (int)(real * 100);
+                        real = real_int / 100;
+
+                        int img_int = (int)(img * 100);
+                        img = img_int / 100;
+
+                        //画图
+                        this.chart1.Series[(p.k).ToString() + "(" + ID_file + ")"].Points.AddXY(p.X, p.Y);
+                        this.chart2.Series[(p.k).ToString() + "(" + ID_file + ")"].Points.AddXY(p.X, p.Z);
+                        this.chart3.Series[(p.k).ToString() + "(" + ID_file + ")"].Points.AddXY(real, img);
+                        this.chart4.Series["Mag" + "(" + ID_file + ")"].Points.AddXY(i, p.Y);
+                        this.chart4.Series["Pha" + "(" + ID_file + ")"].Points.AddXY(i, p.Z);
+                    }
                 }
             }
         }
+
 
         //paiting in DC
         private void btn_dc_load_Click(object sender, EventArgs e)
@@ -4228,40 +4642,59 @@ namespace Comm
 
             //路径添加
             string DC = foldPath + "/DC";
-            string DC_U = DC + "/0U_I_R_data.txt";
-            //string FDA_M = FDA + "/Multiple_Measurement.txt";
-            string TD_p = TD + "/Parameter.txt";
+            string[] filedir = Directory.GetFiles(DC, "*U_I_R_data(Experiment Finished).txt", SearchOption.AllDirectories);
+            string[] DC_U = filedir;
 
-            //线条添加
-            chart_u_i_r.Series.Add((cnt7).ToString());//添加
-            this.chart_u_i_r.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            chart_u_i_r.Series.Add((cnt7 + 1).ToString());//添加
-            this.chart_u_i_r.Series[(cnt7 + 1).ToString()].ChartType = SeriesChartType.Point;
-            chart_u_i_r.Series.Add((cnt7 + 2).ToString());//添加
-            this.chart_u_i_r.Series[(cnt7 + 2).ToString()].ChartType = SeriesChartType.Point;
-            List<Point_U> points = new List<Point_U>();
-            string[] lines = File.ReadAllLines(DC_U);
-            if (lines.Length > 0)
-            { 
-                for (int i = 1; i < lines.Length; i++)
+
+            char ID_file = '0';
+
+
+            DirectoryInfo dir = new DirectoryInfo(DC);
+            FileInfo[] finfo = dir.GetFiles("*U_I_R_data(Experiment Finished).txt", SearchOption.AllDirectories);
+            string fnames = string.Empty;
+
+            for (int j = 0; j < finfo.Length; j++)
+            {
+
+                DC_U[j] = filedir[j];
+                ID_file = finfo[j].Name[0];
+
+                List<Point_U> points = new List<Point_U>();
+                string[] lines = File.ReadAllLines(DC_U[j]);
+                if (lines.Length > 0)
                 {
-                    string line = lines[i];
-                    // 拆分行
-                    string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                    Point_U p;
-                    // 获取Y（第一列）        
-                    p.X = double.Parse(v[0]);
-                    // 获取Y（第二列）        
-                    p.Y = double.Parse(v[1]);
-                    p.Z = double.Parse(v[2]);
-                    p.K = double.Parse(v[3]);
-                    points.Add(p);
+                    for (int i = 1; i < lines.Length; i++)
+                    {
+                        string line = lines[i];
+                        // 拆分行
+                        string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                        Point_U p;
+                        // 获取Y（第一列）        
+                        p.X = double.Parse(v[0]);
+                        // 获取Y（第二列）        
+                        p.Y = double.Parse(v[1]);
+                        p.Z = double.Parse(v[2]);
+                        p.K = double.Parse(v[3]);
+                        points.Add(p);
 
-                    //画图
-                    this.chart_u_i_r.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                    this.chart_u_i_r.Series[(cnt7 + 1).ToString()].Points.AddXY(p.X, p.Z);
-                    this.chart_u_i_r.Series[(cnt7 + 2).ToString()].Points.AddXY(p.X, p.K);
-                    //this.chart_u_i_r.ChartAreas[0].AxisX.IsLogarithmic = true;
+                        try
+                        {
+                            chart_u_i_r.Series.Add("vol" + "(" + ID_file + ")" + (cnt7).ToString());//添加
+                            this.chart_u_i_r.Series["vol" + "(" + ID_file + ")" + (cnt7).ToString()].ChartType = SeriesChartType.Point;
+                            chart_u_i_r.Series.Add("cur" + "(" + ID_file + ")" + (cnt7).ToString());//添加
+                            this.chart_u_i_r.Series["cur" + "(" + ID_file + ")" + (cnt7).ToString()].ChartType = SeriesChartType.Point;
+                            chart_u_i_r.Series.Add("res" + "(" + ID_file + ")" + (cnt7).ToString());//添加
+                            this.chart_u_i_r.Series["res" + "(" + ID_file + ")" + (cnt7).ToString()].ChartType = SeriesChartType.Point;
+                        }
+                        catch
+                        {
+
+                        }
+                        //画图
+                        this.chart_u_i_r.Series["vol" + "(" + ID_file + ")" + (cnt7).ToString()].Points.AddXY(p.X, p.Y);
+                        this.chart_u_i_r.Series["cur" + "(" + ID_file + ")" + (cnt7).ToString()].Points.AddXY(p.X, p.Z);
+                        this.chart_u_i_r.Series["res" + "(" + ID_file + ")" + (cnt7).ToString()].Points.AddXY(p.X, p.K);
+                    }
                 }
             }
         }
@@ -4274,54 +4707,80 @@ namespace Comm
             cnt7 = 0;
             //路径添加
             string COMB = foldPath + "/Combination";
-            string Comb = COMB + "/0Combination_Measurement.txt";
-            string[] lines = File.ReadAllLines(Comb);
+            string[] filedir = Directory.GetFiles(COMB, "*Combination_Measurement(Experiment Finished).txt", SearchOption.AllDirectories);
+            string[] Comb = filedir;
+            char ID_file = '0';
 
-            //线条添加
-            chart1.Series.Add((cnt7).ToString());//添加
-            chart2.Series.Add((cnt7).ToString());//添加
-            chart3.Series.Add((cnt7).ToString());//添加
-            this.chart1.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            this.chart2.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            this.chart3.Series[(cnt7).ToString()].ChartType = SeriesChartType.Point;
-            // 点列表集合
-            List<Point1> points = new List<Point1>();
-            // 让过第一行，从第二行开始处理
-            if (lines.Length > 0)
+            DirectoryInfo dir = new DirectoryInfo(COMB);
+            FileInfo[] finfo = dir.GetFiles("*Combination_Measurement(Experiment Finished).txt", SearchOption.AllDirectories);
+            string fnames = string.Empty;
+            for (int j = 0; j < finfo.Length; j++)
             {
+                
+                Comb[j] = filedir[j];
+                ID_file = finfo[j].Name[0];
 
-                for (int i = 1; i < lines.Length; i++)
+                string[] lines = File.ReadAllLines(Comb[j]);
+
+
+                // 点列表集合
+                List<Point1> points = new List<Point1>();
+                // 让过第一行，从第二行开始处理
+                if (lines.Length > 0)
                 {
-                    string line = lines[i];
-                    // 拆分行
-                    string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-                    Point1 p;
-                    // 获取Y（第一列）        
-                    p.X = double.Parse(v[0]);
-                    // 获取Y（第二列）        
-                    p.Y = double.Parse(v[1]);
-                    p.Z = double.Parse(v[2]);
-                    points.Add(p);
 
-                    int fre_int = (int)(p.X * 100);
-                    p.X = fre_int / 100;
+                    for (int i = 1; i < lines.Length; i++)
+                    {
+                        string line = lines[i];
+                        // 拆分行
+                        string[] v = line.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                        Point1 p;
+                        // 获取Y（第一列）        
+                        p.X = double.Parse(v[0]);
+                        // 获取Y（第二列）        
+                        p.Y = double.Parse(v[1]);
+                        p.Z = double.Parse(v[2]);
+                        p.k = int.Parse(v[3]);
+                        points.Add(p);
 
-                    double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
-                    double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
+                        try
+                        {
+                            //线条添加
+                            chart1.Series.Add((p.k).ToString() + "(" + ID_file + ")");//添加
+                            chart2.Series.Add((p.k).ToString() + "(" + ID_file + ")");//添加
+                            chart3.Series.Add((p.k).ToString() + "(" + ID_file + ")");//添加
+                            this.chart1.Series[(p.k).ToString() + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                            this.chart2.Series[(p.k).ToString() + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                            this.chart3.Series[(p.k).ToString() + "(" + ID_file + ")"].ChartType = SeriesChartType.Point;
+                        }
+                        catch
+                        {
+                        }
 
-                    int real_int = (int)(real * 100);
-                    real = real_int / 100;
 
-                    int img_int = (int)(img * 100);
-                    img = img_int / 100;
+                        int fre_int = (int)(p.X * 100);
+                        p.X = fre_int / 100;
 
-                    //画图
-                    this.chart1.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Y);
-                    this.chart2.Series[(cnt7).ToString()].Points.AddXY(p.X, p.Z);
-                    this.chart3.Series[(cnt7).ToString()].Points.AddXY(real, img);
+                        double real = p.Y * Math.Cos(p.Z * Math.PI / 180);
+                        double img = p.Y * Math.Sin(-p.Z * Math.PI / 180);
 
+                        int real_int = (int)(real * 100);
+                        real = real_int / 100;
+
+                        int img_int = (int)(img * 100);
+                        img = img_int / 100;
+
+                        //画图
+                        this.chart1.Series[(p.k).ToString() + "(" + ID_file + ")"].Points.AddXY(p.X, p.Y);
+                        this.chart2.Series[(p.k).ToString() + "(" + ID_file + ")"].Points.AddXY(p.X, p.Z);
+                        this.chart3.Series[(p.k).ToString() + "(" + ID_file + ")"].Points.AddXY(real, img);
+
+                    }
                 }
             }
+            
+
+           
         }
 
 
