@@ -248,8 +248,6 @@
             this.btn_fre_load = new System.Windows.Forms.Button();
             this.gb_comb = new System.Windows.Forms.GroupBox();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.btn_stop2 = new Comm.RoundButton();
-            this.btn_comb_start = new Comm.RoundButton();
             this.gb_temperature = new System.Windows.Forms.GroupBox();
             this.label64 = new System.Windows.Forms.Label();
             this.rb_temp_n = new System.Windows.Forms.RadioButton();
@@ -306,6 +304,8 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.btn_stop2 = new Comm.RoundButton();
+            this.btn_comb_start = new Comm.RoundButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -672,7 +672,7 @@
             this.groupBox5.Controls.Add(this.chart1);
             this.groupBox5.Location = new System.Drawing.Point(6, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(544, 268);
+            this.groupBox5.Size = new System.Drawing.Size(544, 252);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Enter += new System.EventHandler(this.groupBox5_Enter);
@@ -680,7 +680,7 @@
             // button1
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button1.Location = new System.Drawing.Point(469, 233);
+            this.button1.Location = new System.Drawing.Point(469, 225);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 31);
             this.button1.TabIndex = 3;
@@ -722,7 +722,7 @@
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
             this.chart1.PaletteCustomColors = new System.Drawing.Color[] {
         System.Drawing.Color.Red};
-            this.chart1.Size = new System.Drawing.Size(532, 240);
+            this.chart1.Size = new System.Drawing.Size(532, 224);
             this.chart1.TabIndex = 1;
             title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             title1.Name = "Title1";
@@ -1180,19 +1180,19 @@
             this.cb_dft.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_dft.FormattingEnabled = true;
             this.cb_dft.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "3",
             "4",
-            "5",
-            "6",
-            "7",
             "8",
-            "9",
-            "10",
-            "11",
-            "12"});
+            "16",
+            "32",
+            "64",
+            "128",
+            "256",
+            "512",
+            "1024",
+            "2048",
+            "4096",
+            "8192",
+            "16384"});
             this.cb_dft.Location = new System.Drawing.Point(131, 164);
             this.cb_dft.Name = "cb_dft";
             this.cb_dft.Size = new System.Drawing.Size(115, 20);
@@ -1216,15 +1216,15 @@
             this.cb_tia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_tia.FormattingEnabled = true;
             this.cb_tia.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8"});
+            "200",
+            "1K",
+            "5K",
+            "10K",
+            "20K",
+            "40K",
+            "80K",
+            "160K",
+            "OPEN"});
             this.cb_tia.Location = new System.Drawing.Point(131, 142);
             this.cb_tia.Name = "cb_tia";
             this.cb_tia.Size = new System.Drawing.Size(115, 20);
@@ -1259,10 +1259,17 @@
             this.cb_dor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_dor.FormattingEnabled = true;
             this.cb_dor.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
             "5",
             "6",
             "7",
-            "8"});
+            "8",
+            "9",
+            "10"});
             this.cb_dor.Location = new System.Drawing.Point(131, 120);
             this.cb_dor.Name = "cb_dor";
             this.cb_dor.Size = new System.Drawing.Size(115, 20);
@@ -2672,35 +2679,35 @@
             // newProjectToolStripMenuItem
             // 
             this.newProjectToolStripMenuItem.Name = "newProjectToolStripMenuItem";
-            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.newProjectToolStripMenuItem.Text = "New Project(N)";
             this.newProjectToolStripMenuItem.Click += new System.EventHandler(this.newProjectToolStripMenuItem_Click);
             // 
             // LoadProtoolStripMenuItem1
             // 
             this.LoadProtoolStripMenuItem1.Name = "LoadProtoolStripMenuItem1";
-            this.LoadProtoolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.LoadProtoolStripMenuItem1.Size = new System.Drawing.Size(167, 22);
             this.LoadProtoolStripMenuItem1.Text = "Load Project(O)";
             this.LoadProtoolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // DataAnalyserToolStripMenuItem
             // 
             this.DataAnalyserToolStripMenuItem.Name = "DataAnalyserToolStripMenuItem";
-            this.DataAnalyserToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.DataAnalyserToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.DataAnalyserToolStripMenuItem.Text = "Data Analyser";
             this.DataAnalyserToolStripMenuItem.Click += new System.EventHandler(this.loadProjectToolStripMenuItem_Click);
             // 
             // BackToolStripMenuItem
             // 
             this.BackToolStripMenuItem.Name = "BackToolStripMenuItem";
-            this.BackToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.BackToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.BackToolStripMenuItem.Text = "Back";
             this.BackToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.exitToolStripMenuItem.Text = "Exit(C)";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -2820,31 +2827,6 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(413, 56);
             this.panel6.TabIndex = 93;
-            // 
-            // btn_stop2
-            // 
-            this.btn_stop2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_stop2.BackgroundImage")));
-            this.btn_stop2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btn_stop2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btn_stop2.Location = new System.Drawing.Point(229, 4);
-            this.btn_stop2.Name = "btn_stop2";
-            this.btn_stop2.Size = new System.Drawing.Size(50, 51);
-            this.btn_stop2.TabIndex = 92;
-            this.btn_stop2.UseVisualStyleBackColor = true;
-            this.btn_stop2.Click += new System.EventHandler(this.btn_stop2_Click_1);
-            // 
-            // btn_comb_start
-            // 
-            this.btn_comb_start.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btn_comb_start.BackColor = System.Drawing.Color.ForestGreen;
-            this.btn_comb_start.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btn_comb_start.Image = ((System.Drawing.Image)(resources.GetObject("btn_comb_start.Image")));
-            this.btn_comb_start.Location = new System.Drawing.Point(118, 1);
-            this.btn_comb_start.Name = "btn_comb_start";
-            this.btn_comb_start.Size = new System.Drawing.Size(52, 52);
-            this.btn_comb_start.TabIndex = 88;
-            this.btn_comb_start.UseVisualStyleBackColor = false;
-            this.btn_comb_start.Click += new System.EventHandler(this.btn_comb_start_Click);
             // 
             // gb_temperature
             // 
@@ -3561,6 +3543,31 @@
             this.statusStrip1.TabIndex = 91;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // btn_stop2
+            // 
+            this.btn_stop2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_stop2.BackgroundImage")));
+            this.btn_stop2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btn_stop2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_stop2.Location = new System.Drawing.Point(229, 4);
+            this.btn_stop2.Name = "btn_stop2";
+            this.btn_stop2.Size = new System.Drawing.Size(50, 51);
+            this.btn_stop2.TabIndex = 92;
+            this.btn_stop2.UseVisualStyleBackColor = true;
+            this.btn_stop2.Click += new System.EventHandler(this.btn_stop2_Click_1);
+            // 
+            // btn_comb_start
+            // 
+            this.btn_comb_start.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btn_comb_start.BackColor = System.Drawing.Color.ForestGreen;
+            this.btn_comb_start.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_comb_start.Image = ((System.Drawing.Image)(resources.GetObject("btn_comb_start.Image")));
+            this.btn_comb_start.Location = new System.Drawing.Point(118, 1);
+            this.btn_comb_start.Name = "btn_comb_start";
+            this.btn_comb_start.Size = new System.Drawing.Size(52, 52);
+            this.btn_comb_start.TabIndex = 88;
+            this.btn_comb_start.UseVisualStyleBackColor = false;
+            this.btn_comb_start.Click += new System.EventHandler(this.btn_comb_start_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -3579,13 +3586,13 @@
             this.Controls.Add(this.btn_freq);
             this.Controls.Add(this.panel_load);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.gb_comb);
-            this.Controls.Add(this.gb_dc);
-            this.Controls.Add(this.groupBox_UI);
             this.Controls.Add(this.gb_ac);
             this.Controls.Add(this.gb_exp);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel5);
+            this.Controls.Add(this.gb_comb);
+            this.Controls.Add(this.gb_dc);
+            this.Controls.Add(this.groupBox_UI);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "TANGEIS Client V1.0.0";
