@@ -398,6 +398,7 @@
             this.SaveFilePath.Name = "SaveFilePath";
             this.SaveFilePath.Size = new System.Drawing.Size(350, 21);
             this.SaveFilePath.TabIndex = 4;
+<<<<<<< HEAD
             // 
             // PutIntoFile
             // 
@@ -421,6 +422,32 @@
             //this.ChooseFile.Text = "Choose File";
             //this.ChooseFile.UseVisualStyleBackColor = true;
             //this.ChooseFile.Click += new System.EventHandler(this.button1_Click);
+=======
+            this.SaveFilePath.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // PutIntoFile
+            // 
+            this.PutIntoFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.PutIntoFile.AutoSize = true;
+            this.PutIntoFile.Location = new System.Drawing.Point(8, 51);
+            this.PutIntoFile.Name = "PutIntoFile";
+            this.PutIntoFile.Size = new System.Drawing.Size(102, 16);
+            this.PutIntoFile.TabIndex = 2;
+            this.PutIntoFile.Text = "Save Raw Data";
+            this.PutIntoFile.UseVisualStyleBackColor = true;
+            this.PutIntoFile.CheckedChanged += new System.EventHandler(this.PutIntoFile_CheckedChanged);
+            // 
+            // ChooseFile
+            // 
+            this.ChooseFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.ChooseFile.Location = new System.Drawing.Point(10, 107);
+            this.ChooseFile.Name = "ChooseFile";
+            this.ChooseFile.Size = new System.Drawing.Size(350, 23);
+            this.ChooseFile.TabIndex = 1;
+            this.ChooseFile.Text = "Choose File";
+            this.ChooseFile.UseVisualStyleBackColor = true;
+            this.ChooseFile.Click += new System.EventHandler(this.button1_Click);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // Hexshow
             // 
@@ -470,6 +497,17 @@
             this.ReceiveArea.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.ReceiveArea.Size = new System.Drawing.Size(173, 494);
             this.ReceiveArea.TabIndex = 0;
+            // 
+            // ClearReceive
+            // 
+            this.ClearReceive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.ClearReceive.Location = new System.Drawing.Point(6, 525);
+            this.ClearReceive.Name = "ClearReceive";
+            this.ClearReceive.Size = new System.Drawing.Size(173, 27);
+            this.ClearReceive.TabIndex = 3;
+            this.ClearReceive.Text = "Clear Received Data";
+            this.ClearReceive.UseVisualStyleBackColor = true;
+            this.ClearReceive.Click += new System.EventHandler(this.ClearReceive_Click);
             // 
             // ClearReceive
             // 
@@ -644,6 +682,10 @@
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Bode Diagram";
             this.tabPage3.UseVisualStyleBackColor = true;
+<<<<<<< HEAD
+=======
+            this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // groupBox5
             // 
@@ -657,6 +699,10 @@
             this.groupBox5.Size = new System.Drawing.Size(544, 252);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
+<<<<<<< HEAD
+=======
+            this.groupBox5.Enter += new System.EventHandler(this.groupBox5_Enter);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // button1
             // 
@@ -709,6 +755,10 @@
             title1.Name = "Title1";
             title1.Text = "Amplitude-Frequency";
             this.chart1.Titles.Add(title1);
+<<<<<<< HEAD
+=======
+            this.chart1.Click += new System.EventHandler(this.chart1_Click);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // groupBox6
             // 
@@ -719,6 +769,10 @@
             this.groupBox6.Size = new System.Drawing.Size(554, 267);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
+<<<<<<< HEAD
+=======
+            this.groupBox6.Enter += new System.EventHandler(this.groupBox6_Enter);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // SaveBode2
             // 
@@ -757,6 +811,10 @@
             title2.Name = "Title1";
             title2.Text = "Phase-Frequency";
             this.chart2.Titles.Add(title2);
+<<<<<<< HEAD
+=======
+            this.chart2.Click += new System.EventHandler(this.chart2_Click);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // tabPage4
             // 
@@ -1113,6 +1171,10 @@
             this.gb_ac.TabIndex = 14;
             this.gb_ac.TabStop = false;
             this.gb_ac.Text = "AC Control";
+<<<<<<< HEAD
+=======
+            this.gb_ac.Enter += new System.EventHandler(this.gb_ac_Enter);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // tb_s_p
             // 
@@ -1601,6 +1663,18 @@
             this.label24.TabIndex = 82;
             this.label24.Text = "  ";
             // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label24.Enabled = false;
+            this.label24.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label24.Location = new System.Drawing.Point(220, 5);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(21, 14);
+            this.label24.TabIndex = 82;
+            this.label24.Text = "  ";
+            // 
             // label28
             // 
             this.label28.AutoSize = true;
@@ -1619,6 +1693,10 @@
             this.tb_times_T2.Name = "tb_times_T2";
             this.tb_times_T2.Size = new System.Drawing.Size(51, 21);
             this.tb_times_T2.TabIndex = 74;
+<<<<<<< HEAD
+=======
+            this.tb_times_T2.TextChanged += new System.EventHandler(this.tb_times_T2_TextChanged);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // dateTimePicker_t_2
             // 
@@ -2885,6 +2963,42 @@
             this.label38.TabIndex = 99;
             this.label38.Text = "  ";
             // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label56.Enabled = false;
+            this.label56.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label56.Location = new System.Drawing.Point(245, 86);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(21, 14);
+            this.label56.TabIndex = 101;
+            this.label56.Text = "  ";
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label55.Enabled = false;
+            this.label55.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label55.Location = new System.Drawing.Point(245, 121);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(21, 14);
+            this.label55.TabIndex = 100;
+            this.label55.Text = "  ";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label38.Enabled = false;
+            this.label38.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label38.Location = new System.Drawing.Point(141, 121);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(21, 14);
+            this.label38.TabIndex = 99;
+            this.label38.Text = "  ";
+            // 
             // cb_days2
             // 
             this.cb_days2.Enabled = false;
@@ -2892,6 +3006,7 @@
             this.cb_days2.Name = "cb_days2";
             this.cb_days2.Size = new System.Drawing.Size(62, 21);
             this.cb_days2.TabIndex = 98;
+            this.cb_days2.TextChanged += new System.EventHandler(this.cb_days2_TextChanged);
             // 
             // label40
             // 
@@ -2924,6 +3039,19 @@
             this.label59.Size = new System.Drawing.Size(21, 14);
             this.label59.TabIndex = 74;
             this.label59.Text = "  ";
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label59.Enabled = false;
+            this.label59.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label59.Location = new System.Drawing.Point(142, 86);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(21, 14);
+            this.label59.TabIndex = 74;
+            this.label59.Text = "  ";
+            this.label59.Click += new System.EventHandler(this.label59_Click);
             // 
             // DTP_End2
             // 
@@ -2998,6 +3126,10 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(383, 24);
             this.panel2.TabIndex = 88;
+<<<<<<< HEAD
+=======
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // tb_times_T4
             // 
@@ -3006,6 +3138,10 @@
             this.tb_times_T4.Size = new System.Drawing.Size(51, 21);
             this.tb_times_T4.TabIndex = 74;
             this.tb_times_T4.Text = "0";
+<<<<<<< HEAD
+=======
+            this.tb_times_T4.TextChanged += new System.EventHandler(this.tb_times_T4_TextChanged);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // dateTimePicker_t_4
             // 
@@ -3407,13 +3543,13 @@
             this.Controls.Add(this.btn_freq);
             this.Controls.Add(this.panel_load);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.gb_comb);
-            this.Controls.Add(this.gb_dc);
-            this.Controls.Add(this.groupBox_UI);
             this.Controls.Add(this.gb_ac);
             this.Controls.Add(this.gb_exp);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel5);
+            this.Controls.Add(this.gb_comb);
+            this.Controls.Add(this.gb_dc);
+            this.Controls.Add(this.groupBox_UI);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "TANGEIS Client V1.0.0";

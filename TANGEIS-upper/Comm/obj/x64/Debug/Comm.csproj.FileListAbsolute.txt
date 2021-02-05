@@ -754,6 +754,7 @@ C:\Users\52775\Desktop\TANGEIS-upper\Comm\obj\x64\Debug\Comm.csproj.CoreCompileI
 C:\Users\52775\Desktop\TANGEIS-upper\Comm\obj\x64\Debug\Comm.csproj.CopyComplete
 C:\Users\52775\Desktop\TANGEIS-upper\Comm\obj\x64\Debug\Comm.exe
 C:\Users\52775\Desktop\TANGEIS-upper\Comm\obj\x64\Debug\Comm.pdb
+<<<<<<< HEAD
 C:\Users\YUANZHEN\Desktop\毕设\EIS-Project\EIS-Project\TANGEIS-upper\Comm\bin\x64\Debug\Comm.exe.config
 C:\Users\YUANZHEN\Desktop\毕设\EIS-Project\EIS-Project\TANGEIS-upper\Comm\bin\x64\Debug\Comm.exe
 C:\Users\YUANZHEN\Desktop\毕设\EIS-Project\EIS-Project\TANGEIS-upper\Comm\bin\x64\Debug\Comm.pdb
@@ -772,3 +773,5 @@ C:\Users\YUANZHEN\Desktop\毕设\EIS-Project\EIS-Project\TANGEIS-upper\Comm\obj\
 C:\Users\YUANZHEN\Desktop\毕设\EIS-Project\EIS-Project\TANGEIS-upper\Comm\obj\x64\Debug\Comm.csproj.CopyComplete
 C:\Users\YUANZHEN\Desktop\毕设\EIS-Project\EIS-Project\TANGEIS-upper\Comm\obj\x64\Debug\Comm.exe
 C:\Users\YUANZHEN\Desktop\毕设\EIS-Project\EIS-Project\TANGEIS-upper\Comm\obj\x64\Debug\Comm.pdb
+=======
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
