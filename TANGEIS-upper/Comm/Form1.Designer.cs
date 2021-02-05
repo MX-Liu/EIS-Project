@@ -368,7 +368,6 @@
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Configure";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // HexSend
             // 
@@ -380,7 +379,6 @@
             this.HexSend.TabIndex = 4;
             this.HexSend.Text = "HEX SEND";
             this.HexSend.UseVisualStyleBackColor = true;
-            this.HexSend.CheckedChanged += new System.EventHandler(this.HexSend_CheckedChanged);
             // 
             // ClearSendArea
             // 
@@ -400,6 +398,31 @@
             this.SaveFilePath.Name = "SaveFilePath";
             this.SaveFilePath.Size = new System.Drawing.Size(350, 21);
             this.SaveFilePath.TabIndex = 4;
+<<<<<<< HEAD
+            // 
+            // PutIntoFile
+            // 
+            //this.PutIntoFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            //this.PutIntoFile.AutoSize = true;
+            //this.PutIntoFile.Location = new System.Drawing.Point(8, 51);
+            //this.PutIntoFile.Name = "PutIntoFile";
+            //this.PutIntoFile.Size = new System.Drawing.Size(102, 16);
+            //this.PutIntoFile.TabIndex = 2;
+            //this.PutIntoFile.Text = "Save Raw Data";
+            //this.PutIntoFile.UseVisualStyleBackColor = true;
+            //this.PutIntoFile.CheckedChanged += new System.EventHandler(this.PutIntoFile_CheckedChanged);
+            //// 
+            //// ChooseFile
+            //// 
+            //this.ChooseFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            //this.ChooseFile.Location = new System.Drawing.Point(10, 107);
+            //this.ChooseFile.Name = "ChooseFile";
+            //this.ChooseFile.Size = new System.Drawing.Size(350, 23);
+            //this.ChooseFile.TabIndex = 1;
+            //this.ChooseFile.Text = "Choose File";
+            //this.ChooseFile.UseVisualStyleBackColor = true;
+            //this.ChooseFile.Click += new System.EventHandler(this.button1_Click);
+=======
             this.SaveFilePath.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // PutIntoFile
@@ -424,6 +447,7 @@
             this.ChooseFile.Text = "Choose File";
             this.ChooseFile.UseVisualStyleBackColor = true;
             this.ChooseFile.Click += new System.EventHandler(this.button1_Click);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // Hexshow
             // 
@@ -435,7 +459,6 @@
             this.Hexshow.TabIndex = 0;
             this.Hexshow.Text = "HEX Display";
             this.Hexshow.UseVisualStyleBackColor = true;
-            this.Hexshow.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // socket
             // 
@@ -461,7 +484,6 @@
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Received Raw Data";
-            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // ReceiveArea
             // 
@@ -475,7 +497,17 @@
             this.ReceiveArea.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.ReceiveArea.Size = new System.Drawing.Size(173, 494);
             this.ReceiveArea.TabIndex = 0;
-            this.ReceiveArea.TextChanged += new System.EventHandler(this.ReceiveArea_TextChanged);
+            // 
+            // ClearReceive
+            // 
+            this.ClearReceive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.ClearReceive.Location = new System.Drawing.Point(6, 525);
+            this.ClearReceive.Name = "ClearReceive";
+            this.ClearReceive.Size = new System.Drawing.Size(173, 27);
+            this.ClearReceive.TabIndex = 3;
+            this.ClearReceive.Text = "Clear Received Data";
+            this.ClearReceive.UseVisualStyleBackColor = true;
+            this.ClearReceive.Click += new System.EventHandler(this.ClearReceive_Click);
             // 
             // ClearReceive
             // 
@@ -499,7 +531,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(385, 128);
             this.tabControl1.TabIndex = 15;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -512,7 +543,6 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Single Send";
             this.tabPage1.UseVisualStyleBackColor = true;
-            this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
             // Send
             // 
@@ -522,7 +552,7 @@
             this.Send.TabIndex = 3;
             this.Send.Text = "SEND";
             this.Send.UseVisualStyleBackColor = true;
-            this.Send.Click += new System.EventHandler(this.button3_Click);
+            //this.Send.Click += new System.EventHandler(this.button3_Click);
             // 
             // SendArea
             // 
@@ -533,7 +563,6 @@
             this.SendArea.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.SendArea.Size = new System.Drawing.Size(374, 71);
             this.SendArea.TabIndex = 1;
-            this.SendArea.TextChanged += new System.EventHandler(this.SendArea_TextChanged);
             // 
             // tabPage2
             // 
@@ -551,7 +580,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Send File";
             this.tabPage2.UseVisualStyleBackColor = true;
-            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
             // label7
             // 
@@ -561,7 +589,6 @@
             this.label7.Size = new System.Drawing.Size(144, 17);
             this.label7.TabIndex = 6;
             this.label7.Text = "interval time（ms）：";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // label6
             // 
@@ -571,7 +598,6 @@
             this.label6.Size = new System.Drawing.Size(99, 17);
             this.label6.TabIndex = 5;
             this.label6.Text = "Num of Byte：";
-            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // Time
             // 
@@ -579,7 +605,6 @@
             this.Time.Name = "Time";
             this.Time.Size = new System.Drawing.Size(100, 23);
             this.Time.TabIndex = 4;
-            this.Time.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
             // ByteNum
             // 
@@ -587,7 +612,6 @@
             this.ByteNum.Name = "ByteNum";
             this.ByteNum.Size = new System.Drawing.Size(100, 23);
             this.ByteNum.TabIndex = 3;
-            this.ByteNum.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
             // SendFile
             // 
@@ -599,15 +623,15 @@
             this.SendFile.UseVisualStyleBackColor = true;
             this.SendFile.Click += new System.EventHandler(this.SendFile_Click);
             // 
-            // OpenSendFile
-            // 
-            this.OpenSendFile.Location = new System.Drawing.Point(453, 9);
-            this.OpenSendFile.Name = "OpenSendFile";
-            this.OpenSendFile.Size = new System.Drawing.Size(75, 23);
-            this.OpenSendFile.TabIndex = 1;
-            this.OpenSendFile.Text = "打开文件";
-            this.OpenSendFile.UseVisualStyleBackColor = true;
-            this.OpenSendFile.Click += new System.EventHandler(this.button2_Click);
+            //// OpenSendFile
+            //// 
+            //this.OpenSendFile.Location = new System.Drawing.Point(453, 9);
+            //this.OpenSendFile.Name = "OpenSendFile";
+            //this.OpenSendFile.Size = new System.Drawing.Size(75, 23);
+            //this.OpenSendFile.TabIndex = 1;
+            //this.OpenSendFile.Text = "打开文件";
+            //this.OpenSendFile.UseVisualStyleBackColor = true;
+            //this.OpenSendFile.Click += new System.EventHandler(this.button2_Click);
             // 
             // SendFileName
             // 
@@ -615,7 +639,6 @@
             this.SendFileName.Name = "SendFileName";
             this.SendFileName.Size = new System.Drawing.Size(97, 23);
             this.SendFileName.TabIndex = 0;
-            this.SendFileName.TextChanged += new System.EventHandler(this.File_TextChanged);
             // 
             // groupBox3
             // 
@@ -631,7 +654,6 @@
             this.groupBox3.TabIndex = 16;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Plot Zone";
-            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
             // tabControl2
             // 
@@ -648,7 +670,6 @@
             this.tabControl2.SelectedIndex = 0;
             this.tabControl2.Size = new System.Drawing.Size(564, 587);
             this.tabControl2.TabIndex = 17;
-            this.tabControl2.SelectedIndexChanged += new System.EventHandler(this.tabControl2_SelectedIndexChanged);
             // 
             // tabPage3
             // 
@@ -661,7 +682,10 @@
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Bode Diagram";
             this.tabPage3.UseVisualStyleBackColor = true;
+<<<<<<< HEAD
+=======
             this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // groupBox5
             // 
@@ -672,15 +696,18 @@
             this.groupBox5.Controls.Add(this.chart1);
             this.groupBox5.Location = new System.Drawing.Point(6, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(544, 268);
+            this.groupBox5.Size = new System.Drawing.Size(544, 252);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
+<<<<<<< HEAD
+=======
             this.groupBox5.Enter += new System.EventHandler(this.groupBox5_Enter);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // button1
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button1.Location = new System.Drawing.Point(469, 233);
+            this.button1.Location = new System.Drawing.Point(469, 225);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 31);
             this.button1.TabIndex = 3;
@@ -722,13 +749,16 @@
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
             this.chart1.PaletteCustomColors = new System.Drawing.Color[] {
         System.Drawing.Color.Red};
-            this.chart1.Size = new System.Drawing.Size(532, 240);
+            this.chart1.Size = new System.Drawing.Size(532, 224);
             this.chart1.TabIndex = 1;
             title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             title1.Name = "Title1";
             title1.Text = "Amplitude-Frequency";
             this.chart1.Titles.Add(title1);
+<<<<<<< HEAD
+=======
             this.chart1.Click += new System.EventHandler(this.chart1_Click);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // groupBox6
             // 
@@ -739,7 +769,10 @@
             this.groupBox6.Size = new System.Drawing.Size(554, 267);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
+<<<<<<< HEAD
+=======
             this.groupBox6.Enter += new System.EventHandler(this.groupBox6_Enter);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // SaveBode2
             // 
@@ -778,7 +811,10 @@
             title2.Name = "Title1";
             title2.Text = "Phase-Frequency";
             this.chart2.Titles.Add(title2);
+<<<<<<< HEAD
+=======
             this.chart2.Click += new System.EventHandler(this.chart2_Click);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // tabPage4
             // 
@@ -791,7 +827,6 @@
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Nyquist Diagram";
             this.tabPage4.UseVisualStyleBackColor = true;
-            this.tabPage4.Click += new System.EventHandler(this.tabPage4_Click);
             // 
             // SaveNyq
             // 
@@ -830,7 +865,6 @@
             title3.Name = "Title1";
             title3.Text = "Nyquist Diagram";
             this.chart3.Titles.Add(title3);
-            this.chart3.Click += new System.EventHandler(this.chart3_Click);
             // 
             // TimeDomin
             // 
@@ -844,7 +878,6 @@
             this.TimeDomin.TabIndex = 2;
             this.TimeDomin.Text = "Time Domain";
             this.TimeDomin.UseVisualStyleBackColor = true;
-            this.TimeDomin.Click += new System.EventHandler(this.TimeDomin_Click);
             // 
             // SaveTD
             // 
@@ -884,7 +917,6 @@
             title4.Name = "Time Domain";
             title4.Text = "Time Domain";
             this.chart4.Titles.Add(title4);
-            this.chart4.Click += new System.EventHandler(this.chart4_Click);
             // 
             // tabPage5
             // 
@@ -897,7 +929,6 @@
             this.tabPage5.TabIndex = 3;
             this.tabPage5.Text = "U-I-R";
             this.tabPage5.UseVisualStyleBackColor = true;
-            this.tabPage5.Click += new System.EventHandler(this.tabPage5_Click);
             // 
             // button2
             // 
@@ -941,7 +972,6 @@
             this.chart_u_i_r.Size = new System.Drawing.Size(548, 517);
             this.chart_u_i_r.TabIndex = 0;
             this.chart_u_i_r.Text = "chart5";
-            this.chart_u_i_r.Click += new System.EventHandler(this.chart_u_i_r_Click);
             // 
             // timer1
             // 
@@ -951,7 +981,6 @@
             // timerRead
             // 
             this.timerRead.Interval = 1000;
-            this.timerRead.Tick += new System.EventHandler(this.timRead_Tick);
             // 
             // timer2
             // 
@@ -967,7 +996,6 @@
             this.label8.Size = new System.Drawing.Size(74, 16);
             this.label8.TabIndex = 17;
             this.label8.Text = "IP Address";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // groupBox4
             // 
@@ -986,7 +1014,6 @@
             this.groupBox4.TabIndex = 17;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Server Configure";
-            this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
             // 
             // btnStop
             // 
@@ -1007,7 +1034,6 @@
             this.Port.Size = new System.Drawing.Size(287, 22);
             this.Port.TabIndex = 20;
             this.Port.Text = "9500";
-            this.Port.TextChanged += new System.EventHandler(this.Port_TextChanged);
             // 
             // ipaddress
             // 
@@ -1017,7 +1043,6 @@
             this.ipaddress.Size = new System.Drawing.Size(287, 22);
             this.ipaddress.TabIndex = 19;
             this.ipaddress.Text = "http://localhost";
-            this.ipaddress.TextChanged += new System.EventHandler(this.ipaddress_TextChanged);
             // 
             // label9
             // 
@@ -1028,7 +1053,6 @@
             this.label9.Size = new System.Drawing.Size(32, 16);
             this.label9.TabIndex = 18;
             this.label9.Text = "Port";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // btn_freq
             // 
@@ -1052,7 +1076,6 @@
             this.panel_switch.Name = "panel_switch";
             this.panel_switch.Size = new System.Drawing.Size(10, 67);
             this.panel_switch.TabIndex = 19;
-            this.panel_switch.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_switch_Paint);
             // 
             // btn_cfg
             // 
@@ -1104,7 +1127,6 @@
             this.gb_time.Size = new System.Drawing.Size(150, 75);
             this.gb_time.TabIndex = 24;
             this.gb_time.TabStop = false;
-            this.gb_time.Enter += new System.EventHandler(this.gb_time_Enter);
             // 
             // lab_date
             // 
@@ -1149,7 +1171,10 @@
             this.gb_ac.TabIndex = 14;
             this.gb_ac.TabStop = false;
             this.gb_ac.Text = "AC Control";
+<<<<<<< HEAD
+=======
             this.gb_ac.Enter += new System.EventHandler(this.gb_ac_Enter);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // tb_s_p
             // 
@@ -1161,7 +1186,6 @@
             this.tb_s_p.TabIndex = 41;
             this.tb_s_p.Text = "1";
             this.toolTip1.SetToolTip(this.tb_s_p, "0~200");
-            this.tb_s_p.TextChanged += new System.EventHandler(this.tb_s_p_TextChanged);
             // 
             // Sweep_Points
             // 
@@ -1172,7 +1196,6 @@
             this.Sweep_Points.Size = new System.Drawing.Size(41, 12);
             this.Sweep_Points.TabIndex = 40;
             this.Sweep_Points.Text = "Points";
-            this.Sweep_Points.Click += new System.EventHandler(this.Sweep_Points_Click);
             // 
             // cb_dft
             // 
@@ -1180,24 +1203,23 @@
             this.cb_dft.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_dft.FormattingEnabled = true;
             this.cb_dft.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "3",
             "4",
-            "5",
-            "6",
-            "7",
             "8",
-            "9",
-            "10",
-            "11",
-            "12"});
+            "16",
+            "32",
+            "64",
+            "128",
+            "256",
+            "512",
+            "1024",
+            "2048",
+            "4096",
+            "8192",
+            "16384"});
             this.cb_dft.Location = new System.Drawing.Point(131, 164);
             this.cb_dft.Name = "cb_dft";
             this.cb_dft.Size = new System.Drawing.Size(115, 20);
             this.cb_dft.TabIndex = 39;
-            this.cb_dft.SelectedIndexChanged += new System.EventHandler(this.cb_dft_SelectedIndexChanged);
             // 
             // lab_dft
             // 
@@ -1208,7 +1230,6 @@
             this.lab_dft.Size = new System.Drawing.Size(23, 12);
             this.lab_dft.TabIndex = 38;
             this.lab_dft.Text = "DFT";
-            this.lab_dft.Click += new System.EventHandler(this.lab_dft_Click);
             // 
             // cb_tia
             // 
@@ -1216,20 +1237,19 @@
             this.cb_tia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_tia.FormattingEnabled = true;
             this.cb_tia.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8"});
+            "200",
+            "1K",
+            "5K",
+            "10K",
+            "20K",
+            "40K",
+            "80K",
+            "160K",
+            "OPEN"});
             this.cb_tia.Location = new System.Drawing.Point(131, 142);
             this.cb_tia.Name = "cb_tia";
             this.cb_tia.Size = new System.Drawing.Size(115, 20);
             this.cb_tia.TabIndex = 33;
-            this.cb_tia.SelectedIndexChanged += new System.EventHandler(this.cb_tia_SelectedIndexChanged);
             // 
             // lab_tia
             // 
@@ -1240,7 +1260,6 @@
             this.lab_tia.Size = new System.Drawing.Size(29, 12);
             this.lab_tia.TabIndex = 32;
             this.lab_tia.Text = "RTIA";
-            this.lab_tia.Click += new System.EventHandler(this.lab_tia_Click);
             // 
             // label10
             // 
@@ -1251,7 +1270,6 @@
             this.label10.Size = new System.Drawing.Size(23, 12);
             this.label10.TabIndex = 31;
             this.label10.Text = "sps";
-            this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
             // cb_dor
             // 
@@ -1259,15 +1277,21 @@
             this.cb_dor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_dor.FormattingEnabled = true;
             this.cb_dor.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
             "5",
             "6",
             "7",
-            "8"});
+            "8",
+            "9",
+            "10"});
             this.cb_dor.Location = new System.Drawing.Point(131, 120);
             this.cb_dor.Name = "cb_dor";
             this.cb_dor.Size = new System.Drawing.Size(115, 20);
             this.cb_dor.TabIndex = 30;
-            this.cb_dor.SelectedIndexChanged += new System.EventHandler(this.cb_dor_SelectedIndexChanged);
             // 
             // lab_dor
             // 
@@ -1278,7 +1302,6 @@
             this.lab_dor.Size = new System.Drawing.Size(23, 12);
             this.lab_dor.TabIndex = 29;
             this.lab_dor.Text = "DOR";
-            this.lab_dor.Click += new System.EventHandler(this.lab_dor_Click);
             // 
             // lab_ampmV
             // 
@@ -1289,7 +1312,6 @@
             this.lab_ampmV.Size = new System.Drawing.Size(17, 12);
             this.lab_ampmV.TabIndex = 28;
             this.lab_ampmV.Text = "mV";
-            this.lab_ampmV.Click += new System.EventHandler(this.lab_ampmV_Click);
             // 
             // tb_amp
             // 
@@ -1301,7 +1323,6 @@
             this.tb_amp.TabIndex = 26;
             this.tb_amp.Text = "1";
             this.toolTip1.SetToolTip(this.tb_amp, "0~600mV");
-            this.tb_amp.TextChanged += new System.EventHandler(this.tb_amp_TextChanged);
             // 
             // lab_amp
             // 
@@ -1312,7 +1333,6 @@
             this.lab_amp.Size = new System.Drawing.Size(59, 12);
             this.lab_amp.TabIndex = 14;
             this.lab_amp.Text = "Amplitude";
-            this.lab_amp.Click += new System.EventHandler(this.lab_amp_Click);
             // 
             // cb_freq_f
             // 
@@ -1326,7 +1346,6 @@
             this.cb_freq_f.Name = "cb_freq_f";
             this.cb_freq_f.Size = new System.Drawing.Size(59, 20);
             this.cb_freq_f.TabIndex = 9;
-            this.cb_freq_f.SelectedIndexChanged += new System.EventHandler(this.cb_freq_f_SelectedIndexChanged);
             // 
             // cb_freq_t
             // 
@@ -1340,7 +1359,6 @@
             this.cb_freq_t.Name = "cb_freq_t";
             this.cb_freq_t.Size = new System.Drawing.Size(59, 20);
             this.cb_freq_t.TabIndex = 8;
-            this.cb_freq_t.SelectedIndexChanged += new System.EventHandler(this.cb_freq_t_SelectedIndexChanged);
             // 
             // label11
             // 
@@ -1351,7 +1369,6 @@
             this.label11.Size = new System.Drawing.Size(17, 12);
             this.label11.TabIndex = 7;
             this.label11.Text = "to";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // tb_Sweep_t
             // 
@@ -1362,7 +1379,6 @@
             this.tb_Sweep_t.TabIndex = 6;
             this.tb_Sweep_t.Text = "44";
             this.toolTip1.SetToolTip(this.tb_Sweep_t, "0~1000kHz");
-            this.tb_Sweep_t.TextChanged += new System.EventHandler(this.tb_Sweep_t_TextChanged);
             // 
             // label13
             // 
@@ -1373,7 +1389,6 @@
             this.label13.Size = new System.Drawing.Size(29, 12);
             this.label13.TabIndex = 5;
             this.label13.Text = "from";
-            this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
             // tb_Sweep_f
             // 
@@ -1384,7 +1399,6 @@
             this.tb_Sweep_f.TabIndex = 4;
             this.tb_Sweep_f.Text = "33";
             this.toolTip1.SetToolTip(this.tb_Sweep_f, "0~1000kHz");
-            this.tb_Sweep_f.TextChanged += new System.EventHandler(this.tb_Sweep_f_TextChanged);
             // 
             // rb_Sweep
             // 
@@ -1411,7 +1425,6 @@
             this.cb_freq.Name = "cb_freq";
             this.cb_freq.Size = new System.Drawing.Size(59, 20);
             this.cb_freq.TabIndex = 2;
-            this.cb_freq.SelectedIndexChanged += new System.EventHandler(this.cb_freq_SelectedIndexChanged);
             // 
             // tb_freq
             // 
@@ -1421,7 +1434,6 @@
             this.tb_freq.Size = new System.Drawing.Size(117, 21);
             this.tb_freq.TabIndex = 1;
             this.toolTip1.SetToolTip(this.tb_freq, "0~1000kHz");
-            this.tb_freq.TextChanged += new System.EventHandler(this.tb_freq_TextChanged);
             // 
             // rb_Frequncy
             // 
@@ -1451,7 +1463,6 @@
             this.gb_exp.TabIndex = 25;
             this.gb_exp.TabStop = false;
             this.gb_exp.Text = "Experiment Control";
-            this.gb_exp.Enter += new System.EventHandler(this.gb_exp_Enter);
             // 
             // btn_stop
             // 
@@ -1521,7 +1532,6 @@
             this.gb_mulitply.TabIndex = 85;
             this.gb_mulitply.TabStop = false;
             this.gb_mulitply.Text = "Repeat";
-            this.gb_mulitply.Enter += new System.EventHandler(this.gb_mulitply_Enter);
             // 
             // cb_days
             // 
@@ -1540,7 +1550,6 @@
             this.label16.Size = new System.Drawing.Size(47, 12);
             this.label16.TabIndex = 97;
             this.label16.Text = "Times/T";
-            this.label16.Click += new System.EventHandler(this.label16_Click);
             // 
             // checkBox_SEC
             // 
@@ -1565,7 +1574,6 @@
             this.label15.Size = new System.Drawing.Size(41, 12);
             this.label15.TabIndex = 95;
             this.label15.Text = "End at";
-            this.label15.Click += new System.EventHandler(this.label15_Click);
             // 
             // DTP_End
             // 
@@ -1587,7 +1595,6 @@
             this.DTP_Start.Name = "DTP_Start";
             this.DTP_Start.Size = new System.Drawing.Size(89, 21);
             this.DTP_Start.TabIndex = 93;
-            this.DTP_Start.ValueChanged += new System.EventHandler(this.DTP_Start_ValueChanged);
             // 
             // label34
             // 
@@ -1598,7 +1605,6 @@
             this.label34.Size = new System.Drawing.Size(53, 12);
             this.label34.TabIndex = 92;
             this.label34.Text = "Start at";
-            this.label34.Click += new System.EventHandler(this.label34_Click);
             // 
             // label37
             // 
@@ -1609,7 +1615,6 @@
             this.label37.Size = new System.Drawing.Size(47, 12);
             this.label37.TabIndex = 91;
             this.label37.Text = "Times/D";
-            this.label37.Click += new System.EventHandler(this.label37_Click_1);
             // 
             // label36
             // 
@@ -1620,7 +1625,6 @@
             this.label36.Size = new System.Drawing.Size(17, 12);
             this.label36.TabIndex = 90;
             this.label36.Text = "to";
-            this.label36.Click += new System.EventHandler(this.label36_Click_1);
             // 
             // label35
             // 
@@ -1631,7 +1635,6 @@
             this.label35.Size = new System.Drawing.Size(29, 12);
             this.label35.TabIndex = 89;
             this.label35.Text = "from";
-            this.label35.Click += new System.EventHandler(this.label35_Click_1);
             // 
             // panel_sec
             // 
@@ -1647,7 +1650,18 @@
             this.panel_sec.Name = "panel_sec";
             this.panel_sec.Size = new System.Drawing.Size(383, 24);
             this.panel_sec.TabIndex = 88;
-            this.panel_sec.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_sec_Paint);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label24.Enabled = false;
+            this.label24.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label24.Location = new System.Drawing.Point(220, 5);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(21, 14);
+            this.label24.TabIndex = 82;
+            this.label24.Text = "  ";
             // 
             // label24
             // 
@@ -1679,7 +1693,10 @@
             this.tb_times_T2.Name = "tb_times_T2";
             this.tb_times_T2.Size = new System.Drawing.Size(51, 21);
             this.tb_times_T2.TabIndex = 74;
+<<<<<<< HEAD
+=======
             this.tb_times_T2.TextChanged += new System.EventHandler(this.tb_times_T2_TextChanged);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // dateTimePicker_t_2
             // 
@@ -1716,7 +1733,6 @@
             this.lab_second.Size = new System.Drawing.Size(41, 12);
             this.lab_second.TabIndex = 58;
             this.lab_second.Text = "second";
-            this.lab_second.Click += new System.EventHandler(this.lab_second_Click);
             // 
             // panel_fst
             // 
@@ -1732,7 +1748,6 @@
             this.panel_fst.Name = "panel_fst";
             this.panel_fst.Size = new System.Drawing.Size(383, 24);
             this.panel_fst.TabIndex = 87;
-            this.panel_fst.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_fst_Paint_1);
             // 
             // label23
             // 
@@ -1765,7 +1780,6 @@
             this.tb_times_T1.Size = new System.Drawing.Size(51, 21);
             this.tb_times_T1.TabIndex = 73;
             this.toolTip1.SetToolTip(this.tb_times_T1, "Repeat times for each Measurement.");
-            this.tb_times_T1.TextChanged += new System.EventHandler(this.tb_times_T1_TextChanged);
             // 
             // dateTimePicker_t_1
             // 
@@ -1804,7 +1818,6 @@
             this.lab_first.Size = new System.Drawing.Size(35, 12);
             this.lab_first.TabIndex = 58;
             this.lab_first.Text = "first";
-            this.lab_first.Click += new System.EventHandler(this.lab_first_Click);
             // 
             // label27
             // 
@@ -1815,7 +1828,6 @@
             this.label27.Size = new System.Drawing.Size(29, 12);
             this.label27.TabIndex = 85;
             this.label27.Text = "days";
-            this.label27.Click += new System.EventHandler(this.label27_Click);
             // 
             // gb_Single
             // 
@@ -1831,7 +1843,6 @@
             this.gb_Single.TabIndex = 5;
             this.gb_Single.TabStop = false;
             this.gb_Single.Text = "Duration";
-            this.gb_Single.Enter += new System.EventHandler(this.gb_Single_Enter);
             // 
             // label21
             // 
@@ -1842,7 +1853,6 @@
             this.label21.Size = new System.Drawing.Size(11, 12);
             this.label21.TabIndex = 75;
             this.label21.Text = ":";
-            this.label21.Click += new System.EventHandler(this.label21_Click);
             // 
             // tb_d_s
             // 
@@ -1852,7 +1862,6 @@
             this.tb_d_s.Size = new System.Drawing.Size(51, 21);
             this.tb_d_s.TabIndex = 74;
             this.toolTip1.SetToolTip(this.tb_d_s, "0~60");
-            this.tb_d_s.TextChanged += new System.EventHandler(this.tb_d_s_TextChanged);
             // 
             // tb_d_m
             // 
@@ -1862,7 +1871,6 @@
             this.tb_d_m.Size = new System.Drawing.Size(51, 21);
             this.tb_d_m.TabIndex = 73;
             this.toolTip1.SetToolTip(this.tb_d_m, "0~60");
-            this.tb_d_m.TextChanged += new System.EventHandler(this.tb_d_m_TextChanged);
             // 
             // label25
             // 
@@ -1873,7 +1881,6 @@
             this.label25.Size = new System.Drawing.Size(11, 12);
             this.label25.TabIndex = 72;
             this.label25.Text = ":";
-            this.label25.Click += new System.EventHandler(this.label25_Click);
             // 
             // tb_d_h
             // 
@@ -1883,7 +1890,6 @@
             this.tb_d_h.Size = new System.Drawing.Size(51, 21);
             this.tb_d_h.TabIndex = 71;
             this.toolTip1.SetToolTip(this.tb_d_h, "0~24");
-            this.tb_d_h.TextChanged += new System.EventHandler(this.tb_d_h_TextChanged);
             // 
             // groupBox_UI
             // 
@@ -1900,7 +1906,6 @@
             this.groupBox_UI.TabIndex = 86;
             this.groupBox_UI.TabStop = false;
             this.groupBox_UI.Text = "U-I-R ";
-            this.groupBox_UI.Enter += new System.EventHandler(this.groupBox_UI_Enter);
             // 
             // tb_I
             // 
@@ -1912,7 +1917,6 @@
             this.tb_I.TabIndex = 87;
             this.tb_I.Text = "1";
             this.toolTip1.SetToolTip(this.tb_I, "0~600mV");
-            this.tb_I.TextChanged += new System.EventHandler(this.tb_I_TextChanged);
             // 
             // tb_R
             // 
@@ -1924,7 +1928,6 @@
             this.tb_R.TabIndex = 86;
             this.tb_R.Text = "1";
             this.toolTip1.SetToolTip(this.tb_R, "0~600mV");
-            this.tb_R.TextChanged += new System.EventHandler(this.tb_R_TextChanged);
             // 
             // tb_u
             // 
@@ -1936,7 +1939,6 @@
             this.tb_u.TabIndex = 85;
             this.tb_u.Text = "1";
             this.toolTip1.SetToolTip(this.tb_u, "0~600mV");
-            this.tb_u.TextChanged += new System.EventHandler(this.tb_u_TextChanged);
             // 
             // label32
             // 
@@ -1947,7 +1949,6 @@
             this.label32.Size = new System.Drawing.Size(65, 12);
             this.label32.TabIndex = 2;
             this.label32.Text = "Resistance";
-            this.label32.Click += new System.EventHandler(this.label32_Click);
             // 
             // label31
             // 
@@ -1958,7 +1959,6 @@
             this.label31.Size = new System.Drawing.Size(47, 12);
             this.label31.TabIndex = 1;
             this.label31.Text = "Current";
-            this.label31.Click += new System.EventHandler(this.label31_Click);
             // 
             // label30
             // 
@@ -1969,7 +1969,6 @@
             this.label30.Size = new System.Drawing.Size(47, 12);
             this.label30.TabIndex = 0;
             this.label30.Text = "Voltage";
-            this.label30.Click += new System.EventHandler(this.label30_Click);
             // 
             // CheckBitChoose
             // 
@@ -1984,7 +1983,6 @@
             this.CheckBitChoose.Name = "CheckBitChoose";
             this.CheckBitChoose.Size = new System.Drawing.Size(220, 24);
             this.CheckBitChoose.TabIndex = 6;
-            this.CheckBitChoose.SelectedIndexChanged += new System.EventHandler(this.comboBox5_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -1995,7 +1993,6 @@
             this.label3.Size = new System.Drawing.Size(30, 16);
             this.label3.TabIndex = 9;
             this.label3.Text = "Bits";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // BaudrateChoose
             // 
@@ -2023,7 +2020,6 @@
             this.BaudrateChoose.Name = "BaudrateChoose";
             this.BaudrateChoose.Size = new System.Drawing.Size(220, 24);
             this.BaudrateChoose.TabIndex = 2;
-            this.BaudrateChoose.SelectedIndexChanged += new System.EventHandler(this.BaudrateChoose_SelectedIndexChanged);
             // 
             // DataBitChoose
             // 
@@ -2039,7 +2035,6 @@
             this.DataBitChoose.Name = "DataBitChoose";
             this.DataBitChoose.Size = new System.Drawing.Size(220, 24);
             this.DataBitChoose.TabIndex = 4;
-            this.DataBitChoose.SelectedIndexChanged += new System.EventHandler(this.DataBitChoose_SelectedIndexChanged);
             // 
             // StopBitChoose
             // 
@@ -2053,7 +2048,6 @@
             this.StopBitChoose.Name = "StopBitChoose";
             this.StopBitChoose.Size = new System.Drawing.Size(220, 24);
             this.StopBitChoose.TabIndex = 3;
-            this.StopBitChoose.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -2064,7 +2058,6 @@
             this.label2.Size = new System.Drawing.Size(40, 16);
             this.label2.TabIndex = 8;
             this.label2.Text = "Baud";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label4
             // 
@@ -2075,7 +2068,6 @@
             this.label4.Size = new System.Drawing.Size(42, 16);
             this.label4.TabIndex = 10;
             this.label4.Text = "Parity";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label1
             // 
@@ -2086,7 +2078,6 @@
             this.label1.Size = new System.Drawing.Size(38, 16);
             this.label1.TabIndex = 7;
             this.label1.Text = "COM";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // OpenPortButton
             // 
@@ -2108,7 +2099,6 @@
             this.label5.Size = new System.Drawing.Size(36, 16);
             this.label5.TabIndex = 11;
             this.label5.Text = "Stop";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // COMChoose
             // 
@@ -2119,7 +2109,6 @@
             this.COMChoose.Name = "COMChoose";
             this.COMChoose.Size = new System.Drawing.Size(220, 24);
             this.COMChoose.TabIndex = 5;
-            this.COMChoose.SelectedIndexChanged += new System.EventHandler(this.comboBox4_SelectedIndexChanged);
             // 
             // gb1
             // 
@@ -2143,7 +2132,6 @@
             this.gb1.TabIndex = 12;
             this.gb1.TabStop = false;
             this.gb1.Text = "Serial COM ";
-            this.gb1.Enter += new System.EventHandler(this.gb1_Enter_1);
             // 
             // btn_scan
             // 
@@ -2189,7 +2177,6 @@
             this.gb_dc.TabIndex = 43;
             this.gb_dc.TabStop = false;
             this.gb_dc.Text = "DC Control";
-            this.gb_dc.Enter += new System.EventHandler(this.gb_dc_Enter);
             // 
             // label39
             // 
@@ -2200,7 +2187,6 @@
             this.label39.Size = new System.Drawing.Size(17, 12);
             this.label39.TabIndex = 87;
             this.label39.Text = "ms";
-            this.label39.Click += new System.EventHandler(this.label39_Click);
             // 
             // tb_cyc
             // 
@@ -2211,7 +2197,6 @@
             this.tb_cyc.Size = new System.Drawing.Size(97, 21);
             this.tb_cyc.TabIndex = 86;
             this.tb_cyc.Text = "0";
-            this.tb_cyc.TextChanged += new System.EventHandler(this.tb_cyc_TextChanged);
             // 
             // label33
             // 
@@ -2222,7 +2207,6 @@
             this.label33.Size = new System.Drawing.Size(35, 12);
             this.label33.TabIndex = 85;
             this.label33.Text = "Cycle";
-            this.label33.Click += new System.EventHandler(this.label33_Click);
             // 
             // chart_v
             // 
@@ -2248,7 +2232,6 @@
             this.chart_v.Size = new System.Drawing.Size(174, 147);
             this.chart_v.TabIndex = 1;
             this.chart_v.Text = "chart5";
-            this.chart_v.Click += new System.EventHandler(this.chart_v_Click);
             // 
             // label26
             // 
@@ -2259,7 +2242,6 @@
             this.label26.Size = new System.Drawing.Size(17, 12);
             this.label26.TabIndex = 84;
             this.label26.Text = "mV";
-            this.label26.Click += new System.EventHandler(this.label26_Click);
             // 
             // tb_start
             // 
@@ -2271,7 +2253,6 @@
             this.tb_start.TabIndex = 83;
             this.tb_start.Text = "1";
             this.toolTip1.SetToolTip(this.tb_start, "0~600mV");
-            this.tb_start.TextChanged += new System.EventHandler(this.tb_start_TextChanged);
             // 
             // label29
             // 
@@ -2282,7 +2263,6 @@
             this.label29.Size = new System.Drawing.Size(53, 12);
             this.label29.TabIndex = 82;
             this.label29.Text = "Start at";
-            this.label29.Click += new System.EventHandler(this.label29_Click);
             // 
             // trackBar1
             // 
@@ -2308,7 +2288,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 25);
             this.panel1.TabIndex = 80;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // rb_Square
             // 
@@ -2319,7 +2298,6 @@
             this.rb_Square.TabIndex = 43;
             this.rb_Square.Text = "Square";
             this.rb_Square.UseVisualStyleBackColor = true;
-            this.rb_Square.CheckedChanged += new System.EventHandler(this.rb_Square_CheckedChanged);
             // 
             // rb_Triangle
             // 
@@ -2330,7 +2308,6 @@
             this.rb_Triangle.TabIndex = 44;
             this.rb_Triangle.Text = "Triangle";
             this.rb_Triangle.UseVisualStyleBackColor = true;
-            this.rb_Triangle.CheckedChanged += new System.EventHandler(this.rb_Triangle_CheckedChanged);
             // 
             // btn_stop1
             // 
@@ -2363,7 +2340,6 @@
             this.tb_times.Size = new System.Drawing.Size(99, 21);
             this.tb_times.TabIndex = 77;
             this.tb_times.Text = "1";
-            this.tb_times.TextChanged += new System.EventHandler(this.tb_times_TextChanged);
             // 
             // label20
             // 
@@ -2374,7 +2350,6 @@
             this.label20.Size = new System.Drawing.Size(35, 12);
             this.label20.TabIndex = 76;
             this.label20.Text = "Times";
-            this.label20.Click += new System.EventHandler(this.label20_Click);
             // 
             // label18
             // 
@@ -2385,7 +2360,6 @@
             this.label18.Size = new System.Drawing.Size(11, 12);
             this.label18.TabIndex = 75;
             this.label18.Text = ":";
-            this.label18.Click += new System.EventHandler(this.label18_Click);
             // 
             // tb_d_s1
             // 
@@ -2395,7 +2369,6 @@
             this.tb_d_s1.Size = new System.Drawing.Size(51, 21);
             this.tb_d_s1.TabIndex = 74;
             this.toolTip1.SetToolTip(this.tb_d_s1, "0~60");
-            this.tb_d_s1.TextChanged += new System.EventHandler(this.tb_d_s1_TextChanged);
             // 
             // tb_d_m1
             // 
@@ -2405,7 +2378,6 @@
             this.tb_d_m1.Size = new System.Drawing.Size(51, 21);
             this.tb_d_m1.TabIndex = 73;
             this.toolTip1.SetToolTip(this.tb_d_m1, "0~60");
-            this.tb_d_m1.TextChanged += new System.EventHandler(this.tb_d_m1_TextChanged);
             // 
             // label19
             // 
@@ -2416,7 +2388,6 @@
             this.label19.Size = new System.Drawing.Size(11, 12);
             this.label19.TabIndex = 72;
             this.label19.Text = ":";
-            this.label19.Click += new System.EventHandler(this.label19_Click);
             // 
             // tb_d_h1
             // 
@@ -2426,7 +2397,6 @@
             this.tb_d_h1.Size = new System.Drawing.Size(51, 21);
             this.tb_d_h1.TabIndex = 71;
             this.toolTip1.SetToolTip(this.tb_d_h1, "0~24");
-            this.tb_d_h1.TextChanged += new System.EventHandler(this.tb_d_h1_TextChanged);
             // 
             // rb_Duration1
             // 
@@ -2461,7 +2431,6 @@
             this.label17.Size = new System.Drawing.Size(41, 12);
             this.label17.TabIndex = 41;
             this.label17.Text = "Points";
-            this.label17.Click += new System.EventHandler(this.label17_Click);
             // 
             // label14
             // 
@@ -2472,7 +2441,6 @@
             this.label14.Size = new System.Drawing.Size(17, 12);
             this.label14.TabIndex = 29;
             this.label14.Text = "mV";
-            this.label14.Click += new System.EventHandler(this.label14_Click);
             // 
             // tb_amp1
             // 
@@ -2484,7 +2452,6 @@
             this.tb_amp1.TabIndex = 27;
             this.tb_amp1.Text = "100";
             this.toolTip1.SetToolTip(this.tb_amp1, "0~600mV");
-            this.tb_amp1.TextChanged += new System.EventHandler(this.textBox1_TextChanged_1);
             // 
             // label12
             // 
@@ -2495,7 +2462,6 @@
             this.label12.Size = new System.Drawing.Size(59, 12);
             this.label12.TabIndex = 15;
             this.label12.Text = "Amplitude";
-            this.label12.Click += new System.EventHandler(this.label12_Click);
             // 
             // rb_Sweep1
             // 
@@ -2524,10 +2490,6 @@
             this.btn_AC.UseVisualStyleBackColor = false;
             this.btn_AC.Click += new System.EventHandler(this.btn_AC_Click);
             // 
-            // toolTip1
-            // 
-            this.toolTip1.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
-            // 
             // tb_amp4
             // 
             this.tb_amp4.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -2538,7 +2500,6 @@
             this.tb_amp4.TabIndex = 27;
             this.tb_amp4.Text = "100";
             this.toolTip1.SetToolTip(this.tb_amp4, "0~600mV");
-            this.tb_amp4.TextChanged += new System.EventHandler(this.tb_amp4_TextChanged);
             // 
             // tb_d_s2
             // 
@@ -2549,7 +2510,6 @@
             this.tb_d_s2.TabIndex = 74;
             this.tb_d_s2.Text = "0";
             this.toolTip1.SetToolTip(this.tb_d_s2, "0~60");
-            this.tb_d_s2.TextChanged += new System.EventHandler(this.tb_d_s2_TextChanged);
             // 
             // tb_Sweep_f2
             // 
@@ -2560,7 +2520,6 @@
             this.tb_Sweep_f2.TabIndex = 4;
             this.tb_Sweep_f2.Text = "100";
             this.toolTip1.SetToolTip(this.tb_Sweep_f2, "0~1000kHz");
-            this.tb_Sweep_f2.TextChanged += new System.EventHandler(this.tb_Sweep_f2_TextChanged);
             // 
             // tb_Sweep_t2
             // 
@@ -2571,7 +2530,6 @@
             this.tb_Sweep_t2.TabIndex = 6;
             this.tb_Sweep_t2.Text = "100000";
             this.toolTip1.SetToolTip(this.tb_Sweep_t2, "0~1000kHz");
-            this.tb_Sweep_t2.TextChanged += new System.EventHandler(this.tb_Sweep_t2_TextChanged);
             // 
             // tb_amp2
             // 
@@ -2583,7 +2541,6 @@
             this.tb_amp2.TabIndex = 26;
             this.tb_amp2.Text = "607";
             this.toolTip1.SetToolTip(this.tb_amp2, "0~600mV");
-            this.tb_amp2.TextChanged += new System.EventHandler(this.tb_amp2_TextChanged);
             // 
             // tb_s_p2
             // 
@@ -2595,7 +2552,6 @@
             this.tb_s_p2.TabIndex = 41;
             this.tb_s_p2.Text = "101";
             this.toolTip1.SetToolTip(this.tb_s_p2, "0~200");
-            this.tb_s_p2.TextChanged += new System.EventHandler(this.tb_s_p2_TextChanged);
             // 
             // checkBox_SEC2
             // 
@@ -2619,7 +2575,6 @@
             this.tb_times_T3.TabIndex = 73;
             this.tb_times_T3.Text = "0";
             this.toolTip1.SetToolTip(this.tb_times_T3, "Repeat times for each Measurement.");
-            this.tb_times_T3.TextChanged += new System.EventHandler(this.tb_times_T3_TextChanged);
             // 
             // tb_times_D3
             // 
@@ -2654,7 +2609,6 @@
             this.menuStrip1.Size = new System.Drawing.Size(1367, 25);
             this.menuStrip1.TabIndex = 88;
             this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // fileToolStripMenuItem
             // 
@@ -2667,40 +2621,39 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(53, 21);
             this.fileToolStripMenuItem.Text = "File(F)";
-            this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
             // 
             // newProjectToolStripMenuItem
             // 
             this.newProjectToolStripMenuItem.Name = "newProjectToolStripMenuItem";
-            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.newProjectToolStripMenuItem.Text = "New Project(N)";
             this.newProjectToolStripMenuItem.Click += new System.EventHandler(this.newProjectToolStripMenuItem_Click);
             // 
             // LoadProtoolStripMenuItem1
             // 
             this.LoadProtoolStripMenuItem1.Name = "LoadProtoolStripMenuItem1";
-            this.LoadProtoolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.LoadProtoolStripMenuItem1.Size = new System.Drawing.Size(167, 22);
             this.LoadProtoolStripMenuItem1.Text = "Load Project(O)";
             this.LoadProtoolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // DataAnalyserToolStripMenuItem
             // 
             this.DataAnalyserToolStripMenuItem.Name = "DataAnalyserToolStripMenuItem";
-            this.DataAnalyserToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.DataAnalyserToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.DataAnalyserToolStripMenuItem.Text = "Data Analyser";
             this.DataAnalyserToolStripMenuItem.Click += new System.EventHandler(this.loadProjectToolStripMenuItem_Click);
             // 
             // BackToolStripMenuItem
             // 
             this.BackToolStripMenuItem.Name = "BackToolStripMenuItem";
-            this.BackToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.BackToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.BackToolStripMenuItem.Text = "Back";
             this.BackToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.exitToolStripMenuItem.Text = "Exit(C)";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -2709,7 +2662,6 @@
             this.hlepHToolStripMenuItem.Name = "hlepHToolStripMenuItem";
             this.hlepHToolStripMenuItem.Size = new System.Drawing.Size(64, 21);
             this.hlepHToolStripMenuItem.Text = "Help(H)";
-            this.hlepHToolStripMenuItem.Click += new System.EventHandler(this.hlepHToolStripMenuItem_Click);
             // 
             // panel_load
             // 
@@ -2724,7 +2676,6 @@
             this.panel_load.Name = "panel_load";
             this.panel_load.Size = new System.Drawing.Size(159, 428);
             this.panel_load.TabIndex = 89;
-            this.panel_load.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_load_Paint);
             // 
             // btn_m
             // 
@@ -2808,7 +2759,6 @@
             this.gb_comb.TabIndex = 90;
             this.gb_comb.TabStop = false;
             this.gb_comb.Text = "Combination";
-            this.gb_comb.Enter += new System.EventHandler(this.gb_comb_Enter);
             // 
             // panel6
             // 
@@ -2858,7 +2808,6 @@
             this.gb_temperature.TabIndex = 88;
             this.gb_temperature.TabStop = false;
             this.gb_temperature.Text = "step 3(Temperature Measurement)";
-            this.gb_temperature.Enter += new System.EventHandler(this.gb_temperature_Enter);
             // 
             // label64
             // 
@@ -2869,7 +2818,6 @@
             this.label64.Size = new System.Drawing.Size(125, 12);
             this.label64.TabIndex = 88;
             this.label64.Text = "Temperature measure?";
-            this.label64.Click += new System.EventHandler(this.label64_Click);
             // 
             // rb_temp_n
             // 
@@ -2882,7 +2830,6 @@
             this.rb_temp_n.TabStop = true;
             this.rb_temp_n.Text = "No";
             this.rb_temp_n.UseVisualStyleBackColor = true;
-            this.rb_temp_n.CheckedChanged += new System.EventHandler(this.rb_temp_n_CheckedChanged);
             // 
             // rb_temp_y
             // 
@@ -2896,7 +2843,6 @@
             this.rb_temp_y.TabStop = true;
             this.rb_temp_y.Text = "Yes";
             this.rb_temp_y.UseVisualStyleBackColor = true;
-            this.rb_temp_y.CheckedChanged += new System.EventHandler(this.rb_temp_y_CheckedChanged);
             // 
             // gb_dc2
             // 
@@ -2913,7 +2859,6 @@
             this.gb_dc2.TabIndex = 87;
             this.gb_dc2.TabStop = false;
             this.gb_dc2.Text = "Step 2(DC Control)";
-            this.gb_dc2.Enter += new System.EventHandler(this.gb_dc2_Enter);
             // 
             // label63
             // 
@@ -2924,7 +2869,6 @@
             this.label63.Size = new System.Drawing.Size(11, 12);
             this.label63.TabIndex = 87;
             this.label63.Text = "s";
-            this.label63.Click += new System.EventHandler(this.label63_Click);
             // 
             // label62
             // 
@@ -2935,7 +2879,6 @@
             this.label62.Size = new System.Drawing.Size(53, 12);
             this.label62.TabIndex = 85;
             this.label62.Text = "Duration";
-            this.label62.Click += new System.EventHandler(this.label62_Click);
             // 
             // label70
             // 
@@ -2946,7 +2889,6 @@
             this.label70.Size = new System.Drawing.Size(17, 12);
             this.label70.TabIndex = 29;
             this.label70.Text = "mV";
-            this.label70.Click += new System.EventHandler(this.label70_Click);
             // 
             // label71
             // 
@@ -2957,7 +2899,6 @@
             this.label71.Size = new System.Drawing.Size(59, 12);
             this.label71.TabIndex = 15;
             this.label71.Text = "Amplitude";
-            this.label71.Click += new System.EventHandler(this.label71_Click);
             // 
             // gb_rep2
             // 
@@ -2985,7 +2926,42 @@
             this.gb_rep2.TabIndex = 86;
             this.gb_rep2.TabStop = false;
             this.gb_rep2.Text = "Time Set";
-            this.gb_rep2.Enter += new System.EventHandler(this.gb_rep2_Enter);
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label56.Enabled = false;
+            this.label56.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label56.Location = new System.Drawing.Point(245, 86);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(21, 14);
+            this.label56.TabIndex = 101;
+            this.label56.Text = "  ";
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label55.Enabled = false;
+            this.label55.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label55.Location = new System.Drawing.Point(245, 121);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(21, 14);
+            this.label55.TabIndex = 100;
+            this.label55.Text = "  ";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label38.Enabled = false;
+            this.label38.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label38.Location = new System.Drawing.Point(141, 121);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(21, 14);
+            this.label38.TabIndex = 99;
+            this.label38.Text = "  ";
             // 
             // label56
             // 
@@ -3041,7 +3017,6 @@
             this.label40.Size = new System.Drawing.Size(47, 12);
             this.label40.TabIndex = 97;
             this.label40.Text = "Times/T";
-            this.label40.Click += new System.EventHandler(this.label40_Click);
             // 
             // label50
             // 
@@ -3052,7 +3027,18 @@
             this.label50.Size = new System.Drawing.Size(41, 12);
             this.label50.TabIndex = 95;
             this.label50.Text = "End at";
-            this.label50.Click += new System.EventHandler(this.label50_Click);
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label59.Enabled = false;
+            this.label59.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label59.Location = new System.Drawing.Point(142, 86);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(21, 14);
+            this.label59.TabIndex = 74;
+            this.label59.Text = "  ";
             // 
             // label59
             // 
@@ -3087,7 +3073,6 @@
             this.DTP_Start2.Name = "DTP_Start2";
             this.DTP_Start2.Size = new System.Drawing.Size(89, 21);
             this.DTP_Start2.TabIndex = 93;
-            this.DTP_Start2.ValueChanged += new System.EventHandler(this.DTP_Start2_ValueChanged);
             // 
             // label51
             // 
@@ -3098,7 +3083,6 @@
             this.label51.Size = new System.Drawing.Size(53, 12);
             this.label51.TabIndex = 92;
             this.label51.Text = "Start at";
-            this.label51.Click += new System.EventHandler(this.label51_Click);
             // 
             // label52
             // 
@@ -3109,7 +3093,6 @@
             this.label52.Size = new System.Drawing.Size(47, 12);
             this.label52.TabIndex = 91;
             this.label52.Text = "Times/D";
-            this.label52.Click += new System.EventHandler(this.label52_Click);
             // 
             // label53
             // 
@@ -3120,7 +3103,6 @@
             this.label53.Size = new System.Drawing.Size(17, 12);
             this.label53.TabIndex = 90;
             this.label53.Text = "to";
-            this.label53.Click += new System.EventHandler(this.label53_Click);
             // 
             // label54
             // 
@@ -3131,7 +3113,6 @@
             this.label54.Size = new System.Drawing.Size(29, 12);
             this.label54.TabIndex = 89;
             this.label54.Text = "from";
-            this.label54.Click += new System.EventHandler(this.label54_Click);
             // 
             // panel2
             // 
@@ -3145,7 +3126,10 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(383, 24);
             this.panel2.TabIndex = 88;
+<<<<<<< HEAD
+=======
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // tb_times_T4
             // 
@@ -3154,7 +3138,10 @@
             this.tb_times_T4.Size = new System.Drawing.Size(51, 21);
             this.tb_times_T4.TabIndex = 74;
             this.tb_times_T4.Text = "0";
+<<<<<<< HEAD
+=======
             this.tb_times_T4.TextChanged += new System.EventHandler(this.tb_times_T4_TextChanged);
+>>>>>>> 44e73a06f50329945b55d3fc094efd7342cf1c4c
             // 
             // dateTimePicker_t_4
             // 
@@ -3191,7 +3178,6 @@
             this.label57.Size = new System.Drawing.Size(41, 12);
             this.label57.TabIndex = 58;
             this.label57.Text = "second";
-            this.label57.Click += new System.EventHandler(this.label57_Click);
             // 
             // panel3
             // 
@@ -3207,7 +3193,6 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(383, 24);
             this.panel3.TabIndex = 87;
-            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
             // label67
             // 
@@ -3258,7 +3243,6 @@
             this.label60.Size = new System.Drawing.Size(35, 12);
             this.label60.TabIndex = 58;
             this.label60.Text = "first";
-            this.label60.Click += new System.EventHandler(this.label60_Click);
             // 
             // label61
             // 
@@ -3269,7 +3253,6 @@
             this.label61.Size = new System.Drawing.Size(29, 12);
             this.label61.TabIndex = 85;
             this.label61.Text = "days";
-            this.label61.Click += new System.EventHandler(this.label61_Click);
             // 
             // gb_ac2
             // 
@@ -3300,7 +3283,6 @@
             this.gb_ac2.TabIndex = 15;
             this.gb_ac2.TabStop = false;
             this.gb_ac2.Text = "Step 1(AC Control)";
-            this.gb_ac2.Enter += new System.EventHandler(this.gb_ac2_Enter);
             // 
             // chart_temp
             // 
@@ -3321,7 +3303,6 @@
             this.chart_temp.Size = new System.Drawing.Size(160, 84);
             this.chart_temp.TabIndex = 91;
             this.chart_temp.Text = "chart5";
-            this.chart_temp.Click += new System.EventHandler(this.chart_temp_Click);
             // 
             // tb_temp
             // 
@@ -3334,7 +3315,6 @@
             this.tb_temp.Name = "tb_temp";
             this.tb_temp.Size = new System.Drawing.Size(132, 77);
             this.tb_temp.TabIndex = 42;
-            this.tb_temp.TextChanged += new System.EventHandler(this.tb_temp_TextChanged);
             // 
             // label41
             // 
@@ -3345,7 +3325,6 @@
             this.label41.Size = new System.Drawing.Size(41, 12);
             this.label41.TabIndex = 40;
             this.label41.Text = "Points";
-            this.label41.Click += new System.EventHandler(this.label41_Click);
             // 
             // cb_dft2
             // 
@@ -3369,7 +3348,6 @@
             this.cb_dft2.Name = "cb_dft2";
             this.cb_dft2.Size = new System.Drawing.Size(98, 20);
             this.cb_dft2.TabIndex = 39;
-            this.cb_dft2.SelectedIndexChanged += new System.EventHandler(this.cb_dft2_SelectedIndexChanged);
             // 
             // label42
             // 
@@ -3380,7 +3358,6 @@
             this.label42.Size = new System.Drawing.Size(23, 12);
             this.label42.TabIndex = 38;
             this.label42.Text = "DFT";
-            this.label42.Click += new System.EventHandler(this.label42_Click);
             // 
             // cb_tia2
             // 
@@ -3401,7 +3378,6 @@
             this.cb_tia2.Name = "cb_tia2";
             this.cb_tia2.Size = new System.Drawing.Size(98, 20);
             this.cb_tia2.TabIndex = 33;
-            this.cb_tia2.SelectedIndexChanged += new System.EventHandler(this.cb_tia2_SelectedIndexChanged);
             // 
             // label43
             // 
@@ -3412,7 +3388,6 @@
             this.label43.Size = new System.Drawing.Size(29, 12);
             this.label43.TabIndex = 32;
             this.label43.Text = "RTIA";
-            this.label43.Click += new System.EventHandler(this.label43_Click);
             // 
             // label44
             // 
@@ -3423,7 +3398,6 @@
             this.label44.Size = new System.Drawing.Size(23, 12);
             this.label44.TabIndex = 31;
             this.label44.Text = "sps";
-            this.label44.Click += new System.EventHandler(this.label44_Click);
             // 
             // cb_dor2
             // 
@@ -3445,7 +3419,6 @@
             this.cb_dor2.Name = "cb_dor2";
             this.cb_dor2.Size = new System.Drawing.Size(98, 20);
             this.cb_dor2.TabIndex = 30;
-            this.cb_dor2.SelectedIndexChanged += new System.EventHandler(this.cb_dor2_SelectedIndexChanged);
             // 
             // label45
             // 
@@ -3456,7 +3429,6 @@
             this.label45.Size = new System.Drawing.Size(23, 12);
             this.label45.TabIndex = 29;
             this.label45.Text = "DOR";
-            this.label45.Click += new System.EventHandler(this.label45_Click);
             // 
             // label46
             // 
@@ -3467,7 +3439,6 @@
             this.label46.Size = new System.Drawing.Size(17, 12);
             this.label46.TabIndex = 28;
             this.label46.Text = "mV";
-            this.label46.Click += new System.EventHandler(this.label46_Click);
             // 
             // label47
             // 
@@ -3478,7 +3449,6 @@
             this.label47.Size = new System.Drawing.Size(59, 12);
             this.label47.TabIndex = 14;
             this.label47.Text = "Amplitude";
-            this.label47.Click += new System.EventHandler(this.label47_Click);
             // 
             // cb_freq_f2
             // 
@@ -3492,7 +3462,6 @@
             this.cb_freq_f2.Name = "cb_freq_f2";
             this.cb_freq_f2.Size = new System.Drawing.Size(47, 20);
             this.cb_freq_f2.TabIndex = 9;
-            this.cb_freq_f2.SelectedIndexChanged += new System.EventHandler(this.cb_freq_f2_SelectedIndexChanged);
             // 
             // cb_freq_t2
             // 
@@ -3506,7 +3475,6 @@
             this.cb_freq_t2.Name = "cb_freq_t2";
             this.cb_freq_t2.Size = new System.Drawing.Size(47, 20);
             this.cb_freq_t2.TabIndex = 8;
-            this.cb_freq_t2.SelectedIndexChanged += new System.EventHandler(this.cb_freq_t2_SelectedIndexChanged);
             // 
             // label48
             // 
@@ -3517,7 +3485,6 @@
             this.label48.Size = new System.Drawing.Size(17, 12);
             this.label48.TabIndex = 7;
             this.label48.Text = "to";
-            this.label48.Click += new System.EventHandler(this.label48_Click);
             // 
             // label49
             // 
@@ -3528,7 +3495,6 @@
             this.label49.Size = new System.Drawing.Size(65, 12);
             this.label49.TabIndex = 5;
             this.label49.Text = "Sweep from";
-            this.label49.Click += new System.EventHandler(this.label49_Click);
             // 
             // panel4
             // 
@@ -3538,7 +3504,6 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(409, 313);
             this.panel4.TabIndex = 3;
-            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
             // panel5
             // 
@@ -3550,7 +3515,6 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(418, 546);
             this.panel5.TabIndex = 90;
-            this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
             // statusStrip1
             // 
@@ -3579,13 +3543,13 @@
             this.Controls.Add(this.btn_freq);
             this.Controls.Add(this.panel_load);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.gb_comb);
-            this.Controls.Add(this.gb_dc);
-            this.Controls.Add(this.groupBox_UI);
             this.Controls.Add(this.gb_ac);
             this.Controls.Add(this.gb_exp);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel5);
+            this.Controls.Add(this.gb_comb);
+            this.Controls.Add(this.gb_dc);
+            this.Controls.Add(this.groupBox_UI);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "TANGEIS Client V1.0.0";
