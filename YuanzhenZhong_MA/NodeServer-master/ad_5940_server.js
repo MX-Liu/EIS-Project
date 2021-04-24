@@ -147,7 +147,7 @@ io.on('connection', function(socket){
 	else if (Recieved_data[0] == "AA" &&  Recieved_data[1] == "FF" &&  Recieved_data[2] == "FF" && Recieved_data[3] == "AA" && Recieved_data[4] == "3")
 	{
 		console.log('DC data :' + Recieved_data[5] + ',' + Recieved_data[6] + ',' +Recieved_data[7] );
-		fs.writeFile("./static/" + ID_NUM + "/" + "DC"+ Recieved_data[8] +"/U_I_R_Data.txt", "\n" + Recieved_data[5] + "\t" + Recieved_data[6] + "\t" + Recieved_data[7] + "\t" + Recieved_data[6] / Recieved_data[7] + "\t", {flag:'a',encoding:'utf-8',mode:'0666'}, function(err) {
+		fs.writeFile("./static/" + ID_NUM + "/" + "DC/"+ Recieved_data[8] +"U_I_R_Data.txt", "\n" + Recieved_data[5] + "\t" + Recieved_data[6] + "\t" + Recieved_data[7] + "\t" + Recieved_data[6] / Recieved_data[7] + "\t", {flag:'a',encoding:'utf-8',mode:'0666'}, function(err) {
 		   if (err) {
 			   return console.error(err);
 		   }					  

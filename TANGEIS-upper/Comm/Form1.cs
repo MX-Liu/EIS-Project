@@ -71,6 +71,7 @@ namespace Comm
         private Int64 cnt10 = 0;//Comb Nqst图存
         private Int64 cnt11 = 0;//TD相位图存
         private Int64 cnt12 = 0;//TDNqst图存
+        private Int64 cnt13 = 0;//DC VA图存
         private Int64 cnt_hands_shake = 0;//串口握手信号计数器
         private Int64 cnt_hands_shake_wifi = 0;//wifi握手信号计数器
 
@@ -223,6 +224,7 @@ namespace Comm
             chart3.MouseWheel += new MouseEventHandler(chart_MouseWheelXY);
             chart4.MouseWheel += new MouseEventHandler(chart_MouseWheel);
             chart_u_i_r.MouseWheel += new MouseEventHandler(chart_MouseWheel);
+            chart_Volt_Ampere.MouseWheel += new MouseEventHandler(chart_MouseWheel);
 
             //分别给chart添加悬停读数
             chart1.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
@@ -230,6 +232,7 @@ namespace Comm
             chart3.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
             chart4.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
             chart_u_i_r.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
+            chart_Volt_Ampere.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_GetToolTipText);
 
             //窗体调整大小时引发事件  用于按比例修改Form内组件大小
             this.Resize += new EventHandler(modular_calEchoPhaseFromSignal1_Resize);
@@ -951,6 +954,8 @@ namespace Comm
                                     this.chart_u_i_r.Series["0"].ChartType = SeriesChartType.Point;
                                     this.chart_u_i_r.Series["1"].ChartType = SeriesChartType.Point;
                                     this.chart_u_i_r.Series["2"].ChartType = SeriesChartType.Point;
+                                    chart_Volt_Ampere.Series.Add("0");//添加
+                                    this.chart_Volt_Ampere.Series["0"].ChartType = SeriesChartType.Point;
                                 }
                                 catch
                                 {
@@ -961,6 +966,7 @@ namespace Comm
                                 this.chart_u_i_r.Series[0].Points.AddXY(time, vol);
                                 this.chart_u_i_r.Series[1].Points.AddXY(time, cur);
                                 this.chart_u_i_r.Series[2].Points.AddXY(time, res);
+                                this.chart_Volt_Ampere.Series[0].Points.AddXY(vol, cur);
 
                                 tb_u.Text = vol.ToString();
                                 tb_I.Text = cur.ToString();
@@ -1340,58 +1346,64 @@ namespace Comm
             double xendpoint = chart.ChartAreas[0].AxisX.ScaleView.ViewMaximum;      //获取当前x轴最大坐标
             double xmouseponit = chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);    //获取鼠标在chart中x坐标
             double xratio = (xendpoint - xmouseponit) / (xmouseponit - xstartpoint);      //计算当前鼠标基于坐标两侧的比值，后续放大缩小时保持比例不变
-            if (e.Delta > 0)    //滚轮上滑放大
+            try
             {
-                if (chart.ChartAreas[0].AxisX.ScaleView.Size > 5)     //缩放视图不小于5
+                if (e.Delta > 0)    //滚轮上滑放大
                 {
-                    if ((xmouseponit >= chart.ChartAreas[0].AxisX.ScaleView.ViewMinimum) && (xmouseponit <= chart.ChartAreas[0].AxisX.ScaleView.ViewMaximum)) //判断鼠标位置不在x轴两侧边沿
+                    if (chart.ChartAreas[0].AxisX.ScaleView.Size > 5)     //缩放视图不小于5
                     {
-                        double xspmovepoints = Math.Round((xmouseponit - xstartpoint) * (zoomfactor - 1) / zoomfactor, 1);    //计算x轴起点需要右移距离,保留一位小数
-                        double xepmovepoints = Math.Round(xendpoint - xmouseponit - xratio * (xmouseponit - xstartpoint - xspmovepoints), 1);    //计算x轴末端左移距离，保留一位小数
-                        double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
-                        chart.ChartAreas[0].AxisX.ScaleView.Size -= viewsizechange;        //设置x轴缩放视图大小
-                        chart.ChartAreas[0].AxisX.ScaleView.Position += xspmovepoints;        //设置x轴缩放视图起点，右移保持鼠标中心点
+                        if ((xmouseponit >= chart.ChartAreas[0].AxisX.ScaleView.ViewMinimum) && (xmouseponit <= chart.ChartAreas[0].AxisX.ScaleView.ViewMaximum)) //判断鼠标位置不在x轴两侧边沿
+                        {
+                            double xspmovepoints = Math.Round((xmouseponit - xstartpoint) * (zoomfactor - 1) / zoomfactor, 1);    //计算x轴起点需要右移距离,保留一位小数
+                            double xepmovepoints = Math.Round(xendpoint - xmouseponit - xratio * (xmouseponit - xstartpoint - xspmovepoints), 1);    //计算x轴末端左移距离，保留一位小数
+                            double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
+                            chart.ChartAreas[0].AxisX.ScaleView.Size -= viewsizechange;        //设置x轴缩放视图大小
+                            chart.ChartAreas[0].AxisX.ScaleView.Position += xspmovepoints;        //设置x轴缩放视图起点，右移保持鼠标中心点
+                        }
                     }
                 }
-            }
-            else     //滚轮下滑缩小
-            {
-                if (chart.ChartAreas[0].AxisX.ScaleView.Size < chart.ChartAreas[0].AxisX.Maximum)
+                else     //滚轮下滑缩小
                 {
-                    double xspmovepoints = Math.Round((zoomfactor - 1) * (xmouseponit - xstartpoint), 1);   //计算x轴起点需要左移距离
-                    double xepmovepoints = Math.Round((zoomfactor - 1) * (xendpoint - xmouseponit), 1);    //计算x轴末端右移距离
-                    if (chart.ChartAreas[0].AxisX.ScaleView.Size + xspmovepoints + xepmovepoints < chart.ChartAreas[0].AxisX.Maximum)  //判断缩放视图尺寸是否超过曲线尺寸
+                    if (chart.ChartAreas[0].AxisX.ScaleView.Size < chart.ChartAreas[0].AxisX.Maximum)
                     {
-                        if ((xstartpoint - xspmovepoints <= 0) || (xepmovepoints + xendpoint >= chart.ChartAreas[0].AxisX.Maximum))  //判断缩放值是否达到曲线边界
+                        double xspmovepoints = Math.Round((zoomfactor - 1) * (xmouseponit - xstartpoint), 1);   //计算x轴起点需要左移距离
+                        double xepmovepoints = Math.Round((zoomfactor - 1) * (xendpoint - xmouseponit), 1);    //计算x轴末端右移距离
+                        if (chart.ChartAreas[0].AxisX.ScaleView.Size + xspmovepoints + xepmovepoints < chart.ChartAreas[0].AxisX.Maximum)  //判断缩放视图尺寸是否超过曲线尺寸
                         {
-                            if (xstartpoint - xspmovepoints <= 0)    //缩放视图起点小于等于0
+                            if ((xstartpoint - xspmovepoints <= 0) || (xepmovepoints + xendpoint >= chart.ChartAreas[0].AxisX.Maximum))  //判断缩放值是否达到曲线边界
                             {
-                                xspmovepoints = xstartpoint;
-                                chart.ChartAreas[0].AxisX.ScaleView.Position = 0;    //缩放视图起点设为0
+                                if (xstartpoint - xspmovepoints <= 0)    //缩放视图起点小于等于0
+                                {
+                                    xspmovepoints = xstartpoint;
+                                    chart.ChartAreas[0].AxisX.ScaleView.Position = 0;    //缩放视图起点设为0
+                                }
+                                else
+                                    chart.ChartAreas[0].AxisX.ScaleView.Position -= xspmovepoints;  //缩放视图起点大于0，按比例缩放
+                                if (xepmovepoints + xendpoint >= chart.ChartAreas[0].AxisX.Maximum)  //缩放视图终点大于曲线最大值
+                                    chart.ChartAreas[0].AxisX.ScaleView.Size = chart.ChartAreas[0].AxisX.Maximum - chart.ChartAreas[0].AxisX.ScaleView.Position;  //设置缩放视图尺寸=曲线最大值-视图起点值
+                                else
+                                {
+                                    double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
+                                    chart.ChartAreas[0].AxisX.ScaleView.Size += viewsizechange;   //按比例缩放视图大小
+                                }
                             }
-                            else
-                                chart.ChartAreas[0].AxisX.ScaleView.Position -= xspmovepoints;  //缩放视图起点大于0，按比例缩放
-                            if (xepmovepoints + xendpoint >= chart.ChartAreas[0].AxisX.Maximum)  //缩放视图终点大于曲线最大值
-                                chart.ChartAreas[0].AxisX.ScaleView.Size = chart.ChartAreas[0].AxisX.Maximum - chart.ChartAreas[0].AxisX.ScaleView.Position;  //设置缩放视图尺寸=曲线最大值-视图起点值
                             else
                             {
                                 double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
                                 chart.ChartAreas[0].AxisX.ScaleView.Size += viewsizechange;   //按比例缩放视图大小
+                                chart.ChartAreas[0].AxisX.ScaleView.Position -= xspmovepoints;   //按比例缩放视图大小
                             }
                         }
                         else
                         {
-                            double viewsizechange = xspmovepoints + xepmovepoints;         //计算x轴缩放视图缩小变化尺寸
-                            chart.ChartAreas[0].AxisX.ScaleView.Size += viewsizechange;   //按比例缩放视图大小
-                            chart.ChartAreas[0].AxisX.ScaleView.Position -= xspmovepoints;   //按比例缩放视图大小
+                            chart.ChartAreas[0].AxisX.ScaleView.Size = chart.ChartAreas[0].AxisX.Maximum;
+                            chart.ChartAreas[0].AxisX.ScaleView.Position = 0;
                         }
                     }
-                    else
-                    {
-                        chart.ChartAreas[0].AxisX.ScaleView.Size = chart.ChartAreas[0].AxisX.Maximum;
-                        chart.ChartAreas[0].AxisX.ScaleView.Position = 0;
-                    }
                 }
+            }
+            catch {
+                Console.Write("ERROR!");
             }
         }
 
@@ -1430,9 +1442,10 @@ namespace Comm
             chart2.ChartAreas[0].AxisX.ScaleView.Size = (checkBox_LOG.Checked) ? 5 : 3000;
             chart3.ChartAreas[0].AxisX.ScaleView.Size = 16000;
             chart3.ChartAreas[0].AxisY.ScaleView.Size = 16000;
-            chart4.ChartAreas[0].AxisX.ScaleView.Size = 50;
+            chart4.ChartAreas[0].AxisX.ScaleView.Size = 200;
 
-            chart_u_i_r.ChartAreas[0].AxisX.ScaleView.Size = 50;
+            //chart_u_i_r.ChartAreas[0].AxisX.ScaleView.Size = 200;
+            //chart_Volt_Ampere.ChartAreas[0].AxisX.ScaleView.Size = 3000;
             FDA_PLOT = true;
             TD_PLOT = true;
             COMB_PLOT = true;
@@ -1680,6 +1693,13 @@ namespace Comm
         {
             string U_I_R_Wave = pathString3 + "/U_I_R_Wave" + cnt5 + ".png";
             PicSave(U_I_R_Wave, chart_u_i_r, cnt5);
+
+
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string V_A_Wave = pathString3 + "/V_A_Wave" + cnt13 + ".png";
+            PicSave(V_A_Wave, chart_Volt_Ampere, cnt13);
         }
 
         //*********************************************//
@@ -1803,22 +1823,20 @@ namespace Comm
             //界面初始化
 
 
-            if (rb_Sweep1.Checked)
+            if (cb_Duration.Checked)
             {
-                panel1.Visible = true;
-                tb_d_h1.Enabled = false;
-                tb_d_m1.Enabled = false;
-                tb_d_s1.Enabled = false;
-                tb_times.Enabled = false;
-            }
-            else
-            {
-                panel1.Visible = false;
-                tb_s_p1.Enabled = false;
                 tb_d_h1.Enabled = true;
                 tb_d_m1.Enabled = true;
                 tb_d_s1.Enabled = true;
                 tb_times.Enabled = true;
+            }
+            else
+            {
+                tb_d_h1.Enabled = false;
+                tb_d_m1.Enabled = false;
+                tb_d_s1.Enabled = false;
+                tb_times.Enabled = false;
+
             }
 
             gb_ac.Text = "DC Control";
@@ -2449,14 +2467,20 @@ namespace Comm
                         {
                             SendBuff[8 - i] = tmp[i];
                         }
-                        if (rb_Sweep1.Checked)
+                        SendBuff[10] = strToHexByte(tb_s_p1.Text)[0];//points
+                        byte[] tmp_cyc = exchange(strToHexByte(tb_cyc.Text));//amp
+                        for (int i = 0; i < tmp_cyc.Length; i++)
                         {
-                            SendBuff[9] = flag[0];//sweep enabled
-                            SendBuff[10] = strToHexByte(tb_s_p1.Text)[0];//points
-                            SendBuff[11] = (rb_Square.Checked) ? flag[0] : flag[1];//0 -- Sawtooth;1 -- Triangle
+                            SendBuff[12 - i] = tmp_cyc[i];
+                        }
+                        SendBuff[13] = (rb_Square.Checked) ? flag[0] : flag[1];//0 -- Sawtooth;1 -- Triangle
+                        if (!cb_Duration.Checked)
+                        {
+                            SendBuff[9] = flag[0];//Duration disabled                           
                         }
                         else
                         {
+                            SendBuff[9] = flag[1];//Duration Enabled
                             temp_h1 = Convert.ToInt16(tb_d_h1.Text);
                             temp_m1 = Convert.ToInt16(tb_d_m1.Text);
                             temp_s1 = Convert.ToInt16(tb_d_s1.Text);
@@ -2465,28 +2489,40 @@ namespace Comm
                             byte[] temp_ss = exchange(strToHexByte(Convert.ToString(sum1)));
                             for (int i = 0; i < temp_ss.Length; i++)
                             {
-                                SendBuff[15 - i] = temp_ss[i];
+                                SendBuff[17 - i] = temp_ss[i];
                             }
-                            SendBuff[16] = strToHexByte(tb_times.Text)[0];
+                            SendBuff[18] = strToHexByte(tb_times.Text)[0];
                         }
-                        for (int i = 0; i < 17; i++)
+                        for (int i = 0; i < 19; i++)
                         {
-                            SendBuff[17] = strToHexByte(Convert.ToString(Convert.ToInt32(SendBuff[17]) ^ Convert.ToInt32(SendBuff[i])))[0];//CheckBit
+                            SendBuff[19] = strToHexByte(Convert.ToString(Convert.ToInt32(SendBuff[19]) ^ Convert.ToInt32(SendBuff[i])))[0];//CheckBit
                         }
 
                         cnt_UIR++;
-                        SendBuff[18] = strToHexByte(Convert.ToString(cnt_UIR))[0];//DC文件号
+                        SendBuff[20] = strToHexByte(Convert.ToString(cnt_UIR))[0];//DC文件号
                                                                                   //添加新的数据文件
                         if (!File.Exists(pathString3 + "\\" + cnt_UIR + "U_I_R_data.txt"))
                         {
                             StreamWriter sw1 = new StreamWriter(pathString3 + "\\" + cnt_UIR + "U_I_R_data.txt");
-                            sw1.WriteLine("Time" + "\t" + "Voltag" + "\t" + "Current" + "\t" + "Impedence");
+                            sw1.WriteLine("Time" + "\t" + "Voltag" + "\t" + "Current" + "\t" + "Resistance");
                             sw1.Flush();
                             sw1.Close();
                         }
                         SendBuff[30] = 0x0d;//帧尾
                         SendBuff[31] = 0x0a;//帧尾
-                        serialPort1.Write(SendBuff, 0, 32);//发送数据
+
+                        if (Convert.ToInt32(tb_times.Text)* Convert.ToInt32(tb_cyc.Text) < sum1) //判断给定的周期与测试次数的积是否大于duration的时间
+                        {
+                            serialPort1.Write(SendBuff, 0, 32);//发送数据
+                        }
+                        else
+                        {
+                            MessageBox.Show("The real measure time is longer than the given duration time!Please set the duration time again!");
+                            tb_d_h1.Text = "0";
+                            tb_d_m1.Text = "0";
+                            tb_d_s1.Text = "0";
+                            FuncBtnInit("init");
+                        }
                     }
                     catch
                     {
@@ -2511,7 +2547,7 @@ namespace Comm
                 sw.WriteLine("Square:     " + "\t" + rb_Square.Checked + "\t");
                 sw.WriteLine("Triangle:   " + "\t" + rb_Triangle.Checked + "\t");
                 sw.WriteLine("Sweep:      " + "\t" + tb_s_p1.Text + "\t" + "Points");
-                sw.WriteLine("Duration:   " + "\t" + rb_Duration1.Checked + "\t");
+                sw.WriteLine("Duration:   " + "\t" + cb_Duration.Checked + "\t");
                 sw.WriteLine("Duration_h: " + "\t" + tb_d_h1.Text + "\t");
                 sw.WriteLine("Duration_m: " + "\t" + tb_d_m1.Text + "\t");
                 sw.WriteLine("Duration_s: " + "\t" + tb_d_s1.Text + "\t");
@@ -3647,6 +3683,8 @@ namespace Comm
                             this.chart_u_i_r.Series["cur" + "(" + ID_file + ")" + (cnt7).ToString()].ChartType = SeriesChartType.Point;
                             chart_u_i_r.Series.Add("res" + "(" + ID_file + ")" + (cnt7).ToString());//添加
                             this.chart_u_i_r.Series["res" + "(" + ID_file + ")" + (cnt7).ToString()].ChartType = SeriesChartType.Point;
+                            chart_Volt_Ampere.Series.Add("res" + "(" + ID_file + ")" + (cnt7).ToString());//添加
+                            this.chart_Volt_Ampere.Series["res" + "(" + ID_file + ")" + (cnt7).ToString()].ChartType = SeriesChartType.Point;
                         }
                         catch
                         {
@@ -3656,6 +3694,7 @@ namespace Comm
                         this.chart_u_i_r.Series["vol" + "(" + ID_file + ")" + (cnt7).ToString()].Points.AddXY(p.X, p.Y);
                         this.chart_u_i_r.Series["cur" + "(" + ID_file + ")" + (cnt7).ToString()].Points.AddXY(p.X, p.Z);
                         this.chart_u_i_r.Series["res" + "(" + ID_file + ")" + (cnt7).ToString()].Points.AddXY(p.X, p.K);
+                        this.chart_Volt_Ampere.Series["res" + "(" + ID_file + ")" + (cnt7).ToString()].Points.AddXY(p.Y, p.Z);
                     }
                 }
             }
@@ -4124,6 +4163,35 @@ namespace Comm
         private void tb_times_T2_TextChanged(object sender, EventArgs e)
         {
             tb_TextChanged(tb_times_T2, 0, 30, "The value shoulde be 0~30");
+        }
+
+        private void cb_Duration_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_Duration.Checked)
+            {
+                tb_d_h1.Enabled = true;
+                tb_d_m1.Enabled = true;
+                tb_d_s1.Enabled = true;
+                tb_times.Enabled = true;
+                tb_d_h1.Text = "0";
+                tb_d_m1.Text = "0";
+                tb_d_s1.Text = "0";
+            }
+            else
+            {
+                tb_d_h1.Text = "";
+                tb_d_m1.Text = "";
+                tb_d_s1.Text = "";
+                tb_d_h1.Enabled = false;
+                tb_d_m1.Enabled = false;
+                tb_d_s1.Enabled = false;
+                tb_times.Enabled = false;
+            }
+        }
+
+        private void tb_cyc_TextChanged(object sender, EventArgs e)
+        {
+            tb_TextChanged(tb_times_T2, 0, 600, "The value shoulde be 0~600");
         }
     }
 }
