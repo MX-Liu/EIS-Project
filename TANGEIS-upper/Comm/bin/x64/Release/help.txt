@@ -1,0 +1,27 @@
+FDA
+Sweep from: 			Start frequency of the experiment.
+to: 	   			Stop frequency of the experiment.
+Amplitude:   			The peak-peak voltage of the input signals.
+ODR (Output data ratio): 		The Acquisition rate of the ADC (Analog-to-Digital Converter).
+RTIA (Trans resistance amplifier): 	The value of resistance in trans resistance amplifier
+DFT (Discrete Fourier transform): 	The number of points in DFT
+Points: 				The amount of points in a curve.
+Single Measurement: 		Set the duration time for the experiment
+Multiple Measurement: 		Start date and Stop date, repeat times per period, repeat times per cycle
+
+TD
+The frequency in TD is fixed, and other parameters are the same as Frequency Domain Analysis and its Single Measurement.
+
+DC
+Start at: 				The start voltage
+Amplitude: 			The maximum voltage
+There are two models about the input signals:
+	Sweep:			Select the shape of the input signals, Square wave or Triangle wave at first, 
+				then set the amount of the points in a wave by moving the slide.
+	Duration: 			Set the duration time and the  measurement times during the time.
+
+Combination
+Step1: Set the parameters as the Frequency Domain Analysis and its multiple measurement.
+Step2: Set the peak amplitude of the DC signal and the duration time , which is always very short, often as 30-60s. 
+	(This operation is to energize the electrode so that the silver electrode undergoes a chlorination reaction to generate a silver chloride electrode)
+Step3: Select whether the temperature in the experiment is measured or not.
